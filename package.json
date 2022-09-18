@@ -13,6 +13,7 @@
     "lottie-react-native": "^5.1.4",
     "react": "18.1.0",
     "react-native": "0.70.0",
+    "react-native-fast-image": "^8.6.1",
     "react-native-geolocation-service": "^5.3.0",
     "react-native-nmap": "https://github.com/gogo-inc/react-native-naver-map",
     "react-native-permissions": "^3.6.1",
