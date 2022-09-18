@@ -13,4 +13,9 @@ module.exports = {
       },
     },
   ],
-};
+  rules: {
+    semi: 'off',
+    'jsx-quotes': ['error', 'prefer-single'],
+    curly: 'off',
+  },
+}
