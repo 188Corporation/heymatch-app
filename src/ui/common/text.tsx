@@ -1,0 +1,55 @@
+import styled from 'styled-components'
+import { Text } from 'react-native'
+import { Colors } from 'infra/colors'
+
+export const H1 = styled(Text)`
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 34px;
+`
+
+export const H2 = styled(Text)`
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+`
+
+export const H3 = styled(Text)`
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+`
+
+export const Body = styled(Text)`
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+`
+
+export const Body2 = styled(Text)`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+`
+
+export const DescBody2 = styled(Body2)`
+  color: ${Colors.gray.v400};
+`
+
+export const Caption = styled(Text)`
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+`
+
+export const CaptionS = styled(Text)`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+`
+
+export const Button = styled(Text)`
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+`
