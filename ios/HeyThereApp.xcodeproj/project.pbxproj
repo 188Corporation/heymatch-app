@@ -12,6 +12,15 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */; };
+		12702FB2288C481C9278C91B /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */; };
+		547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */; };
+		526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */; };
+		3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09A1E450E2614B65A62967DF /* SUIT-Light.otf */; };
+		FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */; };
+		E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8ABD3770798498D9009064E /* SUIT-Regular.otf */; };
+		D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */; };
+		35D5BE2562CD496DB9E38FDE /* SUIT-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +40,15 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = HeyThereApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-HeyThereApp-HeyThereAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; path = "Target Support Files/Pods-HeyThereApp-HeyThereAppTests/Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */ = {isa = PBXFileReference; name = "SUIT-Bold.otf"; path = "../fonts/SUIT-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; name = "SUIT-ExtraBold.otf"; path = "../fonts/SUIT-ExtraBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; name = "SUIT-ExtraLight.otf"; path = "../fonts/SUIT-ExtraLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */ = {isa = PBXFileReference; name = "SUIT-Heavy.otf"; path = "../fonts/SUIT-Heavy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09A1E450E2614B65A62967DF /* SUIT-Light.otf */ = {isa = PBXFileReference; name = "SUIT-Light.otf"; path = "../fonts/SUIT-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */ = {isa = PBXFileReference; name = "SUIT-Medium.otf"; path = "../fonts/SUIT-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B8ABD3770798498D9009064E /* SUIT-Regular.otf */ = {isa = PBXFileReference; name = "SUIT-Regular.otf"; path = "../fonts/SUIT-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; name = "SUIT-SemiBold.otf"; path = "../fonts/SUIT-SemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */ = {isa = PBXFileReference; name = "SUIT-Thin.otf"; path = "../fonts/SUIT-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +119,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				6BBECC782B5C4E6C9D8528F7 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -125,6 +144,23 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		6BBECC782B5C4E6C9D8528F7 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */,
+				FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */,
+				9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */,
+				81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */,
+				09A1E450E2614B65A62967DF /* SUIT-Light.otf */,
+				2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */,
+				B8ABD3770798498D9009064E /* SUIT-Regular.otf */,
+				6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */,
+				1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -189,6 +225,15 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */,
+				12702FB2288C481C9278C91B /* SUIT-ExtraBold.otf in Resources */,
+				547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */,
+				526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */,
+				3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */,
+				FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */,
+				E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */,
+				D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */,
+				35D5BE2562CD496DB9E38FDE /* SUIT-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

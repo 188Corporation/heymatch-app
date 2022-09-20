@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "ios-list": "xcrun simctl list devices",
     "start": "react-native start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "pod": "npx pod-install ios",
+    "font": "npx react-native-asset"
   },
   "dependencies": {
     "@react-native-masked-view/masked-view": "^0.2.7",

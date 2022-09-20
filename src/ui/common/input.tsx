@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import styled from 'styled-components'
 import { Colors } from 'infra/colors'
+import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 
 export const Input: React.FC<{
   value: string
@@ -49,4 +50,5 @@ const Container = styled(View)<{
 const TextInput = styled(_TextInput)`
   font-size: 16px;
   color: ${Colors.gray.v600};
+  font-family: ${DEFAULT_FONT_FAMILY};
 `
