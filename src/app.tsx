@@ -1,20 +1,17 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { RootStack } from 'navigation/root-stack'
 import { Colors } from 'infra/colors'
-import { keyboardStore } from 'store/keyboard'
+import { StoresProvider } from 'store/globals'
 
 export const App = () => {
-  useEffect(() => {
-    keyboardStore.sub()
-    return () => {
-      keyboardStore.unsub()
-    }
-  }, [])
+  // NOTE(gogo): all init code should go under root stack
   return (
-    // @ts-ignore
-    <NavigationContainer theme={{ colors: { background: Colors.white } }}>
-      <RootStack />
-    </NavigationContainer>
+    <StoresProvider>
+      {/* @ts-ignore */}
+      <NavigationContainer theme={{ colors: { background: Colors.white } }}>
+        <RootStack />
+      </NavigationContainer>
+    </StoresProvider>
   )
 }

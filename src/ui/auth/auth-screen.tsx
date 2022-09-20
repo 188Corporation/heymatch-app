@@ -3,9 +3,10 @@ import { SafeAreaView, TouchableWithoutFeedback, View } from 'react-native'
 import styled from 'styled-components'
 import { DescBody2, H1 } from 'ui/common/text'
 import { Input } from 'ui/common/input'
-import { keyboardStore } from 'store/keyboard'
+import { useStores } from 'store/globals'
 
 export const AuthScreen = () => {
+  const { keyboardStore } = useStores()
   const [phone, setPhone] = useState('')
   const [code, setCode] = useState('')
   return (

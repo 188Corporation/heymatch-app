@@ -1,7 +1,7 @@
 import { EmitterSubscription, Keyboard } from 'react-native'
 import { makeAutoObservable, runInAction } from 'mobx'
 
-class KeyboardStore {
+export class KeyboardStore {
   isVisible = false
   _subs: EmitterSubscription[] = []
 
@@ -29,5 +29,3 @@ class KeyboardStore {
     Keyboard.dismiss()
   }
 }
-
-export const keyboardStore = new KeyboardStore()
