@@ -9,6 +9,7 @@ import { openSettings } from 'react-native-permissions'
 import { LocationMarker } from 'ui/group/location-marker'
 import { ButtonGroupOverlay } from 'ui/group/button-group-overlay'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
+import { GroupMarker } from 'ui/group/group-marker'
 
 export const GroupScreen = () => {
   const { permissionStore, locationStore, mapStore } = useStores()
@@ -42,10 +43,11 @@ export const GroupScreen = () => {
         }}
       >
         <LocationMarker />
+        {/*<GroupMarker />*/}
       </NaverMap>
       <MapOverlay pointerEvents='box-none'>
         <ButtonGroupOverlay />
-        <SelectedGroupOverlay />
+        {/*<SelectedGroupOverlay />*/}
       </MapOverlay>
     </Container>
   )

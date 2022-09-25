@@ -17,13 +17,15 @@ export const AlertModal: React.FC = observer(() => {
       onBackdropPress={() => store.close()}
       useNativeDriver
     >
-      {content && (
-        <Container>
-          <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
-          <Body>{content.body}</Body>
-          <RedButton text={content.buttonText} onPress={content.onPress} />
-        </Container>
-      )}
+      <Container>
+        {content && (
+          <>
+            <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
+            <Body>{content.body}</Body>
+            <RedButton text={content.buttonText} onPress={content.onPress} />
+          </>
+        )}
+      </Container>
     </Modal>
   )
 })

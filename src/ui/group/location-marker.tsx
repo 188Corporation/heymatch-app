@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
 import { Marker } from 'react-native-nmap'
 import { LocationMarkerPng } from 'image'
+import { toNmapCoord } from 'infra/util'
 
 export const LocationMarker = observer(() => {
   const { locationStore } = useStores()
@@ -10,7 +11,7 @@ export const LocationMarker = observer(() => {
   if (!loc) return null
   return (
     <Marker
-      coordinate={{ latitude: loc.lat, longitude: loc.lng }}
+      coordinate={toNmapCoord(loc)}
       image={LocationMarkerPng}
       width={32}
       height={32}
