@@ -1,3 +1,5 @@
+import { Coord } from 'react-native-nmap'
+
 export interface ResponseEnvelope<T = unknown> {
   status: 'success' | 'error'
   code: number
@@ -27,4 +29,38 @@ export interface JoinedGroup {
   is_active: true
   active_until: string
   hotplace: number
+}
+
+export interface GpsLocation {
+  lat: number
+  lng: number
+}
+
+export interface GpsBounds {
+  minLat: number
+  maxLat: number
+  minLng: number
+  maxLng: number
+}
+
+export interface NaverMapCamera {
+  latitude: number
+  longitude: number
+  zoom: number
+  contentsRegion: [Coord, Coord, Coord, Coord, Coord]
+  coveringRegion: [Coord, Coord, Coord, Coord, Coord]
+  bound: {
+    north: number
+    east: number
+    west: number
+    south: number
+  }
+}
+
+// https://navermaps.github.io/ios-map-sdk/reference/Enums/NMFMyPositionMode.html
+export enum LocationTrackingMode {
+  NONE = 0,
+  NO_FOLLOW = 1,
+  FOLLOW = 2,
+  FACE = 3,
 }

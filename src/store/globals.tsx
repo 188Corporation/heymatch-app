@@ -1,11 +1,15 @@
 import React, { createContext } from 'react'
 import { KeyboardStore } from 'store/keyboard'
 import { PermissionStore } from 'store/permission'
+import { MapStore } from 'store/map'
+import { LocationStore } from 'store/location'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
   keyboardStore: new KeyboardStore(),
   permissionStore: new PermissionStore(),
+  locationStore: new LocationStore(),
+  mapStore: new MapStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

@@ -9,9 +9,10 @@ import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import { openSettings } from 'react-native-permissions'
+import { LocationMarker } from 'ui/group/location-marker'
 
 export const GroupScreen = () => {
-  const { permissionStore } = useStores()
+  const { permissionStore, locationStore, mapStore } = useStores()
   useEffect(() => {
     if (permissionStore.location === 'blocked') {
       Alert.alert(
@@ -20,22 +21,38 @@ export const GroupScreen = () => {
         [{ text: '권한 설정하러 가기 ', onPress: () => openSettings() }],
       )
     } else {
-      permissionStore.request(PermissionType.location).then(() => {})
+      permissionStore
+        .request(PermissionType.location)
+        .then(() => locationStore.getLocation(true))
+        .then((l) => mapStore.focusLocation(l))
     }
-  }, [permissionStore])
+  }, [permissionStore, locationStore, mapStore])
   return (
     <Container>
+      {/* @ts-ignore */}
       <NaverMap
-        center={KOREA_CENTER}
+        ref={mapStore.mapRef}
+        center={mapStore.mapCenter || KOREA_CENTER}
         compass={false}
         scaleBar={false}
         zoomControl={false}
         tiltGesturesEnabled={false}
         rotateGesturesEnabled={false}
-      ></NaverMap>
+        onCameraChange={(c) => {
+          mapStore.setCamera(c)
+        }}
+      >
+        <LocationMarker />
+      </NaverMap>
       <MapOverlay pointerEvents='box-none'>
         <FloatingButtonShadow>
-          <FloatingButton>
+          <FloatingButton
+            onPress={() =>
+              locationStore
+                .getLocation(true)
+                .then((v) => mapStore.focusLocation(v))
+            }
+          >
             <GpsFixed />
           </FloatingButton>
         </FloatingButtonShadow>

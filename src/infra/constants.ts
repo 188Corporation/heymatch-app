@@ -17,3 +17,7 @@ export const KOREA_CENTER = {
   tilt: 0,
   bearing: 0,
 }
+export const DEFAULT_ZOOM = {
+  latitudeDelta: 0.0037,
+  longitudeDelta: 0.0019,
+}
