@@ -64,3 +64,10 @@ export enum LocationTrackingMode {
   FOLLOW = 2,
   FACE = 3,
 }
+
+export interface AlertContent {
+  title: string
+  body: string
+  buttonText: string
+  onPress: () => void
+}

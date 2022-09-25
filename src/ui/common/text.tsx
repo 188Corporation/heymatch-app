@@ -54,8 +54,9 @@ export const CaptionS = styled(BaseText)`
   line-height: 14px;
 `
 
-export const Button = styled(BaseText)`
+export const ButtonText = styled(BaseText)`
   font-size: 16px;
   font-weight: 700;
-  line-height: 16px;
+  line-height: 20px;
+  color: ${Colors.white};
 `

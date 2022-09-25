@@ -3,6 +3,7 @@ import { KeyboardStore } from 'store/keyboard'
 import { PermissionStore } from 'store/permission'
 import { MapStore } from 'store/map'
 import { LocationStore } from 'store/location'
+import { AlertStore } from 'store/alert'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -10,6 +11,7 @@ const stores = {
   permissionStore: new PermissionStore(),
   locationStore: new LocationStore(),
   mapStore: new MapStore(),
+  alertStore: new AlertStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

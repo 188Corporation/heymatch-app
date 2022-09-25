@@ -5,11 +5,22 @@ import { Colors } from 'infra/colors'
 import { Image as _Image, TouchableWithoutFeedback, View } from 'react-native'
 import { BaseText, Caption, H3 } from 'ui/common/text'
 import { UsersFillSvg } from 'image'
+import { useStores } from 'store/globals'
 
 export const SelectedGroupOverlay = () => {
+  const { alertStore } = useStores()
   return (
     <Overlay pointerEvents='box-none'>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() =>
+          alertStore.open({
+            title: '그룹을 만들면 상세 프로필이 보여요!',
+            body: '그룹을 만들어 다른 그룹과 매칭해보세요 :)',
+            buttonText: '그룹 만들기',
+            onPress: () => {},
+          })
+        }
+      >
         <Container>
           <Image source={{ uri: 'https://picsum.photos/62' }} />
           <Column style={{ flex: 1 }}>
