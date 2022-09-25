@@ -8,7 +8,7 @@ import { UsersFillSvg } from 'image'
 
 export const SelectedGroupOverlay = () => {
   return (
-    <Overlay>
+    <Overlay pointerEvents='box-none'>
       <TouchableWithoutFeedback>
         <Container>
           <Image source={{ uri: 'https://picsum.photos/62' }} />

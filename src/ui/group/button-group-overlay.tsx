@@ -9,7 +9,7 @@ import { useStores } from 'store/globals'
 export const ButtonGroupOverlay = () => {
   const { locationStore, mapStore } = useStores()
   return (
-    <Container>
+    <Container pointerEvents='box-none'>
       <FloatingButtonShadow>
         <FloatingButton
           onPress={() =>
