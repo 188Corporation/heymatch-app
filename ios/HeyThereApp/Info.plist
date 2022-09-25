@@ -66,6 +66,8 @@
 		<string>SUIT-Regular.otf</string>
 		<string>SUIT-SemiBold.otf</string>
 		<string>SUIT-Thin.otf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
 	</array>
 </dict>
 </plist>
