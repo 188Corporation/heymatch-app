@@ -1,9 +1,11 @@
 import React, { createContext } from 'react'
 import { KeyboardStore } from 'store/keyboard'
+import { PermissionStore } from 'store/permission'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
   keyboardStore: new KeyboardStore(),
+  permissionStore: new PermissionStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

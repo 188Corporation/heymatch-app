@@ -8,14 +8,15 @@ import { MainScreen } from 'navigation/main-screen'
 const Stack = createStackNavigator()
 
 export const RootStack = () => {
-  const { keyboardStore } = useStores()
+  const { keyboardStore, permissionStore } = useStores()
   useEffect(() => {
     keyboardStore.sub()
+    permissionStore.checkAll()
+    // amplitude.init()
     return () => {
       keyboardStore.unsub()
     }
-  }, [keyboardStore])
-  // amplitude.init()
+  }, [keyboardStore, permissionStore])
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='MainScreen' component={MainScreen} />

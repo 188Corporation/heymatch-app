@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { TouchableOpacity, View } from 'react-native'
+import { Alert, TouchableOpacity, View } from 'react-native'
 import _NaverMap from 'react-native-nmap'
 import { KOREA_CENTER } from 'infra/constants'
 import { Shadow } from 'react-native-shadow-2'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import { GpsFixed } from 'image/index'
 import { Colors } from 'infra/colors'
+import { useStores } from 'store/globals'
+import { PermissionType } from 'store/permission'
+import { openSettings } from 'react-native-permissions'
 
 export const GroupScreen = () => {
+  const { permissionStore } = useStores()
+  useEffect(() => {
+    if (permissionStore.location === 'blocked') {
+      Alert.alert(
+        '헤이매치 필수 권한',
+        '헤이매치를 시작하려면 위치 권한이 필요해요.',
+        [{ text: '권한 설정하러 가기 ', onPress: () => openSettings() }],
+      )
+    } else {
+      permissionStore.request(PermissionType.location).then(() => {})
+    }
+  }, [permissionStore])
   return (
     <Container>
       <NaverMap
