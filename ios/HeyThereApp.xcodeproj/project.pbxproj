@@ -8,24 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-HeyThereApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-HeyThereApp.a */; };
+		12702FB2288C481C9278C91B /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */; };
-		12702FB2288C481C9278C91B /* SUIT-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */; };
-		547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */; };
-		526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */; };
-		3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09A1E450E2614B65A62967DF /* SUIT-Light.otf */; };
-		FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */; };
-		E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8ABD3770798498D9009064E /* SUIT-Regular.otf */; };
-		D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */; };
 		35D5BE2562CD496DB9E38FDE /* SUIT-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */; };
+		3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09A1E450E2614B65A62967DF /* SUIT-Light.otf */; };
+		526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */; };
+		547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */; };
+		DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */; };
+		E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8ABD3770798498D9009064E /* SUIT-Regular.otf */; };
+		FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* HeyThereAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyThereAppTests.m; sourceTree = "<group>"; };
+		09A1E450E2614B65A62967DF /* SUIT-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Light.otf"; path = "../fonts/SUIT-Light.otf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* HeyThereApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeyThereApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = HeyThereApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = HeyThereApp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -33,22 +34,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = HeyThereApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = HeyThereApp/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-HeyThereApp-HeyThereAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HeyThereApp-HeyThereAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Thin.otf"; path = "../fonts/SUIT-Thin.otf"; sourceTree = "<group>"; };
+		2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Medium.otf"; path = "../fonts/SUIT-Medium.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-HeyThereApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp.debug.xcconfig"; path = "Target Support Files/Pods-HeyThereApp/Pods-HeyThereApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-HeyThereApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp.release.xcconfig"; path = "Target Support Files/Pods-HeyThereApp/Pods-HeyThereApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-HeyThereApp-HeyThereAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp-HeyThereAppTests.debug.xcconfig"; path = "Target Support Files/Pods-HeyThereApp-HeyThereAppTests/Pods-HeyThereApp-HeyThereAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-HeyThereApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HeyThereApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-SemiBold.otf"; path = "../fonts/SUIT-SemiBold.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = HeyThereApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.otf"; path = "../fonts/SUIT-Heavy.otf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-HeyThereApp-HeyThereAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; path = "Target Support Files/Pods-HeyThereApp-HeyThereAppTests/Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.otf"; path = "../fonts/SUIT-ExtraLight.otf"; sourceTree = "<group>"; };
+		B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.otf"; path = "../fonts/SUIT-Bold.otf"; sourceTree = "<group>"; };
+		B8ABD3770798498D9009064E /* SUIT-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Regular.otf"; path = "../fonts/SUIT-Regular.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */ = {isa = PBXFileReference; name = "SUIT-Bold.otf"; path = "../fonts/SUIT-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; name = "SUIT-ExtraBold.otf"; path = "../fonts/SUIT-ExtraBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; name = "SUIT-ExtraLight.otf"; path = "../fonts/SUIT-ExtraLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */ = {isa = PBXFileReference; name = "SUIT-Heavy.otf"; path = "../fonts/SUIT-Heavy.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		09A1E450E2614B65A62967DF /* SUIT-Light.otf */ = {isa = PBXFileReference; name = "SUIT-Light.otf"; path = "../fonts/SUIT-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */ = {isa = PBXFileReference; name = "SUIT-Medium.otf"; path = "../fonts/SUIT-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B8ABD3770798498D9009064E /* SUIT-Regular.otf */ = {isa = PBXFileReference; name = "SUIT-Regular.otf"; path = "../fonts/SUIT-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */ = {isa = PBXFileReference; name = "SUIT-SemiBold.otf"; path = "../fonts/SUIT-SemiBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */ = {isa = PBXFileReference; name = "SUIT-Thin.otf"; path = "../fonts/SUIT-Thin.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraBold.otf"; path = "../fonts/SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +103,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6BBECC782B5C4E6C9D8528F7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */,
+				FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */,
+				9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */,
+				81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */,
+				09A1E450E2614B65A62967DF /* SUIT-Light.otf */,
+				2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */,
+				B8ABD3770798498D9009064E /* SUIT-Regular.otf */,
+				6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */,
+				1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,23 +161,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		6BBECC782B5C4E6C9D8528F7 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */,
-				FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */,
-				9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */,
-				81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */,
-				09A1E450E2614B65A62967DF /* SUIT-Light.otf */,
-				2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */,
-				B8ABD3770798498D9009064E /* SUIT-Regular.otf */,
-				6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */,
-				1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

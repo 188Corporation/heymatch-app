@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { useStores } from 'store/globals'
+import * as amplitude from '@amplitude/analytics-react-native';
 
 const Stack = createStackNavigator()
 
@@ -13,6 +14,7 @@ export const RootStack = () => {
       keyboardStore.unsub()
     }
   }, [keyboardStore])
+  // amplitude.init()
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name='AuthScreen' component={AuthScreen} />
