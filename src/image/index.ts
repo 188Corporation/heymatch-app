@@ -1,3 +1,4 @@
 // @ts-nocheck
-export { default as GpsFixed } from './gps-fixed.svg'
-export const LocationMarkerImage = require('./location-marker.png')
+export { default as GpsFixedSvg } from './gps-fixed.svg'
+export { default as UsersFillSvg } from './users-fill.svg'
+export const LocationMarkerPng = require('./location-marker.png')

@@ -4,7 +4,7 @@ import { Colors } from 'infra/colors'
 
 export const DEFAULT_FONT_FAMILY = 'SUIT'
 
-const BaseText = styled(Text)`
+export const BaseText = styled(Text)`
   font-family: ${DEFAULT_FONT_FAMILY};
 `
 

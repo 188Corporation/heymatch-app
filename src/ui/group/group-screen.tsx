@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Alert, TouchableOpacity, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import _NaverMap from 'react-native-nmap'
 import { KOREA_CENTER } from 'infra/constants'
-import { Shadow } from 'react-native-shadow-2'
-import { GpsFixed } from 'image/index'
-import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import { openSettings } from 'react-native-permissions'
 import { LocationMarker } from 'ui/group/location-marker'
+import { ButtonGroupOverlay } from 'ui/group/button-group-overlay'
+import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
 
 export const GroupScreen = () => {
   const { permissionStore, locationStore, mapStore } = useStores()
@@ -45,17 +44,8 @@ export const GroupScreen = () => {
         <LocationMarker />
       </NaverMap>
       <MapOverlay pointerEvents='box-none'>
-        <FloatingButtonShadow>
-          <FloatingButton
-            onPress={() =>
-              locationStore
-                .getLocation(true)
-                .then((v) => mapStore.focusLocation(v))
-            }
-          >
-            <GpsFixed />
-          </FloatingButton>
-        </FloatingButtonShadow>
+        <ButtonGroupOverlay />
+        <SelectedGroupOverlay />
       </MapOverlay>
     </Container>
   )
@@ -73,25 +63,4 @@ const MapOverlay = styled(View)`
   position: absolute;
   width: 100%;
   height: 100%;
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 28px 24px;
-`
-
-const FloatingButton = styled(TouchableOpacity).attrs({
-  activeOpacity: 0.6,
-})`
-  width: 56px;
-  height: 56px;
-  border-radius: 56px;
-  border: 1px solid ${Colors.gray.v100};
-  background-color: ${Colors.white};
-  justify-content: center;
-  align-items: center;
-`
-
-const FloatingButtonShadow = styled(Shadow).attrs({
-  distance: 4,
-})`
-  border-radius: 56px;
 `
