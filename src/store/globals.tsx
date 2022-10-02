@@ -4,6 +4,7 @@ import { PermissionStore } from 'store/permission'
 import { MapStore } from 'store/map'
 import { LocationStore } from 'store/location'
 import { AlertStore } from 'store/alert'
+import { AuthStore } from 'store/auth'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -12,6 +13,7 @@ const stores = {
   locationStore: new LocationStore(),
   mapStore: new MapStore(),
   alertStore: new AlertStore(),
+  authStore: new AuthStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

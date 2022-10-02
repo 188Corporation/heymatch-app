@@ -1,4 +1,4 @@
-import { tokenManager, postRequest } from 'api/fetcher'
+import { postRequest } from 'api/fetcher'
 import { ResponseEnvelope, User } from 'infra/types'
 import { ApiError } from 'api/error'
 
@@ -8,7 +8,7 @@ export const getCodeByPhone = async (phone: string) => {
     { phone_number: phone },
   )
   if (res.code !== 200) throw new ApiError(res)
-  return { token: res.data?.session_token as string }
+  return res.data?.session_token as string
 }
 
 export const authorize = async (phone: string, code: string, token: string) => {
@@ -23,8 +23,8 @@ export const authorize = async (phone: string, code: string, token: string) => {
     security_code: code,
     session_token: token,
   })
+  if (res.code === 400)
+    throw new ApiError({ ...res, message: '번호를 확인해주세요!' })
   if (res.code !== 200) throw new ApiError(res)
-  tokenManager.setToken(res.data?.access_token as string)
-  // TODO: 응답 받아서 auth store 에서 관리
-  //  데이터 저장 처리 필요
+  return res.data?.access_token as string
 }

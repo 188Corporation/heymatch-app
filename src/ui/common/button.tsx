@@ -1,15 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TouchableOpacity } from 'react-native'
+import { ColorValue, TouchableOpacity } from 'react-native'
 import { Colors } from 'infra/colors'
 import { ButtonText } from 'ui/common/text'
 
-export const RedButton: React.FC<{
+export const Button: React.FC<{
   text: string
   onPress: () => void
-}> = ({ text, onPress }) => {
+  color?: ColorValue
+}> = ({ text, onPress, color = Colors.primary.red }) => {
   return (
-    <ButtonContainer onPress={onPress}>
+    <ButtonContainer onPress={onPress} style={{ backgroundColor: color }}>
       <ButtonText>{text}</ButtonText>
     </ButtonContainer>
   )
@@ -18,7 +19,26 @@ export const RedButton: React.FC<{
 const ButtonContainer = styled(TouchableOpacity)`
   width: 100%;
   border-radius: 12px;
-  background-color: ${Colors.primary.red};
   padding: 12px 0;
   align-items: center;
+`
+
+export const FullWidthButton: React.FC<{
+  text: string
+  onPress: () => void
+  disabled?: boolean
+}> = ({ text, onPress, disabled = false }) => {
+  return (
+    <FullWidthButtonContainer onPress={onPress} disabled={disabled}>
+      <ButtonText>{text}</ButtonText>
+    </FullWidthButtonContainer>
+  )
+}
+
+const FullWidthButtonContainer = styled(TouchableOpacity)`
+  width: 100%;
+  padding: 18px 0;
+  align-items: center;
+  background-color: ${(p) =>
+    p.disabled ? Colors.primary.blueDisabled : Colors.primary.blue};
 `

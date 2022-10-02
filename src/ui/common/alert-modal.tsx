@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Column } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { Body2, H2 } from 'ui/common/text'
-import { RedButton } from 'ui/common/button'
+import { Button } from 'ui/common/button'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
 
@@ -22,7 +22,7 @@ export const AlertModal: React.FC = observer(() => {
           <>
             <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
             <Body>{content.body}</Body>
-            <RedButton text={content.buttonText} onPress={content.onPress} />
+            <Button text={content.buttonText} onPress={content.onPress} />
           </>
         )}
       </Container>
