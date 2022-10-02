@@ -1,11 +1,21 @@
-import { GpsLocation } from 'infra/types'
+import { GpsLocation, GroupDetail } from 'infra/types'
 import { Coord } from 'react-native-nmap'
 import { AlertStore } from 'store/alert'
 
-export const toNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
+export const gpsLocationToNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
   latitude: lat,
   longitude: lng,
 })
+
+export const geoinfoToNmapCoord = (geoinfo: string): Coord => {
+  const [latitude, longitude] = geoinfo.split(',').map(Number)
+  return { latitude, longitude }
+}
+
+export const geoinfoToGpsLocation = (geoinfo: string): GpsLocation => {
+  const [lat, lng] = geoinfo.split(',').map(Number)
+  return { lat, lng }
+}
 
 export const alertError = (e: Error, store: AlertStore) => {
   store.open({
@@ -14,4 +24,15 @@ export const alertError = (e: Error, store: AlertStore) => {
     buttonText: '확인',
     onPress: () => store.close(),
   })
+}
+
+export const formatMaleFemaleInfo = (data: GroupDetail) => {
+  const final = []
+  if (data.male_member_number > 0) {
+    final.push(`남 ${data.male_member_number}명`)
+  }
+  if (data.female_member_number > 0) {
+    final.push(`여 ${data.female_member_number}명`)
+  }
+  return final.join('/')
 }

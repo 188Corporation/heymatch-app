@@ -8,8 +8,9 @@ import { PermissionType } from 'store/permission'
 import { openSettings } from 'react-native-permissions'
 import { LocationMarker } from 'ui/group/location-marker'
 import { ButtonGroupOverlay } from 'ui/group/button-group-overlay'
+import { GroupMarkerList } from 'ui/group/group-marker-list'
+import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
-import { GroupMarker } from 'ui/group/group-marker'
 
 export const GroupScreen = () => {
   const { permissionStore, locationStore, mapStore } = useStores()
@@ -41,13 +42,17 @@ export const GroupScreen = () => {
         onCameraChange={(c) => {
           mapStore.setCamera(c)
         }}
+        onMapClick={() => {
+          mapStore.onNonMarkerTouch()
+        }}
       >
+        <HotPlacePolygon />
+        <GroupMarkerList />
         <LocationMarker />
-        {/*<GroupMarker />*/}
       </NaverMap>
       <MapOverlay pointerEvents='box-none'>
         <ButtonGroupOverlay />
-        {/*<SelectedGroupOverlay />*/}
+        <SelectedGroupOverlay />
       </MapOverlay>
     </Container>
   )

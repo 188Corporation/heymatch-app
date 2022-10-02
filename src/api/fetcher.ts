@@ -10,7 +10,7 @@ class TokenManager {
   }
 
   get authHeader(): object {
-    return this._token ? { Authorization: `jwt ${this._token}` } : {}
+    return this._token ? { Authorization: `Bearer ${this._token}` } : {}
   }
 }
 export const tokenManager = new TokenManager()

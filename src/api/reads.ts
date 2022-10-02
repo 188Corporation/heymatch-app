@@ -1,6 +1,13 @@
 import useSWR from 'swr'
 import qs from 'query-string'
-import { JoinedGroup, ResponseEnvelope, User } from 'infra/types'
+import {
+  GroupDetail,
+  HotPlace,
+  HotPlaceWithGroups,
+  JoinedGroup,
+  ResponseEnvelope,
+  User,
+} from 'infra/types'
 import { getRequest } from 'api/fetcher'
 
 export const useCustomSWR = <T>(
@@ -21,8 +28,16 @@ export const useCustomSWR = <T>(
   }
 }
 
-export const useUser = () =>
+export const useMy = () =>
   useCustomSWR<{
     user: User
     joined_group: JoinedGroup
-  }>('/users/my')
+  }>('/users/my/')
+
+export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
+
+export const useHotPlaceWithGroupsList = () =>
+  useCustomSWR<HotPlaceWithGroups[]>('/groups/')
+
+export const useGroup = (groupId?: number) =>
+  useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)

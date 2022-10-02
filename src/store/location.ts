@@ -62,8 +62,8 @@ export class LocationStore {
     this._watchId = null
   }
 
-  getDistance(loc: GpsLocation) {
+  getDistance(loc: GpsLocation, accuracy?: number) {
     if (!this._location) return null
-    return getDistance(this._location, loc)
+    return getDistance(this._location, loc, accuracy)
   }
 }

@@ -6,9 +6,18 @@ import { Image as _Image, TouchableWithoutFeedback, View } from 'react-native'
 import { BaseText, Caption, H3 } from 'ui/common/text'
 import { UsersFillSvg } from 'image'
 import { useStores } from 'store/globals'
+import { observer } from 'mobx-react'
+import { useGroup } from 'api/reads'
+import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
 
-export const SelectedGroupOverlay = () => {
-  const { alertStore } = useStores()
+export const SelectedGroupOverlay = observer(() => {
+  const {
+    alertStore,
+    locationStore: { getDistance },
+    mapStore: { selectedGroup },
+  } = useStores()
+  const { data } = useGroup(selectedGroup?.id)
+  if (!data) return null
   return (
     <Overlay pointerEvents='box-none'>
       <TouchableWithoutFeedback
@@ -22,16 +31,18 @@ export const SelectedGroupOverlay = () => {
         }
       >
         <Container>
-          <Image source={{ uri: 'https://picsum.photos/62' }} />
+          <Image source={{ uri: data.group_profile_images[0].thumbnail }} />
           <Column style={{ flex: 1 }}>
-            <Caption style={{ color: Colors.primary.red }}>550m</Caption>
+            <Caption style={{ color: Colors.primary.red }}>
+              {getDistance(geoinfoToGpsLocation(data.gps_geoinfo), 10)}m
+            </Caption>
             <H3 style={{ color: Colors.gray.v600, marginBottom: 2 }}>
-              로데오훈남들
+              {data.title}
             </H3>
             <Row>
               <UsersFillSvg style={{ marginRight: 4 }} />
               <Caption style={{ color: Colors.gray.v400, lineHeight: 16 }}>
-                남 5명·평균 30
+                {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}
               </Caption>
             </Row>
           </Column>
@@ -40,7 +51,7 @@ export const SelectedGroupOverlay = () => {
       </TouchableWithoutFeedback>
     </Overlay>
   )
-}
+})
 
 const Overlay = styled(View)`
   position: absolute;

@@ -1,12 +1,13 @@
 import { Marker } from 'react-native-nmap'
-import { useStores } from 'store/globals'
-import { toNmapCoord } from 'infra/util'
+import { geoinfoToNmapCoord } from 'infra/util'
 import { GroupMarkerBg } from 'image'
 import { Image, PixelRatio } from 'react-native'
 // @ts-ignore
 import RNImageTools from 'react-native-image-tools-wm'
 import { CURRENT_OS, OS } from 'infra/constants'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Group } from 'infra/types'
+import { useStores } from 'store/globals'
 
 const MARKER_SIDE = PixelRatio.getPixelSizeForLayoutSize(108)
 const MASK_IMAGE = Image.resolveAssetSource(
@@ -20,30 +21,28 @@ const getImage = async (imageUrl: string) => {
   })
 }
 
-export const GroupMarker = () => {
-  const { locationStore } = useStores()
-  const loc = locationStore._location
+export const GroupMarker: React.FC<{
+  data: Group
+  isSelected: boolean
+}> = ({ data, isSelected }) => {
+  const { mapStore } = useStores()
   const [image, setImage] = useState(null)
   useEffect(() => {
-    getImage('https://picsum.photos/108').then((v) =>
+    getImage(data.group_profile_images[0].thumbnail).then((v) =>
       setTimeout(() => setImage(v)),
     )
-  }, [])
-  if (!loc) return null
-  const coord = toNmapCoord(loc)
+  }, [data.group_profile_images])
+  const coord = geoinfoToNmapCoord(data.gps_geoinfo)
+  const bgImage = isSelected ? GroupMarkerBg.active : GroupMarkerBg.inactive
   return (
     <>
+      <Marker coordinate={coord} image={bgImage} width={108} height={108} />
       <Marker
         coordinate={coord}
-        image={GroupMarkerBg.active}
+        image={image || bgImage}
         width={108}
         height={108}
-      />
-      <Marker
-        coordinate={coord}
-        image={image || GroupMarkerBg.active}
-        width={108}
-        height={108}
+        onClick={() => mapStore.selectGroup(data)}
       />
     </>
   )

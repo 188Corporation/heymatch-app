@@ -4,14 +4,17 @@ import NaverMapView from 'react-native-nmap'
 import {
   GpsBounds,
   GpsLocation,
+  Group,
   LocationTrackingMode,
   NaverMapCamera,
 } from 'infra/types'
 import { DEFAULT_ZOOM } from 'infra/constants'
+import { geoinfoToNmapCoord } from 'infra/util'
 
 export class MapStore {
   mapRef: RefObject<NaverMapView> = createRef()
   camera: NaverMapCamera | null = null
+  selectedGroup: Group | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -55,5 +58,18 @@ export class MapStore {
 
   setCamera(c: NaverMapCamera) {
     this.camera = c
+  }
+
+  selectGroup(g: Group) {
+    this.selectedGroup = g
+    const { latitude, longitude } = geoinfoToNmapCoord(g.gps_geoinfo)
+    this.mapRef.current?.animateToCoordinate({
+      latitude,
+      longitude,
+    })
+  }
+
+  onNonMarkerTouch() {
+    this.selectedGroup = null
   }
 }
