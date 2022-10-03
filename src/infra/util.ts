@@ -1,4 +1,4 @@
-import { GpsLocation, GroupDetail } from 'infra/types'
+import { GpsLocation, Group } from 'infra/types'
 import { Coord } from 'react-native-nmap'
 import { AlertStore } from 'store/alert'
 
@@ -26,7 +26,7 @@ export const alertError = (e: Error, store: AlertStore) => {
   })
 }
 
-export const formatMaleFemaleInfo = (data: GroupDetail) => {
+export const formatMaleFemaleInfo = (data: Group) => {
   const final = []
   if (data.male_member_number > 0) {
     final.push(`남 ${data.male_member_number}명`)

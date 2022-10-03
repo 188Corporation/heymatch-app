@@ -7,16 +7,14 @@ import { BaseText, Caption, H3 } from 'ui/common/text'
 import { UsersFillSvg } from 'image'
 import { useStores } from 'store/globals'
 import { observer } from 'mobx-react'
-import { useGroup } from 'api/reads'
 import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
 
 export const SelectedGroupOverlay = observer(() => {
   const {
     alertStore,
-    locationStore: { getDistance },
-    mapStore: { selectedGroup },
+    locationStore,
+    mapStore: { selectedGroup: data },
   } = useStores()
-  const { data } = useGroup(selectedGroup?.id)
   if (!data) return null
   return (
     <Overlay pointerEvents='box-none'>
@@ -34,7 +32,11 @@ export const SelectedGroupOverlay = observer(() => {
           <Image source={{ uri: data.group_profile_images[0].thumbnail }} />
           <Column style={{ flex: 1 }}>
             <Caption style={{ color: Colors.primary.red }}>
-              {getDistance(geoinfoToGpsLocation(data.gps_geoinfo), 10)}m
+              {locationStore.getDistance(
+                geoinfoToGpsLocation(data.gps_geoinfo),
+                10,
+              )}
+              m
             </Caption>
             <H3 style={{ color: Colors.gray.v600, marginBottom: 2 }}>
               {data.title}

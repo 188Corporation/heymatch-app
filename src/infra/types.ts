@@ -83,21 +83,19 @@ export interface HotPlace {
 
 export interface Group {
   id: number
-  gps_geoinfo: string
-  gps_checked: boolean
-  gps_last_check_time: string
-  group_profile_images: { image: string; thumbnail: string }[]
-}
-
-export interface GroupDetail extends Group {
+  hotplace: number
   title: string
-  introduction: string
+  gps_geoinfo: string
+  group_profile_images: { image: string; thumbnail: string }[]
   male_member_number: number
   female_member_number: number
   member_average_age: number
   is_active: boolean
   active_until: string
-  hotplace: number
+}
+
+export interface GroupDetail extends Group {
+  introduction: string
 }
 
 export interface HotPlaceWithGroups {
