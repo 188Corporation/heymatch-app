@@ -9,7 +9,7 @@
     "start": "react-native start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "pod": "npx pod-install ios",
-    "font": "npx react-native-asset"
+    "font": "npx react-native-asset --ios-assets && echo 'Android fonts should manually addded with xml! (https://stackoverflow.com/a/70247374/3535760)'"
   },
   "dependencies": {
     "@amplitude/analytics-react-native": "^0.4.1",
