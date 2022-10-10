@@ -22,7 +22,11 @@ export const AlertModal: React.FC = observer(() => {
           <>
             <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
             <Body>{content.body}</Body>
-            <Button text={content.buttonText} onPress={content.onPress} />
+            <Button
+              text={content.buttonText}
+              onPress={content.onPress}
+              textColor={Colors.white}
+            />
           </>
         )}
       </Container>
