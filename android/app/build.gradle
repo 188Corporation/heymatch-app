@@ -221,6 +221,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue "string", "app_name", "바이매치"
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
         }
@@ -230,6 +231,7 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "app_name", "헤이매치"
         }
     }
 
