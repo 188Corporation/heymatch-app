@@ -1,4 +1,4 @@
-package com.heythereapp.newarchitecture.modules;
+package com.co188.heythere.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

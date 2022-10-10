@@ -1,4 +1,4 @@
-package com.heythereapp.newarchitecture;
+package com.co188.heythere.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.heythereapp.BuildConfig;
-import com.heythereapp.newarchitecture.components.MainComponentsRegistry;
-import com.heythereapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.co188.heythere.BuildConfig;
+import com.co188.heythere.newarchitecture.components.MainComponentsRegistry;
+import com.co188.heythere.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

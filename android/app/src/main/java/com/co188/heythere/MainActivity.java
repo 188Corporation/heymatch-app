@@ -1,4 +1,4 @@
-package com.heythereapp;
+package com.co188.heythere;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
