@@ -14,7 +14,7 @@ import { navigation } from 'navigation/global'
 
 const LabelNumberInput: React.FC<{
   label: string
-  value: number
+  value: number | null
   onValueChange: (v: number) => void
 }> = ({ label, value, onValueChange }) => {
   return (
@@ -23,8 +23,8 @@ const LabelNumberInput: React.FC<{
       <SimpleInput
         style={{ width: 120, textAlign: 'center' }}
         keyboardType='number-pad'
-        value={value === 0 ? '' : String(value)}
-        onChangeText={(v) => onValueChange(Number(v))}
+        value={value === null ? '' : String(value)}
+        onChangeText={(v) => onValueChange(Number(v) || 0)}
       />
     </Column>
   )
@@ -76,10 +76,8 @@ export const GroupCreateGenderAgeScreen = observer(() => {
       <BottomButton
         text='다음으로'
         onPress={() => {
-          if (!groupCreateStore.maleCount) {
-            return
-          }
-          if (!groupCreateStore.femaleCount) {
+          // 둘 중에 하나는 1 이상의 숫자가 되어야 함
+          if (!groupCreateStore.maleCount && !groupCreateStore.femaleCount) {
             return
           }
           if (!groupCreateStore.averageAge) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
@@ -10,9 +10,14 @@ import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
 import { Column, Row } from 'ui/common/layout'
 import { SimpleInput } from 'ui/common/simple-input'
+import { createGroup } from 'api/writes'
+import { mutate } from 'swr'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { IS_DEV, LOCATION_FOR_TEST } from 'infra/constants'
 
 export const GroupCreateTitleDescScreen = observer(() => {
-  const { groupCreateStore } = useStores()
+  const { groupCreateStore, locationStore, alertStore } = useStores()
+  const [loading, setLoading] = useState(false)
   return (
     <>
       <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
@@ -74,9 +79,38 @@ export const GroupCreateTitleDescScreen = observer(() => {
           if (!intro || intro.length < 10 || intro.length > 400) {
             return
           }
-          navigation.navigate('GroupCreateDoneScreen')
+          setLoading(true)
+          // TODO: remove test code
+          const location = IS_DEV
+            ? LOCATION_FOR_TEST
+            : await locationStore.getLocation(true)
+          const { photo, maleCount, femaleCount, averageAge } = groupCreateStore
+          try {
+            await createGroup(
+              photo as string,
+              maleCount || 0,
+              femaleCount || 0,
+              averageAge as number,
+              title,
+              intro,
+              location,
+            )
+            await mutate('/users/my/')
+            navigation.navigate('GroupCreateDoneScreen')
+          } catch (e) {
+            alertStore.open({
+              title: '그룹 생성에 실패했어요!',
+              body: String(e),
+              buttonText: '확인',
+              onPress: () => {},
+            })
+            return
+          } finally {
+            setLoading(false)
+          }
         }}
       />
+      {loading && <LoadingOverlay />}
     </>
   )
 })

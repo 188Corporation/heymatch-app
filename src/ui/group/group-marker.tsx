@@ -32,6 +32,7 @@ export const GroupMarker: React.FC<{
       setTimeout(() => setImage(v)),
     )
   }, [data.group_profile_images])
+  if (!data.gps_geoinfo) return null
   const coord = geoinfoToNmapCoord(data.gps_geoinfo)
   const bgImage = isSelected ? GroupMarkerBg.active : GroupMarkerBg.inactive
   return (

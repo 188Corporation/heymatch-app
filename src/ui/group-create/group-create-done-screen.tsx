@@ -11,8 +11,13 @@ import { Shadow } from 'react-native-shadow-2'
 import { UsersFillSvg } from 'image'
 import { Image } from 'react-native'
 import { Circle } from 'ui/common/circle'
+import { useMy } from 'api/reads'
+import { formatMaleFemaleInfo } from 'infra/util'
 
 export const GroupCreateDoneScreen = () => {
+  const { data } = useMy()
+  if (!data) return null
+  const { joined_group: group } = data
   return (
     <BlueContainer>
       <NavigationHeader backButton={false} />
@@ -41,21 +46,18 @@ export const GroupCreateDoneScreen = () => {
                   borderRadius: 54,
                   backgroundColor: Colors.gray.v500,
                 }}
+                source={{ uri: group.group_profile_images[0].thumbnail }}
               />
             </Circle>
           </Circle>
-          <H3 style={{ marginBottom: 4 }}>동성로훈남들😎</H3>
+          <H3 style={{ marginBottom: 4 }}>{group.title}</H3>
           <Row style={{ marginBottom: 24 }}>
             <UsersFillSvg style={{ marginRight: 4 }} />
             <Caption style={{ color: Colors.gray.v400, lineHeight: 16 }}>
-              남 5명·평균 30세
+              {formatMaleFemaleInfo(group)}·평균 {group.member_average_age}세
             </Caption>
           </Row>
-          <Body>
-            {
-              '오랜만에 셋이서 이태원 놀러왔어요 :) 간맥하는 중인데 같이 파티할 사람친구 구해요😎'
-            }
-          </Body>
+          <Body>{group.introduction}</Body>
         </GroupBox>
       </GroupBoxShadow>
       <BottomButton

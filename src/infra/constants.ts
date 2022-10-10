@@ -1,4 +1,5 @@
 import { Dimensions, Platform } from 'react-native'
+import { GpsLocation } from 'infra/types'
 
 export const IS_DEV = __DEV__
 export const SERVER_BASE_URL = !IS_DEV
@@ -20,4 +21,10 @@ export const KOREA_CENTER = {
 export const DEFAULT_ZOOM = {
   latitudeDelta: 0.0037,
   longitudeDelta: 0.0019,
+}
+
+// 압구정 핫플 내 위치
+export const LOCATION_FOR_TEST: GpsLocation = {
+  lat: 37.5262894,
+  lng: 127.0395281,
 }

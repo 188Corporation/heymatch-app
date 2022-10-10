@@ -17,6 +17,10 @@ export const geoinfoToGpsLocation = (geoinfo: string): GpsLocation => {
   return { lat, lng }
 }
 
+export const gpsLocationToGeoinfo = ({ lat, lng }: GpsLocation): string => {
+  return `${lat},${lng}`
+}
+
 export const alertError = (e: Error, store: AlertStore) => {
   store.open({
     title: '예상치 못한 에러가 발생했어요!',

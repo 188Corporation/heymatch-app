@@ -4,7 +4,6 @@ import {
   GroupDetail,
   HotPlace,
   HotPlaceWithGroups,
-  JoinedGroup,
   ResponseEnvelope,
   User,
 } from 'infra/types'
@@ -31,7 +30,7 @@ export const useCustomSWR = <T>(
 export const useMy = () =>
   useCustomSWR<{
     user: User
-    joined_group: JoinedGroup
+    joined_group: GroupDetail
   }>('/users/my/')
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')

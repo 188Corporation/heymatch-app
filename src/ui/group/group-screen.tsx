@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Alert, View } from 'react-native'
+import { View } from 'react-native'
 import _NaverMap from 'react-native-nmap'
 import { KOREA_CENTER } from 'infra/constants'
 import { useStores } from 'store/globals'
@@ -13,21 +13,22 @@ import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
 
 export const GroupScreen = () => {
-  const { permissionStore, locationStore, mapStore } = useStores()
+  const { permissionStore, locationStore, mapStore, alertStore } = useStores()
   useEffect(() => {
     if (permissionStore.location === 'blocked') {
-      Alert.alert(
-        '헤이매치 필수 권한',
-        '헤이매치를 시작하려면 위치 권한이 필요해요.',
-        [{ text: '권한 설정하러 가기 ', onPress: () => openSettings() }],
-      )
+      alertStore.open({
+        title: '헤이매치 필수 권한',
+        body: '헤이매치를 시작하려면 위치 권한이 필요해요.',
+        buttonText: '권한 설정하러 가기',
+        onPress: () => openSettings(),
+      })
     } else {
       permissionStore
         .request(PermissionType.location)
         .then(() => locationStore.getLocation(true))
         .then((l) => mapStore.focusLocation(l))
     }
-  }, [permissionStore, locationStore, mapStore])
+  }, [permissionStore, locationStore, mapStore, alertStore])
   return (
     <Container>
       {/* @ts-ignore */}

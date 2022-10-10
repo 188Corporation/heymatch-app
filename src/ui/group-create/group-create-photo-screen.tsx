@@ -4,7 +4,7 @@ import { Column } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { Alert, Image, TouchableOpacity, View } from 'react-native'
+import { Image, TouchableOpacity, View } from 'react-native'
 import { Camera, useCameraDevices } from 'react-native-vision-camera'
 import { PhotoShotCircleSvg } from 'image'
 import { useStores } from 'store/globals'
@@ -17,18 +17,19 @@ import { observer } from 'mobx-react'
 
 export const GroupCreatePhotoScreen = observer(() => {
   // handle camera permission
-  const { permissionStore, groupCreateStore } = useStores()
+  const { permissionStore, groupCreateStore, alertStore } = useStores()
   useEffect(() => {
     if (permissionStore.camera === 'blocked') {
-      Alert.alert(
-        '헤이매치 필수 권한',
-        '그룹 사진을 촬영하려면 카메라 권한이 필요해요.',
-        [{ text: '권한 설정하러 가기 ', onPress: () => openSettings() }],
-      )
+      alertStore.open({
+        title: '헤이매치 필수 권한',
+        body: '그룹 사진을 촬영하려면 카메라 권한이 필요해요.',
+        buttonText: '권한 설정하러 가기',
+        onPress: () => openSettings(),
+      })
     } else {
       permissionStore.request(PermissionType.camera)
     }
-  }, [permissionStore])
+  }, [permissionStore, alertStore])
   // clear photo upon entering
   useEffect(() => {
     groupCreateStore.clearPhoto()

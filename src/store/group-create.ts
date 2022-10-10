@@ -2,9 +2,9 @@ import { makeAutoObservable } from 'mobx'
 
 export class GroupCreateStore {
   photo: string | null = null
-  maleCount: number = 0
-  femaleCount: number = 0
-  averageAge: number = 0
+  maleCount: number | null = null
+  femaleCount: number | null = null
+  averageAge: number | null = null
   title: string = ''
   intro: string = ''
 

@@ -19,19 +19,6 @@ export interface User {
   school: string
 }
 
-export interface JoinedGroup {
-  id: number
-  // "37.498166,127.036235"
-  gps_geoinfo: string
-  gps_checked: boolean
-  gps_last_check_time: string
-  title: string
-  introduction: string
-  is_active: true
-  active_until: string
-  hotplace: number
-}
-
 export interface GpsLocation {
   lat: number
   lng: number
