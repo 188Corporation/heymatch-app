@@ -25,11 +25,11 @@ export const RootStack = observer(() => {
       {authStore.isInitializing ? (
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : authStore.isLoggedIn ? (
-        <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
+        <Stack.Screen name='MainScreen' component={MainScreen} />
       ) : (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       )}
-      <Stack.Screen name='MainScreen' component={MainScreen} />
+      <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
     </Stack.Navigator>
   )
 })

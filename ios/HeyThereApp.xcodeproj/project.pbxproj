@@ -364,8 +364,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.188co.heythere.debug;
-				PRODUCT_NAME = HeyThereApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.debug;
+				PRODUCT_NAME = 바이매치;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -389,8 +389,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.188co.heythere;
-				PRODUCT_NAME = HeyThereApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere;
+				PRODUCT_NAME = 헤이매치;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
