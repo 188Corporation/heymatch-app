@@ -44,7 +44,7 @@ export const SelectedGroupOverlay = observer(() => {
             <Row>
               <UsersFillSvg style={{ marginRight: 4 }} />
               <Caption style={{ color: Colors.gray.v400, lineHeight: 16 }}>
-                {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}
+                {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}세
               </Caption>
             </Row>
           </Column>

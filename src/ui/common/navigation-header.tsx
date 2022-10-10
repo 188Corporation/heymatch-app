@@ -6,13 +6,17 @@ import { BackArrowSvg } from 'image'
 import { TouchableOpacity } from 'react-native'
 import { navigation } from 'navigation/global'
 
-export const NavigationHeader = () => {
+export const NavigationHeader: React.FC<{
+  backButton?: boolean
+}> = ({ backButton = true }) => {
   const insets = useSafeAreaInsets()
   return (
     <Container style={{ marginTop: insets.top }}>
-      <BackButton onPress={() => navigation.goBack()}>
-        <BackArrowSvg />
-      </BackButton>
+      {backButton && (
+        <BackButton onPress={() => navigation.goBack()}>
+          <BackArrowSvg />
+        </BackButton>
+      )}
     </Container>
   )
 }
