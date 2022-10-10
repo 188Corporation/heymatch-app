@@ -31,7 +31,7 @@ export const Input: React.FC<Props> = ({
   inputRef,
   setIsFocused,
 }) => {
-  const _inputRef = useRef<null | _TextInput>(null)
+  const _inputRef = useRef<_TextInput | null>(null)
   const [_isFocused, _setIsFocused] = useState(false)
   const isError = !!errorMessage && errorMessage.length > 0
   return (

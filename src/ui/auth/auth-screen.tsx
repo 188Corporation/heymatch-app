@@ -12,9 +12,9 @@ import { useIntervalEffect } from '@react-hookz/web'
 
 export const AuthScreen = () => {
   const { authStore } = useStores()
-  const phoneInputRef = useRef<null | TextInput>(null)
+  const phoneInputRef = useRef<TextInput | null>(null)
   const [isPhoneFocused, setIsPhoneFocused] = useState(false)
-  const codeInputRef = useRef<null | TextInput>(null)
+  const codeInputRef = useRef<TextInput | null>(null)
   const [isCodeFocused, setIsCodeFocused] = useState(false)
   useEffect(() => {
     setTimeout(() => phoneInputRef.current?.focus())

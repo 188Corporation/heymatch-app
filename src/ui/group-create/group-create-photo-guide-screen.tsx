@@ -1,22 +1,38 @@
 import React from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { H1 } from 'ui/common/text'
+import { Body, H1 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { GroupCreateIntroSvg } from 'image'
+import { GroupCreatePhotoGuideSvg } from 'image'
 import { BottomButton } from 'ui/group-create/bottom-button'
 import { BlueContainer } from 'ui/group-create/blue-container'
+import { navigation } from 'navigation/global'
 
 export const GroupCreatePhotoGuideScreen = () => {
   return (
     <BlueContainer>
       <NavigationHeader />
       <H1
-        style={{ textAlign: 'center', color: Colors.white, marginVertical: 56 }}
+        style={{
+          textAlign: 'center',
+          color: Colors.white,
+          marginTop: 56,
+          marginBottom: 16,
+        }}
       >
-        {'내 그룹 만들기를\n시작해볼까요?'}
+        {'사진 촬영부터 시작~!'}
       </H1>
-      <GroupCreateIntroSvg />
-      <BottomButton text='시작할게요!' onPress={() => {}} />
+      <Body
+        style={{ textAlign: 'center', color: Colors.white, marginBottom: 100 }}
+      >
+        {
+          '사진은 그룹 프로필에 보여져요\n그룹 전체 인원이 잘 나오게 찍어주세요 :)'
+        }
+      </Body>
+      <GroupCreatePhotoGuideSvg />
+      <BottomButton
+        text='사진 촬영하기'
+        onPress={() => navigation.navigate('GroupCreatePhotoScreen')}
+      />
     </BlueContainer>
   )
 }
