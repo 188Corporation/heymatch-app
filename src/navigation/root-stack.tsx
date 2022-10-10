@@ -6,6 +6,7 @@ import { observer } from 'mobx-react'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { MainScreen } from 'navigation/main-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
+import { GroupCreateStack } from 'navigation/group-create-stack'
 
 const Stack = createStackNavigator()
 
@@ -24,7 +25,8 @@ export const RootStack = observer(() => {
       {authStore.isInitializing ? (
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : authStore.isLoggedIn ? (
-        <Stack.Screen name='MainScreen' component={MainScreen} />
+        // <Stack.Screen name='MainScreen' component={MainScreen} />
+        <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
       ) : (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       )}
