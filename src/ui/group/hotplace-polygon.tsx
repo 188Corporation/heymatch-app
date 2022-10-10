@@ -1,10 +1,10 @@
 import React from 'react'
-import { Polygon } from 'react-native-nmap/index'
+import { Polygon } from 'react-native-nmap'
 import { useHotPlaceList } from 'api/reads'
 import { geoinfoToNmapCoord } from 'infra/util'
 
-const AREA_FILL_COLOR = 'rgba(100,100,100,0.5)'
-const AREA_BORDER_COLOR = 'rgb(100,100,100)'
+const AREA_FILL_COLOR = 'rgba(0,0,0,0.4)'
+const AREA_BORDER_COLOR = '#4B4B4E'
 const AREA_BORDER_WIDTH = 1
 
 export const HotPlacePolygon = () => {
