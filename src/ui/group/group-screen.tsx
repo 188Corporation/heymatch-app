@@ -40,6 +40,8 @@ export const GroupScreen = () => {
         zoomControl={false}
         tiltGesturesEnabled={false}
         rotateGesturesEnabled={true}
+        // https://github.com/QuadFlask/react-native-naver-map/issues/117
+        useTextureView={true}
         onCameraChange={(c) => {
           mapStore.setCamera(c)
         }}
