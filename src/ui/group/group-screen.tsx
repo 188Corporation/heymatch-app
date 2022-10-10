@@ -34,11 +34,11 @@ export const GroupScreen = () => {
       <NaverMap
         ref={mapStore.mapRef}
         center={mapStore.mapCenter || KOREA_CENTER}
-        compass={false}
+        compass={true}
         scaleBar={false}
         zoomControl={false}
         tiltGesturesEnabled={false}
-        rotateGesturesEnabled={false}
+        rotateGesturesEnabled={true}
         onCameraChange={(c) => {
           mapStore.setCamera(c)
         }}
