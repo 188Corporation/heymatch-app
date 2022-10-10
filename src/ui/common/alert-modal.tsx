@@ -24,7 +24,10 @@ export const AlertModal: React.FC = observer(() => {
             <Body>{content.body}</Body>
             <Button
               text={content.buttonText}
-              onPress={content.onPress}
+              onPress={() => {
+                store.close()
+                content.onPress()
+              }}
               textColor={Colors.white}
             />
           </>

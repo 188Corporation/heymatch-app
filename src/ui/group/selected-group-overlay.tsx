@@ -8,6 +8,7 @@ import { UsersFillSvg } from 'image'
 import { useStores } from 'store/globals'
 import { observer } from 'mobx-react'
 import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
+import { navigation } from 'navigation/global'
 
 export const SelectedGroupOverlay = observer(() => {
   const {
@@ -24,7 +25,7 @@ export const SelectedGroupOverlay = observer(() => {
             title: '그룹을 만들면 상세 프로필이 보여요!',
             body: '그룹을 만들어 다른 그룹과 매칭해보세요 :)',
             buttonText: '그룹 만들기',
-            onPress: () => {},
+            onPress: () => navigation.navigate('GroupCreateStack'),
           })
         }
       >
@@ -85,4 +86,5 @@ const ArrowRight = styled(BaseText)`
   line-height: 34px;
   letter-spacing: -0.4px;
   color: ${Colors.gray.v600};
+  margin-left: 16px;
 `

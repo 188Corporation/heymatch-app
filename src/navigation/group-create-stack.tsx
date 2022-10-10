@@ -6,12 +6,13 @@ import { GroupCreatePhotoScreen } from 'ui/group-create/group-create-photo-scree
 import { GroupCreateGenderAgeScreen } from 'ui/group-create/group-create-gender-age-screen'
 import { GroupCreateTitleDescScreen } from 'ui/group-create/group-create-title-desc-screen'
 import { GroupCreateDoneScreen } from 'ui/group-create/group-create-done-screen'
+import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 
 const Stack = createStackNavigator()
 
 export const GroupCreateStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
       <Stack.Screen
         name='GroupCreateIntroScreen'
         component={GroupCreateIntroScreen}

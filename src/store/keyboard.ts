@@ -1,9 +1,11 @@
 import { EmitterSubscription, Keyboard } from 'react-native'
 import { makeAutoObservable, runInAction } from 'mobx'
+import { CURRENT_OS, OS } from 'infra/constants'
 
 export class KeyboardStore {
   isVisible = false
   _subs: EmitterSubscription[] = []
+  height = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -11,11 +13,22 @@ export class KeyboardStore {
 
   sub() {
     this._subs = [
-      Keyboard.addListener('keyboardDidShow', () =>
-        runInAction(() => (this.isVisible = true)),
+      // https://reactnative.dev/docs/keyboard#addlistener
+      Keyboard.addListener(
+        CURRENT_OS === OS.ANDROID ? 'keyboardDidShow' : 'keyboardWillShow',
+        (e) =>
+          runInAction(() => {
+            this.isVisible = true
+            this.height = e.endCoordinates.height
+          }),
       ),
-      Keyboard.addListener('keyboardDidHide', () =>
-        runInAction(() => (this.isVisible = false)),
+      Keyboard.addListener(
+        CURRENT_OS === OS.ANDROID ? 'keyboardDidHide' : 'keyboardWillHide',
+        () =>
+          runInAction(() => {
+            this.isVisible = false
+            this.height = 0
+          }),
       ),
     ]
   }

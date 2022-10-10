@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Column } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { Alert, TouchableOpacity, View } from 'react-native'
-import { Camera, PhotoFile, useCameraDevices } from 'react-native-vision-camera'
+import { Alert, Image, TouchableOpacity, View } from 'react-native'
+import { Camera, useCameraDevices } from 'react-native-vision-camera'
 import { PhotoShotCircleSvg } from 'image'
 import { useStores } from 'store/globals'
 import { openSettings } from 'react-native-permissions'
@@ -13,10 +13,11 @@ import { PermissionType } from 'store/permission'
 import { H2 } from 'ui/common/text'
 import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
+import { observer } from 'mobx-react'
 
-export const GroupCreatePhotoScreen = () => {
+export const GroupCreatePhotoScreen = observer(() => {
   // handle camera permission
-  const { permissionStore } = useStores()
+  const { permissionStore, groupCreateStore } = useStores()
   useEffect(() => {
     if (permissionStore.camera === 'blocked') {
       Alert.alert(
@@ -28,11 +29,15 @@ export const GroupCreatePhotoScreen = () => {
       permissionStore.request(PermissionType.camera)
     }
   }, [permissionStore])
+  // clear photo upon entering
+  useEffect(() => {
+    groupCreateStore.clearPhoto()
+  }, [groupCreateStore])
   const devices = useCameraDevices()
   const width = WINDOW_DIMENSIONS.width
   const height = (width / 3) * 4
   const cameraRef = useRef<Camera | null>(null)
-  const [photo, setPhoto] = useState<PhotoFile>()
+  const { photo } = groupCreateStore
   return (
     <Container>
       <NavigationHeader />
@@ -41,34 +46,67 @@ export const GroupCreatePhotoScreen = () => {
           width,
           height,
           marginTop: 16,
-          backgroundColor: Colors.gray.v500,
         }}
       >
-        {devices.back && (
-          <Camera ref={cameraRef} device={devices.back} isActive photo />
+        {photo ? (
+          <Image source={{ uri: photo }} style={{ width, height }} />
+        ) : devices.front ? (
+          <Camera
+            ref={cameraRef}
+            device={devices.front}
+            isActive
+            photo
+            style={{ flex: 1 }}
+          />
+        ) : (
+          devices && (
+            <View
+              style={{
+                backgroundColor: Colors.gray.v500,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              {/*<H3 style={{ color: Colors.white }}>*/}
+              {/*  카메라 권한을 허용해주세요!*/}
+              {/*</H3>*/}
+              {/*<Row style={{ width: 200, marginTop: 24 }}>*/}
+              {/*  <Button*/}
+              {/*    text='허용하기'*/}
+              {/*    onPress={async () => {*/}
+              {/*      await permissionStore.checkAll()*/}
+              {/*      if (permissionStore.camera === 'blocked') {*/}
+              {/*        await openSettings()*/}
+              {/*      } else {*/}
+              {/*        await permissionStore.request(PermissionType.camera)*/}
+              {/*      }*/}
+              {/*    }}*/}
+              {/*    color={Colors.primary.blue}*/}
+              {/*  />*/}
+              {/*</Row>*/}
+            </View>
+          )
         )}
       </View>
       {!photo ? (
         <TouchableOpacity
-          style={{ marginTop: 60 }}
+          style={{ position: 'absolute', bottom: 24 }}
           onPress={async () => {
-            // TODO: for test only
-            // @ts-ignore
-            setPhoto(true)
-            // const camera = cameraRef.current
-            // if (!camera) return
-            // const snapshot = await camera.takeSnapshot({
-            //   quality: 85,
-            //   skipMetadata: true,
-            // })
-            // setPhoto(snapshot)
+            const camera = cameraRef.current
+            if (!camera) return
+            const snapshot = await camera.takeSnapshot({
+              quality: 85,
+              skipMetadata: true,
+            })
+            groupCreateStore.setPhoto(`file://${snapshot.path}`)
           }}
         >
           <PhotoShotCircleSvg />
         </TouchableOpacity>
       ) : (
         <>
-          <H2 style={{ color: Colors.white, marginVertical: 40 }}>
+          <H2 style={{ color: Colors.white, marginTop: 16 }}>
             이 사진으로 등록할까요?
           </H2>
           <BottomButton
@@ -79,7 +117,7 @@ export const GroupCreatePhotoScreen = () => {
       )}
     </Container>
   )
-}
+})
 
 const Container = styled(Column)`
   flex: 1;

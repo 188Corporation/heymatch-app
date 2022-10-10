@@ -5,13 +5,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BackArrowSvg } from 'image'
 import { TouchableOpacity } from 'react-native'
 import { navigation } from 'navigation/global'
+import { CURRENT_OS, OS } from 'infra/constants'
 
 export const NavigationHeader: React.FC<{
   backButton?: boolean
 }> = ({ backButton = true }) => {
   const insets = useSafeAreaInsets()
   return (
-    <Container style={{ marginTop: insets.top }}>
+    <Container
+      style={{ marginTop: insets.top + (CURRENT_OS === OS.ANDROID ? 16 : 0) }}
+    >
       {backButton && (
         <BackButton onPress={() => navigation.goBack()}>
           <BackArrowSvg />

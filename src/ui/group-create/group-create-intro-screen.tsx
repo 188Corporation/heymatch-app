@@ -12,7 +12,7 @@ export const GroupCreateIntroScreen = () => {
     <BlueContainer>
       <NavigationHeader />
       <H1
-        style={{ textAlign: 'center', color: Colors.white, marginVertical: 56 }}
+        style={{ textAlign: 'center', color: Colors.white, marginVertical: 40 }}
       >
         {'내 그룹 만들기를\n시작해볼까요?'}
       </H1>

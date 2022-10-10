@@ -5245,6 +5245,10 @@ react-native-image-tools-wm@^1.5.8:
   resolved "https://registry.yarnpkg.com/react-native-image-tools-wm/-/react-native-image-tools-wm-1.5.8.tgz#14ebe11a9933785dec7991b82112d0bf3cc45ad1"
   integrity sha512-ctYwfORXH/7pBueX61RIQ1Yg9xAysfg3yM8TkmjicoarNUqphmKjghp6vqnOn63h7MBuEfatN/vkckpl7wQcng==
 
+react-native-image-tools-wm@wowmaking/react-native-image-tools#pull/27/head:
+  version "1.5.7"
+  resolved "https://codeload.github.com/wowmaking/react-native-image-tools/tar.gz/c1adf62d74643b5978f46e1d5dc753fe1efd36b4"
+
 react-native-modal@^13.0.1:
   version "13.0.1"
   resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-13.0.1.tgz#691f1e646abb96fa82c1788bf18a16d585da37cd"

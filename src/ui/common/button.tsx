@@ -9,7 +9,12 @@ export const Button: React.FC<{
   onPress: () => void
   color?: ColorValue
   textColor?: ColorValue
-}> = ({ text, onPress, color = Colors.primary.red, textColor }) => {
+}> = ({
+  text,
+  onPress,
+  color = Colors.primary.red,
+  textColor = Colors.white,
+}) => {
   return (
     <ButtonContainer onPress={onPress} style={{ backgroundColor: color }}>
       <ButtonText style={{ color: textColor }}>{text}</ButtonText>

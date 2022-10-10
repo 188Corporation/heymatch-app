@@ -4,14 +4,21 @@ import { Colors } from 'infra/colors'
 import { Row } from 'ui/common/layout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import styled from 'styled-components'
+import { CURRENT_OS, OS } from 'infra/constants'
+import { observer } from 'mobx-react'
+import { useStores } from 'store/globals'
 
 export const BottomButton: React.FC<{
   text: string
   onPress: () => void
-}> = ({ text, onPress }) => {
+}> = observer(({ text, onPress }) => {
+  const { keyboardStore } = useStores()
   const insets = useSafeAreaInsets()
+  if (keyboardStore.isVisible) return null
   return (
-    <Container style={{ bottom: insets.bottom }}>
+    <Container
+      style={{ bottom: insets.bottom + (CURRENT_OS === OS.ANDROID ? 16 : 0) }}
+    >
       <Button
         text={text}
         onPress={onPress}
@@ -20,7 +27,7 @@ export const BottomButton: React.FC<{
       />
     </Container>
   )
-}
+})
 
 const Container = styled(Row)`
   position: absolute;

@@ -34,14 +34,14 @@ export const GroupCreateGenderAgeScreen = observer(() => {
   const { groupCreateStore } = useStores()
   return (
     <>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
         <BlueContainer>
           <NavigationHeader />
           <H1
             style={{
               textAlign: 'center',
               color: Colors.white,
-              marginTop: 56,
+              marginTop: 40,
               marginBottom: 80,
             }}
           >
@@ -75,7 +75,18 @@ export const GroupCreateGenderAgeScreen = observer(() => {
       </KeyboardAvoidingView>
       <BottomButton
         text='다음으로'
-        onPress={() => navigation.navigate('GroupCreateTitleDescScreen')}
+        onPress={() => {
+          if (!groupCreateStore.maleCount) {
+            return
+          }
+          if (!groupCreateStore.femaleCount) {
+            return
+          }
+          if (!groupCreateStore.averageAge) {
+            return
+          }
+          navigation.navigate('GroupCreateTitleDescScreen')
+        }}
       />
     </>
   )

@@ -6,6 +6,7 @@ export const DEFAULT_FONT_FAMILY = 'SUIT'
 
 export const BaseText = styled(Text)`
   font-family: ${DEFAULT_FONT_FAMILY};
+  color: ${Colors.gray.v600};
 `
 
 export const H1 = styled(BaseText)`

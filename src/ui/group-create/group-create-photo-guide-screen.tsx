@@ -15,14 +15,14 @@ export const GroupCreatePhotoGuideScreen = () => {
         style={{
           textAlign: 'center',
           color: Colors.white,
-          marginTop: 56,
+          marginTop: 40,
           marginBottom: 16,
         }}
       >
         {'사진 촬영부터 시작~!'}
       </H1>
       <Body
-        style={{ textAlign: 'center', color: Colors.white, marginBottom: 100 }}
+        style={{ textAlign: 'center', color: Colors.white, marginBottom: 80 }}
       >
         {
           '사진은 그룹 프로필에 보여져요\n그룹 전체 인원이 잘 나오게 찍어주세요 :)'

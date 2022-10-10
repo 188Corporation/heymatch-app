@@ -15,14 +15,14 @@ export const GroupCreateTitleDescScreen = observer(() => {
   const { groupCreateStore } = useStores()
   return (
     <>
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
         <BlueContainer>
           <NavigationHeader />
           <H1
             style={{
               textAlign: 'center',
               color: Colors.white,
-              marginTop: 56,
+              marginTop: 40,
               marginBottom: 16,
             }}
           >
@@ -44,7 +44,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
                 style={{ flex: 1 }}
                 value={groupCreateStore.title}
                 onChangeText={(v) => groupCreateStore.setTitle(v)}
-                placeholder='ex) 동성로 훈남들'
+                placeholder='ex) 동성로훈남들 (15자 이내)'
               />
             </Row>
           </Column>
@@ -55,7 +55,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
                 style={{ flex: 1, height: 200, lineHeight: 28 }}
                 value={groupCreateStore.intro}
                 onChangeText={(v) => groupCreateStore.setIntro(v)}
-                placeholder='ex) 오랜만에 셋이서 이태원 놀러왔어요 :) 간맥하는 중인데 같이 파티할 사람친구 구해요!'
+                placeholder='ex) 오랜만에 셋이서 이태원 놀러왔어요 :) 간맥하는 중인데 같이 파티할 사람친구 구해요! (10자 이상)'
                 multiline
                 textAlignVertical='top'
               />
@@ -65,7 +65,17 @@ export const GroupCreateTitleDescScreen = observer(() => {
       </KeyboardAvoidingView>
       <BottomButton
         text='완성!'
-        onPress={() => navigation.navigate('GroupCreateDoneScreen')}
+        onPress={async () => {
+          const title = groupCreateStore.title.trim()
+          const intro = groupCreateStore.intro.trim()
+          if (!title || title.length > 15) {
+            return
+          }
+          if (!intro || intro.length < 10 || intro.length > 400) {
+            return
+          }
+          navigation.navigate('GroupCreateDoneScreen')
+        }}
       />
     </>
   )

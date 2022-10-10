@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import React from 'react'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -6,6 +6,8 @@ import { Column, Row } from 'ui/common/layout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
 import { Colors } from 'infra/colors'
+import { CaptionS } from 'ui/common/text'
+import { CURRENT_OS, OS } from 'infra/constants'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupScreen: { icon: 'whatshot', text: '핫플' },
@@ -64,13 +66,13 @@ export const TabBar: React.FC<BottomTabBarProps> = ({
                 size={28}
                 color={isFocused ? Colors.primary.red : Colors.gray.v200}
               />
-              <Text
+              <CaptionS
                 style={{
                   color: isFocused ? Colors.primary.red : Colors.gray.v400,
                 }}
               >
                 {iconText.text}
-              </Text>
+              </CaptionS>
             </ButtonContentContainer>
           </Button>
         )
@@ -91,6 +93,7 @@ const BarContainer = styled(Row)`
 
 const Button = styled(TouchableOpacity)`
   flex: 1;
+  padding-bottom: ${CURRENT_OS === OS.ANDROID ? 8 : 0}px;
 `
 
 const ButtonContentContainer = styled(Column)`

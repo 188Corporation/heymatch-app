@@ -20,7 +20,7 @@ export const GroupCreateDoneScreen = () => {
         style={{
           textAlign: 'center',
           color: Colors.white,
-          marginTop: 56,
+          marginTop: 40,
           marginBottom: 100,
         }}
       >

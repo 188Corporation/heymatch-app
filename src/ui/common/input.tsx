@@ -50,7 +50,8 @@ export const Input: React.FC<Props> = ({
           textContentType={textContentType}
           maxLength={maxLength}
           placeholder={placeholder}
-          placeholderTextColor={Colors.gray.v500}
+          placeholderTextColor={Colors.gray.v400}
+          selectionColor={Colors.primary.blue}
           value={value}
           onChangeText={(v) => onValueChange(v)}
           onFocus={() => {
@@ -88,6 +89,7 @@ const Container = styled(View)<{
 
 const TextInput = styled(_TextInput)`
   font-size: 16px;
+  padding: 0;
   color: ${Colors.gray.v600};
   font-family: ${DEFAULT_FONT_FAMILY};
 `

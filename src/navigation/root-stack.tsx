@@ -7,6 +7,7 @@ import { LoadingScreen } from 'ui/loading/loading-screen'
 import { MainScreen } from 'navigation/main-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { GroupCreateStack } from 'navigation/group-create-stack'
+import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 
 const Stack = createStackNavigator()
 
@@ -21,7 +22,7 @@ export const RootStack = observer(() => {
     }
   }, [keyboardStore, permissionStore])
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
       {authStore.isInitializing ? (
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : authStore.isLoggedIn ? (

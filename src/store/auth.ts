@@ -16,7 +16,8 @@ export class AuthStore {
     AsyncStorage.getItem(TOKEN_KEY).then(async (token) => {
       try {
         if (!token) return
-        const { payload } = await decode(token, '', { skipValidation: true })
+        // give random secret, otherwise android native module throws error
+        const { payload } = await decode(token, 'x', { skipValidation: true })
         // check if the token is valid for next 24 hours
         if (
           Math.floor(new Date().getTime() / 1000) + 60 * 60 * 24 <

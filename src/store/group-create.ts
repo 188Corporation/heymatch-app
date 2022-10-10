@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 export class GroupCreateStore {
+  photo: string | null = null
   maleCount: number = 0
   femaleCount: number = 0
   averageAge: number = 0
@@ -9,6 +10,14 @@ export class GroupCreateStore {
 
   constructor() {
     makeAutoObservable(this)
+  }
+
+  setPhoto(v: string) {
+    this.photo = v
+  }
+
+  clearPhoto() {
+    this.photo = null
   }
 
   setMaleCount(v: number) {
