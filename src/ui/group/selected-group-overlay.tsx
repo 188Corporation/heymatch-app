@@ -11,7 +11,9 @@ import { observer } from 'mobx-react'
 import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
 import { navigation } from 'navigation/global'
 
-export const SelectedGroupOverlay = observer(() => {
+export const SelectedGroupOverlay: React.FC<{
+  hasJoinedGroup: boolean
+}> = observer(({ hasJoinedGroup }) => {
   const {
     alertStore,
     locationStore,
@@ -22,12 +24,14 @@ export const SelectedGroupOverlay = observer(() => {
     <Overlay pointerEvents='box-none'>
       <TouchableWithoutFeedback
         onPress={() =>
-          alertStore.open({
-            title: '그룹을 만들면 상세 프로필이 보여요!',
-            body: '그룹을 만들어 다른 그룹과 매칭해보세요 :)',
-            buttonText: '그룹 만들기',
-            onPress: () => navigation.navigate('GroupCreateStack'),
-          })
+          hasJoinedGroup
+            ? navigation.navigate('GroupDetailScreen', { data })
+            : alertStore.open({
+                title: '그룹을 만들면 상세 프로필이 보여요!',
+                body: '그룹을 만들어 다른 그룹과 매칭해보세요 :)',
+                buttonText: '그룹 만들기',
+                onPress: () => navigation.navigate('GroupCreateStack'),
+              })
         }
       >
         <Container>
@@ -40,9 +44,7 @@ export const SelectedGroupOverlay = observer(() => {
               )}
               m
             </Caption>
-            <H3 style={{ color: Colors.gray.v600, marginBottom: 2 }}>
-              {data.title}
-            </H3>
+            <H3 style={{ marginBottom: 2 }}>{data.title}</H3>
             <Row>
               <UsersFillSvg style={{ marginRight: 4 }} />
               <Caption style={{ color: Colors.gray.v400, lineHeight: 16 }}>
@@ -86,6 +88,5 @@ const ArrowRight = styled(BaseText)`
   font-size: 24px;
   line-height: 34px;
   letter-spacing: -0.4px;
-  color: ${Colors.gray.v600};
   margin-left: 16px;
 `

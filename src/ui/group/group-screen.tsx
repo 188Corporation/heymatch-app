@@ -11,8 +11,10 @@ import { ButtonGroupOverlay } from 'ui/group/button-group-overlay'
 import { GroupMarkerList } from 'ui/group/group-marker-list'
 import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
+import { useMy } from 'api/reads'
 
 export const GroupScreen = () => {
+  const { data: myData } = useMy()
   const { permissionStore, locationStore, mapStore, alertStore } = useStores()
   useEffect(() => {
     if (permissionStore.location === 'blocked') {
@@ -55,7 +57,7 @@ export const GroupScreen = () => {
       </NaverMap>
       <MapOverlay pointerEvents='box-none'>
         <ButtonGroupOverlay />
-        <SelectedGroupOverlay />
+        <SelectedGroupOverlay hasJoinedGroup={!!myData?.joined_group?.id} />
       </MapOverlay>
     </Container>
   )
