@@ -9,8 +9,9 @@ import { AuthScreen } from 'ui/auth/auth-screen'
 import { GroupCreateStack } from 'navigation/group-create-stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
+import { RootStackParamList } from 'navigation/types'
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<RootStackParamList>()
 
 export const RootStack = observer(() => {
   const { keyboardStore, permissionStore, authStore } = useStores()

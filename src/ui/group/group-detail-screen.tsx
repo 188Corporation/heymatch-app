@@ -1,5 +1,4 @@
 import React from 'react'
-import { GroupDetail } from 'infra/types'
 import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
@@ -13,16 +12,12 @@ import { UsersFillSvg } from 'image'
 import { useStores } from 'store/globals'
 import { Button } from 'ui/common/button'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { GroupDetailScreenProps } from 'navigation/types'
 
 const CARD_BORDER_RADIUS = 32
 
-export const GroupDetailScreen: React.FC<{
-  route: { params: { data: GroupDetail } }
-}> = ({
-  route: {
-    params: { data },
-  },
-}) => {
+export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
+  const { data } = props.route.params
   const { locationStore } = useStores()
   const insets = useSafeAreaInsets()
   if (!data) return null
