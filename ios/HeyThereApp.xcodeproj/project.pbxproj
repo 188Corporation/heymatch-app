@@ -365,7 +365,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.debug;
-				PRODUCT_NAME = 바이매치;
+				PRODUCT_NAME = "바이매치";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -390,7 +390,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere;
-				PRODUCT_NAME = 헤이매치;
+				PRODUCT_NAME = "헤이매치";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
