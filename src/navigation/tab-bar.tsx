@@ -8,9 +8,11 @@ import styled from 'styled-components'
 import { Colors } from 'infra/colors'
 import { CaptionS } from 'ui/common/text'
 import { CURRENT_OS, OS } from 'infra/constants'
+import { SendSvg } from 'image'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupScreen: { icon: 'whatshot', text: '핫플' },
+  MatchScreen: { icon: 'send', text: '매칭' },
   ChatScreen: { icon: 'question-answer', text: '채팅' },
   MyScreen: { icon: 'person', text: '마이' },
 }
@@ -61,11 +63,19 @@ export const TabBar: React.FC<BottomTabBarProps> = ({
             onLongPress={onLongPress}
           >
             <ButtonContentContainer>
-              <CustomIcon
-                name={iconText.icon}
-                size={28}
-                color={isFocused ? Colors.primary.red : Colors.gray.v200}
-              />
+              {iconText.icon === 'send' ? (
+                <SendSvgContainer>
+                  <SendSvg
+                    fill={isFocused ? Colors.primary.red : Colors.gray.v200}
+                  />
+                </SendSvgContainer>
+              ) : (
+                <CustomIcon
+                  name={iconText.icon}
+                  size={28}
+                  color={isFocused ? Colors.primary.red : Colors.gray.v200}
+                />
+              )}
               <CaptionS
                 style={{
                   color: isFocused ? Colors.primary.red : Colors.gray.v400,
@@ -101,5 +111,13 @@ const ButtonContentContainer = styled(Column)`
 `
 
 const CustomIcon = styled(Icon)`
+  margin-bottom: 4px;
+`
+
+const SendSvgContainer = styled(Row)`
+  justify-content: center;
+  height: 28px;
+  width: 28px;
+  padding-top: 2px;
   margin-bottom: 4px;
 `
