@@ -13,6 +13,7 @@ import { useStores } from 'store/globals'
 import { Button } from 'ui/common/button'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GroupDetailScreenProps } from 'navigation/types'
+import { navigation } from 'navigation/global'
 
 const CARD_BORDER_RADIUS = 32
 
@@ -62,7 +63,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         </ContentCard>
       </ScrollView>
       <ButtonContainer style={{ marginBottom: insets.bottom }}>
-        <Button text='채팅하기' onPress={() => {}} />
+        <Button
+          text='채팅하기'
+          onPress={() => navigation.navigate('PurchaseScreen')}
+        />
       </ButtonContainer>
     </Container>
   )

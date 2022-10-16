@@ -10,6 +10,7 @@ import { GroupCreateStack } from 'navigation/group-create-stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { RootStackParamList } from 'navigation/types'
+import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -34,6 +35,7 @@ export const RootStack = observer(() => {
       )}
       <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
       <Stack.Screen name='GroupDetailScreen' component={GroupDetailScreen} />
+      <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
     </Stack.Navigator>
   )
 })

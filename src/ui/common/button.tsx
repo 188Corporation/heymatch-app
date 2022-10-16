@@ -9,14 +9,21 @@ export const Button: React.FC<{
   onPress: () => void
   color?: ColorValue
   textColor?: ColorValue
+  paddingVertical?: number
+  paddingHorizontal?: number
 }> = ({
   text,
   onPress,
   color = Colors.primary.red,
   textColor = Colors.white,
+  paddingVertical = 16,
+  paddingHorizontal,
 }) => {
   return (
-    <ButtonContainer onPress={onPress} style={{ backgroundColor: color }}>
+    <ButtonContainer
+      onPress={onPress}
+      style={{ backgroundColor: color, paddingVertical, paddingHorizontal }}
+    >
       <ButtonText style={{ color: textColor }}>{text}</ButtonText>
     </ButtonContainer>
   )
@@ -25,7 +32,6 @@ export const Button: React.FC<{
 const ButtonContainer = styled(TouchableOpacity)`
   width: 100%;
   border-radius: 12px;
-  padding: 16px 0;
   align-items: center;
 `
 

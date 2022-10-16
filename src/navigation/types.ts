@@ -8,6 +8,7 @@ export type RootStackParamList = {
   AuthScreen: {}
   GroupCreateStack: {}
   GroupDetailScreen: { data: GroupDetail }
+  PurchaseScreen: {}
 }
 
 export type GroupDetailScreenProps = StackScreenProps<

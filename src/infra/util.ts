@@ -40,3 +40,7 @@ export const formatMaleFemaleInfo = (data: Group) => {
   }
   return final.join('/')
 }
+
+export const formatPrice = (price: number) => {
+  return `${price.toLocaleString('ko-KR')}원`
+}
