@@ -5240,10 +5240,10 @@ react-native-gradle-plugin@^0.70.2:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.70.2.tgz#b5130f2c196e27c4c5912706503d69b8790f1937"
   integrity sha512-k7d+CVh0fs/VntA2WaKD58cFB2rtiSLBHYlciH18ncaT4N/B3A4qOGv9pSCEHfQikELm6vAf98KMbE3c8KnH1A==
 
-react-native-image-tools-wm@^1.5.8:
-  version "1.5.8"
-  resolved "https://registry.yarnpkg.com/react-native-image-tools-wm/-/react-native-image-tools-wm-1.5.8.tgz#14ebe11a9933785dec7991b82112d0bf3cc45ad1"
-  integrity sha512-ctYwfORXH/7pBueX61RIQ1Yg9xAysfg3yM8TkmjicoarNUqphmKjghp6vqnOn63h7MBuEfatN/vkckpl7wQcng==
+react-native-iap@^12.1.2:
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-12.1.2.tgz#f37952799c1963a3eebdb983a7fe7eaafe178b0e"
+  integrity sha512-X3pR89YOWjA2LsP/RlNNyiiNEdpESEtURw+M55NY/FqwqlbQ2V7nTRD0sfaEYKpB6l0ZxDDL6PnLpeDZK88v5w==
 
 react-native-image-tools-wm@wowmaking/react-native-image-tools#pull/27/head:
   version "1.5.7"

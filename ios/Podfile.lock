@@ -421,7 +421,9 @@ PODS:
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNGestureHandler (2.6.1):
     - React-Core
-  - RNImageTools (1.5.8):
+  - RNIap (12.1.2):
+    - React-Core
+  - RNImageTools (1.5.7):
     - React
   - RNPermissions (3.6.1):
     - React-Core
@@ -521,6 +523,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNImageTools (from `../node_modules/react-native-image-tools-wm`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -651,6 +654,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNImageTools:
     :path: "../node_modules/react-native-image-tools-wm"
   RNPermissions:
@@ -733,7 +738,8 @@ SPEC CHECKSUMS:
   RNCMaskedView: cb9670ea9239998340eaab21df13fa12a1f9de15
   RNFastImage: 3207b9eb17c2425d574ca40db35185db6e324f4e
   RNGestureHandler: 28ad20bf02257791f7f137b31beef34b9549f54b
-  RNImageTools: 81a1663d9f0bcc72c3b80fd048be7240b3a1e2de
+  RNIap: f07fc500956c381a504c91c1139c4ec2c3d6fad0
+  RNImageTools: 6bebbd918f5e6e99fff7cc1f9186738ee36f42cb
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
   RNSVG: 07037623c36f12e41312730622d5f6b3656227ca
