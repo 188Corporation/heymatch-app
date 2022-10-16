@@ -8,6 +8,7 @@ import { MainScreen } from 'navigation/main-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { GroupCreateStack } from 'navigation/group-create-stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
+import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 
 const Stack = createStackNavigator()
 
@@ -31,6 +32,7 @@ export const RootStack = observer(() => {
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       )}
       <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
+      <Stack.Screen name='GroupDetailScreen' component={GroupDetailScreen} />
     </Stack.Navigator>
   )
 })
