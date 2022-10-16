@@ -96,10 +96,7 @@ export const GroupCreatePhotoScreen = observer(() => {
           onPress={async () => {
             const camera = cameraRef.current
             if (!camera) return
-            const snapshot = await camera.takeSnapshot({
-              quality: 85,
-              skipMetadata: true,
-            })
+            const snapshot = await camera.takePhoto()
             groupCreateStore.setPhoto(`file://${snapshot.path}`)
           }}
         >
