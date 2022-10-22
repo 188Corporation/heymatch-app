@@ -11,6 +11,7 @@ import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { RootStackParamList } from 'navigation/types'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
+import { paymentManager } from 'infra/payments'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -19,8 +20,10 @@ export const RootStack = observer(() => {
   useEffect(() => {
     keyboardStore.sub()
     permissionStore.checkAll()
+    paymentManager.initialize()
     // amplitude.init()
     return () => {
+      paymentManager.terminate()
       keyboardStore.unsub()
     }
   }, [keyboardStore, permissionStore])
@@ -29,13 +32,13 @@ export const RootStack = observer(() => {
       {authStore.isInitializing ? (
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : authStore.isLoggedIn ? (
-        <Stack.Screen name='MainScreen' component={MainScreen} />
+        <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
       ) : (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       )}
       <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
       <Stack.Screen name='GroupDetailScreen' component={GroupDetailScreen} />
-      <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
+      <Stack.Screen name='MainScreen' component={MainScreen} />
     </Stack.Navigator>
   )
 })

@@ -2,6 +2,7 @@ import { postFormRequest, postRequest } from 'api/fetcher'
 import { GpsLocation, GroupDetail, ResponseEnvelope, User } from 'infra/types'
 import { ApiError } from 'api/error'
 import { gpsLocationToGeoinfo } from 'infra/util'
+import { Platform } from 'react-native'
 
 export const getCodeByPhone = async (phone: string) => {
   const res: ResponseEnvelope<{ session_token: string }> = await postRequest(
@@ -64,4 +65,12 @@ export const createGroup = async (
     throw new ApiError({ ...res, message: '이미 그룹을 생성했어요!' })
   if (res.code !== 201) throw new ApiError(res)
   return res.data as GroupDetail
+}
+
+export const sendReceipt = async (receipt: string) => {
+  const res: ResponseEnvelope<{}> = await postRequest('/payments/receipt/', {
+    receipt,
+    platform: Platform.OS,
+  })
+  if (res.code !== 200) throw new ApiError(res)
 }
