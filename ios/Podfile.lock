@@ -421,7 +421,7 @@ PODS:
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNGestureHandler (2.6.1):
     - React-Core
-  - RNIap (12.1.2):
+  - RNIap (12.3.2):
     - React-Core
   - RNImageTools (1.5.7):
     - React
@@ -738,7 +738,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: cb9670ea9239998340eaab21df13fa12a1f9de15
   RNFastImage: 3207b9eb17c2425d574ca40db35185db6e324f4e
   RNGestureHandler: 28ad20bf02257791f7f137b31beef34b9549f54b
-  RNIap: f07fc500956c381a504c91c1139c4ec2c3d6fad0
+  RNIap: 040181e50a03a5e885a2ac3086681699362f0152
   RNImageTools: 6bebbd918f5e6e99fff7cc1f9186738ee36f42cb
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
