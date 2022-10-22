@@ -4,6 +4,7 @@ import {
   GroupDetail,
   HotPlace,
   HotPlaceWithGroups,
+  PurchaseItem,
   ResponseEnvelope,
   User,
 } from 'infra/types'
@@ -40,3 +41,9 @@ export const useHotPlaceWithGroupsList = () =>
 
 export const useGroup = (groupId?: number) =>
   useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)
+
+export const usePurchaseItems = () =>
+  useCustomSWR<{
+    point_items: PurchaseItem[]
+    free_pass_items: PurchaseItem[]
+  }>('/payments/items/')

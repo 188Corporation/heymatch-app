@@ -10,9 +10,19 @@ import { Body, H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { Button } from 'ui/common/button'
 import { formatPrice } from 'infra/util'
+import { usePurchaseItems } from 'api/reads'
+import { PurchaseItem } from 'infra/types'
+
+const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
+  arr.flatMap((e) => [e, x]).slice(0, -1)
 
 export const PurchaseScreen = () => {
   const insets = useSafeAreaInsets()
+  const { data } = usePurchaseItems()
+  if (!data) return null
+  const purchaseItems = [...data.point_items, ...data.free_pass_items].map(
+    (x) => <Item key={x.name} data={x} />,
+  )
   return (
     <View style={{ flex: 1, paddingBottom: insets.bottom }}>
       <NavigationHeader backButtonStyle='black' title='스토어' />
@@ -21,32 +31,20 @@ export const PurchaseScreen = () => {
         style={{ width: '100%', aspectRatio: 390 / 120 }}
       />
       <ScrollView contentContainerStyle={{ padding: 20 }}>
-        <Item desc='캔디 5개' price={4900} />
-        <VerticalSpace />
-        <Item desc='캔디 10개+2개' price={9900} />
-        <VerticalSpace />
-        <Item desc='캔디 15개+4개' price={14900} isBest />
-        <VerticalSpace />
-        <Item desc='캔디 30개+10개' price={29900} />
-        <VerticalSpace />
-        <Item desc='캔디 50개+20개' price={49000} />
-        <VerticalSpace />
-        <Item desc='원데이 프리패스(24h)' price={19900} />
+        {interleave(purchaseItems, <VerticalSpace />)}
       </ScrollView>
     </View>
   )
 }
 
 const Item: React.FC<{
-  desc: string
-  price: number
-  isBest?: boolean
-}> = ({ desc, price, isBest = false }) => {
+  data: PurchaseItem
+}> = ({ data }) => {
   return (
     <ItemCard>
       <Column>
-        <ItemDescText>{desc}</ItemDescText>
-        <H2>{formatPrice(price)}</H2>
+        <ItemDescText>{data.name}</ItemDescText>
+        <H2>{formatPrice(data.price_in_krw)}</H2>
       </Column>
       <ButtonContainer>
         <Button
@@ -56,7 +54,7 @@ const Item: React.FC<{
           paddingHorizontal={16}
         />
       </ButtonContainer>
-      {isBest && (
+      {data.best_deal_check && (
         <RibbonContainer>
           <BestRibbonSvg />
         </RibbonContainer>

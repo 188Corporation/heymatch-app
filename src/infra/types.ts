@@ -90,3 +90,11 @@ export interface HotPlaceWithGroups {
   name: string
   groups: Group[]
 }
+
+export interface PurchaseItem {
+  id: number
+  name: string
+  price_in_krw: number
+  best_deal_check: false
+  product_id: string // for store purchase
+}
