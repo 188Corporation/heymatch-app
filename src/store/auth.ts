@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { decode } from 'react-native-pure-jwt'
 import { tokenManager } from 'api/fetcher'
+import { emitter, EventType } from 'infra/events'
 
 const TOKEN_KEY = 'auth:access-token'
 
@@ -12,6 +13,8 @@ export class AuthStore {
 
   constructor() {
     makeAutoObservable(this)
+    // logout when token invalidated
+    emitter.addListener(EventType.TOKEN_INVALIDATED, () => this.logout())
     // read token from storage
     AsyncStorage.getItem(TOKEN_KEY).then(async (token) => {
       try {

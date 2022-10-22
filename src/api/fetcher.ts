@@ -1,6 +1,14 @@
 import { SERVER_BASE_URL } from 'infra/constants'
+import { emitter, EventType } from 'infra/events'
 
-const chainJsonParser = (res: Response) => res.json()
+const chainJsonParser = async (res: Response) => {
+  const resJson = await res.json()
+  // NOTE(gogo): handle when token invalidated
+  if (resJson.code === 401) {
+    emitter.emit(EventType.TOKEN_INVALIDATED)
+  }
+  return resJson
+}
 
 class TokenManager {
   _token: string = ''
