@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Alert, ScrollView, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { BestRibbonSvg, PurchaseBannerImage } from 'image'
 import { Image } from 'ui/common/image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,7 +12,6 @@ import { Button } from 'ui/common/button'
 import { formatPrice } from 'infra/util'
 import { usePurchaseItems } from 'api/reads'
 import { PurchaseItem } from 'infra/types'
-import { getProducts } from 'react-native-iap'
 import { paymentManager } from 'infra/payments'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
@@ -53,14 +52,7 @@ const Item: React.FC<{
       <ButtonContainer>
         <Button
           text='구매하기'
-          onPress={async () => {
-            const res = await getProducts({ skus: [data.product_id] })
-            if (res.length > 0) {
-              await paymentManager.purchase(res[0].productId)
-            } else {
-              Alert.alert('getProducts error', 'empty')
-            }
-          }}
+          onPress={() => paymentManager.purchase(data.product_id)}
           paddingVertical={10}
           paddingHorizontal={16}
         />

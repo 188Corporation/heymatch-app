@@ -44,3 +44,6 @@ export const formatMaleFemaleInfo = (data: Group) => {
 export const formatPrice = (price: number) => {
   return `${price.toLocaleString('ko-KR')}원`
 }
+
+// @ts-ignore
+export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))

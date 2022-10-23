@@ -3,8 +3,8 @@ import { GpsLocation } from 'infra/types'
 
 export const IS_DEV = __DEV__
 export const SERVER_BASE_URL = !IS_DEV
-  ? 'http://3.35.49.61:8000/api'
-  : 'http://3.35.49.61:8000/api'
+  ? 'https://dev.hey-match.com/api'
+  : 'https://dev.hey-match.com/api'
 export enum OS {
   ANDROID = 'android',
   IOS = 'ios',

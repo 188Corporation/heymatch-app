@@ -66,8 +66,8 @@ class PaymentManager {
   async purchase(productId: string) {
     try {
       await requestPurchase({
-        sku: productId,
-        andDangerouslyFinishTransactionAutomaticallyIOS: false,
+        sku: productId, // ios
+        skus: [productId], // android
       })
     } catch (e) {
       Alert.alert('requestPurchase error', String(e))
