@@ -139,8 +139,8 @@ android {
         applicationId "com.co188.heythere"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.0.0"
+        versionCode Integer.parseInt(APP_VERSION_CODE)
+        versionName APP_VERSION_NAME
         missingDimensionStrategy "store", "play"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 

@@ -12,7 +12,10 @@
     "font": "npx react-native-asset --ios-assets && echo 'Android fonts should manually addded with xml! (https://stackoverflow.com/a/70247374/3535760)'",
     "install-a": "android/gradlew -p android/app installRelease",
     "bundle-a": "android/gradlew -p android/app bundleRelease && cp android/app/build/outputs/bundle/release/app-release.aab $HOME/Desktop/$(date '+%y%m%d_%H%M%S').aab",
-    "assemble-a": "android/gradlew -p android/app assembleRelease && cp android/app/build/outputs/apk/release/app-release.apk $HOME/Desktop/$(date '+%y%m%d_%H%M%S').apk"
+    "assemble-a": "android/gradlew -p android/app assembleRelease && cp android/app/build/outputs/apk/release/app-release.apk $HOME/Desktop/$(date '+%y%m%d_%H%M%S').apk",
+    "cp-a": "appcenter codepush release-react -a 188-Corporation/heymatch-client-android -d Production",
+    "cp-i": "appcenter codepush release-react -a 188-Corporation/heymatch-client-ios -d Production",
+    "ver": "scripts/increment-version.sh"
   },
   "dependencies": {
     "@amplitude/analytics-react-native": "^0.4.1",
