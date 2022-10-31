@@ -24,6 +24,8 @@
 	<string>10</string>
 	<key>CodePushDeploymentKey</key>
 	<string>Nt1OI7W6H5XnvX4grXgtPzNZfP50OBdCuXz8u</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NMFClientId</key>
