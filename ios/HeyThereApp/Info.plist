@@ -21,11 +21,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>CodePushDeploymentKey</key>
 	<string>Nt1OI7W6H5XnvX4grXgtPzNZfP50OBdCuXz8u</string>
-    <key>ITSAppUsesNonExemptEncryption</key>
-    <false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NMFClientId</key>

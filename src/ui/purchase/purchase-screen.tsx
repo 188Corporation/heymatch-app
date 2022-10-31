@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { ScrollView, View } from 'react-native'
 import { BestRibbonSvg, PurchaseBannerImage } from 'image'
@@ -13,6 +13,7 @@ import { formatPrice } from 'infra/util'
 import { usePurchaseItems } from 'api/reads'
 import { PurchaseItem } from 'infra/types'
 import { paymentManager } from 'infra/payments'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
   arr.flatMap((e) => [e, x]).slice(0, -1)
@@ -20,9 +21,23 @@ const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
 export const PurchaseScreen = () => {
   const insets = useSafeAreaInsets()
   const { data } = usePurchaseItems()
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    if (!data) return
+    paymentManager
+      .init(
+        [...data.point_items, ...data.free_pass_items].map((x) => x.product_id),
+      )
+      .then(() => setLoading(false))
+  }, [data])
   if (!data) return null
+  const onPurchase = async (productId: string) => {
+    setLoading(true)
+    await paymentManager.purchase(productId)
+    setLoading(false)
+  }
   const purchaseItems = [...data.point_items, ...data.free_pass_items].map(
-    (x) => <Item data={x} />,
+    (x) => <Item data={x} onPurchase={onPurchase} />,
   )
   return (
     <View style={{ flex: 1, paddingBottom: insets.bottom }}>
@@ -36,13 +51,15 @@ export const PurchaseScreen = () => {
           <React.Fragment key={i}>{x}</React.Fragment>
         ))}
       </ScrollView>
+      {loading && <LoadingOverlay />}
     </View>
   )
 }
 
 const Item: React.FC<{
   data: PurchaseItem
-}> = ({ data }) => {
+  onPurchase: (productId: string) => void
+}> = ({ data, onPurchase }) => {
   return (
     <ItemCard>
       <Column>
@@ -52,7 +69,7 @@ const Item: React.FC<{
       <ButtonContainer>
         <Button
           text='구매하기'
-          onPress={() => paymentManager.purchase(data.product_id)}
+          onPress={() => onPurchase(data.product_id)}
           paddingVertical={10}
           paddingHorizontal={16}
         />
