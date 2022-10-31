@@ -18,6 +18,7 @@
 		547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */; };
+		D84D8CBB290FCCB8002C4C0B /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */; };
 		D8B5093E290377DB00AA732C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8B5093D290377DB00AA732C /* StoreKit.framework */; };
 		DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */; };
 		E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8ABD3770798498D9009064E /* SUIT-Regular.otf */; };
@@ -48,6 +49,7 @@
 		9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.otf"; path = "../fonts/SUIT-ExtraLight.otf"; sourceTree = "<group>"; };
 		B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.otf"; path = "../fonts/SUIT-Bold.otf"; sourceTree = "<group>"; };
 		B8ABD3770798498D9009064E /* SUIT-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Regular.otf"; path = "../fonts/SUIT-Regular.otf"; sourceTree = "<group>"; };
+		D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "HeyThereApp/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		D8B5093D290377DB00AA732C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D8B5093F2903782100AA732C /* HeyThereApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = HeyThereApp.entitlements; path = HeyThereApp/HeyThereApp.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -87,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* HeyThereApp */ = {
 			isa = PBXGroup;
 			children = (
+				D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */,
 				D8B5093F2903782100AA732C /* HeyThereApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -233,6 +236,7 @@
 				DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */,
 				12702FB2288C481C9278C91B /* SUIT-ExtraBold.otf in Resources */,
 				547F9088203B411D93F5D830 /* SUIT-ExtraLight.otf in Resources */,
+				D84D8CBB290FCCB8002C4C0B /* AppCenter-Config.plist in Resources */,
 				526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */,
 				3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */,
 				FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */,
