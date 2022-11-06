@@ -74,3 +74,31 @@ export const sendReceipt = async (receipt: string) => {
   })
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const sendMatchRequest = async (groupId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest('/match-requests/', {
+    group_id: groupId,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const acceptMatchRequest = async (matchRequestId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/match-requests/${matchRequestId}/accept/`,
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const rejectMatchRequest = async (matchRequestId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/match-requests/${matchRequestId}/reject/`,
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const cancelMatchRequest = async (matchRequestId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/match-requests/${matchRequestId}/cancel/`,
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}

@@ -30,7 +30,7 @@ export const getRequest = async (path: string) => {
   }).then(chainJsonParser)
 }
 
-export const postRequest = async (path: string, payload: object) => {
+export const postRequest = async (path: string, payload?: object) => {
   return fetch(`${SERVER_BASE_URL}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...tokenManager.authHeader },

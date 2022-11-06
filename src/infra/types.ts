@@ -98,3 +98,17 @@ export interface PurchaseItem {
   best_deal_check: false
   product_id: string // for store purchase
 }
+
+export type MatchRequestStatus =
+  | 'WAITING'
+  | 'ACCEPTED'
+  | 'REJECTED'
+  | 'CANCELED'
+
+export interface MatchRequest {
+  id: number
+  status: MatchRequestStatus
+  created_at: string
+  sender_group: number | GroupDetail
+  receiver_group: number | GroupDetail
+}

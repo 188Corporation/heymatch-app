@@ -4,6 +4,7 @@ import {
   GroupDetail,
   HotPlace,
   HotPlaceWithGroups,
+  MatchRequest,
   PurchaseItem,
   ResponseEnvelope,
   User,
@@ -47,3 +48,9 @@ export const usePurchaseItems = () =>
     point_items: PurchaseItem[]
     free_pass_items: PurchaseItem[]
   }>('/payments/items/')
+
+export const useMatchRequests = () =>
+  useCustomSWR<{
+    sent: MatchRequest[]
+    received: MatchRequest[]
+  }>('/match-requests/')
