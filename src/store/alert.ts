@@ -15,6 +15,20 @@ export class AlertStore {
     this.isOpen = true
   }
 
+  error(error: unknown, title?: string, body?: string) {
+    this.open({
+      title,
+      body: [body, String(error)].join('\n\n'),
+    })
+  }
+
+  errorUnexpected(error: Error) {
+    this.open({
+      title: '예상치 못한 에러가 발생했어요!',
+      body: `이용에 불편을 드려 죄송해요 😢 문제가 계속되면 고객센터로 연락해주세요.\n\n${error.name}: ${error.message}`,
+    })
+  }
+
   close() {
     this.isOpen = false
   }

@@ -98,12 +98,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
             await mutate('/users/my/')
             navigation.navigate('GroupCreateDoneScreen')
           } catch (e) {
-            alertStore.open({
-              title: '그룹 생성에 실패했어요!',
-              body: String(e),
-              buttonText: '확인',
-              onPress: () => {},
-            })
+            alertStore.error(e, '그룹 생성에 실패했어요!')
             return
           } finally {
             setLoading(false)

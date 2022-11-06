@@ -54,10 +54,10 @@ export enum LocationTrackingMode {
 }
 
 export interface AlertContent {
-  title: string
-  body: string
-  buttonText: string
-  onPress: () => void
+  title?: string
+  body?: string
+  buttonText?: string
+  onPress?: () => void
 }
 
 export interface HotPlace {

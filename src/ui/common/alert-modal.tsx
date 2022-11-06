@@ -23,10 +23,10 @@ export const AlertModal: React.FC = observer(() => {
             <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
             <Body>{content.body}</Body>
             <Button
-              text={content.buttonText}
+              text={content.buttonText || '확인'}
               onPress={() => {
                 store.close()
-                content.onPress()
+                if (content.onPress) content.onPress()
               }}
               textColor={Colors.white}
             />
