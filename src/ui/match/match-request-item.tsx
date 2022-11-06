@@ -1,24 +1,27 @@
 import React from 'react'
-import { GroupDetail } from 'infra/types'
+import { GroupDetail, MatchRequestStatus } from 'infra/types'
 import { Column, Row } from 'ui/common/layout'
-import styled from 'styled-components'
 import { Caption, H3 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { TouchableOpacity, View } from 'react-native'
 import { CheckSvg, CloseSvg, UsersFillSvg } from 'image'
-import { Image } from 'ui/common/image'
 import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
+import { acceptMatchRequest, rejectMatchRequest } from 'api/writes'
+import styled from 'styled-components'
+import { Image } from 'ui/common/image'
+import { TouchableOpacity, View } from 'react-native'
+import { mutate } from 'swr'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
 
 export const MatchRequestItem: React.FC<{
   matchRequestId: number
+  status: MatchRequestStatus
   group: GroupDetail
-}> = ({ matchRequestId, group }) => {
-  const { locationStore } = useStores()
+}> = ({ matchRequestId, status, group }) => {
+  const { locationStore, alertStore } = useStores()
   return (
     <Container width={CARD_WIDTH}>
       <GroupImage source={{ uri: group.group_profile_images[0].image }} />
@@ -39,15 +42,37 @@ export const MatchRequestItem: React.FC<{
             </Caption>
           </Row>
         </Column>
-        <ButtonRow>
-          <RoundButton>
-            <CloseSvg />
-          </RoundButton>
-          <RoundButtonDistance />
-          <SendButton>
-            <CheckSvg />
-          </SendButton>
-        </ButtonRow>
+        {status === MatchRequestStatus.WAITING && (
+          <ButtonRow>
+            <RoundButton
+              onPress={async () => {
+                try {
+                  await rejectMatchRequest(matchRequestId)
+                  await mutate('/match-requests/')
+                  alertStore.open({ title: '매칭 거절 성공!' })
+                } catch (e) {
+                  alertStore.error(e, '매칭 거절에 실패했어요!')
+                }
+              }}
+            >
+              <CloseSvg />
+            </RoundButton>
+            <RoundButtonDistance />
+            <SendButton
+              onPress={async () => {
+                try {
+                  await acceptMatchRequest(matchRequestId)
+                  await mutate('/match-requests/')
+                  alertStore.open({ title: '매칭 수락 성공!' })
+                } catch (e) {
+                  alertStore.error(e, '매칭 수락에 실패했어요!')
+                }
+              }}
+            >
+              <CheckSvg />
+            </SendButton>
+          </ButtonRow>
+        )}
       </ContentContainer>
     </Container>
   )

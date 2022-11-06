@@ -99,11 +99,12 @@ export interface PurchaseItem {
   product_id: string // for store purchase
 }
 
-export type MatchRequestStatus =
-  | 'WAITING'
-  | 'ACCEPTED'
-  | 'REJECTED'
-  | 'CANCELED'
+export enum MatchRequestStatus {
+  WAITING = 'WAITING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED',
+  CANCELED = 'CANCELED',
+}
 
 export interface MatchRequest {
   id: number
@@ -111,4 +112,16 @@ export interface MatchRequest {
   created_at: string
   sender_group: number | GroupDetail
   receiver_group: number | GroupDetail
+}
+
+export interface Channel {
+  id: string
+  cid: string
+  type: string
+  messages: any[]
+}
+
+export interface Chat {
+  chat: Channel
+  group: GroupDetail
 }
