@@ -13,6 +13,7 @@ LogBox.ignoreLogs([
   // TODO: update stream-chat library
   // https://github.com/GetStream/stream-chat-react-native/issues/1634
   'An error occurred while getting app settings',
+  'Both secret and user tokens are not set.',
 ])
 AppRegistry.registerComponent('HeyThereApp', () =>
   IS_DEV

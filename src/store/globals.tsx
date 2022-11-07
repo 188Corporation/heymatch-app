@@ -6,7 +6,7 @@ import { LocationStore } from 'store/location'
 import { AlertStore } from 'store/alert'
 import { AuthStore } from 'store/auth'
 import { GroupCreateStore } from 'store/group-create'
-import { ChannelStore } from 'store/channel'
+import { ChatStore } from 'store/chat'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -17,7 +17,7 @@ const stores = {
   alertStore: new AlertStore(),
   authStore: new AuthStore(),
   groupCreateStore: new GroupCreateStore(),
-  channelStore: new ChannelStore(),
+  chatStore: new ChatStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

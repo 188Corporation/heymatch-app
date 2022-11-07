@@ -1,47 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useChats } from 'api/reads'
 import { Column, Row } from 'ui/common/layout'
-import { Channel as ChannelType } from 'stream-chat'
-
-import { chatClient } from 'infra/chat'
 import { H1 } from 'ui/common/text'
 import styled from 'styled-components'
+import { FlatList } from 'react-native'
+import { ChatItem } from 'ui/chat/chat-item'
+import { Chat } from 'infra/types'
+import { useStores } from 'store/globals'
 
 export const ChatScreen = () => {
+  const { chatStore } = useStores()
   const { data } = useChats()
-  const [channels, setChannels] = useState<ChannelType[]>()
   useEffect(() => {
-    if (data) {
-      const cids = data.map((x) => x.channel.cid)
-      chatClient.queryChannels({ cid: { $in: cids } }).then((res) => {
-        setChannels(res)
-      })
-    }
-  }, [data])
+    if (!data) return
+    chatStore.update(data.map((x) => x.channel.cid))
+  }, [data, chatStore])
   return (
     <Column style={{ flex: 1 }}>
       <HeaderContainer>
         <H1>채팅</H1>
       </HeaderContainer>
-      {/*// ) : (*/}
-      {/*//   <ChannelList*/}
-      {/*//     onSelect={(c) => {*/}
-      {/*//       setChannel(c)*/}
-      {/*//       console.log('hi', c)*/}
-      {/*//     }}*/}
-      {/*//   />*/}
-      {/*// )}*/}
-      {/*{data && (*/}
-      {/*  <>*/}
-      {/*    {data.map((x) => (*/}
-      {/*      <ChatItem key={x.channel.id} data={x} />*/}
-      {/*    ))}*/}
-      {/*    /!*<Channel channel={channel}>*!/*/}
-      {/*    /!*  <MessageList />*!/*/}
-      {/*    /!*  <MessageInput />*!/*/}
-      {/*    /!*</Channel>*!/*/}
-      {/*  </>*/}
-      {/*)}*/}
+      <FlatList<Chat>
+        keyExtractor={(x) => x.channel.cid}
+        data={data}
+        renderItem={(x) => <ChatItem data={x.item} />}
+      />
     </Column>
   )
 }
