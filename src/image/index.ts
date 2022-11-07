@@ -10,6 +10,7 @@ export { default as SendSvg } from './send.svg'
 export { default as BestRibbonSvg } from './best-ribbon.svg'
 export { default as CheckSvg } from './check.svg'
 export { default as CloseSvg } from './close.svg'
+export { default as ChatSendSvg } from './chat-send.svg'
 export const LocationMarkerPng = require('./location-marker.png')
 export const GroupMarkerBg = {
   active: require('./group-marker-active-bg.png'),

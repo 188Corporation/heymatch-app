@@ -121,14 +121,11 @@ export interface MatchRequest {
 
 // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters
 export interface Channel {
-  // id: string
   cid: string
-  // type: string
-  // messages: any[]
-  lastMessage: {
+  last_message?: {
     content: string
-    sentAt: string
-    isRead: boolean
+    sent_at: string
+    is_read: boolean
   }
 }
 

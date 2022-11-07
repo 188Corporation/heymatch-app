@@ -13,12 +13,16 @@ export class ChatStore {
 
   get channel() {
     const chat = this.currentChat
-    if (!chat) return null
+    if (!chat) return
     return this._channelsInfo.find((x) => x.cid === chat.channel.cid)
   }
 
   get group() {
     return this.currentChat?.group
+  }
+
+  get isMessage() {
+    return !!this.currentChat?.channel?.last_message
   }
 
   update(cIds: string[]) {

@@ -1,18 +1,20 @@
-import React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Body2, CaptionS, H3 } from 'ui/common/text'
-import { Chat } from 'infra/types'
-import { Avatar as _Avatar } from 'ui/common/avatar'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
-import { Colors } from 'infra/colors'
-import { useStores } from 'store/globals'
-import { navigation } from 'navigation/global'
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { Body2, CaptionS, H3 } from "ui/common/text";
+import { Chat } from "infra/types";
+import { Avatar as _Avatar } from "ui/common/avatar";
+import styled from "styled-components";
+import { Column, Row } from "ui/common/layout";
+import { Colors } from "infra/colors";
+import { useStores } from "store/globals";
+import { navigation } from "navigation/global";
+import { START_CHAT_MESSAGE } from "infra/messages";
 
 export const ChatItem: React.FC<{
   data: Chat
 }> = ({ data }) => {
   const { chatStore } = useStores()
+  const message = data.channel.last_message
   return (
     <Container
       onPress={() => {
@@ -31,8 +33,8 @@ export const ChatItem: React.FC<{
           <TitleText>{data.group.title}</TitleText>
           <TimeText>방금 전</TimeText>
         </Upper>
-        <LastMessageText>
-          {/*{JSON.stringify(data.channel.lastMessage)}*/}
+        <LastMessageText isRead={!!message && message.is_read}>
+          {message?.content || START_CHAT_MESSAGE}
         </LastMessageText>
       </Right>
     </Container>
@@ -72,6 +74,8 @@ const TimeText = styled(CaptionS)`
 
 const LastMessageText = styled(Body2).attrs({
   numberOfLines: 1,
-})`
-  color: ${Colors.primary.red};
+})<{
+  isRead: boolean
+}>`
+  color: ${(p) => (p.isRead ? Colors.gray.v400 : Colors.primary.red)};
 `

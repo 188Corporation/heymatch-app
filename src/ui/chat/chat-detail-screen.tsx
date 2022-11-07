@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, TouchableOpacity } from 'react-native'
-import { Channel, MessageInput, MessageList } from 'stream-chat-react-native'
+import { Channel, MessageList } from 'stream-chat-react-native'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
 import { navigation } from 'navigation/global'
@@ -8,33 +8,56 @@ import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
 import { BackArrowBlackSvg } from 'image'
 import { Avatar } from 'ui/common/avatar'
-import { H3 } from 'ui/common/text'
+import { Caption, CaptionS, H3 } from 'ui/common/text'
+import { ChatInput } from 'ui/chat/chat-input'
+import { myMessageStyle } from 'infra/chat'
+import { Colors } from 'infra/colors'
+import { formatDate } from 'infra/datetime'
+import { START_CHAT_MESSAGE } from 'infra/messages'
 
 export const ChatDetailScreen = observer(() => {
   const {
-    chatStore: { channel, group },
+    chatStore: { channel, group, isMessage },
   } = useStores()
   if (!channel || !group) {
     navigation.goBack()
     return null
   }
+  const MessageAvatar = () => (
+    <Avatar
+      side={32}
+      source={{ uri: group.group_profile_images[0].thumbnail }}
+      style={{ marginRight: 8 }}
+    />
+  )
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <HeaderContainer>
         <BackButton onPress={() => navigation.goBack()}>
           <BackArrowBlackSvg />
         </BackButton>
-        <Avatar
-          side={32}
-          source={{ uri: group.group_profile_images[0].thumbnail }}
-          style={{ marginRight: 8 }}
-        />
+        <MessageAvatar />
         <TitleText>{group.title}</TitleText>
       </HeaderContainer>
       <Column style={{ flex: 1 }}>
-        <Channel channel={channel}>
-          <MessageList />
-          <MessageInput />
+        {!isMessage && (
+          <FloatingTip>
+            <Caption style={{ color: Colors.gray.v500 }}>
+              {START_CHAT_MESSAGE}
+            </Caption>
+          </FloatingTip>
+        )}
+        <Channel
+          channel={channel}
+          MessageAvatar={MessageAvatar}
+          DateHeader={() => null}
+          InlineDateSeparator={({ date }) => {
+            if (!date) return null
+            return <DateHeader>{formatDate(date)}</DateHeader>
+          }}
+        >
+          <MessageList myMessageTheme={myMessageStyle} />
+          <ChatInput />
         </Channel>
       </Column>
     </SafeAreaView>
@@ -58,4 +81,23 @@ const TitleText = styled(H3).attrs({
   numberOfLines: 1,
 })`
   flex-shrink: 1;
+`
+
+const DateHeader = styled(CaptionS)`
+  color: ${Colors.gray.v500};
+  margin: 16px 0;
+  text-align: center;
+`
+
+const FloatingTip = styled(Row)`
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 12px;
+  left: 28px;
+  right: 28px;
+  z-index: 1;
+  border-radius: 8px;
+  background-color: ${Colors.gray.v100};
+  padding: 16px 0;
 `
