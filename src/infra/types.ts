@@ -12,11 +12,16 @@ export interface User {
   id: string
   username: string
   phone_number: string
-  birthdate: string
-  gender: number
-  height_cm: number
-  workplace: string
-  school: string
+  age: number | null
+  birthdate: string | null
+  gender: number | null
+  height_cm: number | null
+  workplace: string | null
+  school: string | null
+  point_balance: number
+  free_pass: boolean
+  free_pass_active_until: string | null
+  stream_token: string
 }
 
 export interface GpsLocation {
@@ -122,6 +127,6 @@ export interface Channel {
 }
 
 export interface Chat {
-  chat: Channel
+  channel: Channel
   group: GroupDetail
 }

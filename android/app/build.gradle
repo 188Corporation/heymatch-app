@@ -161,6 +161,7 @@ android {
                 }
             }
         }
+        vectorDrawables.useSupportLibrary = true
     }
 
     if (isNewArchitectureEnabled()) {
@@ -289,6 +290,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    implementation 'com.facebook.fresco:animated-webp:2.5.0'
+    implementation 'com.facebook.fresco:webpsupport:2.5.0'
 }
 
 if (isNewArchitectureEnabled()) {

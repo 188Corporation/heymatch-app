@@ -12,6 +12,9 @@ import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { RootStackParamList } from 'navigation/types'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { paymentManager } from 'infra/payments'
+import { useMy } from 'api/reads'
+import { chatClient } from 'api/chat'
+import { Chat } from 'stream-chat-react-native'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -27,18 +30,40 @@ export const RootStack = observer(() => {
       keyboardStore.unsub()
     }
   }, [keyboardStore, permissionStore])
+  const { data } = useMy(authStore.isLoggedIn)
+  const userId = data?.user?.id
+  const streamToken = data?.user?.stream_token
+  useEffect(() => {
+    if (userId && streamToken) {
+      console.log('chatClient: connect', userId, streamToken)
+      chatClient.connectUser({ id: userId }, streamToken)
+    } else {
+      console.log('chatClient: disconnect')
+      chatClient.disconnectUser()
+    }
+  }, [userId, streamToken])
   return (
-    <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
-      {authStore.isInitializing ? (
-        <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
-      ) : authStore.isLoggedIn ? (
-        <Stack.Screen name='MainScreen' component={MainScreen} />
-      ) : (
-        <Stack.Screen name='AuthScreen' component={AuthScreen} />
-      )}
-      <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
-      <Stack.Screen name='GroupDetailScreen' component={GroupDetailScreen} />
-      <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
-    </Stack.Navigator>
+    <Chat client={chatClient}>
+      <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
+        {authStore.isInitializing ? (
+          <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
+        ) : !authStore.isLoggedIn ? (
+          <Stack.Screen name='AuthScreen' component={AuthScreen} />
+        ) : (
+          <>
+            <Stack.Screen name='MainScreen' component={MainScreen} />
+            <Stack.Screen
+              name='GroupCreateStack'
+              component={GroupCreateStack}
+            />
+            <Stack.Screen
+              name='GroupDetailScreen'
+              component={GroupDetailScreen}
+            />
+            <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
+          </>
+        )}
+      </Stack.Navigator>
+    </Chat>
   )
 })

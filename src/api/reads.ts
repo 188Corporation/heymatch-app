@@ -1,6 +1,7 @@
 import useSWR from 'swr'
 import qs from 'query-string'
 import {
+  Chat,
   GroupDetail,
   HotPlace,
   HotPlaceWithGroups,
@@ -29,11 +30,11 @@ export const useCustomSWR = <T>(
   }
 }
 
-export const useMy = () =>
+export const useMy = (isLoggedIn: boolean = true) =>
   useCustomSWR<{
     user: User
     joined_group: GroupDetail
-  }>('/users/my/')
+  }>(isLoggedIn ? '/users/my/' : null)
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 
@@ -54,3 +55,5 @@ export const useMatchRequests = () =>
     sent: MatchRequest[]
     received: MatchRequest[]
   }>('/match-requests/')
+
+export const useChats = () => useCustomSWR<Chat[]>('/chats/')

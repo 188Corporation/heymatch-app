@@ -11,6 +11,7 @@ export enum OS {
 }
 export const CURRENT_OS: OS = Platform.OS as OS
 export const WINDOW_DIMENSIONS = Dimensions.get('window')
+export const STREAM_CHAT_API_KEY = !IS_DEV ? 'tp849dtwfytw' : 'dg4mc768s4tj'
 export const KOREA_CENTER = {
   latitude: 36.4,
   longitude: 127.8,
