@@ -119,6 +119,7 @@ export interface MatchRequest {
   receiver_group: number | GroupDetail
 }
 
+// https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters
 export interface Channel {
   id: string
   cid: string
