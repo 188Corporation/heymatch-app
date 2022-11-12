@@ -5,7 +5,12 @@ import { Caption, H3 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { CheckSvg, CloseSvg, UsersFillSvg } from 'image'
+import {
+  CardOverlaySvg as _CardOverlaySvg,
+  CheckSvg,
+  CloseSvg,
+  UsersFillSvg,
+} from 'image'
 import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
 import { acceptMatchRequest, rejectMatchRequest } from 'api/writes'
 import styled from 'styled-components'
@@ -25,6 +30,7 @@ export const MatchRequestItem: React.FC<{
   return (
     <Container width={CARD_WIDTH}>
       <GroupImage source={{ uri: group.group_profile_images[0].image }} />
+      <CardOverlaySvg />
       <ContentContainer>
         <Column>
           <Distance>
@@ -79,6 +85,12 @@ export const MatchRequestItem: React.FC<{
 }
 
 const GroupImage = styled(Image)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`
+
+const CardOverlaySvg = styled(_CardOverlaySvg)`
   position: absolute;
   width: 100%;
   height: 100%;

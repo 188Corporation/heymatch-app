@@ -4,7 +4,7 @@ import { GroupScreen } from 'ui/group/group-screen'
 import { ChatScreen } from 'ui/chat/chat-screen'
 import { MyScreen } from 'ui/my/my-screen'
 import { TabBar } from 'navigation/tab-bar'
-import { MatchScreen } from 'ui/match/match-screen'
+import { MatchTabs } from 'navigation/match-tabs'
 
 const Tab = createBottomTabNavigator()
 
@@ -15,7 +15,7 @@ export const MainScreen = () => {
       tabBar={(props) => <TabBar {...props} />}
     >
       <Tab.Screen name='GroupScreen' component={GroupScreen} />
-      <Tab.Screen name='MatchScreen' component={MatchScreen} />
+      <Tab.Screen name='MatchTabs' component={MatchTabs} />
       <Tab.Screen name='ChatScreen' component={ChatScreen} />
       <Tab.Screen name='MyScreen' component={MyScreen} />
     </Tab.Navigator>

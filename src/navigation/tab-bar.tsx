@@ -12,7 +12,7 @@ import { SendSvg } from 'image'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupScreen: { icon: 'whatshot', text: '핫플' },
-  MatchScreen: { icon: 'send', text: '매칭' },
+  MatchTabs: { icon: 'send', text: '매칭' },
   ChatScreen: { icon: 'question-answer', text: '채팅' },
   MyScreen: { icon: 'person', text: '마이' },
 }
