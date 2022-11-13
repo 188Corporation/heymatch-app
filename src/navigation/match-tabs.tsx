@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { ReceivedMatchScreen } from 'ui/match/received-match-screen'
 import { SentMatchesScreen } from 'ui/match/sent-match-screen'
 import { Colors } from 'infra/colors'
+import { MatchTopTabBar } from 'navigation/match-top-tab-bar'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -13,6 +14,7 @@ export const MatchTabs = () => {
         tabBarActiveTintColor: Colors.gray.v600,
         tabBarStyle: { backgroundColor: Colors.white },
       }}
+      tabBar={(props) => <MatchTopTabBar {...props} />}
     >
       <Tab.Screen
         name='ReceivedMatchScreen'

@@ -3,16 +3,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { GroupScreen } from 'ui/group/group-screen'
 import { ChatScreen } from 'ui/chat/chat-screen'
 import { MyScreen } from 'ui/my/my-screen'
-import { TabBar } from 'navigation/tab-bar'
+import { MainBottomTabBar } from 'navigation/main-bottom-tab-bar'
 import { MatchTabs } from 'navigation/match-tabs'
 
 const Tab = createBottomTabNavigator()
 
-export const MainScreen = () => {
+export const MainTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
-      tabBar={(props) => <TabBar {...props} />}
+      tabBar={(props) => <MainBottomTabBar {...props} />}
     >
       <Tab.Screen name='GroupScreen' component={GroupScreen} />
       <Tab.Screen name='MatchTabs' component={MatchTabs} />

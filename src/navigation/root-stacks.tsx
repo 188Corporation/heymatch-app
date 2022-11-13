@@ -4,9 +4,9 @@ import { useStores } from 'store/globals'
 // import * as amplitude from '@amplitude/analytics-react-native'
 import { observer } from 'mobx-react'
 import { LoadingScreen } from 'ui/loading/loading-screen'
-import { MainScreen } from 'navigation/main-screen'
+import { MainTabs } from 'navigation/main-tabs'
 import { AuthScreen } from 'ui/auth/auth-screen'
-import { GroupCreateStack } from 'navigation/group-create-stack'
+import { GroupCreateStacks } from 'navigation/group-create-stacks'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { RootStackParamList } from 'navigation/types'
@@ -16,7 +16,7 @@ import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
-export const RootStack = observer(() => {
+export const RootStacks = observer(() => {
   const { keyboardStore, permissionStore, authStore } = useStores()
   useEffect(() => {
     keyboardStore.sub()
@@ -36,8 +36,8 @@ export const RootStack = observer(() => {
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       ) : (
         <>
-          <Stack.Screen name='MainScreen' component={MainScreen} />
-          <Stack.Screen name='GroupCreateStack' component={GroupCreateStack} />
+          <Stack.Screen name='MainTabs' component={MainTabs} />
+          <Stack.Screen name='GroupCreateStack' component={GroupCreateStacks} />
           <Stack.Screen
             name='GroupDetailScreen'
             component={GroupDetailScreen}

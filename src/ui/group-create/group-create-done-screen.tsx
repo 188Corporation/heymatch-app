@@ -62,7 +62,7 @@ export const GroupCreateDoneScreen = () => {
       </GroupBoxShadow>
       <BottomButton
         text='가자가자!'
-        onPress={() => navigation.setRootWithStack('MainScreen', 'GroupScreen')}
+        onPress={() => navigation.setRootWithStack('MainTabs', 'GroupScreen')}
       />
     </BlueContainer>
   )

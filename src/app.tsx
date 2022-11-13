@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { RootStack } from 'navigation/root-stack'
+import { RootStacks } from 'navigation/root-stacks'
 import { Colors } from 'infra/colors'
 import { StoresProvider } from 'store/globals'
 import { AlertModal } from 'ui/common/alert-modal'
@@ -17,7 +17,7 @@ export const App = () => {
           // @ts-ignore
           theme={{ colors: { background: Colors.white } }}
         >
-          <RootStack />
+          <RootStacks />
         </NavigationContainer>
         <AlertModal />
       </ChatProvider>

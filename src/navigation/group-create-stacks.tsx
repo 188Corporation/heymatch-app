@@ -10,7 +10,7 @@ import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 
 const Stack = createStackNavigator()
 
-export const GroupCreateStack = () => {
+export const GroupCreateStacks = () => {
   return (
     <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
       <Stack.Screen

@@ -9,6 +9,7 @@ import { Colors } from 'infra/colors'
 import { CaptionS } from 'ui/common/text'
 import { CURRENT_OS, OS } from 'infra/constants'
 import { SendSvg } from 'image'
+import { genTabBarCommon } from 'navigation/common'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupScreen: { icon: 'whatshot', text: '핫플' },
@@ -17,7 +18,7 @@ const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   MyScreen: { icon: 'person', text: '마이' },
 }
 
-export const TabBar: React.FC<BottomTabBarProps> = ({
+export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({
   state,
   descriptors,
   navigation,
@@ -30,28 +31,11 @@ export const TabBar: React.FC<BottomTabBarProps> = ({
         const { options } = descriptors[route.key]
         const iconText = ScreenToIconText[route.name]
         const isFocused = state.index === index
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          })
-
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            // @ts-ignore
-            navigation.navigate({ name: route.name, merge: true })
-          }
-        }
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          })
-        }
-
+        const { onPress, onLongPress } = genTabBarCommon(
+          route,
+          navigation,
+          isFocused,
+        )
         return (
           <Button
             key={index}

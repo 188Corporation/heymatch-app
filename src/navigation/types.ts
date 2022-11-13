@@ -4,7 +4,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
   LoadingScreen: {}
-  MainScreen: {}
+  MainTabs: {}
   AuthScreen: {}
   GroupCreateStack: {}
   GroupDetailScreen: { data: GroupDetail }
