@@ -4,10 +4,13 @@ import { ReceivedMatchScreen } from 'ui/match/received-match-screen'
 import { SentMatchesScreen } from 'ui/match/sent-match-screen'
 import { Colors } from 'infra/colors'
 import { MatchTopTabBar } from 'navigation/match-top-tab-bar'
+import { TabBarLabel } from 'infra/types'
+import { useMatchRequests } from 'api/reads'
 
 const Tab = createMaterialTopTabNavigator()
 
 export const MatchTabs = () => {
+  const { data } = useMatchRequests()
   return (
     <Tab.Navigator
       screenOptions={{
@@ -19,12 +22,22 @@ export const MatchTabs = () => {
       <Tab.Screen
         name='ReceivedMatchScreen'
         component={ReceivedMatchScreen}
-        options={{ tabBarLabel: '받은 매칭' }}
+        options={{
+          tabBarLabel: JSON.stringify({
+            text: '받은 매칭',
+            number: data?.received?.length || 0,
+          } as TabBarLabel),
+        }}
       />
       <Tab.Screen
         name='SentMatchesScreen'
         component={SentMatchesScreen}
-        options={{ tabBarLabel: '보낸 매칭' }}
+        options={{
+          tabBarLabel: JSON.stringify({
+            text: '보낸 매칭',
+            number: data?.sent?.length || 0,
+          } as TabBarLabel),
+        }}
       />
     </Tab.Navigator>
   )

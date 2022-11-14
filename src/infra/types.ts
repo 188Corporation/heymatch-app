@@ -135,3 +135,8 @@ export interface Chat {
   channel: Channel
   group: GroupDetail
 }
+
+export interface TabBarLabel {
+  text: string
+  number: number
+}
