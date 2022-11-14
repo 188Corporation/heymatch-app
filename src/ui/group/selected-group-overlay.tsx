@@ -5,11 +5,11 @@ import { Colors } from 'infra/colors'
 import { TouchableWithoutFeedback, View } from 'react-native'
 import { Image as _Image } from 'ui/common/image'
 import { BaseText, Caption, H3 } from 'ui/common/text'
-import { UsersFillSvg } from 'image'
 import { useStores } from 'store/globals'
 import { observer } from 'mobx-react'
-import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
+import { geoinfoToGpsLocation } from 'infra/util'
 import { navigation } from 'navigation/global'
+import { GroupDesc } from 'ui/common/group-desc'
 
 export const SelectedGroupOverlay: React.FC<{
   hasJoinedGroup: boolean
@@ -45,12 +45,7 @@ export const SelectedGroupOverlay: React.FC<{
               m
             </Caption>
             <H3 style={{ marginBottom: 2 }}>{data.title}</H3>
-            <Row>
-              <UsersFillSvg style={{ marginRight: 4 }} />
-              <Caption style={{ color: Colors.gray.v400, lineHeight: 16 }}>
-                {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}세
-              </Caption>
-            </Row>
+            <GroupDesc data={data} />
           </Column>
           <ArrowRight>{'>'}</ArrowRight>
         </Container>

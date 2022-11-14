@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-native-modal'
 import styled from 'styled-components'
-import { Column } from 'ui/common/layout'
+import { Column, Row } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { Body2, H2 } from 'ui/common/text'
 import { Button } from 'ui/common/button'
@@ -20,8 +20,9 @@ export const AlertModal: React.FC = observer(() => {
       <Container>
         {content && (
           <>
-            <H2 style={{ marginBottom: 8 }}>{content.title}</H2>
-            <Body>{content.body}</Body>
+            <H2 style={{ color: Colors.black }}>{content.title}</H2>
+            {content.body && <Body>{content.body}</Body>}
+            <Row style={{ height: 24 }} />
             <Button
               text={content.buttonText || '확인'}
               onPress={() => {
@@ -30,6 +31,19 @@ export const AlertModal: React.FC = observer(() => {
               }}
               textColor={Colors.white}
             />
+            {content.cancelText && (
+              <Row style={{ marginTop: 8 }}>
+                <Button
+                  text={content.cancelText}
+                  onPress={() => {
+                    store.close()
+                    if (content.onPressCancel) content.onPressCancel()
+                  }}
+                  color={Colors.white}
+                  textColor={Colors.gray.v400}
+                />
+              </Row>
+            )}
           </>
         )}
       </Container>
@@ -40,12 +54,12 @@ export const AlertModal: React.FC = observer(() => {
 const Container = styled(Column)`
   background-color: ${Colors.white};
   border-radius: 24px;
-  padding: 28px 16px 20px 16px;
+  padding: 28px 16px 16px 16px;
   align-items: center;
 `
 
 const Body = styled(Body2)`
   color: ${Colors.gray.v400};
-  margin-bottom: 24px;
+  margin-top: 8px;
   text-align: center;
 `

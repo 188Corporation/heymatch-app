@@ -7,13 +7,13 @@ import { Image } from 'ui/common/image'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, Caption, H1, H3 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
-import { UsersFillSvg } from 'image'
+import { geoinfoToGpsLocation } from 'infra/util'
 import { useStores } from 'store/globals'
 import { Button } from 'ui/common/button'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GroupDetailScreenProps } from 'navigation/types'
 import { navigation } from 'navigation/global'
+import { GroupDesc } from 'ui/common/group-desc'
 
 const CARD_BORDER_RADIUS = 32
 
@@ -47,17 +47,13 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             m
           </Caption>
           <H1 style={{ marginBottom: 2 }}>{data.title}</H1>
-          <Row style={{ marginBottom: 40 }}>
-            <UsersFillSvg
-              style={{ marginRight: 4 }}
-              fill={Colors.primary.blue}
-              width={24}
-              height={24}
-            />
-            <Body style={{ color: Colors.primary.blue, lineHeight: 24 }}>
-              {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}세
-            </Body>
-          </Row>
+          <GroupDesc
+            data={data}
+            size={24}
+            fontSize={16}
+            color={Colors.primary.blue}
+          />
+          <Row style={{ height: 40 }} />
           <H3 style={{ marginBottom: 8 }}>소개</H3>
           <Body style={{ color: Colors.gray.v400 }}>{data.introduction}</Body>
         </ContentCard>

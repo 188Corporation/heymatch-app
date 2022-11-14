@@ -1,24 +1,78 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Row } from 'ui/common/layout'
+import { Column, Row } from 'ui/common/layout'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { Body } from 'ui/common/text'
+import { Body, Caption, H2, H3 } from 'ui/common/text'
 import {
   CandyIconPng,
+  GroupAddSvg,
+  GroupEditSvg,
   MyCandyGradientSvg as _MyCandyGradientSvg,
   RightArrowSvg,
 } from 'image'
 import { Colors } from 'infra/colors'
 import { Image } from 'ui/common/image'
+import { useMy } from 'api/reads'
+import { Avatar, AvatarRing } from 'ui/common/avatar'
+import { GroupDesc } from 'ui/common/group-desc'
+import { navigation } from 'navigation/global'
+import { useStores } from 'store/globals'
 
 export const MyScreen = () => {
+  const { data } = useMy()
+  const { alertStore, authStore } = useStores()
   return (
     <ScrollView>
-      <GroupSection />
+      <GroupSection>
+        {data?.joined_group ? (
+          <>
+            <Row style={{ marginBottom: 16 }}>
+              <TouchableOpacity
+                style={{ position: 'relative' }}
+                onPress={() => {}}
+              >
+                <AvatarRing>
+                  <Avatar
+                    side={60}
+                    source={{
+                      uri: data.joined_group.group_profile_images[0].thumbnail,
+                    }}
+                  />
+                </AvatarRing>
+                <GroupEditSvg
+                  style={{ position: 'absolute', right: -8, bottom: -8 }}
+                />
+              </TouchableOpacity>
+            </Row>
+            <H2 numberOfLines={1} style={{ marginBottom: 4 }}>
+              {data.joined_group.title}
+            </H2>
+            <GroupDesc data={data.joined_group} />
+          </>
+        ) : (
+          <>
+            <Row style={{ marginBottom: 16 }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('GroupCreateStack')}
+              >
+                <AvatarRing>
+                  <GroupAddSvg />
+                </AvatarRing>
+              </TouchableOpacity>
+            </Row>
+            <H2 style={{ marginBottom: 4 }}>내 그룹을 만들어볼까요?</H2>
+            <Caption style={{ lineHeight: 16, color: Colors.gray.v400 }}>
+              그룹을 만들어 다른 그룹과 매칭해보세요 :)
+            </Caption>
+          </>
+        )}
+      </GroupSection>
       <CandySection>
         <MyCandyGradientSvg />
         <Body style={{ color: Colors.white }}>내 캔디</Body>
-        <Body style={{ color: Colors.white }}>0</Body>
+        <H3 style={{ color: Colors.white }}>
+          {data?.user?.point_balance || 0}
+        </H3>
       </CandySection>
       <Menu>
         <Row style={{ paddingVertical: 16 }}>
@@ -36,7 +90,16 @@ export const MyScreen = () => {
         <Body>앱 문의 ∙ 건의</Body>
       </Menu>
       <VerticalSpace />
-      <Menu>
+      <Menu
+        onPress={() =>
+          alertStore.open({
+            title: '로그아웃할까요?',
+            buttonText: '로그아웃하기',
+            cancelText: '다음에',
+            onPress: () => authStore.logout(),
+          })
+        }
+      >
         <Body>로그아웃</Body>
       </Menu>
       <VerticalSpace />
@@ -65,16 +128,17 @@ export const MyScreen = () => {
   )
 }
 
-const GroupSection = styled(Row)`
-  height: 200px;
-  background-color: greenyellow;
+const GroupSection = styled(Column)`
+  margin: 48px 0 20px 0;
+  align-items: center;
 `
 
 const CandySection = styled(Row)`
   border-radius: 16px;
-  margin: 28px 20px 8px 20px;
+  margin: 8px 20px;
   padding: 20px 24px;
   justify-content: space-between;
+  align-items: center;
   position: relative;
   overflow: hidden;
 `
@@ -87,9 +151,9 @@ const MyCandyGradientSvg = styled(_MyCandyGradientSvg)`
 
 const Menu: React.FCC<{
   onPress?: () => void
-}> = ({ children }) => {
+}> = ({ children, onPress }) => {
   return (
-    <MenuLayout>
+    <MenuLayout onPress={onPress}>
       {children}
       <RightArrowSvg />
     </MenuLayout>

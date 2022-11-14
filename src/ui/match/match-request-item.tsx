@@ -5,18 +5,14 @@ import { Caption, H3 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import {
-  CardOverlaySvg as _CardOverlaySvg,
-  CheckSvg,
-  CloseSvg,
-  UsersFillSvg,
-} from 'image'
-import { formatMaleFemaleInfo, geoinfoToGpsLocation } from 'infra/util'
+import { CardOverlaySvg as _CardOverlaySvg, CheckSvg, CloseSvg } from 'image'
+import { geoinfoToGpsLocation } from 'infra/util'
 import { acceptMatchRequest, rejectMatchRequest } from 'api/writes'
 import styled from 'styled-components'
 import { Image } from 'ui/common/image'
 import { TouchableOpacity, View } from 'react-native'
 import { mutate } from 'swr'
+import { GroupDesc } from 'ui/common/group-desc'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
@@ -41,12 +37,8 @@ export const MatchRequestItem: React.FC<{
             m
           </Distance>
           <GroupTitle>{group.title}</GroupTitle>
-          <Row style={{ marginBottom: 24 }}>
-            <UsersFillSvg style={{ marginRight: 4 }} fill={Colors.gray.v200} />
-            <Caption style={{ color: Colors.gray.v200, lineHeight: 16 }}>
-              {formatMaleFemaleInfo(group)}·평균 {group.member_average_age}세
-            </Caption>
-          </Row>
+          <GroupDesc data={group} color={Colors.gray.v200} />
+          <Row style={{ height: 24 }} />
         </Column>
         {status === MatchRequestStatus.WAITING && (
           <ButtonRow>

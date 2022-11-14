@@ -14,6 +14,8 @@ export { default as ChatSendSvg } from './chat-send.svg'
 export { default as CardOverlaySvg } from './card-overlay.svg'
 export { default as RightArrowSvg } from './right-arrow.svg'
 export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
+export { default as GroupEditSvg } from './group-edit.svg'
+export { default as GroupAddSvg } from './group-add.svg'
 export const LocationMarkerPng = require('./location-marker.png')
 export const CandyIconPng = require('./candy-icon.png')
 export const GroupMarkerBg = {

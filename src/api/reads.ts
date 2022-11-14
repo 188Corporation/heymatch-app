@@ -33,7 +33,7 @@ export const useCustomSWR = <T>(
 export const useMy = (isLoggedIn: boolean = true) =>
   useCustomSWR<{
     user: User
-    joined_group: GroupDetail
+    joined_group: GroupDetail | null
   }>(isLoggedIn ? '/users/my/' : null)
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')

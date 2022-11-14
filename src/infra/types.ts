@@ -62,7 +62,9 @@ export interface AlertContent {
   title?: string
   body?: string
   buttonText?: string
+  cancelText?: string
   onPress?: () => void
+  onPressCancel?: () => void
 }
 
 export interface HotPlace {
