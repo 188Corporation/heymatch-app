@@ -12,7 +12,10 @@ export { default as CheckSvg } from './check.svg'
 export { default as CloseSvg } from './close.svg'
 export { default as ChatSendSvg } from './chat-send.svg'
 export { default as CardOverlaySvg } from './card-overlay.svg'
+export { default as RightArrowSvg } from './right-arrow.svg'
+export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
 export const LocationMarkerPng = require('./location-marker.png')
+export const CandyIconPng = require('./candy-icon.png')
 export const GroupMarkerBg = {
   active: require('./group-marker-active-bg.png'),
   inactive: require('./group-marker-inactive-bg.png'),
