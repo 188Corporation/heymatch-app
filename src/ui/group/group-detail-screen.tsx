@@ -46,14 +46,14 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             )}
             m
           </Caption>
-          <H1 style={{ marginBottom: 2 }}>{data.title}</H1>
+          <H1 style={{ marginBottom: 8 }}>{data.title}</H1>
           <GroupDesc
             data={data}
             size={24}
             fontSize={16}
             color={Colors.primary.blue}
           />
-          <Row style={{ height: 40 }} />
+          <Row style={{ height: 28 }} />
           <H3 style={{ marginBottom: 8 }}>소개</H3>
           <Body style={{ color: Colors.gray.v400 }}>{data.introduction}</Body>
         </ContentCard>
@@ -80,7 +80,7 @@ const ContentCard = styled(Column)`
   background-color: white;
   border-top-left-radius: ${CARD_BORDER_RADIUS}px;
   border-top-right-radius: ${CARD_BORDER_RADIUS}px;
-  padding: 32px 28px;
+  padding: 32px 28px 16px 28px;
 `
 
 const ButtonContainer = styled(Column)`

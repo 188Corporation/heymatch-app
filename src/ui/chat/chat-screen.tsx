@@ -30,5 +30,5 @@ export const ChatScreen = () => {
 }
 
 const HeaderContainer = styled(Row)`
-  padding: 28px;
+  padding: 28px 28px 16px 28px;
 `

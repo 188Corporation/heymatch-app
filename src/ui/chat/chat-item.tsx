@@ -1,14 +1,14 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Body2, CaptionS, H3 } from "ui/common/text";
-import { Chat } from "infra/types";
-import { Avatar as _Avatar } from "ui/common/avatar";
-import styled from "styled-components";
-import { Column, Row } from "ui/common/layout";
-import { Colors } from "infra/colors";
-import { useStores } from "store/globals";
-import { navigation } from "navigation/global";
-import { START_CHAT_MESSAGE } from "infra/messages";
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
+import { Body2, CaptionS, H3 } from 'ui/common/text'
+import { Chat } from 'infra/types'
+import { Avatar as _Avatar } from 'ui/common/avatar'
+import styled from 'styled-components'
+import { Column, Row } from 'ui/common/layout'
+import { Colors } from 'infra/colors'
+import { useStores } from 'store/globals'
+import { navigation } from 'navigation/global'
+import { START_CHAT_MESSAGE } from 'infra/messages'
 
 export const ChatItem: React.FC<{
   data: Chat
@@ -42,7 +42,7 @@ export const ChatItem: React.FC<{
 }
 
 const Container = styled(TouchableOpacity)`
-  padding: 18px 28px;
+  padding: 16px 28px;
   flex-direction: row;
 `
 

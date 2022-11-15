@@ -19,6 +19,7 @@ import { TouchableOpacity, View } from 'react-native'
 import { mutate } from 'swr'
 import { GroupDesc } from 'ui/common/group-desc'
 import { MatchRequestStatusLabel } from 'ui/match/match-request-status-label'
+import { navigation } from 'navigation/global'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
@@ -39,7 +40,11 @@ export const MatchRequestItem: React.FC<{
         <CardOverlaySvg />
       )}
       <ContentContainer>
-        <Column>
+        <UpperContainer
+          onPress={() =>
+            navigation.navigate('GroupDetailScreen', { data: group })
+          }
+        >
           {status === MatchRequestStatus.WAITING &&
           type === MatchRequestType.RECEIVED ? (
             <Distance>
@@ -61,7 +66,7 @@ export const MatchRequestItem: React.FC<{
             <GroupDesc data={group} color={Colors.gray.v200} />
           </Column>
           <Row style={{ height: 24 }} />
-        </Column>
+        </UpperContainer>
         {type === MatchRequestType.RECEIVED &&
           status === MatchRequestStatus.WAITING && (
             <ButtonRow>
@@ -130,7 +135,6 @@ const Container = styled(Column)<{
 
 const ContentContainer = styled(Column)`
   flex: 1;
-  padding: 20px;
   justify-content: space-between;
 `
 
@@ -151,8 +155,15 @@ const RoundButtonDistance = styled(View)`
   width: 20px;
 `
 
+const UpperContainer = styled(TouchableOpacity)`
+  flex-direction: column;
+  padding: 20px 20px 0 20px;
+  flex: 1;
+`
+
 const ButtonRow = styled(Row)`
   justify-content: center;
+  padding: 8px 20px 20px 20px;
 `
 
 const Distance = styled(Caption)`

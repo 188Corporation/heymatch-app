@@ -49,7 +49,8 @@ const Container = styled(Row)`
   justify-content: center;
   padding: 4px 6px;
   border-radius: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  left: -2px;
 `
 
 const Text = styled(CaptionS)`

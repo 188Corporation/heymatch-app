@@ -21,7 +21,7 @@ export const AlertModal: React.FC = observer(() => {
         {content && (
           <>
             <H2 style={{ color: Colors.black }}>{content.title}</H2>
-            {content.body && <Body>{content.body}</Body>}
+            {content.body && <Body>{content.body.trim()}</Body>}
             <Row style={{ height: 24 }} />
             <Button
               text={content.buttonText || '확인'}
