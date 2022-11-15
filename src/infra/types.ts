@@ -110,7 +110,12 @@ export enum MatchRequestStatus {
   WAITING = 'WAITING',
   ACCEPTED = 'ACCEPTED',
   REJECTED = 'REJECTED',
-  CANCELED = 'CANCELED',
+  CANCELED = 'CANCELED', // 얘는 안 내려줌
+}
+
+export enum MatchRequestType {
+  SENT = 'SENT',
+  RECEIVED = 'RECEIVED',
 }
 
 export interface MatchRequest {
