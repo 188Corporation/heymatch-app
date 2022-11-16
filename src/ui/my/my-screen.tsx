@@ -111,7 +111,14 @@ export const MyScreen = () => {
         <Body>이용약관</Body>
       </Menu>
       <VerticalSpace />
-      <Menu>
+      <Menu
+        onPress={() =>
+          navigation.navigate('WebViewScreen', {
+            title: '개인정보처리방침',
+            uri: 'https://google.com',
+          })
+        }
+      >
         <Body>개인정보처리방침</Body>
       </Menu>
       <VerticalSpace />

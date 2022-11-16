@@ -13,6 +13,7 @@ import { RootStackParamList } from 'navigation/types'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { paymentManager } from 'infra/payments'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
+import { WebViewScreen } from 'ui/web-view/web-view-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -44,6 +45,7 @@ export const RootStacks = observer(() => {
           />
           <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
           <Stack.Screen name='ChatDetailScreen' component={ChatDetailScreen} />
+          <Stack.Screen name='WebViewScreen' component={WebViewScreen} />
         </>
       )}
     </Stack.Navigator>

@@ -10,9 +10,15 @@ export type RootStackParamList = {
   GroupDetailScreen: { data: GroupDetail }
   PurchaseScreen: {}
   ChatDetailScreen: {}
+  WebViewScreen: { title: string; uri: string }
 }
 
 export type GroupDetailScreenProps = StackScreenProps<
   RootStackParamList,
   'GroupDetailScreen'
+>
+
+export type WebViewScreenProps = StackScreenProps<
+  RootStackParamList,
+  'WebViewScreen'
 >
