@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import useSWRNative from '@nandorojo/swr-react-native'
 import qs from 'query-string'
 import {
   Chat,
@@ -11,17 +11,20 @@ import {
   User,
 } from 'infra/types'
 import { getRequest } from 'api/fetcher'
+import { PublicConfiguration } from 'swr/dist/types'
 
 export const useCustomSWR = <T>(
   path: string | null,
   params?: Record<string, any>,
+  config?: Partial<PublicConfiguration>,
 ) => {
   // should be cached with query params as a whole
   const wholePath =
     path === null ? null : `${path}${params ? `?${qs.stringify(params)}` : ''}`
-  const { data: res, error } = useSWR<ResponseEnvelope<T>>(
+  const { data: res, error } = useSWRNative<ResponseEnvelope<T>>(
     wholePath,
     getRequest,
+    config,
   )
   return {
     data: res?.data,
