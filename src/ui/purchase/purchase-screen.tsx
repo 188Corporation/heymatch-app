@@ -14,6 +14,7 @@ import { usePurchaseItems } from 'api/reads'
 import { PurchaseItem } from 'infra/types'
 import { paymentManager } from 'infra/payments'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { CurrentCandy } from 'ui/common/current-candy'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
   arr.flatMap((e) => [e, x]).slice(0, -1)
@@ -41,7 +42,15 @@ export const PurchaseScreen = () => {
   )
   return (
     <View style={{ flex: 1, paddingBottom: insets.bottom }}>
-      <NavigationHeader backButtonStyle='black' title='스토어' />
+      <NavigationHeader
+        backButtonStyle='black'
+        title='캔디 구매하기'
+        rightChildren={
+          <Row style={{ marginRight: 20 }}>
+            <CurrentCandy />
+          </Row>
+        }
+      />
       <Image
         source={PurchaseBannerImage}
         style={{ width: '100%', aspectRatio: 390 / 120 }}

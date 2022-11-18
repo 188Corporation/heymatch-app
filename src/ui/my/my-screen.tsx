@@ -74,15 +74,23 @@ export const MyScreen = () => {
           {data?.user?.point_balance || 0}
         </H3>
       </CandySection>
-      <Menu>
-        <Row style={{ paddingVertical: 16 }}>
+      <VerticalSpace />
+      <VerticalSpace />
+      <Menu onPress={() => navigation.navigate('PurchaseScreen')}>
+        <Row>
           <Image
             source={CandyIconPng}
             style={{ width: 24, height: 24, marginRight: 12 }}
           />
-          <Body>캔디 구매 내역</Body>
+          <Body>캔디 구매하기</Body>
         </Row>
       </Menu>
+      <VerticalSpace />
+      <Menu onPress={() => navigation.navigate('PurchaseHistoryScreen')}>
+        <Body>결제내역</Body>
+      </Menu>
+      <VerticalSpace />
+      <VerticalSpace />
       <View style={{ backgroundColor: Colors.gray.v100, height: 1 }} />
       <VerticalSpace />
       <VerticalSpace />

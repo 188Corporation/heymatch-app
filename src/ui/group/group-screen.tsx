@@ -12,6 +12,7 @@ import { GroupMarkerList } from 'ui/group/group-marker-list'
 import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
 import { useMy } from 'api/reads'
+import { CandyOverlay } from 'ui/group/candy-overlay'
 
 export const GroupScreen = () => {
   const { data: myData } = useMy()
@@ -58,6 +59,7 @@ export const GroupScreen = () => {
       <MapOverlay pointerEvents='box-none'>
         <ButtonGroupOverlay />
         <SelectedGroupOverlay hasJoinedGroup={!!myData?.joined_group?.id} />
+        <CandyOverlay />
       </MapOverlay>
     </Container>
   )

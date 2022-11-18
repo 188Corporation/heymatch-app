@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Row } from 'ui/common/layout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,7 +12,13 @@ export const NavigationHeader: React.FC<{
   backButton?: boolean
   backButtonStyle?: 'white' | 'black'
   title?: string
-}> = ({ backButton = true, backButtonStyle = 'white', title }) => {
+  rightChildren?: ReactNode
+}> = ({
+  backButton = true,
+  backButtonStyle = 'white',
+  title,
+  rightChildren,
+}) => {
   const insets = useSafeAreaInsets()
   return (
     <Container
@@ -35,6 +41,7 @@ export const NavigationHeader: React.FC<{
           <H3>{title}</H3>
         </TitleTextContainer>
       )}
+      {rightChildren && <RightContainer>{rightChildren}</RightContainer>}
     </Container>
   )
 }
@@ -58,4 +65,12 @@ const TitleTextContainer = styled(Row)`
   align-items: center;
   justify-content: center;
   padding-top: 4px;
+`
+
+const RightContainer = styled(Row)`
+  position: absolute;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  right: 0;
 `

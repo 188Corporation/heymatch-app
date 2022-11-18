@@ -3,24 +3,19 @@ import { TouchableOpacity, View } from 'react-native'
 import { GpsFixedSvg } from 'image'
 import React from 'react'
 import { Colors } from 'infra/colors'
-import { Shadow } from 'react-native-shadow-2'
 import { useStores } from 'store/globals'
 
 export const ButtonGroupOverlay = () => {
   const { locationStore, mapStore } = useStores()
   return (
     <Container pointerEvents='box-none'>
-      <FloatingButtonShadow>
-        <FloatingButton
-          onPress={() =>
-            locationStore
-              .getLocation(true)
-              .then((v) => mapStore.focusLocation(v))
-          }
-        >
-          <GpsFixedSvg />
-        </FloatingButton>
-      </FloatingButtonShadow>
+      <FloatingButton
+        onPress={() =>
+          locationStore.getLocation(true).then((v) => mapStore.focusLocation(v))
+        }
+      >
+        <GpsFixedSvg />
+      </FloatingButton>
     </Container>
   )
 }
@@ -45,10 +40,4 @@ const FloatingButton = styled(TouchableOpacity).attrs({
   background-color: ${Colors.white};
   justify-content: center;
   align-items: center;
-`
-
-const FloatingButtonShadow = styled(Shadow).attrs({
-  distance: 4,
-})`
-  border-radius: 56px;
 `
