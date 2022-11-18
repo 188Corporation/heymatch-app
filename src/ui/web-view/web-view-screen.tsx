@@ -10,7 +10,7 @@ export const WebViewScreen: React.FC<WebViewScreenProps> = (props) => {
   const [progress, setProgress] = useState(0)
   return (
     <>
-      <NavigationHeader title={title} />
+      <NavigationHeader title={title} backButtonStyle='black' />
       <Column style={{ flex: 1 }}>
         <WebView
           source={{ uri }}

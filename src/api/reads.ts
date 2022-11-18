@@ -1,6 +1,7 @@
 import useSWRNative from '@nandorojo/swr-react-native'
 import qs from 'query-string'
 import {
+  AppInfo,
   Chat,
   GroupDetail,
   HotPlace,
@@ -9,6 +10,7 @@ import {
   PurchaseItem,
   ResponseEnvelope,
   User,
+  UserPurchase,
 } from 'infra/types'
 import { getRequest } from 'api/fetcher'
 import { PublicConfiguration } from 'swr/dist/types'
@@ -37,6 +39,8 @@ export const useMy = (isLoggedIn: boolean = true) =>
   useCustomSWR<{
     user: User
     joined_group: GroupDetail | null
+    user_purchases: UserPurchase[]
+    app_info: AppInfo
   }>(isLoggedIn ? '/users/my/' : null)
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')

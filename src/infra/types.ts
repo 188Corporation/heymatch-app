@@ -145,3 +145,28 @@ export interface TabBarLabel {
   text: string
   number: number
 }
+
+export interface AppInfo {
+  faq_url: string
+  terms_of_service_url: string
+  privacy_policy_url: string
+  terms_of_location_service_url: string
+  business_registration_url: string
+}
+
+export interface UserPurchase {
+  id: string
+  platform: string
+  point_item: {
+    id: number
+    name: string
+    product_id: string
+    price_in_krw: number
+    default_point: number
+    bonus_point: number
+    best_deal_check: boolean
+  }
+  free_pass_item: null
+  purchase_processed: boolean
+  purchased_at: string
+}

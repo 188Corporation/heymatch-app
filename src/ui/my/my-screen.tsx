@@ -94,9 +94,7 @@ export const MyScreen = () => {
       <View style={{ backgroundColor: Colors.gray.v100, height: 1 }} />
       <VerticalSpace />
       <VerticalSpace />
-      <Menu>
-        <Body>앱 문의 ∙ 건의</Body>
-      </Menu>
+      <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url} />
       <VerticalSpace />
       <Menu
         onPress={() =>
@@ -115,31 +113,39 @@ export const MyScreen = () => {
       <EmptySpace />
       <VerticalSpace />
       <VerticalSpace />
-      <Menu>
-        <Body>이용약관</Body>
-      </Menu>
+      <WebViewMenu
+        title='이용약관'
+        uri={data?.app_info?.terms_of_service_url}
+      />
       <VerticalSpace />
-      <Menu
-        onPress={() =>
-          navigation.navigate('WebViewScreen', {
-            title: '개인정보처리방침',
-            uri: 'https://google.com',
-          })
-        }
-      >
-        <Body>개인정보처리방침</Body>
-      </Menu>
+      <WebViewMenu
+        title='개인정보처리방침'
+        uri={data?.app_info?.privacy_policy_url}
+      />
       <VerticalSpace />
-      <Menu>
-        <Body>위치기반서비스 이용약관</Body>
-      </Menu>
+      <WebViewMenu
+        title='위치기반서비스 이용약관'
+        uri={data?.app_info?.terms_of_location_service_url}
+      />
       <VerticalSpace />
-      <Menu>
-        <Body>사업자 정보</Body>
-      </Menu>
+      <WebViewMenu
+        title='사업자 정보'
+        uri={data?.app_info?.business_registration_url}
+      />
       <VerticalSpace />
       <VerticalSpace />
     </ScrollView>
+  )
+}
+
+const WebViewMenu: React.FC<{
+  title: string
+  uri?: string
+}> = ({ title, uri }) => {
+  return (
+    <Menu onPress={() => navigation.navigate('WebViewScreen', { title, uri })}>
+      <Body>{title}</Body>
+    </Menu>
   )
 }
 
