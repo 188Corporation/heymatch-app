@@ -17,6 +17,9 @@ export { default as RightArrowSvg } from './right-arrow.svg'
 export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
 export { default as GroupEditSvg } from './group-edit.svg'
 export { default as GroupAddSvg } from './group-add.svg'
+export { default as ChatPlaceholderSvg } from './chat-placeholder.svg'
+export { default as ReceivedMatchesPlaceholderSvg } from './received-matches-placeholder.svg'
+export { default as SentMatchesPlaceholderSvg } from './sent-matches-placeholder.svg'
 export const LocationMarkerPng = require('./location-marker.png')
 export const CandyIconPng = require('./candy-icon.png')
 export const GroupMarkerBg = {
