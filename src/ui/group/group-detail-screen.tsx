@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
@@ -14,13 +14,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GroupDetailScreenProps } from 'navigation/types'
 import { navigation } from 'navigation/global'
 import { GroupDesc } from 'ui/common/group-desc'
+import { SendSvg } from 'image'
+import { CurrentCandy } from 'ui/common/current-candy'
+import { useMy } from 'api/reads'
+import { sendMatchRequest } from 'api/writes'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { ApiError } from 'api/error'
 
 const CARD_BORDER_RADIUS = 32
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { data } = props.route.params
-  const { locationStore } = useStores()
+  const { locationStore, alertStore } = useStores()
   const insets = useSafeAreaInsets()
+  const { data: myData } = useMy()
+  const [loading, setLoading] = useState(false)
   if (!data) return null
   const width = WINDOW_DIMENSIONS.width
   const height = (width / 3) * 4
@@ -60,10 +68,57 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       </ScrollView>
       <ButtonContainer style={{ marginBottom: insets.bottom }}>
         <Button
-          text='채팅하기'
-          onPress={() => navigation.navigate('PurchaseScreen')}
+          text='매칭하기'
+          onPress={() => {
+            alertStore.open({
+              title: '캔디 1개를 사용해서 매칭할까요?',
+              body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요 :)',
+              buttonText: '캔디 1개 사용하기',
+              cancelText: '다음에 매칭하기',
+              onPress: async () => {
+                if (!myData) return
+                if (myData.user.point_balance >= 1) {
+                  setLoading(true)
+                  try {
+                    await sendMatchRequest(data.id)
+                    alertStore.open({
+                      title: `${data.title} 그룹과 매칭했어요!`,
+                      body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
+                    })
+                  } catch (e) {
+                    if (e instanceof ApiError && e.res.code === 470) {
+                      alertStore.open({
+                        title: '이미 매칭을 보낸 그룹이에요!',
+                        body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
+                      })
+                    } else {
+                      alertStore.error(e, '매칭에 실패했어요!')
+                    }
+                  } finally {
+                    setLoading(false)
+                  }
+                } else {
+                  navigation.navigate('PurchaseScreen')
+                }
+              },
+              children: () => (
+                <CandyContainer>
+                  <CurrentCandy />
+                </CandyContainer>
+              ),
+            })
+          }}
+          leftChildren={
+            <SendSvg
+              fill={Colors.white}
+              width={20}
+              height={20}
+              style={{ left: -10, marginLeft: -4 }}
+            />
+          }
         />
       </ButtonContainer>
+      {loading && <LoadingOverlay />}
     </Container>
   )
 }
@@ -85,4 +140,13 @@ const ContentCard = styled(Column)`
 
 const ButtonContainer = styled(Column)`
   padding: 8px 28px 16px 28px;
+`
+
+const CandyContainer = styled(Row)`
+  position: absolute;
+  right: 12px;
+  top: -48px;
+  background-color: ${Colors.white};
+  padding: 8px 16px;
+  border-radius: 16px;
 `

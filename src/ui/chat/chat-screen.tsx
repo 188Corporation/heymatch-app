@@ -31,7 +31,7 @@ export const ChatScreen = () => {
       ) : (
         <ScreenPlaceholder
           image={<ChatPlaceholderSvg />}
-          text1='채팅이 비어있어요'
+          text1='주고 받은 채팅이 없어요'
           text2='매칭에 성공하면 채팅이 열려요 😊'
         />
       )}

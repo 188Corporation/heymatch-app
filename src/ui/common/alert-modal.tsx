@@ -44,6 +44,7 @@ export const AlertModal: React.FC = observer(() => {
                 />
               </Row>
             )}
+            {content.children && content.children()}
           </>
         )}
       </Container>
@@ -56,6 +57,7 @@ const Container = styled(Column)`
   border-radius: 24px;
   padding: 28px 16px 16px 16px;
   align-items: center;
+  position: relative;
 `
 
 const Body = styled(Body2)`

@@ -1,5 +1,6 @@
 import { Coord } from 'react-native-nmap'
 import { ColorValue } from 'react-native'
+import { ReactNode } from 'react'
 
 export interface ResponseEnvelope<T = unknown> {
   status: 'success' | 'error'
@@ -65,6 +66,7 @@ export interface AlertContent {
   cancelText?: string
   onPress?: () => void
   onPressCancel?: () => void
+  children?: () => ReactNode
 }
 
 export interface HotPlace {

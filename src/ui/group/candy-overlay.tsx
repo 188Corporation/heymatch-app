@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import { Row } from 'ui/common/layout'
 import { TouchableOpacity } from 'react-native'
 import { CurrentCandy } from 'ui/common/current-candy'
+import { navigation } from 'navigation/global'
 
 export const CandyOverlay: React.FC = () => {
   return (
     <Overlay pointerEvents='box-none'>
-      <Button onPress={() => {}}>
+      <Button onPress={() => navigation.navigate('PurchaseScreen')}>
         <CurrentCandy />
       </Button>
     </Overlay>

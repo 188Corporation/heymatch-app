@@ -31,7 +31,7 @@ export const ReceivedMatchScreen = () => {
         <ScreenPlaceholder
           image={<ReceivedMatchesPlaceholderSvg />}
           text1='아직 받은 매칭이 없어요'
-          text2='핫플에서 매칭할 그룹을 찾아보는 건 어때요?'
+          text2='핫플에서 그룹을 찾아 먼저 매칭해보세요!'
         />
       )}
     </ScrollView>
