@@ -12,6 +12,7 @@ export type RootStackParamList = {
   ChatDetailScreen: {}
   WebViewScreen: { title: string; uri: string }
   PurchaseHistoryScreen: {}
+  GroupEditScreen: {}
 }
 
 export type GroupDetailScreenProps = StackScreenProps<

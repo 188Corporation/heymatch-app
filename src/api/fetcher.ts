@@ -56,3 +56,10 @@ export const putRequest = async (path: string, payload: object) => {
     body: JSON.stringify(payload),
   }).then(chainJsonParser)
 }
+
+export const deleteRequest = async (path: string) => {
+  return fetch(`${SERVER_BASE_URL}${path}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', ...tokenManager.authHeader },
+  }).then(chainJsonParser)
+}

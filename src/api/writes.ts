@@ -1,4 +1,9 @@
-import { postFormRequest, postRequest } from 'api/fetcher'
+import {
+  deleteRequest,
+  postFormRequest,
+  postRequest,
+  putRequest,
+} from 'api/fetcher'
 import { GpsLocation, GroupDetail, ResponseEnvelope, User } from 'infra/types'
 import { ApiError } from 'api/error'
 import { gpsLocationToGeoinfo } from 'infra/util'
@@ -65,6 +70,25 @@ export const createGroup = async (
     throw new ApiError({ ...res, message: '이미 그룹을 생성했어요!' })
   if (res.code !== 201) throw new ApiError(res)
   return res.data as GroupDetail
+}
+
+export const editGroup = async (
+  groupId: number,
+  title: string,
+  introduction: string,
+  location: GpsLocation,
+) => {
+  const res: ResponseEnvelope<{}> = await putRequest(`/groups/${groupId}/`, {
+    title,
+    introduction,
+    gps_geoinfo: gpsLocationToGeoinfo(location),
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const deleteGroup = async (groupId: number) => {
+  const res: ResponseEnvelope<{}> = await deleteRequest(`/groups/${groupId}/`)
+  if (res.code !== 200) throw new ApiError(res)
 }
 
 export const sendReceipt = async (receipt: string) => {

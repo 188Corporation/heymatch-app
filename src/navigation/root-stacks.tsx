@@ -15,6 +15,7 @@ import { paymentManager } from 'infra/payments'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
+import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -40,6 +41,7 @@ export const RootStacks = observer(() => {
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />
           <Stack.Screen name='GroupCreateStack' component={GroupCreateStacks} />
+          <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
           <Stack.Screen
             name='GroupDetailScreen'
             component={GroupDetailScreen}
