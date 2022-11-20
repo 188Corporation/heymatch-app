@@ -12,6 +12,24 @@ export class GroupCreateStore {
     makeAutoObservable(this)
   }
 
+  get trimmedTitle() {
+    return this.title.trim()
+  }
+
+  get isTitleValid() {
+    const title = this.trimmedTitle
+    return title && title.length <= 15
+  }
+
+  get trimmedIntro() {
+    return this.intro.trim()
+  }
+
+  get isIntroValid() {
+    const intro = this.trimmedIntro
+    return intro && intro.length >= 10 && intro.length <= 400
+  }
+
   setPhoto(v: string) {
     this.photo = v
   }

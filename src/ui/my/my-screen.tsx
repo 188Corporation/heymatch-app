@@ -29,7 +29,7 @@ export const MyScreen = () => {
             <Row style={{ marginBottom: 16 }}>
               <TouchableOpacity
                 style={{ position: 'relative' }}
-                onPress={() => navigation.navigate('GroupCreateStack')}
+                onPress={() => navigation.navigate('GroupEditScreen')}
               >
                 <AvatarRing>
                   <Avatar
