@@ -37,7 +37,7 @@ export const NavigationHeader: React.FC<{
         </BackButton>
       )}
       {title && (
-        <TitleTextContainer>
+        <TitleTextContainer pointerEvents='none'>
           <H3>{title}</H3>
         </TitleTextContainer>
       )}
