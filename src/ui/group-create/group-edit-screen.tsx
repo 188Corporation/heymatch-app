@@ -8,12 +8,13 @@ import { Body, H1 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
-import { editGroup } from 'api/writes'
+import { deleteGroup, editGroup } from 'api/writes'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { IS_DEV, LOCATION_FOR_TEST } from 'infra/constants'
 import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 import { useMy } from 'api/reads'
 import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
+import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 
 export const GroupEditScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore } = useStores()
@@ -29,12 +30,29 @@ export const GroupEditScreen = observer(() => {
     <>
       <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
         <BlueContainer>
-          <NavigationHeader />
+          <NavigationHeader
+            rightChildren={
+              <GroupDeleteButton
+                onDelete={async () => {
+                  if (!data || !data.joined_group) return
+                  setLoading(true)
+                  try {
+                    await deleteGroup(data.joined_group.id)
+                    navigation.goBack()
+                  } catch (e) {
+                    alertStore.error(e, '그룹 삭제에 실패했어요!')
+                  } finally {
+                    setLoading(false)
+                  }
+                }}
+              />
+            }
+          />
           <H1
             style={{
               textAlign: 'center',
               color: Colors.white,
-              marginTop: 40,
+              marginTop: 16,
               marginBottom: 16,
             }}
           >
@@ -83,7 +101,6 @@ export const GroupEditScreen = observer(() => {
             navigation.goBack()
           } catch (e) {
             alertStore.error(e, '그룹 수정에 실패했어요!')
-            return
           } finally {
             setLoading(false)
           }

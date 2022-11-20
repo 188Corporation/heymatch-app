@@ -76,7 +76,6 @@ export const GroupCreateTitleDescScreen = observer(() => {
             navigation.navigate('GroupCreateDoneScreen')
           } catch (e) {
             alertStore.error(e, '그룹 생성에 실패했어요!')
-            return
           } finally {
             setLoading(false)
           }
