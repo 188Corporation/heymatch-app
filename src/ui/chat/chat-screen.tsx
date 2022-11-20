@@ -23,7 +23,7 @@ export const ChatScreen = () => {
         <H1>채팅</H1>
       </HeaderContainer>
       <FlatList<Chat>
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={!data?.length ? { flex: 1 } : {}}
         keyExtractor={(x) => x.channel.cid}
         data={data}
         renderItem={(x) => <ChatItem data={x.item} />}
