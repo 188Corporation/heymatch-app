@@ -9,6 +9,7 @@ import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
 import { navigation } from 'navigation/global'
 import { START_CHAT_MESSAGE } from 'infra/messages'
+import { formatRelative } from 'infra/datetime'
 
 export const ChatItem: React.FC<{
   data: Chat
@@ -31,7 +32,7 @@ export const ChatItem: React.FC<{
       <Right>
         <Upper>
           <TitleText>{data.group.title}</TitleText>
-          <TimeText>방금 전</TimeText>
+          {message && <TimeText>{formatRelative(message.sent_at)}</TimeText>}
         </Upper>
         <LastMessageText isRead={!!message && message.is_read}>
           {message?.content || START_CHAT_MESSAGE}
