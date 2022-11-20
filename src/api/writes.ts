@@ -111,6 +111,10 @@ export const acceptMatchRequest = async (matchRequestId: number) => {
     `/match-requests/${matchRequestId}/accept/`,
   )
   if (res.code !== 200) throw new ApiError(res)
+  return res.data as {
+    sender_group: GroupDetail
+    stream_channel_cid: string
+  }
 }
 
 export const rejectMatchRequest = async (matchRequestId: number) => {

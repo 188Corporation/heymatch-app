@@ -30,7 +30,7 @@ export const MatchRequestItem: React.FC<{
   type: MatchRequestType
   group: GroupDetail
 }> = ({ matchRequestId, status, type, group }) => {
-  const { locationStore, alertStore } = useStores()
+  const { locationStore, alertStore, chatStore } = useStores()
   return (
     <Container width={CARD_WIDTH}>
       <GroupImage source={{ uri: group.group_profile_images[0].image }} />
@@ -75,7 +75,7 @@ export const MatchRequestItem: React.FC<{
                   try {
                     await rejectMatchRequest(matchRequestId)
                     await mutate('/match-requests/')
-                    alertStore.open({ title: '매칭 거절 성공!' })
+                    alertStore.open({ title: '매칭을 거절했어요!' })
                   } catch (e) {
                     alertStore.error(e, '매칭 거절에 실패했어요!')
                   }
@@ -87,9 +87,20 @@ export const MatchRequestItem: React.FC<{
               <SendButton
                 onPress={async () => {
                   try {
-                    await acceptMatchRequest(matchRequestId)
+                    const res = await acceptMatchRequest(matchRequestId)
                     await mutate('/match-requests/')
-                    alertStore.open({ title: '매칭 수락 성공!' })
+                    alertStore.open({
+                      title: '매칭을 수락했어요!',
+                      buttonText: '채팅하기',
+                      onPress: async () => {
+                        await chatStore.update([res.stream_channel_cid])
+                        chatStore.setChat({
+                          group: res.sender_group,
+                          channel: { cid: res.stream_channel_cid },
+                        })
+                        navigation.navigate('ChatDetailScreen')
+                      },
+                    })
                   } catch (e) {
                     alertStore.error(e, '매칭 수락에 실패했어요!')
                   }

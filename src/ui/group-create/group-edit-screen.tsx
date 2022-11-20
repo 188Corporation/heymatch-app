@@ -15,6 +15,7 @@ import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 import { useMy } from 'api/reads'
 import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
 import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
+import { mutate } from 'swr'
 
 export const GroupEditScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore } = useStores()
@@ -38,6 +39,7 @@ export const GroupEditScreen = observer(() => {
                   setLoading(true)
                   try {
                     await deleteGroup(data.joined_group.id)
+                    await mutate('/users/my/')
                     navigation.goBack()
                   } catch (e) {
                     alertStore.error(e, '그룹 삭제에 실패했어요!')
@@ -98,6 +100,7 @@ export const GroupEditScreen = observer(() => {
               groupCreateStore.trimmedIntro,
               location,
             )
+            await mutate('/users/my/')
             navigation.goBack()
           } catch (e) {
             alertStore.error(e, '그룹 수정에 실패했어요!')

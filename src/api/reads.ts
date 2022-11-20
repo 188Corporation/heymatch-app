@@ -61,6 +61,8 @@ export const useMatchRequests = () =>
   useCustomSWR<{
     sent: MatchRequest[]
     received: MatchRequest[]
-  }>('/match-requests/')
+  }>('/match-requests/', undefined, {
+    revalidateOnFocus: false,
+  })
 
 export const useChats = () => useCustomSWR<Chat[]>('/chats/')

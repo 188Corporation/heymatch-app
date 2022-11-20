@@ -26,7 +26,7 @@ export class ChatStore {
   }
 
   update(cIds: string[]) {
-    chatClient.queryChannels({ cid: { $in: cIds } }).then((res) => {
+    return chatClient.queryChannels({ cid: { $in: cIds } }).then((res) => {
       runInAction(() => {
         this._channelsInfo = res
       })

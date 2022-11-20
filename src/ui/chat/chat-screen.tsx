@@ -22,19 +22,19 @@ export const ChatScreen = () => {
       <HeaderContainer>
         <H1>채팅</H1>
       </HeaderContainer>
-      {data && data.length > 0 ? (
-        <FlatList<Chat>
-          keyExtractor={(x) => x.channel.cid}
-          data={data}
-          renderItem={(x) => <ChatItem data={x.item} />}
-        />
-      ) : (
-        <ScreenPlaceholder
-          image={<ChatPlaceholderSvg />}
-          text1='주고 받은 채팅이 없어요'
-          text2='매칭에 성공하면 채팅이 열려요 😊'
-        />
-      )}
+      <FlatList<Chat>
+        contentContainerStyle={{ flex: 1 }}
+        keyExtractor={(x) => x.channel.cid}
+        data={data}
+        renderItem={(x) => <ChatItem data={x.item} />}
+        ListEmptyComponent={
+          <ScreenPlaceholder
+            image={<ChatPlaceholderSvg />}
+            text1='주고 받은 채팅이 없어요'
+            text2='매칭에 성공하면 채팅이 열려요 😊'
+          />
+        }
+      />
     </Column>
   )
 }
