@@ -26,6 +26,7 @@ export class ChatStore {
   }
 
   update(cIds: string[]) {
+    if (!cIds || !cIds.length) return
     return chatClient.queryChannels({ cid: { $in: cIds } }).then((res) => {
       runInAction(() => {
         this._channelsInfo = res
