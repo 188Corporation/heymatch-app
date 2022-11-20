@@ -70,6 +70,14 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         <Button
           text='매칭하기'
           onPress={() => {
+            // check is my group
+            if (data.id === myData?.joined_group?.id) {
+              alertStore.open({
+                title: '내 그룹과는 매칭할 수 없어요',
+                body: '[핫플 탭] 에서 관심 가는 그룹을 찾아보세요 :)',
+              })
+              return
+            }
             alertStore.open({
               title: '캔디 1개를 사용해서 매칭할까요?',
               body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요 :)',
