@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { Group } from 'infra/types'
 import { useStores } from 'store/globals'
 
-const MARKER_SIDE = PixelRatio.getPixelSizeForLayoutSize(108)
+const MARKER_SIDE = PixelRatio.getPixelSizeForLayoutSize(88)
 const MASK_IMAGE = Image.resolveAssetSource(
   CURRENT_OS === OS.IOS ? GroupMarkerBg.maskInversed : GroupMarkerBg.mask,
 )
@@ -37,12 +37,12 @@ export const GroupMarker: React.FC<{
   const bgImage = isSelected ? GroupMarkerBg.active : GroupMarkerBg.inactive
   return (
     <>
-      <Marker coordinate={coord} image={bgImage} width={108} height={108} />
+      <Marker coordinate={coord} image={bgImage} width={88} height={88} />
       <Marker
         coordinate={coord}
         image={image || bgImage}
-        width={108}
-        height={108}
+        width={88}
+        height={88}
         onClick={() => mapStore.selectGroup(data)}
       />
     </>
