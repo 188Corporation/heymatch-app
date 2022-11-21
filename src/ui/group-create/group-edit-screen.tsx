@@ -102,6 +102,7 @@ export const GroupEditScreen = observer(() => {
               location,
             )
             await mutate('/users/my/')
+            mapStore.clearSelectedGroup()
             navigation.goBack()
           } catch (e) {
             alertStore.error(e, '그룹 수정에 실패했어요!')

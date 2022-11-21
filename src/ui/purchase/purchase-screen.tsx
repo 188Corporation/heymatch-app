@@ -15,6 +15,7 @@ import { PurchaseItem } from 'infra/types'
 import { paymentManager } from 'infra/payments'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { CurrentCandy } from 'ui/common/current-candy'
+import { mutate } from 'swr'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
   arr.flatMap((e) => [e, x]).slice(0, -1)
@@ -35,6 +36,7 @@ export const PurchaseScreen = () => {
   const onPurchase = async (productId: string) => {
     setLoading(true)
     await paymentManager.purchase(productId)
+    await mutate('/users/my/')
     setLoading(false)
   }
   const purchaseItems = [...data.point_items, ...data.free_pass_items].map(
