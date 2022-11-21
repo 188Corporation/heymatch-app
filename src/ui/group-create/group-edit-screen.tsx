@@ -18,7 +18,7 @@ import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 import { mutate } from 'swr'
 
 export const GroupEditScreen = observer(() => {
-  const { groupCreateStore, locationStore, alertStore } = useStores()
+  const { groupCreateStore, locationStore, alertStore, mapStore } = useStores()
   const { data } = useMy()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
@@ -40,6 +40,7 @@ export const GroupEditScreen = observer(() => {
                   try {
                     await deleteGroup(data.joined_group.id)
                     await mutate('/users/my/')
+                    mapStore.clearSelectedGroup()
                     navigation.goBack()
                   } catch (e) {
                     alertStore.error(e, '그룹 삭제에 실패했어요!')

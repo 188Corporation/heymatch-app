@@ -8,6 +8,7 @@ import { WINDOW_DIMENSIONS } from 'infra/constants'
 import { Colors } from 'infra/colors'
 import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 import { TabBarLabel } from 'infra/types'
+import { TopInsetSpace } from 'ui/common/top-inset-space'
 
 const HORIZONTAL_PADDING = 20
 const FOCUS_INDICATOR_WIDTH =
@@ -35,6 +36,7 @@ export const MatchTopTabBar: React.FC<MaterialTopTabBarProps> = ({
   }, [position, positionJs])
   return (
     <Column>
+      <TopInsetSpace />
       <BarContainer>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key]

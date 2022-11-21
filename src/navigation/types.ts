@@ -4,9 +4,10 @@ import { StackScreenProps } from '@react-navigation/stack'
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
   LoadingScreen: {}
-  MainTabs: {}
   AuthScreen: {}
+  MainTabs: {}
   GroupCreateStack: {}
+  GroupEditScreen: {}
   GroupDetailScreen: {
     data: GroupDetail
     status?: MatchRequestStatus
@@ -16,7 +17,7 @@ export type RootStackParamList = {
   ChatDetailScreen: {}
   WebViewScreen: { title: string; uri: string }
   PurchaseHistoryScreen: {}
-  GroupEditScreen: {}
+  UserManagementScreen: {}
 }
 
 export type GroupDetailScreenProps = StackScreenProps<

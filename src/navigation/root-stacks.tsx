@@ -16,6 +16,7 @@ import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
+import { UserManagementScreen } from 'ui/my/user-management-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -52,6 +53,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='PurchaseHistoryScreen'
             component={PurchaseHistoryScreen}
+          />
+          <Stack.Screen
+            name='UserManagementScreen'
+            component={UserManagementScreen}
           />
         </>
       )}

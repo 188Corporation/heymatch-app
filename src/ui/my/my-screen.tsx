@@ -8,7 +8,6 @@ import {
   GroupAddSvg,
   GroupEditSvg,
   MyCandyGradientSvg as _MyCandyGradientSvg,
-  RightArrowSvg,
 } from 'image'
 import { Colors } from 'infra/colors'
 import { Image } from 'ui/common/image'
@@ -16,13 +15,14 @@ import { useMy } from 'api/reads'
 import { Avatar, AvatarRing } from 'ui/common/avatar'
 import { GroupDesc } from 'ui/common/group-desc'
 import { navigation } from 'navigation/global'
-import { useStores } from 'store/globals'
+import { Menu, WebViewMenu } from 'ui/my/menu'
+import { TopInsetSpace } from 'ui/common/top-inset-space'
 
 export const MyScreen = () => {
   const { data } = useMy()
-  const { alertStore, authStore } = useStores()
   return (
     <ScrollView>
+      <TopInsetSpace />
       <GroupSection>
         {data?.joined_group ? (
           <>
@@ -68,7 +68,7 @@ export const MyScreen = () => {
         )}
       </GroupSection>
       <CandySection>
-        <MyCandyGradientSvg />
+        <MyCandyGradientSvg preserveAspectRatio='none' width='120%' />
         <Body style={{ color: Colors.white }}>내 캔디</Body>
         <H3 style={{ color: Colors.white }}>
           {data?.user?.point_balance || 0}
@@ -96,17 +96,8 @@ export const MyScreen = () => {
       <VerticalSpace />
       <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url} />
       <VerticalSpace />
-      <Menu
-        onPress={() =>
-          alertStore.open({
-            title: '로그아웃할까요?',
-            buttonText: '로그아웃하기',
-            cancelText: '다음에',
-            onPress: () => authStore.logout(),
-          })
-        }
-      >
-        <Body>로그아웃</Body>
+      <Menu onPress={() => navigation.navigate('UserManagementScreen')}>
+        <Body>회원정보 관리</Body>
       </Menu>
       <VerticalSpace />
       <VerticalSpace />
@@ -138,17 +129,6 @@ export const MyScreen = () => {
   )
 }
 
-const WebViewMenu: React.FC<{
-  title: string
-  uri?: string
-}> = ({ title, uri }) => {
-  return (
-    <Menu onPress={() => navigation.navigate('WebViewScreen', { title, uri })}>
-      <Body>{title}</Body>
-    </Menu>
-  )
-}
-
 const GroupSection = styled(Column)`
   margin: 48px 0 20px 0;
   align-items: center;
@@ -166,26 +146,6 @@ const CandySection = styled(Row)`
 
 const MyCandyGradientSvg = styled(_MyCandyGradientSvg)`
   position: absolute;
-  width: 100%;
-  height: 100%;
-`
-
-const Menu: React.FCC<{
-  onPress?: () => void
-}> = ({ children, onPress }) => {
-  return (
-    <MenuLayout onPress={onPress}>
-      {children}
-      <RightArrowSvg />
-    </MenuLayout>
-  )
-}
-
-const MenuLayout = styled(TouchableOpacity)`
-  padding: 16px 28px;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 `
 
 const EmptySpace = styled(View)`

@@ -9,6 +9,7 @@ import { Chat } from 'infra/types'
 import { useStores } from 'store/globals'
 import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
 import { ChatPlaceholderSvg } from 'image'
+import { TopInsetSpace } from 'ui/common/top-inset-space'
 
 export const ChatScreen = () => {
   const { chatStore } = useStores()
@@ -19,6 +20,7 @@ export const ChatScreen = () => {
   }, [data, chatStore])
   return (
     <Column style={{ flex: 1 }}>
+      <TopInsetSpace />
       <HeaderContainer>
         <H1>채팅</H1>
       </HeaderContainer>

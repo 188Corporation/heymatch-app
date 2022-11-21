@@ -69,7 +69,11 @@ export class MapStore {
     })
   }
 
-  onNonMarkerTouch() {
+  clearSelectedGroup() {
     this.selectedGroup = null
+  }
+
+  onNonMarkerTouch() {
+    this.clearSelectedGroup()
   }
 }
