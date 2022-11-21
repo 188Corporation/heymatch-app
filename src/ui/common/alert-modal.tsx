@@ -7,6 +7,7 @@ import { Body2, H2 } from 'ui/common/text'
 import { Button } from 'ui/common/button'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
+import { CURRENT_OS, OS } from 'infra/constants'
 
 export const AlertModal: React.FC = observer(() => {
   const { alertStore: store } = useStores()
@@ -15,7 +16,8 @@ export const AlertModal: React.FC = observer(() => {
     <Modal
       isVisible={store.isOpen}
       onBackdropPress={() => store.close()}
-      useNativeDriver
+      // prevent blink in each platform
+      useNativeDriver={CURRENT_OS === OS.ANDROID}
     >
       <Container>
         {content && (
