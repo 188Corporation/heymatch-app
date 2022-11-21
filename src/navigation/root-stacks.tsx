@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { useStores } from 'store/globals'
-// import * as amplitude from '@amplitude/analytics-react-native'
 import { observer } from 'mobx-react'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { MainTabs } from 'navigation/main-tabs'
@@ -17,6 +16,8 @@ import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
+import OneSignal from 'react-native-onesignal'
+import { ONESIGNAL_APP_ID } from 'infra/constants'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -26,7 +27,7 @@ export const RootStacks = observer(() => {
     keyboardStore.sub()
     permissionStore.checkAll()
     paymentManager.initialize()
-    // amplitude.init()
+    OneSignal.setAppId(ONESIGNAL_APP_ID)
     return () => {
       paymentManager.terminate()
       keyboardStore.unsub()

@@ -22,9 +22,9 @@ export const authorize = async (phone: string, code: string, token: string) => {
   const res: ResponseEnvelope<{
     // valid for 6 months
     access_token: string
+    user: User
     // not used for now
     refresh_token: string
-    user: User
   }> = await postRequest('/auth/phone/authorize/', {
     phone_number: phone,
     security_code: code,
@@ -33,7 +33,7 @@ export const authorize = async (phone: string, code: string, token: string) => {
   if (res.code === 400)
     throw new ApiError({ ...res, message: '번호를 확인해주세요!' })
   if (res.code !== 200) throw new ApiError(res)
-  return res.data?.access_token as string
+  return res.data!
 }
 
 export const createGroup = async (

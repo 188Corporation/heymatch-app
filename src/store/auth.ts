@@ -3,13 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { decode } from 'react-native-pure-jwt'
 import { tokenManager } from 'api/fetcher'
 import { emitter, EventType } from 'infra/events'
+import OneSignal from 'react-native-onesignal'
+import { User } from 'infra/types'
 
 const TOKEN_KEY = 'auth:access-token'
 
 export class AuthStore {
   isInitializing: boolean = true
   isLoggedIn: boolean = false
-  userId: string | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -27,7 +28,7 @@ export class AuthStore {
           // @ts-ignore
           payload.exp
         ) {
-          this.login(token)
+          this._login(token)
         } else {
           // expired, need refresh
           this.logout()
@@ -42,7 +43,13 @@ export class AuthStore {
     this.isInitializing = v
   }
 
-  login(token: string) {
+  login(token: string, user: User) {
+    this._login(token)
+    OneSignal.setExternalUserId(user.id)
+    OneSignal.setSMSNumber(user.phone_number)
+  }
+
+  _login(token: string) {
     AsyncStorage.setItem(TOKEN_KEY, token)
     tokenManager.setToken(token)
     this.isLoggedIn = true
@@ -52,5 +59,7 @@ export class AuthStore {
     AsyncStorage.removeItem(TOKEN_KEY)
     tokenManager.setToken('')
     this.isLoggedIn = false
+    OneSignal.removeExternalUserId()
+    OneSignal.logoutSMSNumber()
   }
 }

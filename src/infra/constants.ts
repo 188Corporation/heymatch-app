@@ -11,7 +11,10 @@ export enum OS {
 }
 export const CURRENT_OS: OS = Platform.OS as OS
 export const WINDOW_DIMENSIONS = Dimensions.get('window')
+
 export const STREAM_CHAT_API_KEY = !IS_DEV ? 'tp849dtwfytw' : 'dg4mc768s4tj'
+export const ONESIGNAL_APP_ID = '83e737f6-2a8d-46df-87f0-61175df1e6b8'
+
 export const KOREA_CENTER = {
   latitude: 36.4,
   longitude: 127.8,
@@ -23,7 +26,6 @@ export const DEFAULT_ZOOM = {
   latitudeDelta: 0.0037,
   longitudeDelta: 0.0019,
 }
-
 // 압구정 핫플 내 위치
 export const LOCATION_FOR_TEST: GpsLocation = {
   lat: 37.5262894,

@@ -96,9 +96,9 @@ export const AuthScreen = () => {
                   setCode(v)
                   if (v.length === 6) {
                     authorize(phone, v, sessionToken)
-                      .then((accessToken) => {
+                      .then((res) => {
                         setCodeError(undefined)
-                        authStore.login(accessToken)
+                        authStore.login(res.access_token, res.user)
                       })
                       .catch((e: Error) => {
                         setCodeError(e.message)

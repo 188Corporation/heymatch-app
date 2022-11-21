@@ -58,6 +58,7 @@
     "react-native-image-tools-wm": "wowmaking/react-native-image-tools#pull/27/head",
     "react-native-modal": "^13.0.1",
     "react-native-nmap": "https://github.com/gogo-inc/react-native-naver-map",
+    "react-native-onesignal": "^4.4.1",
     "react-native-pager-view": "^6.1.0",
     "react-native-permissions": "^3.6.1",
     "react-native-pure-jwt": "^3.0.1",
