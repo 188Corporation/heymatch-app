@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "3435380376",
+    "project_id": "heymatch-dev",
+    "storage_bucket": "heymatch-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3435380376:android:493084acd74a09a2bd9aed",
+        "android_client_info": {
+          "package_name": "com.co188.heythere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3435380376-f3vd46b308p2brga6t7ao0fkg76p7cbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8k4VB71_q8HmyjiNzhqdpacf9dvbc0-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3435380376-f3vd46b308p2brga6t7ao0fkg76p7cbk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "3435380376-up3orp7rgie5f1m8n8cbrpprselk0i6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.co188.heythere"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3435380376:android:8a41cbb077e101bebd9aed",
+        "android_client_info": {
+          "package_name": "com.co188.heythere.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3435380376-f3vd46b308p2brga6t7ao0fkg76p7cbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8k4VB71_q8HmyjiNzhqdpacf9dvbc0-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3435380376-f3vd46b308p2brga6t7ao0fkg76p7cbk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "3435380376-up3orp7rgie5f1m8n8cbrpprselk0i6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.co188.heythere"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
