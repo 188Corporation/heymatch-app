@@ -18,6 +18,7 @@ import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
 import OneSignal from 'react-native-onesignal'
 import { ONESIGNAL_APP_ID } from 'infra/constants'
+import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -58,6 +59,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='UserManagementScreen'
             component={UserManagementScreen}
+          />
+          <Stack.Screen
+            name='UserWithdrawalScreen'
+            component={UserWithdrawalScreen}
           />
         </>
       )}

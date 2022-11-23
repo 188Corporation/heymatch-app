@@ -23,6 +23,7 @@ export interface User {
   free_pass: boolean
   free_pass_active_until: string | null
   stream_token: string
+  schedule_delete_canceled?: boolean
 }
 
 export interface GpsLocation {
@@ -66,7 +67,8 @@ export interface AlertContent {
   buttonText?: string
   cancelText?: string
   onPress?: () => void
-  onPressCancel?: () => void
+  onClose?: () => void
+  preventBackdropClose?: boolean
   children?: () => ReactNode
 }
 

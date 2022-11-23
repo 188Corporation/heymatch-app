@@ -15,7 +15,10 @@ export const AlertModal: React.FC = observer(() => {
   return (
     <Modal
       isVisible={store.isOpen}
-      onBackdropPress={() => store.close()}
+      onBackdropPress={() => {
+        if (content?.preventBackdropClose) return
+        store.close()
+      }}
       // prevent blink in each platform
       useNativeDriver={CURRENT_OS === OS.ANDROID}
     >
@@ -40,10 +43,7 @@ export const AlertModal: React.FC = observer(() => {
               <Row style={{ marginTop: 8 }}>
                 <Button
                   text={content.cancelText}
-                  onPress={() => {
-                    store.close()
-                    if (content.onPressCancel) content.onPressCancel()
-                  }}
+                  onPress={() => store.close()}
                   color={Colors.white}
                   textColor={Colors.gray.v400}
                 />

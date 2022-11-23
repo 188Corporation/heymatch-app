@@ -53,6 +53,8 @@ export const FullWidthButton: React.FC<{
   )
 }
 
+export const FullWidthButtonHeight = 18 * 2 + 20
+
 const FullWidthButtonContainer = styled(TouchableOpacity)`
   width: 100%;
   padding: 18px 0;

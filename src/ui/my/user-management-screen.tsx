@@ -6,6 +6,7 @@ import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { Colors } from 'infra/colors'
 import { TouchableOpacity } from 'react-native'
+import { navigation } from 'navigation/global'
 
 export const UserManagementScreen = () => {
   const { alertStore, authStore } = useStores()
@@ -24,7 +25,9 @@ export const UserManagementScreen = () => {
       >
         <Body>로그아웃</Body>
       </Menu>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('UserWithdrawalScreen')}
+      >
         <LinkText>회원탈퇴하기</LinkText>
       </TouchableOpacity>
     </>

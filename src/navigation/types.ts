@@ -18,6 +18,7 @@ export type RootStackParamList = {
   WebViewScreen: { title: string; uri: string }
   PurchaseHistoryScreen: {}
   UserManagementScreen: {}
+  UserWithdrawalScreen: {}
 }
 
 export type GroupDetailScreenProps = StackScreenProps<

@@ -97,10 +97,11 @@ export const AuthScreen = () => {
                     authorize(phone, v, sessionToken)
                       .then((res) => {
                         setCodeError(undefined)
-                        if (res.schedule_delete_canceled) {
+                        if (res.user.schedule_delete_canceled) {
                           alertStore.open({
                             title: '계정이 복구되었어요!',
-                            body: '7일 안에 재로그인해 탈퇴가 취소되고 계정 정보가 복구되었어요. 다시 오신 걸 환영해요 🤗',
+                            body: '7일 안에 재접속해 탈퇴가 취소되고 계정 정보가 복구되었어요. 다시 오신 걸 환영해요 🤗',
+                            buttonText: '매칭하러 고고~!',
                           })
                         }
                         authStore.login(res.access_token, res.user)

@@ -130,3 +130,10 @@ export const cancelMatchRequest = async (matchRequestId: number) => {
   )
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const withdraw = async (reason: string) => {
+  const res: ResponseEnvelope<{}> = await deleteRequest('/users/my/', {
+    delete_reason: reason,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}

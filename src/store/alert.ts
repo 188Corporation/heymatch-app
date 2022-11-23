@@ -17,7 +17,7 @@ export class AlertStore {
 
   error(error: unknown, title?: string, body?: string) {
     this.open({
-      title,
+      title: title || '에러가 발생했어요!',
       body: [body, String(error)].join('\n\n'),
     })
   }
@@ -31,5 +31,7 @@ export class AlertStore {
 
   close() {
     this.isOpen = false
+    const { content } = this
+    if (content?.onClose) content.onClose()
   }
 }
