@@ -50,9 +50,7 @@ export const MatchRequestItem: React.FC<{
             <Distance>
               {locationStore.getDistance(
                 geoinfoToGpsLocation(group.gps_geoinfo),
-                10,
               )}
-              m
             </Distance>
           ) : (
             <MatchRequestStatusLabel status={status} type={type} />

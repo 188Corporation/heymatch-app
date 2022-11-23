@@ -40,9 +40,7 @@ export const SelectedGroupOverlay: React.FC<{
             <Caption style={{ color: Colors.primary.red }}>
               {locationStore.getDistance(
                 geoinfoToGpsLocation(data.gps_geoinfo),
-                10,
               )}
-              m
             </Caption>
             <H3 style={{ marginBottom: 2 }}>{data.title}</H3>
             <GroupDesc data={data} />

@@ -48,11 +48,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       >
         <ContentCard>
           <Caption style={{ color: Colors.gray.v400 }}>
-            {locationStore.getDistance(
-              geoinfoToGpsLocation(data.gps_geoinfo),
-              10,
-            )}
-            m
+            {locationStore.getDistance(geoinfoToGpsLocation(data.gps_geoinfo))}
           </Caption>
           <H1 style={{ marginBottom: 8 }}>{data.title}</H1>
           <GroupDesc

@@ -64,6 +64,9 @@ export class LocationStore {
 
   getDistance(loc: GpsLocation, accuracy?: number) {
     if (!this._location) return null
-    return getDistance(this._location, loc, accuracy)
+    const distance = getDistance(this._location, loc, accuracy || 10)
+    return distance >= 1000
+      ? `${Number(distance / 1000).toFixed(1)}km`
+      : `${distance}m`
   }
 }
