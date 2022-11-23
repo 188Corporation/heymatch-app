@@ -9,10 +9,9 @@ import { FullWidthButton } from 'ui/common/button'
 import { Column } from 'ui/common/layout'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { useIntervalEffect } from '@react-hookz/web'
-import { Colors } from 'infra/colors'
 
 export const AuthScreen = () => {
-  const { authStore } = useStores()
+  const { authStore, alertStore } = useStores()
   const phoneInputRef = useRef<TextInput | null>(null)
   const [isPhoneFocused, setIsPhoneFocused] = useState(false)
   const codeInputRef = useRef<TextInput | null>(null)
@@ -59,7 +58,7 @@ export const AuthScreen = () => {
   }
   return (
     <>
-      <KeyboardAvoidingView backgroundColor={Colors.white}>
+      <KeyboardAvoidingView>
         <SafeAreaView style={{ flex: 1 }}>
           <Container>
             {!showCodeInput ? (
@@ -98,6 +97,12 @@ export const AuthScreen = () => {
                     authorize(phone, v, sessionToken)
                       .then((res) => {
                         setCodeError(undefined)
+                        if (res.schedule_delete_canceled) {
+                          alertStore.open({
+                            title: '계정이 복구되었어요!',
+                            body: '7일 안에 재로그인해 탈퇴가 취소되고 계정 정보가 복구되었어요. 다시 오신 걸 환영해요 🤗',
+                          })
+                        }
                         authStore.login(res.access_token, res.user)
                       })
                       .catch((e: Error) => {
@@ -118,9 +123,9 @@ export const AuthScreen = () => {
               keyboardType='phone-pad'
               autoComplete='tel-device'
               textContentType='telephoneNumber'
-              maxLength={11}
               value={phone}
-              onValueChange={(v) => {
+              onValueChange={(_v) => {
+                const v = _v.replace(/\D+/g, '').trim().substring(0, 11)
                 setPhone(v)
                 if (!showCodeInput && v.length === 11) sendCode(v)
               }}

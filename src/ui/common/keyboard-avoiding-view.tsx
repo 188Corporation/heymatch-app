@@ -7,10 +7,11 @@ import {
 } from 'react-native'
 import { CURRENT_OS, OS } from 'infra/constants'
 import { useStores } from 'store/globals'
+import { Colors } from 'infra/colors'
 
 export const KeyboardAvoidingView: React.FCC<{
-  backgroundColor: ColorValue
-}> = ({ children, backgroundColor }) => {
+  backgroundColor?: ColorValue
+}> = ({ children, backgroundColor = Colors.white }) => {
   const { keyboardStore } = useStores()
   return (
     <TouchableWithoutFeedback onPress={() => keyboardStore.hide()}>
