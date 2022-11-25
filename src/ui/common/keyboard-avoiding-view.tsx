@@ -19,7 +19,7 @@ export const KeyboardAvoidingView: React.FCC<{
         behavior={CURRENT_OS === OS.IOS ? 'padding' : undefined}
         style={{ flex: 1, backgroundColor }}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           {children}
         </ScrollView>
       </_KeyboardAvoidingView>
