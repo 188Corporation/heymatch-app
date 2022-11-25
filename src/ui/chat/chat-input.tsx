@@ -67,7 +67,6 @@ const Input = styled(TextInput)`
   font-family: ${DEFAULT_FONT_FAMILY};
   color: ${Colors.gray.v600};
   font-size: 16px;
-  line-height: 24px;
   padding: 0 0 0 16px;
   margin: 0;
   flex: 1;
