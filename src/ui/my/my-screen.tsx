@@ -101,15 +101,15 @@ export const MyScreen = () => {
       <VerticalSpace />
       <VerticalSpace />
       <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url} />
-      <TouchableWithoutFeedback onLongPress={() => syncCodePush()}>
-        <VerticalSpace />
-      </TouchableWithoutFeedback>
+      <VerticalSpace />
       <Menu onPress={() => navigation.navigate('UserManagementScreen')}>
         <Body>회원정보 관리</Body>
       </Menu>
       <VerticalSpace />
       <VerticalSpace />
-      <EmptySpace />
+      <TouchableWithoutFeedback onLongPress={() => syncCodePush()}>
+        <EmptySpace />
+      </TouchableWithoutFeedback>
       <VerticalSpace />
       <VerticalSpace />
       <WebViewMenu
