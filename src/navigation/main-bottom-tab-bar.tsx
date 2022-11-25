@@ -1,15 +1,14 @@
 import { TouchableOpacity } from 'react-native'
 import React from 'react'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Column, Row } from 'ui/common/layout'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
 import { Colors } from 'infra/colors'
 import { CaptionS } from 'ui/common/text'
-import { CURRENT_OS, OS } from 'infra/constants'
 import { SendSvg } from 'image'
 import { genTabBarCommon } from 'navigation/common'
+import { BottomInsetSpace } from 'ui/common/inset-space'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupScreen: { icon: 'whatshot', text: '핫플' },
@@ -23,62 +22,62 @@ export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
-  const insets = useSafeAreaInsets()
   return (
-    <BarContainer style={{ paddingBottom: insets.bottom + 4 }}>
-      {state.routes.map((route, index) => {
-        // adapted from https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
-        const { options } = descriptors[route.key]
-        const iconText = ScreenToIconText[route.name]
-        const isFocused = state.index === index
-        const { onPress, onLongPress } = genTabBarCommon(
-          route,
-          navigation,
-          isFocused,
-        )
-        return (
-          <Button
-            key={index}
-            accessibilityRole='button'
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-          >
-            <ButtonContentContainer>
-              {iconText.icon === 'send' ? (
-                <SendSvgContainer>
-                  <SendSvg
-                    fill={isFocused ? Colors.primary.red : Colors.gray.v200}
+    <BarContainer>
+      <Row>
+        {state.routes.map((route, index) => {
+          // adapted from https://reactnavigation.org/docs/bottom-tab-navigator#tabbar
+          const { options } = descriptors[route.key]
+          const iconText = ScreenToIconText[route.name]
+          const isFocused = state.index === index
+          const { onPress, onLongPress } = genTabBarCommon(
+            route,
+            navigation,
+            isFocused,
+          )
+          return (
+            <Button
+              key={index}
+              accessibilityRole='button'
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+            >
+              <ButtonContentContainer>
+                {iconText.icon === 'send' ? (
+                  <SendSvgContainer>
+                    <SendSvg
+                      fill={isFocused ? Colors.primary.red : Colors.gray.v200}
+                    />
+                  </SendSvgContainer>
+                ) : (
+                  <CustomIcon
+                    name={iconText.icon}
+                    size={28}
+                    color={isFocused ? Colors.primary.red : Colors.gray.v200}
                   />
-                </SendSvgContainer>
-              ) : (
-                <CustomIcon
-                  name={iconText.icon}
-                  size={28}
-                  color={isFocused ? Colors.primary.red : Colors.gray.v200}
-                />
-              )}
-              <CaptionS
-                style={{
-                  color: isFocused ? Colors.primary.red : Colors.gray.v400,
-                }}
-              >
-                {iconText.text}
-              </CaptionS>
-            </ButtonContentContainer>
-          </Button>
-        )
-      })}
+                )}
+                <CaptionS
+                  style={{
+                    color: isFocused ? Colors.primary.red : Colors.gray.v400,
+                  }}
+                >
+                  {iconText.text}
+                </CaptionS>
+              </ButtonContentContainer>
+            </Button>
+          )
+        })}
+      </Row>
+      <BottomInsetSpace />
     </BarContainer>
   )
 }
 
 const BarContainer = styled(Row)`
-  padding-top: 12px;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding: 12px 32px;
   border-style: solid;
   border-top-width: 1px;
   border-top-color: ${Colors.gray.v100};
@@ -87,7 +86,6 @@ const BarContainer = styled(Row)`
 
 const Button = styled(TouchableOpacity)`
   flex: 1;
-  padding-bottom: ${CURRENT_OS === OS.ANDROID ? 8 : 0}px;
 `
 
 const ButtonContentContainer = styled(Column)`
