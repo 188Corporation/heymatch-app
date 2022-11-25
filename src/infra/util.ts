@@ -1,6 +1,8 @@
 import { GpsLocation, Group } from 'infra/types'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
+import CodePush from 'react-native-code-push'
+import Toast from 'react-native-toast-message'
 
 export const gpsLocationToNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
   latitude: lat,
@@ -42,4 +44,30 @@ export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 export const useSafeAreaInsets = () => {
   const insets = _useSafeAreaInsets()
   return { ...insets, bottom: insets.bottom - 12 }
+}
+
+export const syncCodePush = () => {
+  CodePush.sync({
+    installMode: CodePush.InstallMode.IMMEDIATE,
+    mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+  })
+    .then((status) => {
+      Toast.show({
+        type: 'success',
+        text1: [
+          'UP_TO_DATE',
+          'UPDATE_INSTALLED',
+          'UPDATE_IGNORED',
+          'UNKNOWN_ERROR',
+          'SYNC_IN_PROGRESS',
+          'CHECKING_FOR_UPDATE',
+          'AWAITING_USER_ACTION',
+          'DOWNLOADING_PACKAGE',
+          'INSTALLING_UPDATE',
+        ][status],
+      })
+    })
+    .catch((e) => {
+      Toast.show({ type: 'error', text1: String(e) })
+    })
 }

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import { AppRegistry, LogBox } from 'react-native'
 import { App } from 'app'
-import codePush from 'react-native-code-push'
+import CodePush from 'react-native-code-push'
 import { IS_DEV } from 'infra/constants'
 
 // NOTE(gogo): may be removed after the bug is fixed
@@ -18,9 +18,9 @@ LogBox.ignoreLogs([
 AppRegistry.registerComponent('HeyThereApp', () =>
   IS_DEV
     ? App
-    : codePush({
-        checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-        installMode: codePush.InstallMode.ON_NEXT_RESTART,
-        mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
+    : CodePush({
+        checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+        installMode: CodePush.InstallMode.ON_NEXT_RESTART,
+        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
       })(App),
 )

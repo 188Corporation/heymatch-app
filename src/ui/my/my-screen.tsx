@@ -1,7 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 import { Body, Caption, H2, H3 } from 'ui/common/text'
 import {
   CandyIconPng,
@@ -17,6 +22,7 @@ import { GroupDesc } from 'ui/common/group-desc'
 import { navigation } from 'navigation/global'
 import { Menu, WebViewMenu } from 'ui/my/menu'
 import { TopInsetSpace } from 'ui/common/inset-space'
+import { syncCodePush } from 'infra/util'
 
 export const MyScreen = () => {
   const { data } = useMy()
@@ -95,7 +101,9 @@ export const MyScreen = () => {
       <VerticalSpace />
       <VerticalSpace />
       <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url} />
-      <VerticalSpace />
+      <TouchableWithoutFeedback onLongPress={() => syncCodePush()}>
+        <VerticalSpace />
+      </TouchableWithoutFeedback>
       <Menu onPress={() => navigation.navigate('UserManagementScreen')}>
         <Body>회원정보 관리</Body>
       </Menu>
