@@ -20,7 +20,7 @@ export const CandyOverlay: React.FC = () => {
 const Overlay = styled(Row)`
   position: absolute;
   z-index: 3;
-  top: 24px;
+  top: 16px;
   right: 16px;
 `
 

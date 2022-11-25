@@ -11,7 +11,12 @@ import { Colors } from 'infra/colors'
 
 export const KeyboardAvoidingView: React.FCC<{
   backgroundColor?: ColorValue
-}> = ({ children, backgroundColor = Colors.white }) => {
+  withoutScrollView?: boolean
+}> = ({
+  children,
+  backgroundColor = Colors.white,
+  withoutScrollView = false,
+}) => {
   const { keyboardStore } = useStores()
   return (
     <TouchableWithoutFeedback onPress={() => keyboardStore.hide()}>
@@ -19,9 +24,13 @@ export const KeyboardAvoidingView: React.FCC<{
         behavior={CURRENT_OS === OS.IOS ? 'padding' : undefined}
         style={{ flex: 1, backgroundColor }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          {children}
-        </ScrollView>
+        {!withoutScrollView ? (
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            {children}
+          </ScrollView>
+        ) : (
+          <>{children}</>
+        )}
       </_KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   )

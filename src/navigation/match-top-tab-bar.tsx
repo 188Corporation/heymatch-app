@@ -8,7 +8,7 @@ import { WINDOW_DIMENSIONS } from 'infra/constants'
 import { Colors } from 'infra/colors'
 import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 import { TabBarLabel } from 'infra/types'
-import { TopInsetSpace } from 'ui/common/top-inset-space'
+import { TopInsetSpace } from 'ui/common/inset-space'
 
 const HORIZONTAL_PADDING = 20
 const FOCUS_INDICATOR_WIDTH =

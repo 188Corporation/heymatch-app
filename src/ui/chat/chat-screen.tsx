@@ -9,7 +9,7 @@ import { Chat } from 'infra/types'
 import { useStores } from 'store/globals'
 import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
 import { ChatPlaceholderSvg } from 'image'
-import { TopInsetSpace } from 'ui/common/top-inset-space'
+import { TopInsetSpace } from 'ui/common/inset-space'
 
 export const ChatScreen = () => {
   const { chatStore } = useStores()

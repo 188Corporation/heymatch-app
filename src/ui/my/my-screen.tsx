@@ -16,7 +16,7 @@ import { Avatar, AvatarRing } from 'ui/common/avatar'
 import { GroupDesc } from 'ui/common/group-desc'
 import { navigation } from 'navigation/global'
 import { Menu, WebViewMenu } from 'ui/my/menu'
-import { TopInsetSpace } from 'ui/common/top-inset-space'
+import { TopInsetSpace } from 'ui/common/inset-space'
 
 export const MyScreen = () => {
   const { data } = useMy()

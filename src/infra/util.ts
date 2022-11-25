@@ -1,5 +1,6 @@
 import { GpsLocation, Group } from 'infra/types'
 import { Coord } from 'react-native-nmap'
+import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export const gpsLocationToNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
   latitude: lat,
@@ -37,3 +38,8 @@ export const formatPrice = (price: number) => {
 
 // @ts-ignore
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
+export const useSafeAreaInsets = () => {
+  const insets = _useSafeAreaInsets()
+  return { ...insets, bottom: insets.bottom - 12 }
+}

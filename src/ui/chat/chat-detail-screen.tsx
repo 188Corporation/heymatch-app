@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Channel, MessageList } from 'stream-chat-react-native'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
@@ -14,6 +14,8 @@ import { myMessageStyle } from 'infra/chat'
 import { Colors } from 'infra/colors'
 import { formatDate } from 'infra/datetime'
 import { START_CHAT_MESSAGE } from 'infra/messages'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { BottomInsetSpace, TopInsetSpace } from 'ui/common/inset-space'
 
 export const ChatDetailScreen = observer(() => {
   const {
@@ -31,7 +33,8 @@ export const ChatDetailScreen = observer(() => {
     />
   )
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <KeyboardAvoidingView withoutScrollView>
+      <TopInsetSpace />
       <HeaderContainer>
         <BackButton onPress={() => navigation.goBack()}>
           <BackArrowBlackSvg />
@@ -60,7 +63,8 @@ export const ChatDetailScreen = observer(() => {
           <ChatInput />
         </Channel>
       </Column>
-    </SafeAreaView>
+      <BottomInsetSpace />
+    </KeyboardAvoidingView>
   )
 })
 

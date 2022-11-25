@@ -53,13 +53,14 @@ export const ChatInput = observer(() => {
 })
 
 const TopWrapper = styled(Row)`
-  padding: 6px 16px;
-  margin-bottom: 12px;
+  margin-top: -24px;
+  padding: 8px 16px;
+  background-color: ${Colors.white};
 `
 
 const InputContainer = styled(Row)`
   flex: 1;
-  border-radius: 22px;
+  border-radius: 24px;
   background-color: ${Colors.gray.v100};
 `
 

@@ -8,7 +8,7 @@ import { authorize, getCodeByPhone } from 'api/writes'
 import { BottomButton } from 'ui/common/button'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { useIntervalEffect } from '@react-hookz/web'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { TopInsetSpace } from 'ui/common/inset-space'
 
 export const AuthScreen = () => {
   const { authStore, alertStore } = useStores()
@@ -27,7 +27,6 @@ export const AuthScreen = () => {
   const [showCodeInput, setShowCodeInput] = useState(false)
   const [codeSendAbleInSec, setCodeSendAbleInSec] = useState(30)
   const [codeSendAble, setCodeSendAble] = useState(true)
-  const { top } = useSafeAreaInsets()
   useIntervalEffect(
     () => {
       const inSec = codeSendAbleInSec - 1
@@ -59,7 +58,8 @@ export const AuthScreen = () => {
   }
   return (
     <KeyboardAvoidingView>
-      <Container style={{ marginTop: top }}>
+      <TopInsetSpace />
+      <Container>
         {!showCodeInput ? (
           <TextArea>
             <H1>반가워요 :)</H1>
