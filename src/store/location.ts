@@ -33,9 +33,17 @@ export class LocationStore {
           if (wasWatching) this.watchLocation()
         },
         {
-          enableHighAccuracy: true,
+          // wait 10s max
           timeout: 10000,
+          // no caching
           maximumAge: 0,
+          // use 100m accuracy
+          // https://github.com/Agontuk/react-native-geolocation-service/issues/197
+          // https://github.com/Agontuk/react-native-geolocation-service/blob/master/docs/accuracy.md
+          accuracy: {
+            android: 'balanced',
+            ios: 'hundredMeters',
+          },
         },
       )
     })
