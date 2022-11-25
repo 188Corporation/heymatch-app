@@ -25,6 +25,7 @@ const LabelNumberInput: React.FC<{
         keyboardType='number-pad'
         value={value === null ? '' : String(value)}
         onChangeText={(v) => onValueChange(Number(v) || 0)}
+        maxLength={2}
       />
     </Column>
   )
