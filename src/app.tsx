@@ -8,6 +8,7 @@ import { _navigationRef } from 'navigation/global'
 import { ChatProvider } from 'infra/chat'
 import { StatusBar } from 'react-native'
 import { CURRENT_OS, OS } from 'infra/constants'
+import Toast from 'react-native-toast-message'
 
 export const App = () => {
   // NOTE(gogo): all init code should go under root stack
@@ -25,6 +26,7 @@ export const App = () => {
           <RootStacks />
         </NavigationContainer>
         <AlertModal />
+        <Toast />
       </ChatProvider>
     </StoresProvider>
   )
