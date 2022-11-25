@@ -61,3 +61,7 @@ target 'HeyThereApp' do
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
 end
+
+target 'OneSignalNotificationServiceExtension' do
+  pod 'OneSignalXCFramework', '>= 3.0', '< 4.0'
+end

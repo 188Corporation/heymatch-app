@@ -16,9 +16,8 @@ import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
-import OneSignal from 'react-native-onesignal'
-import { ONESIGNAL_APP_ID } from 'infra/constants'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
+import { oneSignal } from 'infra/one-signal'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -28,7 +27,7 @@ export const RootStacks = observer(() => {
     keyboardStore.sub()
     permissionStore.checkAll()
     paymentManager.initialize()
-    OneSignal.setAppId(ONESIGNAL_APP_ID)
+    oneSignal.init()
     return () => {
       paymentManager.terminate()
       keyboardStore.unsub()

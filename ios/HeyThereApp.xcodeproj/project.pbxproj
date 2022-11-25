@@ -11,6 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		281576AA5973201477609664 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57DEA32672D9980EDFB9DD6 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		35D5BE2562CD496DB9E38FDE /* SUIT-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1F8ACD13296A430EBD497153 /* SUIT-Thin.otf */; };
 		3DE7084E51364CB1AA51437A /* SUIT-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09A1E450E2614B65A62967DF /* SUIT-Light.otf */; };
 		526FC2448F204C7EAE973EAE /* SUIT-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */; };
@@ -18,6 +19,8 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6ABE057355AC48C6AA4FD3C0 /* SUIT-SemiBold.otf */; };
 		D84D8CBB290FCCB8002C4C0B /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */; };
+		D8698A252931221A00A98E53 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8698A242931221A00A98E53 /* NotificationService.swift */; };
+		D8698A292931221A00A98E53 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D8698A222931221A00A98E53 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D8B5093E290377DB00AA732C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8B5093D290377DB00AA732C /* StoreKit.framework */; };
 		D8E1B4E7292FDFD40014EF52 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D8E1B4E6292FDFD40014EF52 /* GoogleService-Info.plist */; };
 		DA88CFC0CD9F4631B4434AB0 /* SUIT-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */; };
@@ -25,6 +28,30 @@
 		FA067E984C200657E851B292 /* Pods_HeyThereApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2FD7D4B0EBC87DFBCEC867 /* Pods_HeyThereApp.framework */; };
 		FCD0CEF5C26A4B7F85DCB964 /* SUIT-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2AFE6F0EA32B479885EC02C7 /* SUIT-Medium.otf */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D8698A272931221A00A98E53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D8698A212931221A00A98E53;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D8698A2D2931221A00A98E53 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D8698A292931221A00A98E53 /* OneSignalNotificationServiceExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,15 +73,24 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = HeyThereApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81C5B9A8EDDA4E25BE15CB3B /* SUIT-Heavy.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Heavy.otf"; path = "../fonts/SUIT-Heavy.otf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-HeyThereApp-HeyThereAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; path = "Target Support Files/Pods-HeyThereApp-HeyThereAppTests/Pods-HeyThereApp-HeyThereAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		8B9C6AC8C792B238901DFCE6 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		9D1B6BE0A3FA4E1CB3EDA557 /* SUIT-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.otf"; path = "../fonts/SUIT-ExtraLight.otf"; sourceTree = "<group>"; };
+		9E199398A7DF2746E3B2D33A /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		AB2FD7D4B0EBC87DFBCEC867 /* Pods_HeyThereApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HeyThereApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6476558FEAB4632A5B88006 /* SUIT-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Bold.otf"; path = "../fonts/SUIT-Bold.otf"; sourceTree = "<group>"; };
 		B8ABD3770798498D9009064E /* SUIT-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Regular.otf"; path = "../fonts/SUIT-Regular.otf"; sourceTree = "<group>"; };
 		D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "HeyThereApp/AppCenter-Config.plist"; sourceTree = "<group>"; };
+		D8698A222931221A00A98E53 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8698A242931221A00A98E53 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		D8698A262931221A00A98E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8B5093D290377DB00AA732C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D8B5093F2903782100AA732C /* HeyThereApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = HeyThereApp.entitlements; path = HeyThereApp/HeyThereApp.entitlements; sourceTree = "<group>"; };
+		D8B771E929312FB000BFE7E8 /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		D8B771EA29313C2400BFE7E8 /* OneSignalNotificationServiceExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtensionDebug.entitlements; sourceTree = "<group>"; };
+		D8B771EB29313D8F00BFE7E8 /* HeyThereAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = HeyThereAppDebug.entitlements; path = HeyThereApp/HeyThereAppDebug.entitlements; sourceTree = "<group>"; };
 		D8E1B4E6292FDFD40014EF52 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F57DEA32672D9980EDFB9DD6 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFE40E2A30D1460BB2F30062 /* SUIT-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraBold.otf"; path = "../fonts/SUIT-ExtraBold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +101,14 @@
 			files = (
 				D8B5093E290377DB00AA732C /* StoreKit.framework in Frameworks */,
 				FA067E984C200657E851B292 /* Pods_HeyThereApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8698A1F2931221A00A98E53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				281576AA5973201477609664 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +135,7 @@
 		13B07FAE1A68108700A75B9A /* HeyThereApp */ = {
 			isa = PBXGroup;
 			children = (
+				D8B771EB29313D8F00BFE7E8 /* HeyThereAppDebug.entitlements */,
 				D84D8CBA290FCCB8002C4C0B /* AppCenter-Config.plist */,
 				D8B5093F2903782100AA732C /* HeyThereApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -110,6 +155,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-HeyThereApp-HeyThereAppTests.a */,
 				AB2FD7D4B0EBC87DFBCEC867 /* Pods_HeyThereApp.framework */,
+				F57DEA32672D9980EDFB9DD6 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -144,6 +190,7 @@
 				13B07FAE1A68108700A75B9A /* HeyThereApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HeyThereAppTests */,
+				D8698A232931221A00A98E53 /* OneSignalNotificationServiceExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -158,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* HeyThereApp.app */,
+				D8698A222931221A00A98E53 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,8 +217,21 @@
 				5709B34CF0A7D63546082F79 /* Pods-HeyThereApp.release.xcconfig */,
 				5B7EB9410499542E8C5724F5 /* Pods-HeyThereApp-HeyThereAppTests.debug.xcconfig */,
 				89C6BE57DB24E9ADA2F236DE /* Pods-HeyThereApp-HeyThereAppTests.release.xcconfig */,
+				8B9C6AC8C792B238901DFCE6 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				9E199398A7DF2746E3B2D33A /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		D8698A232931221A00A98E53 /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D8B771EA29313C2400BFE7E8 /* OneSignalNotificationServiceExtensionDebug.entitlements */,
+				D8B771E929312FB000BFE7E8 /* OneSignalNotificationServiceExtension.entitlements */,
+				D8698A242931221A00A98E53 /* NotificationService.swift */,
+				D8698A262931221A00A98E53 /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,15 +250,35 @@
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				816EC24AD18E3F88A7BDEB9E /* [CP-User] [RNFB] Core Configuration */,
 				1B85C5B6F71F10EBBE4C101C /* [CP] Copy Pods Resources */,
+				D8698A2D2931221A00A98E53 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D8698A282931221A00A98E53 /* PBXTargetDependency */,
 			);
 			name = HeyThereApp;
 			productName = HeyThereApp;
 			productReference = 13B07F961A680F5B00A75B9A /* HeyThereApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D8698A212931221A00A98E53 /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8698A2A2931221A00A98E53 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildPhases = (
+				763E7EB19C4FB48CECE5FAB5 /* [CP] Check Pods Manifest.lock */,
+				D8698A1E2931221A00A98E53 /* Sources */,
+				D8698A1F2931221A00A98E53 /* Frameworks */,
+				D8698A202931221A00A98E53 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = D8698A222931221A00A98E53 /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -205,10 +286,14 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
+					};
+					D8698A212931221A00A98E53 = {
+						CreatedOnToolsVersion = 14.1;
 					};
 				};
 			};
@@ -226,6 +311,7 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* HeyThereApp */,
+				D8698A212931221A00A98E53 /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -248,6 +334,13 @@
 				E17CA2F9A139464789529E28 /* SUIT-Regular.otf in Resources */,
 				D0E6221F4B9C42578A93167A /* SUIT-SemiBold.otf in Resources */,
 				35D5BE2562CD496DB9E38FDE /* SUIT-Thin.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8698A202931221A00A98E53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +395,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HeyThereApp/Pods-HeyThereApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		763E7EB19C4FB48CECE5FAB5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		816EC24AD18E3F88A7BDEB9E /* [CP-User] [RNFB] Core Configuration */ = {
@@ -370,16 +485,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D8698A1E2931221A00A98E53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8698A252931221A00A98E53 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D8698A282931221A00A98E53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D8698A212931221A00A98E53 /* OneSignalNotificationServiceExtension */;
+			targetProxy = D8698A272931221A00A98E53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-HeyThereApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereAppDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -398,8 +530,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.debug;
 				PRODUCT_NAME = HeyThereApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -408,6 +544,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-HeyThereApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereApp.entitlements;
@@ -430,8 +567,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere;
 				PRODUCT_NAME = HeyThereApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "heymatch-dist-profile-final";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "heymatch prod";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -573,6 +714,93 @@
 			};
 			name = Release;
 		};
+		D8698A2B2931221A00A98E53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B9C6AC8C792B238901DFCE6 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtensionDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C8D835G8S3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.debug.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D8698A2C2931221A00A98E53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E199398A7DF2746E3B2D33A /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = C8D835G8S3;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "heymatch prod onesignal";
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -590,6 +818,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8698A2A2931221A00A98E53 /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8698A2B2931221A00A98E53 /* Debug */,
+				D8698A2C2931221A00A98E53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
