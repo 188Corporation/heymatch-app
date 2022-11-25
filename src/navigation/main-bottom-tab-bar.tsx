@@ -76,7 +76,7 @@ export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({
   )
 }
 
-const BarContainer = styled(Row)`
+const BarContainer = styled(Column)`
   padding: 12px 32px;
   border-style: solid;
   border-top-width: 1px;
