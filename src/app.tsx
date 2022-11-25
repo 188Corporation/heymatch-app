@@ -6,12 +6,17 @@ import { StoresProvider } from 'store/globals'
 import { AlertModal } from 'ui/common/alert-modal'
 import { _navigationRef } from 'navigation/global'
 import { ChatProvider } from 'infra/chat'
+import { StatusBar } from 'react-native'
+import { CURRENT_OS, OS } from 'infra/constants'
 
 export const App = () => {
   // NOTE(gogo): all init code should go under root stack
   return (
     <StoresProvider>
       <ChatProvider>
+        <StatusBar
+          barStyle={CURRENT_OS === OS.IOS ? 'dark-content' : undefined}
+        />
         <NavigationContainer
           ref={_navigationRef}
           // @ts-ignore
