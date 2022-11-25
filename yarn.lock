@@ -6226,7 +6226,7 @@ react-native-modal@^13.0.1:
 
 "react-native-nmap@https://github.com/gogo-inc/react-native-naver-map":
   version "0.0.66"
-  resolved "https://github.com/gogo-inc/react-native-naver-map#caab0bc6bb5907b9506ac324bd2236779367bcf8"
+  resolved "https://github.com/gogo-inc/react-native-naver-map#0d5c63231c3d1354b9e24c31c972ef56049dbb81"
 
 react-native-onesignal@^4.4.1:
   version "4.4.1"
