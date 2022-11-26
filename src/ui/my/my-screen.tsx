@@ -112,17 +112,8 @@ export const MyScreen = () => {
       <TouchableWithoutFeedback onLongPress={() => syncCodePush()}>
         <EmptySpace />
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
-        onLongPress={() =>
-          Toast.show({
-            type: 'info',
-            text1: CODEPUSH_VERSION,
-          })
-        }
-      >
-        <VerticalSpace />
-        <VerticalSpace />
-      </TouchableWithoutFeedback>
+      <VerticalSpace />
+      <VerticalSpace />
       <WebViewMenu
         title='이용약관'
         uri={data?.app_info?.terms_of_service_url}
@@ -144,6 +135,13 @@ export const MyScreen = () => {
       />
       <VerticalSpace />
       <VerticalSpace />
+      <TouchableWithoutFeedback
+        onLongPress={() =>
+          Toast.show({ type: 'info', text1: CODEPUSH_VERSION })
+        }
+      >
+        <EmptySpace style={{ backgroundColor: Colors.white }} />
+      </TouchableWithoutFeedback>
     </ScrollView>
   )
 }
