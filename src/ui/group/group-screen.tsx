@@ -51,6 +51,7 @@ export const GroupScreen = () => {
         onMapClick={() => {
           mapStore.onNonMarkerTouch()
         }}
+        minZoomLevel={10}
       >
         <HotPlacePolygon />
         <GroupMarkerList />
