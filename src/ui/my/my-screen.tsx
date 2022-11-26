@@ -23,6 +23,8 @@ import { navigation } from 'navigation/global'
 import { Menu, WebViewMenu } from 'ui/my/menu'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { syncCodePush } from 'infra/util'
+import Toast from 'react-native-toast-message'
+import { CODEPUSH_VERSION } from 'infra/version'
 
 export const MyScreen = () => {
   const { data } = useMy()
@@ -110,8 +112,17 @@ export const MyScreen = () => {
       <TouchableWithoutFeedback onLongPress={() => syncCodePush()}>
         <EmptySpace />
       </TouchableWithoutFeedback>
-      <VerticalSpace />
-      <VerticalSpace />
+      <TouchableWithoutFeedback
+        onLongPress={() =>
+          Toast.show({
+            type: 'info',
+            text1: CODEPUSH_VERSION,
+          })
+        }
+      >
+        <VerticalSpace />
+        <VerticalSpace />
+      </TouchableWithoutFeedback>
       <WebViewMenu
         title='이용약관'
         uri={data?.app_info?.terms_of_service_url}
