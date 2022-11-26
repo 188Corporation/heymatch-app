@@ -15,7 +15,10 @@ import { useStores } from 'store/globals'
 import { observer } from 'mobx-react'
 import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { MessageActionListItemProps } from 'stream-chat-react-native-core/src/components/MessageOverlay/MessageActionListItem'
+import {
+  ActionType,
+  MessageActionListItemProps,
+} from 'stream-chat-react-native-core/src/components/MessageOverlay/MessageActionListItem'
 
 export const chatClient = StreamChat.getInstance(STREAM_CHAT_API_KEY)
 const i18nInstance = new Streami18n({ language: 'ko' })
@@ -67,15 +70,19 @@ export const myMessageStyle: DeepPartial<Theme> = {
   },
 }
 
+const WHITELISTED_ACTION_TYPES: ActionType[] = [
+  'selectReaction',
+  'copyMessage',
+  'pinMessage',
+  'unpinMessage',
+  'flagMessage',
+]
+
 const CustomMessageActionListItem: React.ComponentType<
   MessageActionListItemProps
 > = ({ action, actionType, ...rest }) => {
-  if (
-    ['deleteMessage', 'editMessage', 'reply', 'threadReply'].includes(
-      actionType,
-    )
-  )
-    return null
+  // hide if not whitelisted
+  if (!WHITELISTED_ACTION_TYPES.includes(actionType)) return null
   return (
     <MessageActionListItem action={action} actionType={actionType} {...rest} />
   )
