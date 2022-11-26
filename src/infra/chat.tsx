@@ -1,6 +1,6 @@
-import { StreamChat } from "stream-chat";
-import { STREAM_CHAT_API_KEY } from "infra/constants";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { StreamChat } from 'stream-chat'
+import { STREAM_CHAT_API_KEY } from 'infra/constants'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import {
   Chat,
   DeepPartial,
@@ -8,16 +8,14 @@ import {
   OverlayProvider,
   Streami18n,
   Theme,
-} from "stream-chat-react-native";
-import React, { useEffect } from "react";
-import { useMy } from "api/reads";
-import { useStores } from "store/globals";
-import { observer } from "mobx-react";
-import { DEFAULT_FONT_FAMILY } from "ui/common/text";
-import { Colors } from "infra/colors";
-import {
-  MessageActionListItemProps,
-} from "stream-chat-react-native-core/src/components/MessageOverlay/MessageActionListItem";
+} from 'stream-chat-react-native'
+import React, { useEffect } from 'react'
+import { useMy } from 'api/reads'
+import { useStores } from 'store/globals'
+import { observer } from 'mobx-react'
+import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
+import { Colors } from 'infra/colors'
+import { MessageActionListItemProps } from 'stream-chat-react-native-core/src/components/MessageOverlay/MessageActionListItem'
 
 export const chatClient = StreamChat.getInstance(STREAM_CHAT_API_KEY)
 const i18nInstance = new Streami18n({ language: 'ko' })
