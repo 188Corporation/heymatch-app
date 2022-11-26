@@ -163,6 +163,7 @@ android {
             }
         }
         vectorDrawables.useSupportLibrary = true
+        // https://github.com/microsoft/react-native-code-push/pull/2337
         // https://github.com/microsoft/react-native-code-push/issues/1961#issuecomment-710698621
         resValue "string", "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
     }
