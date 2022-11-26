@@ -3,7 +3,6 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { ScrollView, View } from 'react-native'
 import { BestRibbonSvg, PurchaseBannerImage } from 'image'
 import { Image } from 'ui/common/image'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Column, Row } from 'ui/common/layout'
 import styled from 'styled-components'
 import { Body, H2 } from 'ui/common/text'
@@ -16,12 +15,12 @@ import { paymentManager } from 'infra/payments'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { mutate } from 'swr'
+import { BottomInsetSpace } from 'ui/common/inset-space'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
   arr.flatMap((e) => [e, x]).slice(0, -1)
 
 export const PurchaseScreen = () => {
-  const insets = useSafeAreaInsets()
   const { data } = usePurchaseItems()
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -43,7 +42,7 @@ export const PurchaseScreen = () => {
     (x) => <Item data={x} onPurchase={onPurchase} />,
   )
   return (
-    <View style={{ flex: 1, paddingBottom: insets.bottom }}>
+    <View style={{ flex: 1 }}>
       <NavigationHeader
         backButtonStyle='black'
         title='캔디 구매하기'
@@ -62,6 +61,7 @@ export const PurchaseScreen = () => {
           <React.Fragment key={i}>{x}</React.Fragment>
         ))}
       </ScrollView>
+      <BottomInsetSpace />
       {loading && <LoadingOverlay />}
     </View>
   )

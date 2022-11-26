@@ -10,7 +10,6 @@ import { Colors } from 'infra/colors'
 import { geoinfoToGpsLocation } from 'infra/util'
 import { useStores } from 'store/globals'
 import { Button } from 'ui/common/button'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { GroupDetailScreenProps } from 'navigation/types'
 import { navigation } from 'navigation/global'
 import { GroupDesc } from 'ui/common/group-desc'
@@ -20,13 +19,13 @@ import { useMy } from 'api/reads'
 import { sendMatchRequest } from 'api/writes'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { ApiError } from 'api/error'
+import { BottomInsetSpace } from 'ui/common/inset-space'
 
 const CARD_BORDER_RADIUS = 32
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { data } = props.route.params
   const { locationStore, alertStore } = useStores()
-  const insets = useSafeAreaInsets()
   const { data: myData } = useMy()
   const [loading, setLoading] = useState(false)
   if (!data) return null
@@ -42,9 +41,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         source={{ uri: data.group_profile_images[0].image }}
       />
       <ScrollView
-        // 관성 스크롤 때문에 더 내려가는 경우 생기는 빈 공간을 방지하기 위해 조금 더 올려주기
-        contentContainerStyle={{ paddingTop: height - CARD_BORDER_RADIUS - 8 }}
+        contentContainerStyle={{ paddingTop: height - CARD_BORDER_RADIUS }}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
         <ContentCard>
           <Caption style={{ color: Colors.gray.v400 }}>
@@ -62,7 +61,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           <Body style={{ color: Colors.gray.v400 }}>{data.introduction}</Body>
         </ContentCard>
       </ScrollView>
-      <ButtonContainer style={{ marginBottom: insets.bottom }}>
+      <ButtonContainer>
         <Button
           text='매칭하기'
           onPress={() => {
@@ -122,6 +121,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           }
         />
       </ButtonContainer>
+      <BottomInsetSpace />
       {loading && <LoadingOverlay />}
     </Container>
   )

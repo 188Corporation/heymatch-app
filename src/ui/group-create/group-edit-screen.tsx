@@ -6,7 +6,6 @@ import { BlueContainer } from 'ui/group-create/blue-container'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H1 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
 import { deleteGroup, editGroup } from 'api/writes'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
@@ -16,6 +15,7 @@ import { useMy } from 'api/reads'
 import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
 import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 import { mutate } from 'swr'
+import { BottomButton } from 'ui/common/bottom-button'
 
 export const GroupEditScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore, mapStore } = useStores()
@@ -85,6 +85,7 @@ export const GroupEditScreen = observer(() => {
         </BlueContainer>
       </KeyboardAvoidingView>
       <BottomButton
+        inverted
         text='수정 완료!'
         onPress={async () => {
           if (!data || !data.joined_group) return

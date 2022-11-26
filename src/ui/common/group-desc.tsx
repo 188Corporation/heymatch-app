@@ -21,7 +21,14 @@ export const GroupDesc: React.FC<{
         width={size}
         height={size}
       />
-      <Body style={{ color: color, lineHeight: size, fontSize }}>
+      <Body
+        style={{
+          color: color,
+          lineHeight: size,
+          fontSize,
+          flexWrap: 'wrap',
+        }}
+      >
         {formatMaleFemaleInfo(data)}·평균 {data.member_average_age}세
       </Body>
     </Row>

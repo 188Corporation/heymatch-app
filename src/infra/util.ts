@@ -43,6 +43,7 @@ export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 export const useSafeAreaInsets = () => {
   const insets = _useSafeAreaInsets()
+  // bottom inset is too much
   return { ...insets, bottom: insets.bottom - 12 }
 }
 

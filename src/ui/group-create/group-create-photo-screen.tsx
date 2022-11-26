@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Column } from 'ui/common/layout'
+import { Column, Row } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { WINDOW_DIMENSIONS } from 'infra/constants'
+import { IS_DEV, WINDOW_DIMENSIONS } from 'infra/constants'
 import { TouchableOpacity, View } from 'react-native'
 import { Image } from 'ui/common/image'
 import { Camera, useCameraDevices } from 'react-native-vision-camera'
@@ -12,9 +12,9 @@ import { useStores } from 'store/globals'
 import { openSettings } from 'react-native-permissions'
 import { PermissionType } from 'store/permission'
 import { H2 } from 'ui/common/text'
-import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
 import { observer } from 'mobx-react'
+import { BottomButton } from 'ui/common/bottom-button'
 
 export const GroupCreatePhotoScreen = observer(() => {
   // handle camera permission
@@ -93,10 +93,18 @@ export const GroupCreatePhotoScreen = observer(() => {
       </View>
       {!photo ? (
         <TouchableOpacity
-          style={{ position: 'absolute', bottom: 24 }}
+          style={{
+            flex: 1,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onPress={async () => {
             const camera = cameraRef.current
-            if (!camera) return
+            if (!camera) {
+              if (IS_DEV) groupCreateStore.setPhoto('file://')
+              return
+            }
             const snapshot = await camera.takePhoto()
             groupCreateStore.setPhoto(`file://${snapshot.path}`)
           }}
@@ -105,10 +113,11 @@ export const GroupCreatePhotoScreen = observer(() => {
         </TouchableOpacity>
       ) : (
         <>
-          <H2 style={{ color: Colors.white, marginTop: 16 }}>
-            이 사진으로 등록할까요?
-          </H2>
+          <Row style={{ flex: 1, marginTop: 16, alignItems: 'center' }}>
+            <H2 style={{ color: Colors.white }}>이 사진으로 등록할까요?</H2>
+          </Row>
           <BottomButton
+            inverted
             text='프로필에 등록'
             onPress={() => navigation.navigate('GroupCreateGenderAgeScreen')}
           />

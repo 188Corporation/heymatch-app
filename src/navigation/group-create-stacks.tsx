@@ -36,6 +36,7 @@ export const GroupCreateStacks = () => {
       <Stack.Screen
         name='GroupCreateDoneScreen'
         component={GroupCreateDoneScreen}
+        options={{ gestureEnabled: false }}
       />
     </Stack.Navigator>
   )

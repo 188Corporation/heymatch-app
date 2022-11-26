@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body2, H1 } from 'ui/common/text'
-import { BottomButton, FullWidthButtonHeight } from 'ui/common/button'
 import { SimpleInput } from 'ui/common/simple-input'
 import { Column } from 'ui/common/layout'
 import styled from 'styled-components'
@@ -9,14 +8,16 @@ import { Colors } from 'infra/colors'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { useStores } from 'store/globals'
 import { withdraw } from 'api/writes'
+import { BottomButton } from 'ui/common/bottom-button'
+import { FlexScrollView } from 'ui/common/flex-scroll-view'
 
 export const UserWithdrawalScreen = () => {
   const { alertStore, authStore } = useStores()
   const [reason, setReason] = useState('')
   return (
-    <>
-      <KeyboardAvoidingView>
-        <NavigationHeader backButtonStyle='black' title='회원탈퇴하기' />
+    <KeyboardAvoidingView>
+      <NavigationHeader backButtonStyle='black' title='회원탈퇴하기' />
+      <FlexScrollView>
         <Column
           style={{ paddingHorizontal: 28, marginBottom: 24, marginTop: 12 }}
         >
@@ -35,9 +36,7 @@ export const UserWithdrawalScreen = () => {
               '· 그룹 생성, 매칭 및 채팅 기록'}
           </DescText>
         </Column>
-        <Column
-          style={{ paddingHorizontal: 20, marginBottom: FullWidthButtonHeight }}
-        >
+        <Column style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
           <SimpleInput
             style={{ flex: 1, height: 200, lineHeight: 28 }}
             value={reason}
@@ -51,7 +50,7 @@ export const UserWithdrawalScreen = () => {
             textAlignVertical='top'
           />
         </Column>
-      </KeyboardAvoidingView>
+      </FlexScrollView>
       <BottomButton
         text='탈퇴하기'
         onPress={() => {
@@ -83,7 +82,7 @@ export const UserWithdrawalScreen = () => {
           })
         }}
       />
-    </>
+    </KeyboardAvoidingView>
   )
 }
 

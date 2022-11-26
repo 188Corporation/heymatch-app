@@ -6,7 +6,6 @@ import { BlueContainer } from 'ui/group-create/blue-container'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H1 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
 import { createGroup } from 'api/writes'
 import { mutate } from 'swr'
@@ -14,13 +13,15 @@ import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { IS_DEV, LOCATION_FOR_TEST } from 'infra/constants'
 import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
+import { BottomButton } from 'ui/common/bottom-button'
+import { FlexScrollView } from 'ui/common/flex-scroll-view'
 
 export const GroupCreateTitleDescScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
   return (
-    <>
-      <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
+    <KeyboardAvoidingView>
+      <FlexScrollView>
         <BlueContainer>
           <NavigationHeader />
           <H1
@@ -44,8 +45,9 @@ export const GroupCreateTitleDescScreen = observer(() => {
           </Body>
           <GroupTitleIntroInput />
         </BlueContainer>
-      </KeyboardAvoidingView>
+      </FlexScrollView>
       <BottomButton
+        inverted
         text='완성!'
         onPress={async () => {
           if (!checkTitleIntroValidity(groupCreateStore, alertStore)) return
@@ -82,6 +84,6 @@ export const GroupCreateTitleDescScreen = observer(() => {
         }}
       />
       {loading && <LoadingOverlay />}
-    </>
+    </KeyboardAvoidingView>
   )
 })

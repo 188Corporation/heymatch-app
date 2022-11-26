@@ -9,8 +9,9 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
 import { View } from 'react-native'
-import { BottomButton } from 'ui/group-create/bottom-button'
 import { navigation } from 'navigation/global'
+import { BottomButton } from 'ui/common/bottom-button'
+import { FlexScrollView } from 'ui/common/flex-scroll-view'
 
 const LabelNumberInput: React.FC<{
   label: string
@@ -34,8 +35,8 @@ const LabelNumberInput: React.FC<{
 export const GroupCreateGenderAgeScreen = observer(() => {
   const { groupCreateStore } = useStores()
   return (
-    <>
-      <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
+    <KeyboardAvoidingView>
+      <FlexScrollView>
         <BlueContainer>
           <NavigationHeader />
           <H1
@@ -73,8 +74,9 @@ export const GroupCreateGenderAgeScreen = observer(() => {
             }}
           />
         </BlueContainer>
-      </KeyboardAvoidingView>
+      </FlexScrollView>
       <BottomButton
+        inverted
         text='다음으로'
         onPress={() => {
           // 둘 중에 하나는 1 이상의 숫자가 되어야 함
@@ -87,6 +89,6 @@ export const GroupCreateGenderAgeScreen = observer(() => {
           navigation.navigate('GroupCreateTitleDescScreen')
         }}
       />
-    </>
+    </KeyboardAvoidingView>
   )
 })

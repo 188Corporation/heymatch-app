@@ -6,4 +6,5 @@ export const BlueContainer = styled(Column)`
   flex: 1;
   background-color: ${Colors.primary.blue};
   align-items: center;
+  padding-bottom: 24px;
 `
