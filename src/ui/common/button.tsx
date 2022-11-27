@@ -7,12 +7,13 @@ import { Row } from 'ui/common/layout'
 
 export const Button: React.FC<{
   text: string
-  onPress: () => void
+  onPress?: () => void
   color?: ColorValue
   textColor?: ColorValue
   paddingVertical?: number
   paddingHorizontal?: number
   leftChildren?: ReactNode
+  disabled?: boolean
 }> = ({
   text,
   onPress,
@@ -21,13 +22,19 @@ export const Button: React.FC<{
   paddingVertical = 16,
   paddingHorizontal,
   leftChildren,
+  disabled = false,
 }) => {
   return (
     <ButtonContainer
       onPress={onPress}
-      style={{ backgroundColor: color, paddingVertical, paddingHorizontal }}
+      style={{
+        backgroundColor: disabled ? Colors.gray.v300 : color,
+        paddingVertical,
+        paddingHorizontal,
+      }}
+      disabled={disabled}
     >
-      <Row>
+      <Row style={{ alignItems: 'center' }}>
         {leftChildren}
         <ButtonText style={{ color: textColor }}>{text}</ButtonText>
       </Row>

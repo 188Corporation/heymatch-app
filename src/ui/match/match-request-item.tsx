@@ -12,14 +12,13 @@ import {
   CloseSvg,
 } from 'image'
 import { geoinfoToGpsLocation } from 'infra/util'
-import { acceptMatchRequest, rejectMatchRequest } from 'api/writes'
 import styled from 'styled-components'
 import { Image } from 'ui/common/image'
 import { TouchableOpacity, View } from 'react-native'
-import { mutate } from 'swr'
 import { GroupDesc } from 'ui/common/group-desc'
 import { MatchRequestStatusLabel } from 'ui/match/match-request-status-label'
 import { navigation } from 'navigation/global'
+import { accept, reject } from 'store/common-actions'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
@@ -42,7 +41,10 @@ export const MatchRequestItem: React.FC<{
       <ContentContainer>
         <UpperContainer
           onPress={() =>
-            navigation.navigate('GroupDetailScreen', { data: group })
+            navigation.navigate('GroupDetailScreen', {
+              data: group,
+              matchRequest: { id: matchRequestId, status, type },
+            })
           }
         >
           {status === MatchRequestStatus.WAITING &&
@@ -68,41 +70,12 @@ export const MatchRequestItem: React.FC<{
         {type === MatchRequestType.RECEIVED &&
           status === MatchRequestStatus.WAITING && (
             <ButtonRow>
-              <RoundButton
-                onPress={async () => {
-                  try {
-                    await rejectMatchRequest(matchRequestId)
-                    await mutate('/match-requests/')
-                    alertStore.open({ title: '매칭을 거절했어요!' })
-                  } catch (e) {
-                    alertStore.error(e, '매칭 거절에 실패했어요!')
-                  }
-                }}
-              >
+              <RoundButton onPress={() => reject(matchRequestId, alertStore)}>
                 <CloseSvg />
               </RoundButton>
               <RoundButtonDistance />
               <SendButton
-                onPress={async () => {
-                  try {
-                    const res = await acceptMatchRequest(matchRequestId)
-                    await mutate('/match-requests/')
-                    alertStore.open({
-                      title: '매칭을 수락했어요!',
-                      buttonText: '채팅하기',
-                      onPress: async () => {
-                        await chatStore.update([res.stream_channel_cid])
-                        chatStore.setChat({
-                          group: res.sender_group,
-                          channel: { cid: res.stream_channel_cid },
-                        })
-                        navigation.navigate('ChatDetailScreen')
-                      },
-                    })
-                  } catch (e) {
-                    alertStore.error(e, '매칭 수락에 실패했어요!')
-                  }
-                }}
+                onPress={() => accept(matchRequestId, alertStore, chatStore)}
               >
                 <CheckSvg />
               </SendButton>

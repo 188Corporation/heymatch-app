@@ -10,8 +10,11 @@ export type RootStackParamList = {
   GroupEditScreen: {}
   GroupDetailScreen: {
     data: GroupDetail
-    status?: MatchRequestStatus
-    type?: MatchRequestType
+    matchRequest?: {
+      id: number
+      status: MatchRequestStatus
+      type: MatchRequestType
+    }
   }
   PurchaseScreen: {}
   ChatDetailScreen: {}
