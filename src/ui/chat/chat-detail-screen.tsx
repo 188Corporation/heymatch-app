@@ -39,8 +39,18 @@ export const ChatDetailScreen = observer(() => {
         <BackButton onPress={() => navigation.goBack()}>
           <BackArrowBlackSvg />
         </BackButton>
-        <MessageAvatar />
-        <TitleText>{group.title}</TitleText>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
+          onPress={() =>
+            navigation.navigate('GroupDetailScreen', {
+              data: group,
+              hideButton: true,
+            })
+          }
+        >
+          <MessageAvatar />
+          <TitleText>{group.title}</TitleText>
+        </TouchableOpacity>
       </HeaderContainer>
       <Column style={{ flex: 1 }}>
         {!isMessage && (

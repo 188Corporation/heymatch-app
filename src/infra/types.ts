@@ -26,6 +26,13 @@ export interface User {
   schedule_delete_canceled?: boolean
 }
 
+export interface MyInfo {
+  user: User
+  joined_group: GroupDetail | null
+  user_purchases: UserPurchase[]
+  app_info: AppInfo
+}
+
 export interface GpsLocation {
   lat: number
   lng: number

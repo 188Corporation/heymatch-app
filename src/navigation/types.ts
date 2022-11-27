@@ -10,11 +10,8 @@ export type RootStackParamList = {
   GroupEditScreen: {}
   GroupDetailScreen: {
     data: GroupDetail
-    matchRequest?: {
-      id: number
-      status: MatchRequestStatus
-      type: MatchRequestType
-    }
+    matchRequest?: MatchRequestTarget
+    hideButton?: boolean
   }
   PurchaseScreen: {}
   ChatDetailScreen: {}
@@ -22,6 +19,12 @@ export type RootStackParamList = {
   PurchaseHistoryScreen: {}
   UserManagementScreen: {}
   UserWithdrawalScreen: {}
+}
+
+export interface MatchRequestTarget {
+  id: number
+  status: MatchRequestStatus
+  type: MatchRequestType
 }
 
 export type GroupDetailScreenProps = StackScreenProps<
