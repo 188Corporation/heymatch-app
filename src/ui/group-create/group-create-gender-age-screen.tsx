@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { H1, H2 } from 'ui/common/text'
+import { H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { BlueContainer } from 'ui/group-create/blue-container'
 import { Column, Row } from 'ui/common/layout'
@@ -12,6 +12,7 @@ import { View } from 'react-native'
 import { navigation } from 'navigation/global'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
 
 const LabelNumberInput: React.FC<{
   label: string
@@ -39,16 +40,9 @@ export const GroupCreateGenderAgeScreen = observer(() => {
       <FlexScrollView>
         <BlueContainer>
           <NavigationHeader />
-          <H1
-            style={{
-              textAlign: 'center',
-              color: Colors.white,
-              marginTop: 40,
-              marginBottom: 80,
-            }}
-          >
+          <GroupCreateH1 style={{ marginBottom: 80 }}>
             {'그룹 인원과 평균 나이를\n알려주세요 :)'}
-          </H1>
+          </GroupCreateH1>
           <Row style={{ marginBottom: 48 }}>
             <LabelNumberInput
               label='남자'

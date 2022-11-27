@@ -4,7 +4,7 @@ import { useStores } from 'store/globals'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { BlueContainer } from 'ui/group-create/blue-container'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, H1 } from 'ui/common/text'
+import { Body } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import { createGroup } from 'api/writes'
@@ -15,6 +15,7 @@ import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
 
 export const GroupCreateTitleDescScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore } = useStores()
@@ -24,16 +25,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
       <FlexScrollView>
         <BlueContainer>
           <NavigationHeader />
-          <H1
-            style={{
-              textAlign: 'center',
-              color: Colors.white,
-              marginTop: 40,
-              marginBottom: 16,
-            }}
-          >
-            {'그룹 이름과 소개를 적어볼까요?'}
-          </H1>
+          <GroupCreateH1>{'그룹 이름과 소개를 적어볼까요?'}</GroupCreateH1>
           <Body
             style={{
               textAlign: 'center',

@@ -33,7 +33,7 @@ export const ChatDetailScreen = observer(() => {
     />
   )
   return (
-    <KeyboardAvoidingView withoutScrollView>
+    <KeyboardAvoidingView>
       <TopInsetSpace />
       <HeaderContainer>
         <BackButton onPress={() => navigation.goBack()}>

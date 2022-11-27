@@ -1,27 +1,21 @@
 import React from 'react'
-import { Colors } from 'infra/colors'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { H1 } from 'ui/common/text'
 import { GroupCreateIntroSvg } from 'image'
 import { BlueContainer } from 'ui/group-create/blue-container'
 import { navigation } from 'navigation/global'
 import { BottomButton } from 'ui/common/bottom-button'
+import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
+import { CenterInLeftOver } from 'ui/common/center-in-left-over'
 
 export const GroupCreateIntroScreen = () => {
   return (
     <>
       <BlueContainer>
         <NavigationHeader />
-        <H1
-          style={{
-            textAlign: 'center',
-            color: Colors.white,
-            marginVertical: 40,
-          }}
-        >
-          {'내 그룹 만들기를\n시작해볼까요?'}
-        </H1>
-        <GroupCreateIntroSvg />
+        <GroupCreateH1>{'내 그룹 만들기를\n시작해볼까요?'}</GroupCreateH1>
+        <CenterInLeftOver>
+          <GroupCreateIntroSvg />
+        </CenterInLeftOver>
       </BlueContainer>
       <BottomButton
         inverted

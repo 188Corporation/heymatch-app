@@ -16,6 +16,7 @@ import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
 import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
+import { FlexScrollView } from 'ui/common/flex-scroll-view'
 
 export const GroupEditScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore, mapStore } = useStores()
@@ -28,8 +29,8 @@ export const GroupEditScreen = observer(() => {
     }
   }, [data, groupCreateStore])
   return (
-    <>
-      <KeyboardAvoidingView backgroundColor={Colors.primary.blue}>
+    <KeyboardAvoidingView>
+      <FlexScrollView>
         <BlueContainer>
           <NavigationHeader
             rightChildren={
@@ -83,7 +84,7 @@ export const GroupEditScreen = observer(() => {
           </Body>
           <GroupTitleIntroInput />
         </BlueContainer>
-      </KeyboardAvoidingView>
+      </FlexScrollView>
       <BottomButton
         inverted
         text='수정 완료!'
@@ -113,6 +114,6 @@ export const GroupEditScreen = observer(() => {
         }}
       />
       {loading && <LoadingOverlay />}
-    </>
+    </KeyboardAvoidingView>
   )
 })

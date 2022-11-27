@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
+import { Column } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { IS_DEV, WINDOW_DIMENSIONS } from 'infra/constants'
@@ -15,6 +15,7 @@ import { H2 } from 'ui/common/text'
 import { navigation } from 'navigation/global'
 import { observer } from 'mobx-react'
 import { BottomButton } from 'ui/common/bottom-button'
+import { CenterInLeftOver } from 'ui/common/center-in-left-over'
 
 export const GroupCreatePhotoScreen = observer(() => {
   // handle camera permission
@@ -43,13 +44,7 @@ export const GroupCreatePhotoScreen = observer(() => {
   return (
     <Container>
       <NavigationHeader />
-      <View
-        style={{
-          width,
-          height,
-          marginTop: 16,
-        }}
-      >
+      <View style={{ width, height }}>
         {photo ? (
           <Image source={{ uri: photo }} style={{ width, height }} />
         ) : devices.front ? (
@@ -113,9 +108,9 @@ export const GroupCreatePhotoScreen = observer(() => {
         </TouchableOpacity>
       ) : (
         <>
-          <Row style={{ flex: 1, marginTop: 16, alignItems: 'center' }}>
+          <CenterInLeftOver>
             <H2 style={{ color: Colors.white }}>이 사진으로 등록할까요?</H2>
-          </Row>
+          </CenterInLeftOver>
           <BottomButton
             inverted
             text='프로필에 등록'
