@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android --appId=com.co188.heythere.debug",
     "ios": "react-native run-ios --simulator='iPhone 14 Pro'",
+    "ipad": "react-native run-ios --device='iPad Pro'",
     "ios-list": "xcrun simctl list devices",
     "start": "react-native start",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
