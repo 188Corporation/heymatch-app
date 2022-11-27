@@ -25,7 +25,7 @@ export const AlertModal: React.FC = observer(() => {
       <Container>
         {content && (
           <>
-            <H2 style={{ color: Colors.black }}>{content.title}</H2>
+            <Title>{content.title}</Title>
             {content.body && <Body>{content.body.trim()}</Body>}
             {content.bodyChildren && (
               <Column style={{ marginTop: 8 }}>{content.bodyChildren()}</Column>
@@ -63,6 +63,11 @@ const Container = styled(Column)`
   padding: 28px 16px 16px 16px;
   align-items: center;
   position: relative;
+`
+
+const Title = styled(H2)`
+  color: ${Colors.black};
+  text-align: center;
 `
 
 const Body = styled(Body2)`

@@ -68,7 +68,7 @@ export enum LocationTrackingMode {
 }
 
 export interface AlertContent {
-  title?: string
+  title: string
   body?: string
   bodyChildren?: () => ReactNode
   buttonText?: string
