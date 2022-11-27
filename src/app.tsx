@@ -9,6 +9,7 @@ import { ChatProvider } from 'infra/chat'
 import { StatusBar } from 'react-native'
 import { CURRENT_OS, OS } from 'infra/constants'
 import Toast from 'react-native-toast-message'
+import { toastConfig } from 'infra/toast-config'
 
 export const App = () => {
   // NOTE(gogo): all init code should go under root stack
@@ -26,7 +27,7 @@ export const App = () => {
           <RootStacks />
         </NavigationContainer>
         <AlertModal />
-        <Toast />
+        <Toast config={toastConfig} />
       </ChatProvider>
     </StoresProvider>
   )

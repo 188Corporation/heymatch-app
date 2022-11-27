@@ -17,6 +17,7 @@ import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import Toast from 'react-native-toast-message'
 
 export const GroupEditScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore, mapStore } = useStores()
@@ -105,6 +106,7 @@ export const GroupEditScreen = observer(() => {
             )
             await mutate('/users/my/')
             mapStore.clearSelectedGroup()
+            Toast.show({ type: 'success', text1: '그룹 정보를 수정했어요!' })
             navigation.goBack()
           } catch (e) {
             alertStore.error(e, '그룹 수정에 실패했어요!')
