@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { Image } from 'ui/common/image'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, Caption, H1, H3 } from 'ui/common/text'
@@ -16,7 +16,7 @@ import { GroupDesc } from 'ui/common/group-desc'
 import { SendSvg } from 'image'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { useMy } from 'api/reads'
-import { sendMatchRequest } from 'api/writes'
+import { reportAbuse, sendMatchRequest } from 'api/writes'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { ApiError } from 'api/error'
 import { BottomInsetSpace } from 'ui/common/inset-space'
@@ -29,15 +29,41 @@ const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { data, matchRequest, hideButton } = props.route.params
-  const { locationStore } = useStores()
+  const { locationStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
   if (!data) return null
   const width = WINDOW_DIMENSIONS.width
   const height = (width / 3) * 4
   return (
     <Container>
-      <View style={{ position: 'absolute', zIndex: 1 }}>
-        <NavigationHeader />
+      <View style={{ position: 'absolute', zIndex: 1, width: '100%' }}>
+        <NavigationHeader
+          rightChildren={
+            <TouchableOpacity
+              style={{ marginRight: 24 }}
+              onPress={() => {
+                alertStore.open({
+                  title: '정말 이 사용자를 신고할까요?',
+                  body: '부적절한 컨텐츠(음란성, 폭력성 등)의 경우\n적극 신고해주세요! 관리자가 24시간 이내\n확인 후 컨텐츠 삭제 및 사용자 영구 제재\n조치를 취해요. 건전하고 안전한 그룹 매칭\n문화를 선도하기 위해 헤이매치가 노력할게요!',
+                  buttonText: '신고할래요!',
+                  cancelText: '다음에',
+                  onPress: () => {
+                    reportAbuse(data.id)
+                      .then(() =>
+                        alertStore.open({
+                          title: '신고를 완료했어요',
+                          body: '신고해주셔서 감사해요.\n관리자가 최대한 빨리 조치를 취할게요!',
+                        }),
+                      )
+                      .catch((e) => alertStore.errorUnexpected(e))
+                  },
+                })
+              }}
+            >
+              <Body style={{ color: Colors.white }}>신고하기</Body>
+            </TouchableOpacity>
+          }
+        />
       </View>
       <PhotoContainer
         style={{ width, height }}

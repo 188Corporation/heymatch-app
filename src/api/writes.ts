@@ -137,3 +137,11 @@ export const withdraw = async (reason: string) => {
   })
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const reportAbuse = async (groupId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/groups/${groupId}/report/`,
+    { report_reason: '' },
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}

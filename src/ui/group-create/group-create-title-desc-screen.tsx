@@ -4,7 +4,7 @@ import { useStores } from 'store/globals'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { BlueContainer } from 'ui/group-create/blue-container'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body } from 'ui/common/text'
+import { Body, Caption } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import { createGroup } from 'api/writes'
@@ -16,6 +16,7 @@ import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
+import { Row } from 'ui/common/layout'
 
 export const GroupCreateTitleDescScreen = observer(() => {
   const { groupCreateStore, locationStore, alertStore } = useStores()
@@ -37,6 +38,20 @@ export const GroupCreateTitleDescScreen = observer(() => {
           </Body>
           <GroupTitleIntroInput />
         </BlueContainer>
+        <Row
+          style={{
+            width: '100%',
+            backgroundColor: Colors.primary.blue,
+            paddingBottom: 20,
+            justifyContent: 'center',
+          }}
+        >
+          <Caption style={{ color: Colors.white, textAlign: 'center' }}>
+            {
+              '부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있으니 주의해주세요!'
+            }
+          </Caption>
+        </Row>
       </FlexScrollView>
       <BottomButton
         inverted
