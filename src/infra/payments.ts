@@ -1,6 +1,7 @@
 import {
   clearTransactionIOS,
   endConnection,
+  ErrorCode,
   finishTransaction,
   flushFailedPurchasesCachedAsPendingAndroid,
   getProducts,
@@ -50,6 +51,7 @@ class PaymentManager {
       )
       this.purchaseErrorSubscription = purchaseErrorListener(
         (e: PurchaseError) => {
+          if (e.code === ErrorCode.E_USER_CANCELLED) return
           Alert.alert('결제에 실패했어요!', String(e))
         },
       )
@@ -75,18 +77,22 @@ class PaymentManager {
     await getProducts({ skus: productIds })
   }
 
-  async purchase(productId: string) {
+  async purchase(productId: string): Promise<boolean> {
     try {
       await requestPurchase({
         sku: productId, // ios
         skus: [productId], // android
         quantity: 1,
       })
+      return true
     } catch (e) {
       const errorString = String(e)
-      const isUserCancel = errorString.includes('SKErrorDomain error 2')
-      if (isUserCancel) return
+      const isUserCancel =
+        errorString.includes('SKErrorDomain error 2') ||
+        errorString.includes('Cancelled')
+      if (isUserCancel) return false
       Alert.alert('결제 요청에 실패했어요!', errorString)
+      return false
     }
   }
 }

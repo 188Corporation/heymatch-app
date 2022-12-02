@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Body, H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { Button } from 'ui/common/button'
-import { formatPrice } from 'infra/util'
+import { formatPrice, sleep } from 'infra/util'
 import { usePurchaseItems } from 'api/reads'
 import { PurchaseItem } from 'infra/types'
 import { paymentManager } from 'infra/payments'
@@ -16,12 +16,15 @@ import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { mutate } from 'swr'
 import { BottomInsetSpace } from 'ui/common/inset-space'
+import { useStores } from 'store/globals'
+import { navigation } from 'navigation/global'
 
 const interleave = (arr: React.ReactElement[], x: React.ReactElement) =>
   arr.flatMap((e) => [e, x]).slice(0, -1)
 
 export const PurchaseScreen = () => {
   const { data } = usePurchaseItems()
+  const { alertStore } = useStores()
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     if (!data) return
@@ -33,10 +36,22 @@ export const PurchaseScreen = () => {
   }, [data])
   if (!data) return null
   const onPurchase = async (productId: string) => {
-    setLoading(true)
-    await paymentManager.purchase(productId)
-    await mutate('/users/my/')
-    setLoading(false)
+    try {
+      setLoading(true)
+      const res = await paymentManager.purchase(productId)
+      if (!res) return
+      await sleep(500)
+      await mutate('/users/my/')
+      alertStore.open({
+        title: '캔디를 성공적으로 구매했어요',
+        body: '축하해요! 이제 다른 그룹과 매칭하러 고고~',
+        onClose: () => navigation.goBack(),
+      })
+    } catch (e) {
+      alertStore.error(e)
+    } finally {
+      setLoading(false)
+    }
   }
   const purchaseItems = [...data.point_items, ...data.free_pass_items].map(
     (x) => <Item data={x} onPurchase={onPurchase} />,
