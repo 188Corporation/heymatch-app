@@ -23,6 +23,7 @@ import { BottomInsetSpace } from 'ui/common/inset-space'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { accept, reject } from 'store/common-actions'
+import { mutate } from 'swr'
 
 const CARD_BORDER_RADIUS = 32
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
@@ -43,24 +44,32 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               style={{ marginRight: 24 }}
               onPress={() => {
                 alertStore.open({
-                  title: '정말 이 사용자를 신고할까요?',
-                  body: '부적절한 컨텐츠(음란성, 폭력성 등)의 경우\n적극 신고해주세요! 관리자가 24시간 이내\n확인 후 컨텐츠 삭제 및 사용자 영구 제재\n조치를 취해요. 건전하고 안전한 그룹 매칭\n문화를 선도하기 위해 헤이매치가 노력할게요!',
-                  buttonText: '신고할래요!',
+                  title: '정말 이 사용자를 신고 및 차단할까요?',
+                  body: '부적절한 컨텐츠(음란성, 폭력성 등)의\n경우 적극 신고해주세요! 해당 사용자는\n자동으로 차단되고 지도, 매칭, 채팅\n화면에서 사라져요. 관리자가 24시간 이내\n확인 후 컨텐츠 삭제 및 사용자 영구 제재\n조치를 취해요. 건전하고 안전한 그룹 매칭\n문화를 선도하기 위해 헤이매치가 노력할게요!',
+                  buttonText: '신고 및 차단할래요!',
                   cancelText: '다음에',
                   onPress: () => {
                     reportAbuse(data.id)
                       .then(() =>
+                        Promise.all([
+                          mutate('/groups/'),
+                          mutate('/match-requests/'),
+                          mutate('/chats/'),
+                        ]),
+                      )
+                      .then(() => {
+                        navigation.setRootWithStack('MainTabs', 'GroupScreen')
                         alertStore.open({
                           title: '신고를 완료했어요',
                           body: '신고해주셔서 감사해요.\n관리자가 최대한 빨리 조치를 취할게요!',
-                        }),
-                      )
+                        })
+                      })
                       .catch((e) => alertStore.errorUnexpected(e))
                   },
                 })
               }}
             >
-              <Body style={{ color: Colors.white }}>신고하기</Body>
+              <Body style={{ color: Colors.white }}>신고 및 차단하기</Body>
             </TouchableOpacity>
           }
         />
