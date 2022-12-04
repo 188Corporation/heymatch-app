@@ -50,6 +50,12 @@ export class GroupCreateStore {
     this.averageAge = v
   }
 
+  clearGenderAge() {
+    this.maleCount = null
+    this.femaleCount = null
+    this.averageAge = null
+  }
+
   setTitle(v: string) {
     this.title = v
   }

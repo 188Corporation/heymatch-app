@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
@@ -35,6 +35,9 @@ const LabelNumberInput: React.FC<{
 
 export const GroupCreateGenderAgeScreen = observer(() => {
   const { groupCreateStore } = useStores()
+  useEffect(() => {
+    groupCreateStore.clearGenderAge()
+  }, [groupCreateStore])
   return (
     <KeyboardAvoidingView>
       <FlexScrollView>
