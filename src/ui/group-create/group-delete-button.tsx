@@ -19,8 +19,8 @@ export const GroupDeleteButton: React.FC<{
         alertStore.open({
           title: '정말 그룹을 삭제할까요?',
           bodyChildren: () => (
-            <Body style={{ color: Colors.primary.red, fontWeight: 'bold' }}>
-              그룹을 삭제하면 매칭과 채팅 내역도 삭제돼요!
+            <Body style={{ color: Colors.primary.red }}>
+              그룹을 삭제하면 매칭 내역이 삭제돼요!
             </Body>
           ),
           buttonText: '네 삭제할게요!',
