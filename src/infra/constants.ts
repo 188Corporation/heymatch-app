@@ -2,7 +2,6 @@ import { Dimensions, Platform } from 'react-native'
 import { GpsLocation } from 'infra/types'
 
 export const IS_DEV = __DEV__
-// TODO: 정식 배포 전에 수정
 export const SERVER_BASE_URL = !IS_DEV
   ? 'https://prod.hey-match.com/api'
   : 'https://dev.hey-match.com/api'
@@ -13,9 +12,7 @@ export enum OS {
 export const CURRENT_OS: OS = Platform.OS as OS
 export const WINDOW_DIMENSIONS = Dimensions.get('window')
 
-// TODO: 정식 배포 전에 수정
-//  prod = tp849dtwfytw
-export const STREAM_CHAT_API_KEY = !IS_DEV ? 'dg4mc768s4tj' : 'dg4mc768s4tj'
+export const STREAM_CHAT_API_KEY = !IS_DEV ? 'tp849dtwfytw' : 'dg4mc768s4tj'
 export const ONESIGNAL_APP_ID = '83e737f6-2a8d-46df-87f0-61175df1e6b8'
 
 export const KOREA_CENTER = {
