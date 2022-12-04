@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useChats } from 'api/reads'
 import { Column, Row } from 'ui/common/layout'
 import { H1 } from 'ui/common/text'
@@ -10,14 +10,40 @@ import { useStores } from 'store/globals'
 import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
 import { ChatPlaceholderSvg } from 'image'
 import { TopInsetSpace } from 'ui/common/inset-space'
+import { navigation } from 'navigation/global'
+import { deleteChat } from 'api/writes'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 
 export const ChatScreen = () => {
-  const { chatStore } = useStores()
+  const { chatStore, alertStore } = useStores()
+  const [isLoading, setIsLoading] = useState(false)
   const { data } = useChats()
   useEffect(() => {
     if (!data) return
     chatStore.update(data.map((x) => x.channel.cid))
   }, [data, chatStore])
+  const onChatPress = (chat: Chat) => {
+    chatStore.setChat(chat)
+    navigation.navigate('ChatDetailScreen')
+  }
+  const onChatLongPress = (chat: Chat) => {
+    alertStore.open({
+      title: '채팅을 삭제할까요?',
+      body: '매칭된 그룹과의 채팅을 삭제하면\n더 이상 채팅을 할 수 없어요!',
+      buttonText: '삭제하기',
+      cancelText: '다음에',
+      onPress: async () => {
+        setIsLoading(true)
+        try {
+          await deleteChat(chat.channel.cid)
+        } catch (e) {
+          alertStore.error(e)
+        } finally {
+          setIsLoading(false)
+        }
+      },
+    })
+  }
   return (
     <Column style={{ flex: 1 }}>
       <TopInsetSpace />
@@ -28,7 +54,16 @@ export const ChatScreen = () => {
         contentContainerStyle={!data?.length ? { flex: 1 } : {}}
         keyExtractor={(x) => x.channel.cid}
         data={data}
-        renderItem={(x) => <ChatItem data={x.item} />}
+        renderItem={(x) => {
+          const chat = x.item
+          return (
+            <ChatItem
+              data={chat}
+              onPress={() => onChatPress(chat)}
+              onLongPress={() => onChatLongPress(chat)}
+            />
+          )
+        }}
         ListEmptyComponent={
           <ScreenPlaceholder
             image={<ChatPlaceholderSvg />}
@@ -37,6 +72,7 @@ export const ChatScreen = () => {
           />
         }
       />
+      {isLoading && <LoadingOverlay />}
     </Column>
   )
 }

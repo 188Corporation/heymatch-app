@@ -145,3 +145,8 @@ export const reportAbuse = async (groupId: number) => {
   )
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const deleteChat = async (chatId: string) => {
+  const res: ResponseEnvelope<{}> = await deleteRequest(`/chats/${chatId}/`)
+  if (res.code !== 200) throw new ApiError(res)
+}

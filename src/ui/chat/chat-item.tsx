@@ -6,23 +6,17 @@ import { Avatar as _Avatar } from 'ui/common/avatar'
 import styled from 'styled-components'
 import { Column, Row } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
-import { useStores } from 'store/globals'
-import { navigation } from 'navigation/global'
 import { START_CHAT_MESSAGE } from 'infra/messages'
 import { formatRelative } from 'infra/datetime'
 
 export const ChatItem: React.FC<{
   data: Chat
-}> = ({ data }) => {
-  const { chatStore } = useStores()
+  onPress: () => void
+  onLongPress: () => void
+}> = ({ data, onPress, onLongPress }) => {
   const message = data.channel.last_message
   return (
-    <Container
-      onPress={() => {
-        chatStore.setChat(data)
-        navigation.navigate('ChatDetailScreen')
-      }}
-    >
+    <Container onPress={onPress} onLongPress={onLongPress}>
       <Column>
         <Avatar
           side={64}
