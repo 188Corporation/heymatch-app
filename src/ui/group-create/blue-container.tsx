@@ -1,10 +1,32 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Column } from 'ui/common/layout'
-import { Colors } from 'infra/colors'
+import { Image } from 'ui/common/image'
+import { GroupCreateBg } from 'image'
+import { View } from 'react-native'
 
-export const BlueContainer = styled(Column)`
+const Container = styled(Column)`
   flex: 1;
-  background-color: ${Colors.primary.blue};
+  position: relative;
   align-items: center;
-  padding-bottom: 24px;
 `
+
+const BgImage = styled(Image)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`
+
+const BottomPadding = styled(View)`
+  height: 24px;
+`
+
+export const BlueContainer: React.FCC = ({ children }) => {
+  return (
+    <Container>
+      <BgImage source={GroupCreateBg} />
+      {children}
+      <BottomPadding />
+    </Container>
+  )
+}

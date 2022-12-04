@@ -38,21 +38,14 @@ export const GroupCreateTitleDescScreen = observer(() => {
             {'센스 있는 이름과 자세한 소개를 작성하면\n매칭 확률이 올라가요!'}
           </Body>
           <GroupTitleIntroInput />
+          <Row style={{ marginTop: 20 }}>
+            <Body2 style={{ color: Colors.white, textAlign: 'center' }}>
+              {
+                '⚠️ 부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있으니 주의해주세요!'
+              }
+            </Body2>
+          </Row>
         </BlueContainer>
-        <Row
-          style={{
-            width: '100%',
-            backgroundColor: Colors.primary.blue,
-            paddingBottom: 20,
-            justifyContent: 'center',
-          }}
-        >
-          <Body2 style={{ color: Colors.white, textAlign: 'center' }}>
-            {
-              '⚠️ 부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있으니 주의해주세요!'
-            }
-          </Body2>
-        </Row>
       </FlexScrollView>
       <BottomButton
         inverted
