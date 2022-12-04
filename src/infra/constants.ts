@@ -4,7 +4,7 @@ import { GpsLocation } from 'infra/types'
 export const IS_DEV = __DEV__
 // TODO: 정식 배포 전에 수정
 export const SERVER_BASE_URL = !IS_DEV
-  ? 'https://dev.hey-match.com/api'
+  ? 'https://prod.hey-match.com/api'
   : 'https://dev.hey-match.com/api'
 export enum OS {
   ANDROID = 'android',
