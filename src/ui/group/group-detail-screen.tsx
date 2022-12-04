@@ -220,7 +220,11 @@ const ButtonContent: React.FC<{
           },
           children: () => (
             <CandyContainer>
-              <CurrentCandy />
+              <TouchableOpacity
+                onPress={() => navigation.navigate('PurchaseScreen')}
+              >
+                <CurrentCandy />
+              </TouchableOpacity>
             </CandyContainer>
           ),
         })
