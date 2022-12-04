@@ -4,7 +4,7 @@ import { useStores } from 'store/globals'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { BlueContainer } from 'ui/group-create/blue-container'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Caption } from 'ui/common/text'
+import { Body, Body2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import { createGroup } from 'api/writes'
@@ -46,11 +46,11 @@ export const GroupCreateTitleDescScreen = observer(() => {
             justifyContent: 'center',
           }}
         >
-          <Caption style={{ color: Colors.white, textAlign: 'center' }}>
+          <Body2 style={{ color: Colors.white, textAlign: 'center' }}>
             {
-              '부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있으니 주의해주세요!'
+              '⚠️ 부적절하거나 불쾌감을 줄 수 있는\n컨텐츠는 제재를 받을 수 있으니 주의해주세요!'
             }
-          </Caption>
+          </Body2>
         </Row>
       </FlexScrollView>
       <BottomButton
