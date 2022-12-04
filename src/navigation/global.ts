@@ -30,4 +30,7 @@ export const navigation = {
       }),
     )
   },
+  goToWebView: (title: string, uri: string) => {
+    _navigationRef.current?.navigate('WebViewScreen', { title, uri })
+  },
 }

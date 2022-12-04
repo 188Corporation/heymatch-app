@@ -14,6 +14,7 @@ LogBox.ignoreLogs([
   // https://github.com/GetStream/stream-chat-react-native/issues/1634
   'An error occurred while getting app settings',
   'Both secret and user tokens are not set.',
+  'User is not set on client',
 ])
 AppRegistry.registerComponent('HeyThereApp', () =>
   IS_DEV

@@ -102,7 +102,7 @@ export const MyScreen = () => {
       <View style={{ backgroundColor: Colors.gray.v100, height: 1 }} />
       <VerticalSpace />
       <VerticalSpace />
-      <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url} />
+      <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url!} />
       <VerticalSpace />
       <Menu onPress={() => navigation.navigate('UserManagementScreen')}>
         <Body>회원정보 관리</Body>
@@ -116,22 +116,22 @@ export const MyScreen = () => {
       <VerticalSpace />
       <WebViewMenu
         title='이용약관'
-        uri={data?.app_info?.terms_of_service_url}
+        uri={data?.app_info?.terms_of_service_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='개인정보처리방침'
-        uri={data?.app_info?.privacy_policy_url}
+        uri={data?.app_info?.privacy_policy_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='위치기반서비스 이용약관'
-        uri={data?.app_info?.terms_of_location_service_url}
+        uri={data?.app_info?.terms_of_location_service_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='사업자 정보'
-        uri={data?.app_info?.business_registration_url}
+        uri={data?.app_info?.business_registration_url!}
       />
       <VerticalSpace />
       <VerticalSpace />

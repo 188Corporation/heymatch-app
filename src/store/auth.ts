@@ -7,10 +7,12 @@ import OneSignal from 'react-native-onesignal'
 import { User } from 'infra/types'
 
 const TOKEN_KEY = 'auth:access-token'
+const AGREEMENT_KEY = 'auth:agreement'
 
 export class AuthStore {
   isInitializing: boolean = true
   isLoggedIn: boolean = false
+  isAgreementChecked: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -37,10 +39,18 @@ export class AuthStore {
         this.setIsInitializing(false)
       }
     })
+    // read agreement from storage
+    AsyncStorage.getItem(AGREEMENT_KEY).then((isChecked) => {
+      this.setIsAgreementChecked(isChecked === String(true))
+    })
   }
 
   setIsInitializing(v: boolean) {
     this.isInitializing = v
+  }
+
+  setIsAgreementChecked(v: boolean) {
+    this.isAgreementChecked = v
   }
 
   login(token: string, user: User) {
@@ -57,9 +67,16 @@ export class AuthStore {
 
   logout() {
     AsyncStorage.removeItem(TOKEN_KEY)
+    AsyncStorage.removeItem(AGREEMENT_KEY)
     tokenManager.setToken('')
     this.isLoggedIn = false
+    this.isAgreementChecked = false
     OneSignal.removeExternalUserId()
     OneSignal.logoutSMSNumber()
+  }
+
+  checkAgreement() {
+    AsyncStorage.setItem(AGREEMENT_KEY, String(true))
+    this.isAgreementChecked = true
   }
 }

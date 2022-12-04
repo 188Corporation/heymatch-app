@@ -18,6 +18,7 @@ import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { oneSignal } from 'infra/one-signal'
+import { AgreementScreen } from 'ui/auth/agreement-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -39,6 +40,8 @@ export const RootStacks = observer(() => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : !authStore.isLoggedIn ? (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
+      ) : !authStore.isAgreementChecked ? (
+        <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
       ) : (
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />
@@ -50,7 +53,6 @@ export const RootStacks = observer(() => {
           />
           <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
           <Stack.Screen name='ChatDetailScreen' component={ChatDetailScreen} />
-          <Stack.Screen name='WebViewScreen' component={WebViewScreen} />
           <Stack.Screen
             name='PurchaseHistoryScreen'
             component={PurchaseHistoryScreen}
@@ -65,6 +67,7 @@ export const RootStacks = observer(() => {
           />
         </>
       )}
+      <Stack.Screen name='WebViewScreen' component={WebViewScreen} />
     </Stack.Navigator>
   )
 })

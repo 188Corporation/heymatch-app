@@ -25,7 +25,7 @@ const MenuLayout = styled(TouchableOpacity)`
 
 export const WebViewMenu: React.FC<{
   title: string
-  uri?: string
+  uri: string
 }> = ({ title, uri }) => {
   return (
     <Menu onPress={() => navigation.navigate('WebViewScreen', { title, uri })}>

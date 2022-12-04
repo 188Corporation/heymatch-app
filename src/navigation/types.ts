@@ -19,6 +19,7 @@ export type RootStackParamList = {
   PurchaseHistoryScreen: {}
   UserManagementScreen: {}
   UserWithdrawalScreen: {}
+  AgreementScreen: {}
 }
 
 export interface MatchRequestTarget {

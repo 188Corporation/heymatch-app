@@ -48,6 +48,7 @@
     "query-string": "^7.1.1",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-bouncy-checkbox": "^3.0.6",
     "react-native-code-push": "^7.0.5",
     "react-native-document-picker": "^8.1.2",
     "react-native-fast-image": "^8.6.1",
