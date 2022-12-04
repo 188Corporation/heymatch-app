@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { View } from 'react-native'
 import _NaverMap from 'react-native-nmap'
@@ -11,9 +11,42 @@ import { ButtonGroupOverlay } from 'ui/group/button-group-overlay'
 import { GroupMarkerList } from 'ui/group/group-marker-list'
 import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
-import { useMy } from 'api/reads'
+import { useHotPlaceList, useMy } from 'api/reads'
 import { CandyOverlay } from 'ui/group/candy-overlay'
 import { NoticeOverlay } from 'ui/group/notice-overlay'
+import { observer } from 'mobx-react'
+import { getDistance } from 'geolib'
+import { geoinfoToGpsLocation } from 'infra/util'
+
+const InitialMapFocusProvider: React.FC = observer(() => {
+  const [isInitialFocus, setInitialFocus] = useState(true)
+  const { locationStore, mapStore } = useStores()
+  const { data: hotPlaces } = useHotPlaceList()
+  useEffect(() => {
+    const location = locationStore._location
+    if (!isInitialFocus || !hotPlaces || !hotPlaces.length || !location) return
+    // get the nearest hot place
+    const nearest = hotPlaces
+      .map((x) => {
+        const center = geoinfoToGpsLocation(x.zone_center_geoinfo)
+        const distance = getDistance(center, location)
+        return { center, distance, boundsRaw: x.zone_boundary_geoinfos }
+      })
+      .reduce((p, v) => {
+        return p.distance < v.distance ? p : v
+      })
+    // set flag
+    setInitialFocus(false)
+    // get delta from bounds
+    const { center, boundsRaw } = nearest
+    const bounds = boundsRaw.map((bound) => geoinfoToGpsLocation(bound))
+    const latitudeDelta = Math.max(...bounds.map((bound) => bound.lat))
+    const longitudeDelta = Math.max(...bounds.map((bound) => bound.lng))
+    // give focus
+    mapStore.focusLocation(center, { latitudeDelta, longitudeDelta })
+  }, [isInitialFocus, mapStore, locationStore._location, hotPlaces])
+  return null
+})
 
 export const GroupScreen = () => {
   const { data: myData } = useMy()
@@ -30,7 +63,6 @@ export const GroupScreen = () => {
       permissionStore
         .request(PermissionType.location)
         .then(() => locationStore.getLocation(true))
-        .then((l) => mapStore.focusLocation(l))
     }
   }, [permissionStore, locationStore, mapStore, alertStore])
   return (
@@ -64,6 +96,7 @@ export const GroupScreen = () => {
         <CandyOverlay />
         <NoticeOverlay />
       </MapOverlay>
+      <InitialMapFocusProvider />
     </Container>
   )
 }

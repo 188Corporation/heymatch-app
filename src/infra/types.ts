@@ -67,6 +67,11 @@ export enum LocationTrackingMode {
   FACE = 3,
 }
 
+export interface RegionZoom {
+  latitudeDelta: number
+  longitudeDelta: number
+}
+
 export interface AlertContent {
   title: string
   body?: string

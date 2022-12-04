@@ -7,6 +7,7 @@ import {
   Group,
   LocationTrackingMode,
   NaverMapCamera,
+  RegionZoom,
 } from 'infra/types'
 import { DEFAULT_ZOOM } from 'infra/constants'
 import { geoinfoToNmapCoord } from 'infra/util'
@@ -44,11 +45,11 @@ export class MapStore {
     }
   }
 
-  focusLocation(location: GpsLocation) {
+  focusLocation(location: GpsLocation, zoom: RegionZoom = DEFAULT_ZOOM) {
     this.mapRef.current?.animateToRegion({
       latitude: location.lat,
       longitude: location.lng,
-      ...DEFAULT_ZOOM,
+      ...zoom,
     })
   }
 
