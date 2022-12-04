@@ -13,6 +13,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { navigation } from 'navigation/global'
 import { deleteChat } from 'api/writes'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { mutate } from 'swr'
 
 export const ChatScreen = () => {
   const { chatStore, alertStore } = useStores()
@@ -36,6 +37,7 @@ export const ChatScreen = () => {
         setIsLoading(true)
         try {
           await deleteChat(chat.channel.cid)
+          await mutate('/chats/')
         } catch (e) {
           alertStore.error(e)
         } finally {
