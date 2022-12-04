@@ -19,7 +19,8 @@ import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
 import { Row } from 'ui/common/layout'
 
 export const GroupCreateTitleDescScreen = observer(() => {
-  const { groupCreateStore, locationStore, alertStore } = useStores()
+  const { groupCreateStore, locationStore, alertStore, keyboardStore } =
+    useStores()
   const [loading, setLoading] = useState(false)
   return (
     <KeyboardAvoidingView>
@@ -58,6 +59,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
         text='완성!'
         onPress={async () => {
           if (!checkTitleIntroValidity(groupCreateStore, alertStore)) return
+          keyboardStore.hide()
           setLoading(true)
           // TODO: remove test code
           const location = IS_DEV

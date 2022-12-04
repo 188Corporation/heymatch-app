@@ -13,6 +13,7 @@ import { HotPlacePolygon } from 'ui/group/hotplace-polygon'
 import { SelectedGroupOverlay } from 'ui/group/selected-group-overlay'
 import { useMy } from 'api/reads'
 import { CandyOverlay } from 'ui/group/candy-overlay'
+import { NoticeOverlay } from 'ui/group/notice-overlay'
 
 export const GroupScreen = () => {
   const { data: myData } = useMy()
@@ -61,6 +62,7 @@ export const GroupScreen = () => {
         <ButtonGroupOverlay />
         <SelectedGroupOverlay hasJoinedGroup={!!myData?.joined_group?.id} />
         <CandyOverlay />
+        <NoticeOverlay />
       </MapOverlay>
     </Container>
   )

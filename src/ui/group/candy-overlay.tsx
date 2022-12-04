@@ -28,6 +28,6 @@ const Button = styled(TouchableOpacity)`
   padding: 8px 16px;
   background-color: white;
   border-radius: 16px;
-  margin-top: 16px;
+  margin-top: 24px;
   margin-right: 16px;
 `

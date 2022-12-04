@@ -29,3 +29,4 @@ export const GroupMarkerBg = {
 }
 export const PurchaseBannerImage = require('./purchase-banner.png')
 export const GroupCreatePhotoGuide = require('./group-create-photo-guide.png')
+export const NoticeOverlayBg = require('./notice-overlay-bg.png')

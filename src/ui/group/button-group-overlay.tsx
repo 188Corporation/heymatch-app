@@ -27,7 +27,7 @@ const Container = styled(View)`
   z-index: 1;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 28px 24px;
+  padding: 48px 24px;
 `
 
 const FloatingButton = styled(TouchableOpacity).attrs({
