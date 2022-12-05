@@ -96,6 +96,9 @@ export const AuthScreen = () => {
                   authorize(phone, v, sessionToken)
                     .then((res) => {
                       setCodeError(undefined)
+                      if (res.user.is_old_user) {
+                        authStore.checkAgreement()
+                      }
                       if (res.user.schedule_delete_canceled) {
                         alertStore.open({
                           title: '계정이 복구되었어요!',

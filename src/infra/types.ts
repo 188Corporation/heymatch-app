@@ -24,6 +24,7 @@ export interface User {
   free_pass_active_until: string | null
   stream_token: string
   schedule_delete_canceled?: boolean
+  is_old_user?: boolean
 }
 
 export interface MyInfo {
