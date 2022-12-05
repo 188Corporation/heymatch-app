@@ -34,6 +34,7 @@ export const AgreementScreen = () => {
               isChecked={isChecked}
               fillColor={Colors.primary.blue}
               size={32}
+              disabled
               disableText
               disableBuiltInState
               style={{ marginRight: 16 }}
