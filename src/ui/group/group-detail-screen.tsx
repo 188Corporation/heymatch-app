@@ -205,7 +205,7 @@ const ButtonContent: React.FC<{
               } catch (e) {
                 if (e instanceof ApiError && e.res.code === 470) {
                   alertStore.open({
-                    title: '이미 매칭을 보낸 그룹이에요!',
+                    title: '이미 매칭한 그룹이에요!',
                     body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
                   })
                 } else {
