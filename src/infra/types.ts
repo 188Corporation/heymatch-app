@@ -68,8 +68,10 @@ export enum LocationTrackingMode {
   FACE = 3,
 }
 
-export interface RegionZoom {
+export interface LatLngDelta {
+  // max lat - min lat
   latitudeDelta: number
+  // max lng - min lng
   longitudeDelta: number
 }
 

@@ -12,7 +12,9 @@ const TARGET_TEXT =
 
 export const NoticeOverlay = () => {
   const [show, setShow] = useState(false)
-  useEffect(() => setShow(true), [])
+  useEffect(() => {
+    setTimeout(() => setShow(true))
+  }, [])
   return (
     <Container>
       <Image source={NoticeOverlayBg} style={{ flex: 1 }} />

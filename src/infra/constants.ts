@@ -22,6 +22,13 @@ export const KOREA_CENTER = {
   tilt: 0,
   bearing: 0,
 }
+export const DONGSEONGRO_CENTER = {
+  latitude: 35.8699661,
+  longitude: 128.5957445,
+  zoom: 13,
+  tilt: 0,
+  bearing: 0,
+}
 export const DEFAULT_ZOOM = {
   latitudeDelta: 0.0037,
   longitudeDelta: 0.0019,

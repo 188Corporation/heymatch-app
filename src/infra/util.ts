@@ -1,4 +1,4 @@
-import { GpsLocation, Group } from 'infra/types'
+import { GpsLocation, Group, LatLngDelta } from 'infra/types'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
 import CodePush from 'react-native-code-push'
@@ -71,4 +71,14 @@ export const syncCodePush = () => {
     .catch((e) => {
       Toast.show({ type: 'error', text1: String(e) })
     })
+}
+
+export const getLatLngDeltaFromBounds = (
+  bounds: GpsLocation[],
+): LatLngDelta => {
+  const lats = bounds.map((bound) => bound.lat)
+  const lngs = bounds.map((bound) => bound.lng)
+  const latitudeDelta = Math.max(...lats) - Math.min(...lats)
+  const longitudeDelta = Math.max(...lngs) - Math.min(...lngs)
+  return { latitudeDelta, longitudeDelta }
 }

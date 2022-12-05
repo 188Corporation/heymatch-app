@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { View } from 'react-native'
 import _NaverMap from 'react-native-nmap'
-import { KOREA_CENTER } from 'infra/constants'
+import { CURRENT_OS, DONGSEONGRO_CENTER, OS } from 'infra/constants'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import { openSettings } from 'react-native-permissions'
@@ -16,7 +16,7 @@ import { CandyOverlay } from 'ui/group/candy-overlay'
 import { NoticeOverlay } from 'ui/group/notice-overlay'
 import { observer } from 'mobx-react'
 import { getDistance } from 'geolib'
-import { geoinfoToGpsLocation } from 'infra/util'
+import { geoinfoToGpsLocation, getLatLngDeltaFromBounds } from 'infra/util'
 
 const InitialMapFocusProvider: React.FC = observer(() => {
   const [isInitialFocus, setInitialFocus] = useState(true)
@@ -24,7 +24,14 @@ const InitialMapFocusProvider: React.FC = observer(() => {
   const { data: hotPlaces } = useHotPlaceList()
   useEffect(() => {
     const location = locationStore._location
-    if (!isInitialFocus || !hotPlaces || !hotPlaces.length || !location) return
+    if (
+      !isInitialFocus ||
+      !mapStore.isReady ||
+      !hotPlaces ||
+      !hotPlaces.length ||
+      !location
+    )
+      return
     // get the nearest hot place
     const nearest = hotPlaces
       .map((x) => {
@@ -37,14 +44,17 @@ const InitialMapFocusProvider: React.FC = observer(() => {
       })
     // set flag
     setInitialFocus(false)
-    // get delta from bounds
+    // give focus
     const { center, boundsRaw } = nearest
     const bounds = boundsRaw.map((bound) => geoinfoToGpsLocation(bound))
-    const latitudeDelta = Math.max(...bounds.map((bound) => bound.lat))
-    const longitudeDelta = Math.max(...bounds.map((bound) => bound.lng))
-    // give focus
-    mapStore.focusLocation(center, { latitudeDelta, longitudeDelta })
-  }, [isInitialFocus, mapStore, locationStore._location, hotPlaces])
+    mapStore.focusLocation(center, getLatLngDeltaFromBounds(bounds))
+  }, [
+    isInitialFocus,
+    mapStore,
+    mapStore.isReady,
+    locationStore._location,
+    hotPlaces,
+  ])
   return null
 })
 
@@ -65,12 +75,21 @@ export const GroupScreen = () => {
         .then(() => locationStore.getLocation(true))
     }
   }, [permissionStore, locationStore, mapStore, alertStore])
+  useEffect(() => {
+    // ios map init flow
+    if (CURRENT_OS === OS.IOS) {
+      setTimeout(() => mapStore.setIsReady(true))
+    }
+    return () => {
+      mapStore.setIsReady(false)
+    }
+  }, [mapStore])
   return (
     <Container>
       {/* @ts-ignore */}
       <NaverMap
         ref={mapStore.mapRef}
-        center={mapStore.mapCenter || KOREA_CENTER}
+        center={DONGSEONGRO_CENTER}
         compass={true}
         scaleBar={false}
         zoomControl={false}
@@ -83,6 +102,12 @@ export const GroupScreen = () => {
         }}
         onMapClick={() => {
           mapStore.onNonMarkerTouch()
+        }}
+        onInitialized={() => {
+          // android map init flow
+          if (CURRENT_OS === OS.ANDROID) {
+            mapStore.setIsReady(true)
+          }
         }}
         minZoomLevel={10}
       >

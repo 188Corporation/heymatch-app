@@ -7,7 +7,7 @@ import {
   Group,
   LocationTrackingMode,
   NaverMapCamera,
-  RegionZoom,
+  LatLngDelta,
 } from 'infra/types'
 import { DEFAULT_ZOOM } from 'infra/constants'
 import { geoinfoToNmapCoord } from 'infra/util'
@@ -16,6 +16,7 @@ export class MapStore {
   mapRef: RefObject<NaverMapView> = createRef()
   camera: NaverMapCamera | null = null
   selectedGroup: Group | null = null
+  isReady: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -45,7 +46,7 @@ export class MapStore {
     }
   }
 
-  focusLocation(location: GpsLocation, zoom: RegionZoom = DEFAULT_ZOOM) {
+  focusLocation(location: GpsLocation, zoom: LatLngDelta = DEFAULT_ZOOM) {
     this.mapRef.current?.animateToRegion({
       latitude: location.lat,
       longitude: location.lng,
@@ -59,6 +60,10 @@ export class MapStore {
 
   setCamera(c: NaverMapCamera) {
     this.camera = c
+  }
+
+  setIsReady(v: boolean) {
+    this.isReady = v
   }
 
   selectGroup(g: Group) {
