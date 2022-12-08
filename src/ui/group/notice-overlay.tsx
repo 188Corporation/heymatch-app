@@ -13,7 +13,7 @@ const TARGET_TEXT =
 export const NoticeOverlay = () => {
   const [show, setShow] = useState(false)
   useEffect(() => {
-    setTimeout(() => setShow(true))
+    setTimeout(() => setShow(true), 500)
   }, [])
   return (
     <Container>
