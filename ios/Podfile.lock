@@ -1,5 +1,5 @@
 PODS:
-  - amplitude-react-native (0.4.1):
+  - amplitude-react-native (0.7.0):
     - React-Core
   - appcenter-analytics (4.4.5):
     - AppCenter/Analytics (~> 4.0)
@@ -483,6 +483,11 @@ PODS:
     - TOCropViewController
   - RNImageTools (1.5.7):
     - React
+  - RNNotifee (7.2.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 7.2.0)
+  - RNNotifee/NotifeeCore (7.2.0):
+    - React-Core
   - RNPermissions (3.6.1):
     - React-Core
   - RNReanimated (2.12.0):
@@ -515,6 +520,11 @@ PODS:
   - RNScreens (3.17.0):
     - React-Core
     - React-RCTImage
+  - RNSentry (4.11.0):
+    - React-Core
+    - Sentry/HybridSDK (= 7.31.2)
+  - RNShare (8.0.0):
+    - React-Core
   - RNSVG (13.5.0):
     - React-Core
   - RNVectorIcons (9.2.0):
@@ -525,6 +535,7 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
+  - Sentry/HybridSDK (7.31.2)
   - SSZipArchive (2.2.3)
   - TOCropViewController (2.6.1)
   - VisionCamera (2.15.2):
@@ -602,9 +613,12 @@ DEPENDENCIES:
   - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNImageTools (from `../node_modules/react-native-image-tools-wm`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
@@ -634,6 +648,7 @@ SPEC REPOS:
     - PromisesObjC
     - SDWebImage
     - SDWebImageWebPCoder
+    - Sentry
     - SSZipArchive
     - TOCropViewController
 
@@ -768,12 +783,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-crop-picker"
   RNImageTools:
     :path: "../node_modules/react-native-image-tools-wm"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
@@ -784,7 +805,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  amplitude-react-native: 7423a1ca4d90c728be09153c1c6478ea5c67f607
+  amplitude-react-native: 7af97b0220be3add3d280e05d09e23b5b836277c
   AppCenter: 3fd04aa1b166e16fdb03ec81dabe488aece83fbd
   appcenter-analytics: 1aea9ada8922d2e2df3e069a28eda21157c9d30d
   appcenter-core: c593b2e4ac28d6a21b6a217c4a5e6b3de7b0b00f
@@ -869,13 +890,17 @@ SPEC CHECKSUMS:
   RNIap: 040181e50a03a5e885a2ac3086681699362f0152
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNImageTools: 6bebbd918f5e6e99fff7cc1f9186738ee36f42cb
+  RNNotifee: 70639b9ffa4d40f43c5cd3da9159436222a9e51e
   RNPermissions: dcdb7b99796bbeda6975a6e79ad519c41b251b1c
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 0df01424e9e0ed7827200d6ed1087ddd06c493f9
+  RNSentry: f052387ebe939949c74c2cae0c850e76f6d14ddb
+  RNShare: 36aa3e6958373a0ad1c95a1c960adef589da3794
   RNSVG: 38ca962c970dbce1ca38991a5aebf26d163f9efb
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
+  Sentry: b15765d11769852fe78c9add942f7df60ed5dbf5
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   VisionCamera: 4cfd685b1e671fea4aa0400905ab397f0e972210
