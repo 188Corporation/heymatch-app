@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { decode } from 'react-native-pure-jwt'
 import { tokenManager } from 'api/fetcher'
 import { emitter, EventType } from 'infra/events'
 import OneSignal from 'react-native-onesignal'
 import { User } from 'infra/types'
+import { storage } from 'infra/storage'
 
 const TOKEN_KEY = 'auth:access-token'
 const AGREEMENT_KEY = 'auth:agreement'
@@ -19,7 +19,7 @@ export class AuthStore {
     // logout when token invalidated
     emitter.addListener(EventType.TOKEN_INVALIDATED, () => this.logout())
     // read token from storage
-    AsyncStorage.getItem(TOKEN_KEY).then(async (token) => {
+    storage.getItem<string>(TOKEN_KEY).then(async (token) => {
       try {
         if (!token) return
         // give random secret, otherwise android native module throws error
@@ -40,8 +40,8 @@ export class AuthStore {
       }
     })
     // read agreement from storage
-    AsyncStorage.getItem(AGREEMENT_KEY).then((isChecked) => {
-      this.setIsAgreementChecked(isChecked === String(true))
+    storage.getItem<boolean>(AGREEMENT_KEY).then((isChecked) => {
+      this.setIsAgreementChecked(isChecked === true)
     })
   }
 
@@ -60,14 +60,14 @@ export class AuthStore {
   }
 
   _login(token: string) {
-    AsyncStorage.setItem(TOKEN_KEY, token)
+    storage.setItem(TOKEN_KEY, token)
     tokenManager.setToken(token)
     this.isLoggedIn = true
   }
 
   logout() {
-    AsyncStorage.removeItem(TOKEN_KEY)
-    AsyncStorage.removeItem(AGREEMENT_KEY)
+    storage.removeItem(TOKEN_KEY)
+    storage.removeItem(AGREEMENT_KEY)
     tokenManager.setToken('')
     this.isLoggedIn = false
     this.isAgreementChecked = false
@@ -76,7 +76,7 @@ export class AuthStore {
   }
 
   checkAgreement() {
-    AsyncStorage.setItem(AGREEMENT_KEY, String(true))
+    storage.setItem(AGREEMENT_KEY, true)
     this.isAgreementChecked = true
   }
 }

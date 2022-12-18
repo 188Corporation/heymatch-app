@@ -29,8 +29,14 @@ import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging'
 import notifee, { Notification } from '@notifee/react-native'
+import { storage } from 'infra/storage'
 
 export const chatClient = StreamChat.getInstance(STREAM_CHAT_API_KEY)
+const CHAT_USER_INFO_KEY = 'chat:user-info'
+interface ChatUserInfo {
+  userId: string
+  userToken: string
+}
 const i18nInstance = new Streami18n({ language: 'ko' })
 
 const requestPermission = async () => {
@@ -75,6 +81,23 @@ const handlePushMessage = async (
     notification.android = { channelId: await getAndroidChannelId() }
   }
   await notifee.displayNotification(notification)
+}
+
+export const backgroundMessageHandler = async (
+  message: FirebaseMessagingTypes.RemoteMessage,
+) => {
+  console.log('backgroundMessageHandler called')
+  try {
+    const userInfo = await storage.getItem<ChatUserInfo>(CHAT_USER_INFO_KEY)
+    if (!userInfo) {
+      console.log('userInfo empty!')
+      return
+    }
+    await chatClient._setToken({ id: userInfo.userId }, userInfo.userToken)
+    await handlePushMessage(message)
+  } catch (e) {
+    console.log('backgroundMessageHandler error', e)
+  }
 }
 
 const chatStyle: DeepPartial<Theme> = {
@@ -161,6 +184,10 @@ export const ChatProvider: React.FCC = observer(({ children }) => {
     if (userId && userToken) {
       sequence(async () => {
         await chatClient.connectUser({ id: userId }, userToken)
+        await storage.setItem<ChatUserInfo>(CHAT_USER_INFO_KEY, {
+          userId,
+          userToken,
+        })
         try {
           await chatClient.addDevice(
             await getPushNotificationToken(),
@@ -175,6 +202,7 @@ export const ChatProvider: React.FCC = observer(({ children }) => {
     } else {
       sequence(async () => {
         await chatClient.connectAnonymousUser()
+        await storage.removeItem(CHAT_USER_INFO_KEY)
         try {
           await chatClient.removeDevice(await getPushNotificationToken())
         } catch (e) {
