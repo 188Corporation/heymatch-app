@@ -128,7 +128,14 @@ export const AuthScreen = () => {
             textContentType='telephoneNumber'
             value={phone}
             onValueChange={(_v) => {
-              const v = _v.replace(/\D+/g, '').trim().substring(0, 11)
+              let v = _v.replace(/\D+/g, '')
+              if (v.startsWith('82')) {
+                v = v.substring(2)
+              }
+              if (v.startsWith('10')) {
+                v = '0' + v
+              }
+              v = v.substring(0, 11)
               setPhone(v)
               if (!showCodeInput && v.length === 11) sendCode(v)
             }}
