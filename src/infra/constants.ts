@@ -13,6 +13,10 @@ export const CURRENT_OS: OS = Platform.OS as OS
 export const WINDOW_DIMENSIONS = Dimensions.get('window')
 
 export const STREAM_CHAT_API_KEY = !IS_DEV ? 'tp849dtwfytw' : 'dg4mc768s4tj'
+export const PUSH_PROVIDER = 'firebase'
+export const PUSH_PROVIDER_NAME = !IS_DEV
+  ? 'heymatch-firebase-prod'
+  : 'heymatch-firebase-dev'
 export const ONESIGNAL_APP_ID = '83e737f6-2a8d-46df-87f0-61175df1e6b8'
 
 export const KOREA_CENTER = {
