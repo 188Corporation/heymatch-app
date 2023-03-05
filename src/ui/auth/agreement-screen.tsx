@@ -1,82 +1,189 @@
-import React, { useState } from 'react'
+import { useMy } from 'api/reads'
+import { Colors } from 'infra/colors'
+import { navigation } from 'navigation/global'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { Body, H1, H3 } from 'ui/common/text'
-import { TopInsetSpace } from 'ui/common/inset-space'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
-import { useStores } from 'store/globals'
-import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { Colors } from 'infra/colors'
-import { useMy } from 'api/reads'
-import { navigation } from 'navigation/global'
+import { TopInsetSpace } from 'ui/common/inset-space'
+import { Body, Body2, H1, H3 } from 'ui/common/text'
 
 export const AgreementScreen = () => {
   const { authStore } = useStores()
   const { data } = useMy()
-  const [isChecked, setIsChecked] = useState(false)
+  const [isServiceChecked, setIsServiceChecked] = useState(false)
+  const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false)
+  const [isGeoChecked, setIsGeoChecked] = useState(false)
+  const [isAllChecked, setIsAllChecked] = useState(
+    isServiceChecked && isPersonalInfoChecked && isGeoChecked,
+  )
+
+  useEffect(() => {
+    if (isServiceChecked && isPersonalInfoChecked && isGeoChecked) {
+      setIsAllChecked(true)
+    } else {
+      setIsAllChecked(false)
+    }
+  }, [isGeoChecked, isPersonalInfoChecked, isServiceChecked])
+
   return (
     <>
       <FlexScrollView>
         <TopInsetSpace />
         <Container>
-          <H1 style={{ marginBottom: 48 }}>필수 동의사항을 체크해주세요!</H1>
+          <View style={{ marginBottom: 60 }}>
+            <H1 style={{ marginBottom: 12 }}>필수 동의사항을 확인해주세요</H1>
+            <Body2 style={{ color: Colors.gray.v400 }}>
+              안전하고 편리한 서비스 제공을 위해 필요해요
+            </Body2>
+          </View>
           <TouchableOpacity
             style={{
               alignItems: 'center',
-              paddingHorizontal: 8,
-              paddingVertical: 16,
               flexDirection: 'row',
+              borderRadius: 0,
+              marginBottom: 30,
             }}
-            onPress={() => setIsChecked(!isChecked)}
+            onPress={() => {
+              if (isAllChecked) {
+                setIsServiceChecked(false)
+                setIsPersonalInfoChecked(false)
+                setIsGeoChecked(false)
+              } else {
+                setIsServiceChecked(true)
+                setIsPersonalInfoChecked(true)
+                setIsGeoChecked(true)
+              }
+            }}
           >
             <BouncyCheckbox
-              isChecked={isChecked}
+              isChecked={
+                isServiceChecked && isPersonalInfoChecked && isGeoChecked
+              }
               fillColor={Colors.primary.blue}
-              size={32}
+              size={24}
               disabled
               disableText
               disableBuiltInState
               style={{ marginRight: 16 }}
+              innerIconStyle={{
+                borderRadius: 6,
+              }}
+              iconStyle={{
+                borderRadius: 6,
+              }}
             />
-            <H3>모두 동의합니다</H3>
+            <H3>모두 동의</H3>
           </TouchableOpacity>
           <View
             style={{
               height: 1,
               marginTop: 8,
-              marginBottom: 24,
+              marginBottom: 30,
               backgroundColor: Colors.gray.v200,
             }}
           />
-          <View style={{ paddingHorizontal: 12 }}>
-            <AgreementItem
-              text='서비스 이용약관'
-              uri={data?.app_info?.terms_of_service_url!}
-            />
-            <AgreementItem
-              text='개인정보 수집 및 이용 동의'
-              uri={data?.app_info?.privacy_policy_url!}
-            />
-            <AgreementItem
-              text='위치기반 서비스 이용약관'
-              uri={data?.app_info?.terms_of_location_service_url!}
-            />
+          <View>
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                flexDirection: 'row',
+                borderRadius: 0,
+              }}
+              onPress={() => setIsServiceChecked((prev) => !prev)}
+            >
+              <BouncyCheckbox
+                isChecked={isServiceChecked}
+                fillColor={Colors.primary.blue}
+                size={24}
+                disabled
+                disableText
+                disableBuiltInState
+                style={{ marginRight: 16 }}
+                innerIconStyle={{
+                  borderRadius: 6,
+                }}
+                iconStyle={{
+                  borderRadius: 6,
+                }}
+              />
+              <AgreementItem
+                text='서비스 이용약관'
+                uri={data?.app_info?.terms_of_service_url!}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                flexDirection: 'row',
+                borderRadius: 0,
+              }}
+              onPress={() => setIsPersonalInfoChecked((prev) => !prev)}
+            >
+              <BouncyCheckbox
+                isChecked={isPersonalInfoChecked}
+                fillColor={Colors.primary.blue}
+                size={24}
+                disabled
+                disableText
+                disableBuiltInState
+                style={{ marginRight: 16 }}
+                innerIconStyle={{
+                  borderRadius: 6,
+                }}
+                iconStyle={{
+                  borderRadius: 6,
+                }}
+              />
+              <AgreementItem
+                text='개인정보 수집 및 이용 동의'
+                uri={data?.app_info?.privacy_policy_url!}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                flexDirection: 'row',
+                borderRadius: 0,
+              }}
+              onPress={() => setIsGeoChecked((prev) => !prev)}
+            >
+              <BouncyCheckbox
+                isChecked={isGeoChecked}
+                fillColor={Colors.primary.blue}
+                size={24}
+                disabled
+                disableText
+                disableBuiltInState
+                style={{ marginRight: 16 }}
+                innerIconStyle={{
+                  borderRadius: 6,
+                }}
+                iconStyle={{
+                  borderRadius: 6,
+                }}
+              />
+              <AgreementItem
+                text='위치기반 서비스 이용약관'
+                uri={data?.app_info?.terms_of_location_service_url!}
+              />
+            </TouchableOpacity>
           </View>
         </Container>
       </FlexScrollView>
       <BottomButton
-        text='시작하기'
-        disabled={!isChecked}
+        text='시작할게요!'
+        disabled={!isAllChecked}
         onPress={() => authStore.checkAgreement()}
       />
     </>
   )
 }
-
-const Container = styled(View)`
-  padding: 72px 28px 0 28px;
-`
 
 const AgreementItem: React.FC<{
   text: string
@@ -94,9 +201,12 @@ const AgreementItem: React.FC<{
           color: Colors.gray.v400,
         }}
       >
-        {text} (필수)
+        (필수) {text}
       </Body>
-      <Body style={{ color: Colors.gray.v400 }}>{'>'}</Body>
     </TouchableOpacity>
   )
 }
+
+const Container = styled(View)`
+  padding: 72px 28px 0 28px;
+`
