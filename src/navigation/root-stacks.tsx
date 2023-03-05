@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { useStores } from 'store/globals'
-import { observer } from 'mobx-react'
-import { LoadingScreen } from 'ui/loading/loading-screen'
-import { MainTabs } from 'navigation/main-tabs'
-import { AuthScreen } from 'ui/auth/auth-screen'
-import { GroupCreateStacks } from 'navigation/group-create-stacks'
-import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
-import { GroupDetailScreen } from 'ui/group/group-detail-screen'
-import { RootStackParamList } from 'navigation/types'
-import { PurchaseScreen } from 'ui/purchase/purchase-screen'
+import { oneSignal } from 'infra/one-signal'
 import { paymentManager } from 'infra/payments'
+import { observer } from 'mobx-react'
+import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
+import { GroupCreateStacks } from 'navigation/group-create-stacks'
+import { MainTabs } from 'navigation/main-tabs'
+import { RootStackParamList } from 'navigation/types'
+import React, { useEffect } from 'react'
+import { useStores } from 'store/globals'
+import { AgreementScreen } from 'ui/auth/agreement-screen'
+import { AuthScreen } from 'ui/auth/auth-screen'
+import { GenderScreen } from 'ui/auth/gender-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
-import { WebViewScreen } from 'ui/web-view/web-view-screen'
-import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
+import { GroupDetailScreen } from 'ui/group/group-detail-screen'
+import { LoadingScreen } from 'ui/loading/loading-screen'
+import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
-import { oneSignal } from 'infra/one-signal'
-import { AgreementScreen } from 'ui/auth/agreement-screen'
+import { PurchaseScreen } from 'ui/purchase/purchase-screen'
+import { WebViewScreen } from 'ui/web-view/web-view-screen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -34,6 +35,9 @@ export const RootStacks = observer(() => {
       keyboardStore.unsub()
     }
   }, [keyboardStore, permissionStore])
+
+  // authStore.logout()
+
   return (
     <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
       {authStore.isInitializing ? (
@@ -41,7 +45,10 @@ export const RootStacks = observer(() => {
       ) : !authStore.isLoggedIn ? (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
       ) : !authStore.isAgreementChecked ? (
-        <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
+        <>
+          <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
+          <Stack.Screen name='GenderScreen' component={GenderScreen} />
+        </>
       ) : (
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />

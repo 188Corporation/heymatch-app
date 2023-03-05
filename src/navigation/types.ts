@@ -1,5 +1,5 @@
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 import { StackScreenProps } from '@react-navigation/stack'
+import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
@@ -20,6 +20,7 @@ export type RootStackParamList = {
   UserManagementScreen: {}
   UserWithdrawalScreen: {}
   AgreementScreen: {}
+  GenderScreen: {}
 }
 
 export interface MatchRequestTarget {

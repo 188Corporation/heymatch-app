@@ -4,7 +4,6 @@ import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -12,7 +11,6 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, Body2, H1, H3 } from 'ui/common/text'
 
 export const AgreementScreen = () => {
-  const { authStore } = useStores()
   const { data } = useMy()
   const [isServiceChecked, setIsServiceChecked] = useState(false)
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false)
@@ -179,7 +177,7 @@ export const AgreementScreen = () => {
       <BottomButton
         text='시작할게요!'
         disabled={!isAllChecked}
-        onPress={() => authStore.checkAgreement()}
+        onPress={() => navigation.navigate('GenderScreen')}
       />
     </>
   )
