@@ -1,5 +1,6 @@
 import { FemaleSvg, MaleSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
@@ -41,7 +42,11 @@ export const GenderScreen = () => {
           </View>
         </Container>
       </FlexScrollView>
-      <BottomButton text='다음으로' disabled={!gender} onPress={() => {}} />
+      <BottomButton
+        text='다음으로'
+        disabled={!gender}
+        onPress={() => navigation.navigate('BirthdayScreen')}
+      />
     </>
   )
 }
@@ -51,6 +56,7 @@ const Container = styled(View)`
 `
 const GenderTouchable = styled(TouchableOpacity)<{ selected: boolean }>`
   background-color: ${(p) =>
+    // TODO: selected 컬러 수정 필요
     p.selected ? Colors.primary.blue : Colors.gray.v100};
   flex: 1;
   border-radius: 24px;

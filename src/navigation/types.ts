@@ -21,6 +21,7 @@ export type RootStackParamList = {
   UserWithdrawalScreen: {}
   AgreementScreen: {}
   GenderScreen: {}
+  BirthdayScreen: {}
 }
 
 export interface MatchRequestTarget {
