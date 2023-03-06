@@ -1,7 +1,8 @@
 import { Colors } from 'infra/colors'
+import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { View } from 'react-native'
-import { DatePicker } from 'react-native-wheel-pick'
+import DatePicker from 'react-native-date-picker'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -9,7 +10,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H1 } from 'ui/common/text'
 
 export const BirthdayScreen = () => {
-  const [birthday, setBirthday] = useState<Date>()
+  const [birthday, setBirthday] = useState<Date>(new Date())
 
   return (
     <>
@@ -24,21 +25,23 @@ export const BirthdayScreen = () => {
           </View>
           <View style={{ width: '100%', alignItems: 'center' }}>
             <DatePicker
-              style={{ height: 215, width: 300 }}
-              // TODO: 안드로이드일 때 스타일 적용
-              // if (CURRENT_OS === OS.ANDROID) {
-              //   mapStore.setIsReady(true)
-              // }
-              minimumDate={new Date('1950-01-01')}
-              maximumDate={new Date('2003-12-31')}
+              date={birthday}
               onDateChange={(date) => {
                 setBirthday(date)
               }}
+              minimumDate={new Date('1950-01-01')}
+              maximumDate={new Date('2003-12-31')}
+              mode='date'
+              locale='ko'
+              androidVariant='nativeAndroid'
             />
           </View>
         </Container>
       </FlexScrollView>
-      <BottomButton text='다음으로' onPress={() => {}} />
+      <BottomButton
+        text='다음으로'
+        onPress={() => navigation.navigate('ProfilePhotoScreen')}
+      />
     </>
   )
 }
