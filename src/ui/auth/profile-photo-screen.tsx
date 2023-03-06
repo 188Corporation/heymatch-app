@@ -3,6 +3,9 @@ import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { openSettings } from 'react-native-permissions'
+import { useStores } from 'store/globals'
+import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -10,6 +13,21 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, CaptionS, H1 } from 'ui/common/text'
 
 export const ProfilePhotoScreen = () => {
+  const { permissionStore, alertStore } = useStores()
+
+  const getPermissionPhoto = () => {
+    if (permissionStore.camera === 'blocked') {
+      alertStore.open({
+        title: '헤이매치 필수 권한',
+        body: '그룹 사진을 업로드하려면 갤러리 접근 권한이 필요해요.',
+        buttonText: '권한 설정하러 가기',
+        onPress: () => openSettings(),
+      })
+    } else {
+      permissionStore.request(PermissionType.camera)
+    }
+  }
+
   return (
     <>
       <FlexScrollView>
@@ -22,17 +40,20 @@ export const ProfilePhotoScreen = () => {
             </Body2>
           </View>
           <View style={{ flexDirection: 'row', width: '100%', height: 218 }}>
-            <MainTouchable>
+            <MainTouchable onPress={getPermissionPhoto}>
               <Chip>
                 <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
               </Chip>
               <PlusSvg />
             </MainTouchable>
             <View style={{ flex: 1, marginLeft: 15 }}>
-              <SubTouchable>
+              <SubTouchable onPress={getPermissionPhoto}>
                 <PlusSvg />
               </SubTouchable>
-              <SubTouchable style={{ marginTop: 14 }}>
+              <SubTouchable
+                style={{ marginTop: 14 }}
+                onPress={getPermissionPhoto}
+              >
                 <PlusSvg />
               </SubTouchable>
             </View>

@@ -1,3 +1,5 @@
+import { CURRENT_OS, OS } from 'infra/constants'
+import { makeAutoObservable, runInAction } from 'mobx'
 import {
   checkMultiple,
   Permission,
@@ -6,12 +8,11 @@ import {
   Rationale,
   request,
 } from 'react-native-permissions'
-import { CURRENT_OS, OS } from 'infra/constants'
-import { makeAutoObservable, runInAction } from 'mobx'
 
 export enum PermissionType {
   location = 'location',
   camera = 'camera',
+  gallery = 'gallery',
 }
 const permissionTypes: PermissionType[] = Object.values(PermissionType)
 
@@ -26,6 +27,10 @@ const LibPermissions: {
     [OS.ANDROID]: PERMISSIONS.ANDROID.CAMERA,
     [OS.IOS]: PERMISSIONS.IOS.CAMERA,
   },
+  gallery: {
+    [OS.ANDROID]: PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+    [OS.IOS]: PERMISSIONS.IOS.PHOTO_LIBRARY,
+  },
 }
 
 const getLibPermission = (p: PermissionType) => LibPermissions[p][CURRENT_OS]
@@ -33,6 +38,7 @@ const getLibPermission = (p: PermissionType) => LibPermissions[p][CURRENT_OS]
 export class PermissionStore {
   location: PermissionStatus | null = null
   camera: PermissionStatus | null = null
+  gallery: PermissionStatus | null = null
 
   constructor() {
     makeAutoObservable(this)

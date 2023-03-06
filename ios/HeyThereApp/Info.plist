@@ -49,6 +49,8 @@
 	<string>매칭 상대와 사진을 공유할 때 필요해요.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>매칭 상대와 사진을 공유할 때 필요해요.</string>
+	  <key>NSPhotoLibraryUsageDescription</key>
+  <string>프로필 사진을 인증할 때 필요해요.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SUIT-Bold.otf</string>
