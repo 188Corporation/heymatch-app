@@ -12,6 +12,7 @@ import { AgreementScreen } from 'ui/auth/agreement-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
 import { GenderScreen } from 'ui/auth/gender-screen'
+import { ProfilePhotoExaminationScreen } from 'ui/auth/profile-photo-examination-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
@@ -54,6 +55,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='ProfilePhotoRegisterScreen'
             component={ProfilePhotoRegisterScreen}
+          />
+          <Stack.Screen
+            name='ProfilePhotoExaminationScreen'
+            component={ProfilePhotoExaminationScreen}
           />
         </>
       ) : (

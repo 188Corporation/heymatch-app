@@ -120,7 +120,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
       <BottomButton
         text='다음으로'
         disabled={!indivisualProfileStore.photos.mainPhoto}
-        onPress={() => navigation.navigate('BirthdayScreen')}
+        onPress={() => navigation.navigate('ProfilePhotoExaminationScreen')}
       />
     </>
   )
