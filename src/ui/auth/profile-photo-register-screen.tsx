@@ -16,7 +16,7 @@ import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, CaptionS, H1 } from 'ui/common/text'
 
-export const ProfilePhotoScreen = observer(() => {
+export const ProfilePhotoRegisterScreen = observer(() => {
   const { permissionStore, alertStore, indivisualProfileStore } = useStores()
 
   useEffect(() => {

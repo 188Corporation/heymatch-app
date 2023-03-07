@@ -40,7 +40,7 @@ export const BirthdayScreen = () => {
       </FlexScrollView>
       <BottomButton
         text='다음으로'
-        onPress={() => navigation.navigate('ProfilePhotoScreen')}
+        onPress={() => navigation.navigate('ProfilePhotoRegisterScreen')}
       />
     </>
   )
