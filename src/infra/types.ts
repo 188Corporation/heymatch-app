@@ -1,6 +1,6 @@
-import { Coord } from 'react-native-nmap'
-import { ColorValue } from 'react-native'
 import { ReactNode } from 'react'
+import { ColorValue } from 'react-native'
+import { Coord } from 'react-native-nmap'
 
 export interface ResponseEnvelope<T = unknown> {
   status: 'success' | 'error'
@@ -190,3 +190,5 @@ export interface UserPurchase {
   purchase_processed: boolean
   purchased_at: string
 }
+
+export type Gender = 'Male' | 'Female'

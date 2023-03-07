@@ -1,5 +1,6 @@
 import { FemaleSvg, MaleSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { Gender } from 'infra/types'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -10,7 +11,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H1, H3 } from 'ui/common/text'
 
 export const GenderScreen = () => {
-  const [gender, setGender] = useState<'Male' | 'Female' | undefined>(undefined)
+  const [gender, setGender] = useState<Gender | undefined>(undefined)
 
   return (
     <>

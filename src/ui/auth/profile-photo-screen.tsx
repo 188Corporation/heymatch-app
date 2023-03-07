@@ -1,21 +1,25 @@
 import { PlusSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { CURRENT_OS, OS } from 'infra/constants'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { launchImageLibrary } from 'react-native-image-picker'
 import { openSettings } from 'react-native-permissions'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, CaptionS, H1 } from 'ui/common/text'
 
-export const ProfilePhotoScreen = () => {
-  const { permissionStore, alertStore } = useStores()
+export const ProfilePhotoScreen = observer(() => {
+  const { permissionStore, alertStore, indivisualProfileStore } = useStores()
 
-  const getPermissionPhoto = () => {
+  useEffect(() => {
     if (permissionStore.camera === 'blocked') {
       alertStore.open({
         title: '헤이매치 필수 권한',
@@ -26,6 +30,26 @@ export const ProfilePhotoScreen = () => {
     } else {
       permissionStore.request(PermissionType.camera)
     }
+  }, [alertStore, permissionStore])
+
+  const openPhotoGallery = (photoType: 'main' | 'sub1' | 'sub2') => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: CURRENT_OS === OS.ANDROID,
+      },
+      (res) => {
+        if (!res.assets) return
+        const uri = res.assets[0].uri!
+        if (photoType === 'main') {
+          indivisualProfileStore.setPhotos(uri, 'main')
+        } else if (photoType === 'sub1') {
+          indivisualProfileStore.setPhotos(uri, 'sub1')
+        } else {
+          indivisualProfileStore.setPhotos(uri, 'sub2')
+        }
+      },
+    )
   }
 
   return (
@@ -40,21 +64,54 @@ export const ProfilePhotoScreen = () => {
             </Body2>
           </View>
           <View style={{ flexDirection: 'row', width: '100%', height: 218 }}>
-            <MainTouchable onPress={getPermissionPhoto}>
+            <MainTouchable onPress={() => openPhotoGallery('main')}>
               <Chip>
                 <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
               </Chip>
-              <PlusSvg />
+              {indivisualProfileStore.getPhotos.mainPhoto ? (
+                <Image
+                  source={{ uri: indivisualProfileStore.getPhotos.mainPhoto }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 20,
+                  }}
+                />
+              ) : (
+                <PlusSvg />
+              )}
             </MainTouchable>
             <View style={{ flex: 1, marginLeft: 15 }}>
-              <SubTouchable onPress={getPermissionPhoto}>
-                <PlusSvg />
+              <SubTouchable onPress={() => openPhotoGallery('sub1')}>
+                {indivisualProfileStore.getPhotos.sub1Photo ? (
+                  <Image
+                    source={{ uri: indivisualProfileStore.getPhotos.sub1Photo }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 20,
+                    }}
+                  />
+                ) : (
+                  <PlusSvg />
+                )}
               </SubTouchable>
               <SubTouchable
                 style={{ marginTop: 14 }}
-                onPress={getPermissionPhoto}
+                onPress={() => openPhotoGallery('sub2')}
               >
-                <PlusSvg />
+                {indivisualProfileStore.getPhotos.sub2Photo ? (
+                  <Image
+                    source={{ uri: indivisualProfileStore.getPhotos.sub2Photo }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 20,
+                    }}
+                  />
+                ) : (
+                  <PlusSvg />
+                )}
               </SubTouchable>
             </View>
           </View>
@@ -62,12 +119,12 @@ export const ProfilePhotoScreen = () => {
       </FlexScrollView>
       <BottomButton
         text='다음으로'
-        disabled={true}
+        disabled={!indivisualProfileStore.photos.mainPhoto}
         onPress={() => navigation.navigate('BirthdayScreen')}
       />
     </>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 72px 28px 0 28px;
