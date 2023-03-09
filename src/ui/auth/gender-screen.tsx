@@ -30,7 +30,14 @@ export const GenderScreen = () => {
               selected={gender === 'Male'}
             >
               <MaleSvg />
-              <H3 style={{ marginTop: 25 }}>남성</H3>
+              <H3
+                style={{
+                  marginTop: 25,
+                  color: gender === 'Male' ? Colors.white : Colors.black,
+                }}
+              >
+                남성
+              </H3>
             </GenderTouchable>
             <GenderTouchable
               onPress={() => setGender('Female')}
@@ -38,7 +45,14 @@ export const GenderScreen = () => {
               style={{ marginLeft: 12 }}
             >
               <FemaleSvg />
-              <H3 style={{ marginTop: 25 }}>여성</H3>
+              <H3
+                style={{
+                  marginTop: 25,
+                  color: gender === 'Female' ? Colors.white : Colors.black,
+                }}
+              >
+                여성
+              </H3>
             </GenderTouchable>
           </View>
         </Container>
