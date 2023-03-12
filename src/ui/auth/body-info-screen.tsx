@@ -12,7 +12,7 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
-import { Body2, H1, H2 } from 'ui/common/text'
+import { DescBody2, H1, H2 } from 'ui/common/text'
 export const BodyInfoScreen = () => {
   const a = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
     return {
@@ -82,9 +82,9 @@ export const BodyInfoScreen = () => {
         <Container>
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>회원님에 대해 더 알려주세요!</H1>
-            <Body2 style={{ color: Colors.gray.v400 }}>
+            <DescBody2>
               정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
-            </Body2>
+            </DescBody2>
           </View>
           <View style={{ marginBottom: 40, zIndex: 100 }}>
             <H2 style={{ marginBottom: 10 }}>키</H2>

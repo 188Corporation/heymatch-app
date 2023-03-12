@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
-import { Body2, H1, H3 } from 'ui/common/text'
+import { DescBody2, H1, H3 } from 'ui/common/text'
 
 export const GenderScreen = () => {
   const [gender, setGender] = useState<Gender | undefined>(undefined)
@@ -20,9 +20,7 @@ export const GenderScreen = () => {
         <Container>
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>성별을 알려주세요</H1>
-            <Body2 style={{ color: Colors.gray.v400 }}>
-              다른 그룹에게 보여줄 성별을 선택해주세요
-            </Body2>
+            <DescBody2>다른 그룹에게 보여줄 성별을 선택해주세요</DescBody2>
           </View>
           <View style={{ flexDirection: 'row' }}>
             <GenderTouchable

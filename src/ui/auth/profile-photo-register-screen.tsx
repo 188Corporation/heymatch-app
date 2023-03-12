@@ -14,7 +14,7 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
-import { Body2, CaptionS, H1 } from 'ui/common/text'
+import { CaptionS, DescBody2, H1 } from 'ui/common/text'
 
 export const ProfilePhotoRegisterScreen = observer(() => {
   const { permissionStore, alertStore, indivisualProfileStore } = useStores()
@@ -59,9 +59,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
         <Container>
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>프로필 사진을 등록해주세요</H1>
-            <Body2 style={{ color: Colors.gray.v400 }}>
-              얼굴이 잘 보이는 사진으로 등록해주세요
-            </Body2>
+            <DescBody2>얼굴이 잘 보이는 사진으로 등록해주세요</DescBody2>
           </View>
           <View style={{ flexDirection: 'row', width: '100%', height: 218 }}>
             <MainTouchable onPress={() => openPhotoGallery('main')}>

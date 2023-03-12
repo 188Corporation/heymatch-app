@@ -12,7 +12,7 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body2, H1 } from 'ui/common/text'
+import { DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = () => {
   const [jobTitle, setJobTitle] = useState()
@@ -50,9 +50,9 @@ export const JobInfoScreen = () => {
         <Container>
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>직업을 선택해주세요</H1>
-            <Body2 style={{ color: Colors.gray.v400 }}>
+            <DescBody2>
               정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
-            </Body2>
+            </DescBody2>
           </View>
           <RadioForm>
             {jobTitleForm.map((x, idx) => {

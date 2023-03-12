@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
-import { Body, Body2, H1, H3 } from 'ui/common/text'
+import { Body, DescBody2, H1, H3 } from 'ui/common/text'
 
 export const AgreementScreen = () => {
   const { data } = useMy()
@@ -34,9 +34,7 @@ export const AgreementScreen = () => {
         <Container>
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>필수 동의사항을 확인해주세요</H1>
-            <Body2 style={{ color: Colors.gray.v400 }}>
-              안전하고 편리한 서비스 제공을 위해 필요해요
-            </Body2>
+            <DescBody2>안전하고 편리한 서비스 제공을 위해 필요해요</DescBody2>
           </View>
           <TouchableOpacity
             style={{
