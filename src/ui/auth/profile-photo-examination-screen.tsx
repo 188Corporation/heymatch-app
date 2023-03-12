@@ -43,7 +43,7 @@ export const ProfilePhotoExaminationScreen = () => {
       </FlexScrollView>
       <BottomButton
         text='+ 추가 정보 등록하기'
-        onPress={() => navigation.navigate('ProfilePhotoRegisterScreen')}
+        onPress={() => navigation.navigate('BodyInfoScreen')}
       />
     </>
   )

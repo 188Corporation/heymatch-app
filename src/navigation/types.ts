@@ -24,6 +24,7 @@ export type RootStackParamList = {
   BirthdayScreen: {}
   ProfilePhotoRegisterScreen: {}
   ProfilePhotoExaminationScreen: {}
+  BodyInfoScreen: {}
 }
 
 export interface MatchRequestTarget {

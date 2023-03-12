@@ -11,6 +11,7 @@ import { useStores } from 'store/globals'
 import { AgreementScreen } from 'ui/auth/agreement-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
+import { BodyInfoScreen } from 'ui/auth/body-info-screen'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { ProfilePhotoExaminationScreen } from 'ui/auth/profile-photo-examination-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
@@ -60,6 +61,7 @@ export const RootStacks = observer(() => {
             name='ProfilePhotoExaminationScreen'
             component={ProfilePhotoExaminationScreen}
           />
+          <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
         </>
       ) : (
         <>

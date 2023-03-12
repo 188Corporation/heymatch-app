@@ -1,12 +1,12 @@
-import styled from 'styled-components'
-import { ButtonText } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { TouchableOpacity } from 'react-native'
-import { Column, Row } from 'ui/common/layout'
-import React, { ReactNode } from 'react'
 import { observer } from 'mobx-react'
+import React, { ReactNode } from 'react'
+import { TouchableOpacity } from 'react-native'
 import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { BottomInsetSpace } from 'ui/common/inset-space'
+import { Column, Row } from 'ui/common/layout'
+import { ButtonText } from 'ui/common/text'
 
 export const BottomButton: React.FC<{
   text: string
