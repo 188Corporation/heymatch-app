@@ -142,12 +142,12 @@ export const BodyInfoScreen = () => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        onPress={() => navigation.navigate('EmailInputScreen')}
+        onPress={() => navigation.navigate('JobInfoScreen')}
       />
       <BottomButton
         text='다음으로'
         disabled={!bodyForm}
-        onPress={() => navigation.navigate('EmailInputScreen')}
+        onPress={() => navigation.navigate('JobInfoScreen')}
       />
     </>
   )

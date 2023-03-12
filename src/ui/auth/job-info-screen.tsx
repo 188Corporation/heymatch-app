@@ -97,12 +97,13 @@ export const JobInfoScreen = () => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        onPress={() => navigation.navigate('JobInfoScreen')}
+        // TODO: profile-photo-examination-screen 혹은 메인
+        onPress={() => navigation.navigate('')}
       />
       <BottomButton
         text='다음으로'
         disabled={!jobTitle}
-        onPress={() => navigation.navigate('JobInfoScreen')}
+        onPress={() => navigation.navigate('EmailInputScreen')}
       />
     </>
   )

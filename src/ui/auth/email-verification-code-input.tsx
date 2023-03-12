@@ -51,13 +51,13 @@ export const EmailVerificationCodeInputScreen = () => {
         color={Colors.white}
         textColor={Colors.gray.v400}
         // TODO: profile-photo-examination-screen 혹은 메인
-        onPress={() => navigation.navigate('JobInfoScreen')}
+        onPress={() => navigation.navigate('')}
       />
       <BottomButton
         text='다음으로'
         disabled={!emailVerificationCode}
         // TODO: profile-photo-examination-screen 혹은 메인
-        onPress={() => navigation.navigate('JobInfoScreen')}
+        onPress={() => navigation.navigate('')}
       />
     </KeyboardAvoidingView>
   )
