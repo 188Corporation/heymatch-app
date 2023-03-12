@@ -28,6 +28,7 @@ export const ProfilePhotoExaminationScreen = () => {
               }}
             />
             <View style={{ width: '100%', alignItems: 'center' }}>
+              {/* TODO: 추가정보 작성플로우를 마쳤을 경우 문구 변경 */}
               <H2 style={{ marginBottom: 8, color: Colors.gray.v500 }}>
                 프로필을 확인하고 있어요
               </H2>
@@ -42,6 +43,7 @@ export const ProfilePhotoExaminationScreen = () => {
         </Container>
       </FlexScrollView>
       <BottomButton
+        // TODO: 추가정보 작성플로우를 마쳤을 경우 disable
         text='+ 추가 정보 등록하기'
         onPress={() => navigation.navigate('BodyInfoScreen')}
       />

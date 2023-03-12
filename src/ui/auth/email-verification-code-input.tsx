@@ -11,9 +11,9 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
-export const EmailInputScreen = () => {
-  const emailInputRef = useRef<TextInput | null>(null)
-  const [email, setEmail] = useState('')
+export const EmailVerificationCodeInputScreen = () => {
+  const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
+  const [emailVerificationCode, setEmailVerificationCode] = useState('')
 
   return (
     <KeyboardAvoidingView>
@@ -22,22 +22,26 @@ export const EmailInputScreen = () => {
         <FlexScrollView>
           <Container>
             <View style={{ marginBottom: 60 }}>
-              <H1 style={{ marginBottom: 12 }}>회사를 인증해주세요</H1>
-              <DescBody2>
-                정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
-              </DescBody2>
+              <H1 style={{ marginBottom: 12 }}>인증 코드를 입력해주세요</H1>
+              <DescBody2>메일로 전송된 코드를 입력해주세요 :)</DescBody2>
             </View>
             <Input
-              inputRef={emailInputRef}
-              label='이메일 주소'
-              placeholder='이메일을 입력해주세요'
-              keyboardType='email-address'
-              autoComplete='email'
-              textContentType='emailAddress'
-              value={email}
+              inputRef={emailVerificationCodeInputRef}
+              label='인증 코드'
+              placeholder='인증 코드를 입력해주세요'
+              keyboardType='number-pad'
+              autoComplete='sms-otp'
+              textContentType='oneTimeCode'
+              value={emailVerificationCode}
               onValueChange={(v) => {
-                setEmail(v)
+                if (v.length === 6) {
+                  // TODO: authorize
+                  return
+                }
+                setEmailVerificationCode(v)
               }}
+              // TODO
+              errorMessage={''}
             />
           </Container>
         </FlexScrollView>
@@ -46,13 +50,14 @@ export const EmailInputScreen = () => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        // TODO: profile-photo-examination 혹은 메인화면
-        onPress={() => navigation.navigate('')}
+        // TODO: profile-photo-examination-screen 혹은 메인
+        onPress={() => navigation.navigate('JobInfoScreen')}
       />
       <BottomButton
         text='다음으로'
-        disabled={!email}
-        onPress={() => navigation.navigate('EmailVerificationCodeInputScreen')}
+        disabled={!emailVerificationCode}
+        // TODO: profile-photo-examination-screen 혹은 메인
+        onPress={() => navigation.navigate('JobInfoScreen')}
       />
     </KeyboardAvoidingView>
   )
