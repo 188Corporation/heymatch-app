@@ -12,6 +12,7 @@ import { AgreementScreen } from 'ui/auth/agreement-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
 import { BodyInfoScreen } from 'ui/auth/body-info-screen'
+import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
 import { ProfilePhotoExaminationScreen } from 'ui/auth/profile-photo-examination-screen'
@@ -64,6 +65,7 @@ export const RootStacks = observer(() => {
           />
           <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
           <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
+          <Stack.Screen name='EmailInputScreen' component={EmailInputScreen} />
         </>
       ) : (
         <>
