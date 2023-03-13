@@ -87,7 +87,7 @@ export const BodyInfoScreen = () => {
           </View>
           <View style={{ marginBottom: 40, zIndex: 100 }}>
             <H2 style={{ marginBottom: 10 }}>키</H2>
-            <Dropdown items={heightItems} setValue={setHeight} />
+            <Dropdown items={heightItems} value={height} setValue={setHeight} />
           </View>
           <View>
             <H2 style={{ marginBottom: 20 }}>체형</H2>

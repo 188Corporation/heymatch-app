@@ -4,20 +4,24 @@ import { Dropdown as ElementDropdown } from 'react-native-element-dropdown'
 
 export const Dropdown = ({
   items,
+  value,
   setValue,
 }: {
   items: {
     value: number
     label: string
   }[]
+  value: any
   setValue: any
 }) => {
   return (
     <ElementDropdown
       data={items}
+      value={value}
+      autoScroll={false}
       labelField='label'
       valueField='value'
-      onChange={setValue}
+      onChange={(item) => setValue(item.value)}
       placeholder='160cm'
       style={{
         borderColor: 'transparent',
