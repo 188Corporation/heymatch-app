@@ -9,22 +9,52 @@ export interface ResponseEnvelope<T = unknown> {
   message?: string
 }
 
+export type Gender = 'm' | 'f'
+type MaleBodyForm =
+  | 'thin'
+  | 'slender'
+  | 'normal'
+  | 'chubby'
+  | 'muscular'
+  | 'bulky'
+type FemaleBodyForm =
+  | 'thin'
+  | 'slender'
+  | 'normal'
+  | 'chubby'
+  | 'glamourous'
+  | 'bulky'
+// n: not verified | u: under verification | a: accepted | r: rejected
+type UserProfileImageStatus = 'n' | 'u' | 'a' | 'r'
+type UserProfileImages = {
+  is_main: boolean
+  status: UserProfileImageStatus
+  image: string
+  image_blurred: string
+  thumbnail: string
+  thumbnail_blurred: string
+  order: number
+  is_active: boolean
+}
 export interface User {
   id: string
+  stream_token: string
+  is_first_signup: boolean
   username: string
   phone_number: string
-  age: number | null
+  gender: Gender | null
   birthdate: string | null
-  gender: number | null
   height_cm: number | null
-  workplace: string | null
-  school: string | null
+  male_body_form?: MaleBodyForm
+  female_body_form?: FemaleBodyForm
+  job_title?: string
+  verified_school_name?: string
+  verified_company_name?: string
   point_balance: number
   free_pass: boolean
   free_pass_active_until: string | null
-  stream_token: string
-  schedule_delete_canceled?: boolean
-  is_old_user?: boolean
+  user_profile_images: UserProfileImages[]
+  agreed_to_terms: boolean
 }
 
 export interface MyInfo {
@@ -190,5 +220,3 @@ export interface UserPurchase {
   purchase_processed: boolean
   purchased_at: string
 }
-
-export type Gender = 'Male' | 'Female'

@@ -24,29 +24,29 @@ export const GenderScreen = () => {
           </View>
           <View style={{ flexDirection: 'row' }}>
             <GenderTouchable
-              onPress={() => setGender('Male')}
-              selected={gender === 'Male'}
+              onPress={() => setGender('m')}
+              selected={gender === 'm'}
             >
               <MaleSvg />
               <H3
                 style={{
                   marginTop: 25,
-                  color: gender === 'Male' ? Colors.white : Colors.black,
+                  color: gender === 'm' ? Colors.white : Colors.black,
                 }}
               >
                 남성
               </H3>
             </GenderTouchable>
             <GenderTouchable
-              onPress={() => setGender('Female')}
-              selected={gender === 'Female'}
+              onPress={() => setGender('f')}
+              selected={gender === 'f'}
               style={{ marginLeft: 12 }}
             >
               <FemaleSvg />
               <H3
                 style={{
                   marginTop: 25,
-                  color: gender === 'Female' ? Colors.white : Colors.black,
+                  color: gender === 'f' ? Colors.white : Colors.black,
                 }}
               >
                 여성
