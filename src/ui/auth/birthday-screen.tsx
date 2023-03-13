@@ -1,15 +1,27 @@
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import DatePicker from 'react-native-date-picker'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1 } from 'ui/common/text'
 
-export const BirthdayScreen = () => {
+export const BirthdayScreen = observer(() => {
+  const { userProfileStore } = useStores()
   const [birthday, setBirthday] = useState<Date>(new Date())
+
+  const convertBirthdate = () => {
+    const month =
+      birthday.getMonth() < 9
+        ? `0${birthday.getMonth() + 1}`
+        : `${birthday.getMonth() + 1}`
+
+    return `${birthday.getFullYear()}-${month}-${birthday.getDate()}`
+  }
 
   return (
     <>
@@ -25,6 +37,7 @@ export const BirthdayScreen = () => {
               date={birthday}
               onDateChange={(date) => {
                 setBirthday(date)
+                userProfileStore.setBirthdate(convertBirthdate())
               }}
               minimumDate={new Date('1950-01-01')}
               maximumDate={new Date('2003-12-31')}
@@ -41,7 +54,7 @@ export const BirthdayScreen = () => {
       />
     </>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 72px 28px 0 28px;

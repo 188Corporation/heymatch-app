@@ -10,20 +10,27 @@ export interface ResponseEnvelope<T = unknown> {
 }
 
 export type Gender = 'm' | 'f'
-type MaleBodyForm =
+export type MaleBodyForm =
   | 'thin'
   | 'slender'
   | 'normal'
   | 'chubby'
   | 'muscular'
   | 'bulky'
-type FemaleBodyForm =
+export type FemaleBodyForm =
   | 'thin'
   | 'slender'
   | 'normal'
   | 'chubby'
   | 'glamourous'
   | 'bulky'
+export type JobTitle =
+  | 'college_student'
+  | 'employee'
+  | 'self_employed'
+  | 'part_time'
+  | 'businessman'
+  | 'etc'
 // n: not verified | u: under verification | a: accepted | r: rejected
 type UserProfileImageStatus = 'n' | 'u' | 'a' | 'r'
 type UserProfileImages = {
@@ -47,7 +54,7 @@ export interface User {
   height_cm: number | null
   male_body_form?: MaleBodyForm
   female_body_form?: FemaleBodyForm
-  job_title?: string
+  job_title?: JobTitle
   verified_school_name?: string
   verified_company_name?: string
   point_balance: number

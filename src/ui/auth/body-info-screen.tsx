@@ -1,4 +1,5 @@
 import { Colors } from 'infra/colors'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { View } from 'react-native'
@@ -7,73 +8,24 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
-export const BodyInfoScreen = () => {
+export const BodyInfoScreen = observer(() => {
+  const { userProfileStore } = useStores()
+
   const heightItems = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
     return {
       value: x,
       label: `${x}cm`,
     }
   })
-  const [height, setHeight] = useState(160)
   const [bodyForm, setBodyForm] = useState()
-  const maleBodyForm = [
-    {
-      label: '마른',
-      value: 'thin',
-    },
-    {
-      label: '날씬한',
-      value: 'slender',
-    },
-    {
-      label: '보통',
-      value: 'normal',
-    },
-    {
-      label: '통통한',
-      value: 'chubby',
-    },
-    {
-      label: '탄탄한',
-      value: 'muscular',
-    },
-    {
-      label: '근육질',
-      value: 'bulky',
-    },
-  ]
-  const femaleBodyForm = [
-    {
-      label: '마른',
-      value: 'thin',
-    },
-    {
-      label: '날씬한',
-      value: 'slender',
-    },
-    {
-      label: '보통',
-      value: 'normal',
-    },
-    {
-      label: '통통한',
-      value: 'chubby',
-    },
-    {
-      label: '글래머러스한',
-      value: 'glamourous',
-    },
-    {
-      label: '근육질',
-      value: 'bulky',
-    },
-  ]
+
   return (
     <>
       <View style={{ flexGrow: 1 }}>
@@ -87,12 +39,19 @@ export const BodyInfoScreen = () => {
           </View>
           <View style={{ marginBottom: 40, zIndex: 100 }}>
             <H2 style={{ marginBottom: 10 }}>키</H2>
-            <Dropdown items={heightItems} value={height} setValue={setHeight} />
+            <Dropdown
+              items={heightItems}
+              value={userProfileStore.height}
+              setValue={userProfileStore.setHeight}
+            />
           </View>
           <View>
             <H2 style={{ marginBottom: 20 }}>체형</H2>
             <RadioForm>
-              {maleBodyForm.map((x, idx) => {
+              {(userProfileStore.gender === 'm'
+                ? maleBodyForm
+                : femaleBodyForm
+              ).map((x, idx) => {
                 return (
                   <View key={x.value} style={{ marginBottom: 15 }}>
                     <RadioButton key={x.value}>
@@ -100,7 +59,10 @@ export const BodyInfoScreen = () => {
                         obj={x}
                         index={idx}
                         isSelected={bodyForm === x.value}
-                        onPress={setBodyForm}
+                        onPress={(v) => {
+                          setBodyForm(v)
+                          userProfileStore.setBodyForm(v)
+                        }}
                         buttonOuterSize={24}
                         buttonSize={12}
                         buttonInnerColor={Colors.white}
@@ -145,8 +107,60 @@ export const BodyInfoScreen = () => {
       />
     </>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 72px 28px 0 28px;
 `
+const maleBodyForm = [
+  {
+    label: '마른',
+    value: 'thin',
+  },
+  {
+    label: '날씬한',
+    value: 'slender',
+  },
+  {
+    label: '보통',
+    value: 'normal',
+  },
+  {
+    label: '통통한',
+    value: 'chubby',
+  },
+  {
+    label: '탄탄한',
+    value: 'muscular',
+  },
+  {
+    label: '근육질',
+    value: 'bulky',
+  },
+]
+const femaleBodyForm = [
+  {
+    label: '마른',
+    value: 'thin',
+  },
+  {
+    label: '날씬한',
+    value: 'slender',
+  },
+  {
+    label: '보통',
+    value: 'normal',
+  },
+  {
+    label: '통통한',
+    value: 'chubby',
+  },
+  {
+    label: '글래머러스한',
+    value: 'glamourous',
+  },
+  {
+    label: '근육질',
+    value: 'bulky',
+  },
+]

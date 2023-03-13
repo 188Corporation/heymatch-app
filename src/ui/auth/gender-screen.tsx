@@ -1,18 +1,18 @@
 import { FemaleSvg, MaleSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { Gender } from 'infra/types'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H3 } from 'ui/common/text'
 
-export const GenderScreen = () => {
-  const [gender, setGender] = useState<Gender | undefined>(undefined)
-
+export const GenderScreen = observer(() => {
+  const { userProfileStore } = useStores()
   return (
     <>
       <FlexScrollView>
@@ -24,29 +24,35 @@ export const GenderScreen = () => {
           </View>
           <View style={{ flexDirection: 'row' }}>
             <GenderTouchable
-              onPress={() => setGender('m')}
-              selected={gender === 'm'}
+              onPress={() => userProfileStore.setGender('m')}
+              selected={userProfileStore.gender === 'm'}
             >
               <MaleSvg />
               <H3
                 style={{
                   marginTop: 25,
-                  color: gender === 'm' ? Colors.white : Colors.black,
+                  color:
+                    userProfileStore.gender === 'm'
+                      ? Colors.white
+                      : Colors.black,
                 }}
               >
                 남성
               </H3>
             </GenderTouchable>
             <GenderTouchable
-              onPress={() => setGender('f')}
-              selected={gender === 'f'}
+              onPress={() => userProfileStore.setGender('f')}
+              selected={userProfileStore.gender === 'f'}
               style={{ marginLeft: 12 }}
             >
               <FemaleSvg />
               <H3
                 style={{
                   marginTop: 25,
-                  color: gender === 'f' ? Colors.white : Colors.black,
+                  color:
+                    userProfileStore.gender === 'f'
+                      ? Colors.white
+                      : Colors.black,
                 }}
               >
                 여성
@@ -57,12 +63,12 @@ export const GenderScreen = () => {
       </FlexScrollView>
       <BottomButton
         text='다음으로'
-        disabled={!gender}
+        disabled={!userProfileStore.gender}
         onPress={() => navigation.navigate('BirthdayScreen')}
       />
     </>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 72px 28px 0 28px;

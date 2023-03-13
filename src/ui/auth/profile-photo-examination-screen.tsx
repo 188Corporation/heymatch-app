@@ -11,7 +11,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H2 } from 'ui/common/text'
 
 export const ProfilePhotoExaminationScreen = () => {
-  const { indivisualProfileStore } = useStores()
+  const { userProfileStore } = useStores()
   return (
     <>
       <FlexScrollView>
@@ -19,7 +19,7 @@ export const ProfilePhotoExaminationScreen = () => {
         <Container style={{ height: '100%', justifyContent: 'center' }}>
           <View style={{ width: '100%', alignItems: 'center' }}>
             <Image
-              source={{ uri: indivisualProfileStore.photos.mainPhoto }}
+              source={{ uri: userProfileStore.photos.mainPhoto }}
               style={{
                 width: 128,
                 height: 128,

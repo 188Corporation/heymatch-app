@@ -17,7 +17,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { CaptionS, DescBody2, H1 } from 'ui/common/text'
 
 export const ProfilePhotoRegisterScreen = observer(() => {
-  const { permissionStore, alertStore, indivisualProfileStore } = useStores()
+  const { permissionStore, alertStore, userProfileStore } = useStores()
 
   useEffect(() => {
     if (permissionStore.camera === 'blocked') {
@@ -42,11 +42,11 @@ export const ProfilePhotoRegisterScreen = observer(() => {
         if (!res.assets) return
         const uri = res.assets[0].uri!
         if (photoType === 'main') {
-          indivisualProfileStore.setPhotos(uri, 'main')
+          userProfileStore.setPhotos(uri, 'main')
         } else if (photoType === 'sub1') {
-          indivisualProfileStore.setPhotos(uri, 'sub1')
+          userProfileStore.setPhotos(uri, 'sub1')
         } else {
-          indivisualProfileStore.setPhotos(uri, 'sub2')
+          userProfileStore.setPhotos(uri, 'sub2')
         }
       },
     )
@@ -66,9 +66,9 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               <Chip>
                 <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
               </Chip>
-              {indivisualProfileStore.getPhotos.mainPhoto ? (
+              {userProfileStore.getPhotos.mainPhoto ? (
                 <Image
-                  source={{ uri: indivisualProfileStore.getPhotos.mainPhoto }}
+                  source={{ uri: userProfileStore.getPhotos.mainPhoto }}
                   style={{
                     width: '100%',
                     height: '100%',
@@ -81,9 +81,9 @@ export const ProfilePhotoRegisterScreen = observer(() => {
             </MainTouchable>
             <View style={{ flex: 1, marginLeft: 15 }}>
               <SubTouchable onPress={() => openPhotoGallery('sub1')}>
-                {indivisualProfileStore.getPhotos.sub1Photo ? (
+                {userProfileStore.getPhotos.sub1Photo ? (
                   <Image
-                    source={{ uri: indivisualProfileStore.getPhotos.sub1Photo }}
+                    source={{ uri: userProfileStore.getPhotos.sub1Photo }}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -98,9 +98,9 @@ export const ProfilePhotoRegisterScreen = observer(() => {
                 style={{ marginTop: 14 }}
                 onPress={() => openPhotoGallery('sub2')}
               >
-                {indivisualProfileStore.getPhotos.sub2Photo ? (
+                {userProfileStore.getPhotos.sub2Photo ? (
                   <Image
-                    source={{ uri: indivisualProfileStore.getPhotos.sub2Photo }}
+                    source={{ uri: userProfileStore.getPhotos.sub2Photo }}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -117,7 +117,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
       </FlexScrollView>
       <BottomButton
         text='다음으로'
-        disabled={!indivisualProfileStore.photos.mainPhoto}
+        disabled={!userProfileStore.photos.mainPhoto}
         onPress={() => navigation.navigate('ProfilePhotoExaminationScreen')}
       />
     </>

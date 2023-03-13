@@ -3,11 +3,11 @@ import { AlertStore } from 'store/alert'
 import { AuthStore } from 'store/auth'
 import { ChatStore } from 'store/chat'
 import { GroupCreateStore } from 'store/group-create'
-import { IndivisualProfileStore } from 'store/indivisual-profile'
 import { KeyboardStore } from 'store/keyboard'
 import { LocationStore } from 'store/location'
 import { MapStore } from 'store/map'
 import { PermissionStore } from 'store/permission'
+import { UserProfileStore } from 'store/user-profile'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -19,7 +19,7 @@ const stores = {
   authStore: new AuthStore(),
   groupCreateStore: new GroupCreateStore(),
   chatStore: new ChatStore(),
-  indivisualProfileStore: new IndivisualProfileStore(),
+  userProfileStore: new UserProfileStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)
