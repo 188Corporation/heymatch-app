@@ -1,54 +1,52 @@
 import { Colors } from 'infra/colors'
-import React, { useState } from 'react'
-import DropDownPicker from 'react-native-dropdown-picker'
+import React from 'react'
+import { Dropdown as ElementDropdown } from 'react-native-element-dropdown'
 
 export const Dropdown = ({
-  value,
   items,
   setValue,
-  setItems,
 }: {
-  value: any
-  items: any
+  items: {
+    value: number
+    label: string
+  }[]
   setValue: any
-  setItems: any
 }) => {
-  const [open, setOpen] = useState(false)
   return (
-    <DropDownPicker
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      setItems={setItems}
-      autoScroll
+    <ElementDropdown
+      data={items}
+      labelField='label'
+      valueField='value'
+      onChange={setValue}
+      placeholder='160cm'
       style={{
         borderColor: 'transparent',
-        borderRadius: 12,
         backgroundColor: Colors.gray.v100,
         height: 56,
         paddingHorizontal: 20,
         paddingVertical: 16,
-        opacity: 1,
+        borderRadius: 12,
       }}
-      textStyle={{
+      itemTextStyle={{
         color: Colors.gray.v400,
         fontSize: 16,
         fontWeight: '400',
       }}
-      listItemContainerStyle={{
-        backgroundColor: Colors.gray.v100,
-        height: 56,
-        paddingHorizontal: 20,
-        paddingVertical: 16,
+      selectedTextStyle={{
+        color: Colors.gray.v400,
+        fontSize: 16,
+        fontWeight: '400',
       }}
-      dropDownContainerStyle={{
-        borderColor: Colors.gray.v100,
+      placeholderStyle={{
+        color: Colors.gray.v400,
+        fontSize: 16,
+        fontWeight: '400',
+      }}
+      containerStyle={{
         borderRadius: 12,
-      }}
-      arrowIconStyle={{
-        width: 9.5,
+        backgroundColor: Colors.gray.v100,
+        height: 56 * 4,
+        shadowColor: 'transparent',
       }}
     />
   )

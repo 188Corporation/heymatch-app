@@ -14,13 +14,12 @@ import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
 export const BodyInfoScreen = () => {
-  const a = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
+  const heightItems = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
     return {
       value: x,
       label: `${x}cm`,
     }
   })
-  const [heightItems, setHeightItems] = useState(a)
   const [height, setHeight] = useState(160)
   const [bodyForm, setBodyForm] = useState()
   const maleBodyForm = [
@@ -88,12 +87,7 @@ export const BodyInfoScreen = () => {
           </View>
           <View style={{ marginBottom: 40, zIndex: 100 }}>
             <H2 style={{ marginBottom: 10 }}>키</H2>
-            <Dropdown
-              items={heightItems}
-              setItems={setHeightItems}
-              value={height}
-              setValue={setHeight}
-            />
+            <Dropdown items={heightItems} setValue={setHeight} />
           </View>
           <View>
             <H2 style={{ marginBottom: 20 }}>체형</H2>
