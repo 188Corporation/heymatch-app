@@ -26,6 +26,11 @@ export const BodyInfoScreen = observer(() => {
   })
   const [bodyForm, setBodyForm] = useState()
 
+  const handleOnPress = (v: any) => {
+    setBodyForm(v)
+    userProfileStore.setBodyForm(v)
+  }
+
   return (
     <>
       <View style={{ flexGrow: 1 }}>
@@ -59,10 +64,7 @@ export const BodyInfoScreen = observer(() => {
                         obj={x}
                         index={idx}
                         isSelected={bodyForm === x.value}
-                        onPress={(v) => {
-                          setBodyForm(v)
-                          userProfileStore.setBodyForm(v)
-                        }}
+                        onPress={handleOnPress}
                         buttonOuterSize={24}
                         buttonSize={12}
                         buttonInnerColor={Colors.white}
@@ -82,7 +84,7 @@ export const BodyInfoScreen = observer(() => {
                         obj={x}
                         index={idx}
                         labelHorizontal={true}
-                        onPress={setBodyForm}
+                        onPress={handleOnPress}
                         labelStyle={{ fontSize: 16 }}
                       />
                     </RadioButton>

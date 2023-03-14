@@ -20,6 +20,11 @@ export const JobInfoScreen = observer(() => {
   const { userProfileStore } = useStores()
   const [jobTitle, setJobTitle] = useState()
 
+  const handleOnPress = (v: any) => {
+    setJobTitle(v)
+    userProfileStore.setJobTitle(v)
+  }
+
   return (
     <>
       <NavigationHeader backButtonStyle='black' title='' />
@@ -40,10 +45,7 @@ export const JobInfoScreen = observer(() => {
                       obj={x}
                       index={idx}
                       isSelected={jobTitle === x.value}
-                      onPress={(v) => {
-                        setJobTitle(v)
-                        userProfileStore.setJobTitle(v)
-                      }}
+                      onPress={handleOnPress}
                       buttonOuterSize={24}
                       buttonSize={12}
                       buttonInnerColor={Colors.white}
@@ -63,7 +65,7 @@ export const JobInfoScreen = observer(() => {
                       obj={x}
                       index={idx}
                       labelHorizontal={true}
-                      onPress={setJobTitle}
+                      onPress={handleOnPress}
                       labelStyle={{ fontSize: 16 }}
                     />
                   </RadioButton>
@@ -77,13 +79,23 @@ export const JobInfoScreen = observer(() => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        // TODO: profile-photo-examination-screen 혹은 메인
-        onPress={() => navigation.navigate('')}
+        onPress={() =>
+          navigation.navigate('ProfilePhotoExaminationAfterScreen')
+        }
       />
       <BottomButton
         text='다음으로'
         disabled={!jobTitle}
-        onPress={() => navigation.navigate('EmailInputScreen')}
+        onPress={() => {
+          if (
+            userProfileStore.jobTitle === 'college_student' ||
+            userProfileStore.jobTitle === 'employee'
+          ) {
+            navigation.navigate('EmailInputScreen')
+          } else {
+            navigation.navigate('ProfilePhotoExaminationAfterScreen')
+          }
+        }}
       />
     </>
   )

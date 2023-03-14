@@ -50,14 +50,16 @@ export const EmailVerificationCodeInputScreen = () => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        // TODO: profile-photo-examination-screen 혹은 메인
-        onPress={() => navigation.navigate('')}
+        onPress={() =>
+          navigation.navigate('ProfilePhotoExaminationAfterScreen')
+        }
       />
       <BottomButton
         text='다음으로'
         disabled={!emailVerificationCode}
-        // TODO: profile-photo-examination-screen 혹은 메인
-        onPress={() => navigation.navigate('')}
+        onPress={() =>
+          navigation.navigate('ProfilePhotoExaminationAfterScreen')
+        }
       />
     </KeyboardAvoidingView>
   )
