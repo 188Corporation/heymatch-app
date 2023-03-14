@@ -1,7 +1,9 @@
 import { Colors } from 'infra/colors'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
@@ -11,7 +13,9 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
-export const EmailVerificationCodeInputScreen = () => {
+export const EmailVerificationCodeInputScreen = observer(() => {
+  const { alertStore } = useStores()
+
   const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
   const [emailVerificationCode, setEmailVerificationCode] = useState('')
 
@@ -50,9 +54,16 @@ export const EmailVerificationCodeInputScreen = () => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        onPress={() =>
-          navigation.navigate('ProfilePhotoExaminationAfterScreen')
-        }
+        onPress={() => {
+          alertStore.open({
+            title: '추가 정보 입력을 건너뛸까요?',
+            body: '지금까지 작성해주신 정보만 저장돼요!',
+            mainButton: '계속 이어서 할게요!',
+            subButton: '네 건너뛸게요',
+            onSubPress: () =>
+              navigation.navigate('ProfilePhotoExaminationAfterScreen'),
+          })
+        }}
       />
       <BottomButton
         text='다음으로'
@@ -63,7 +74,7 @@ export const EmailVerificationCodeInputScreen = () => {
       />
     </KeyboardAvoidingView>
   )
-}
+})
 const Container = styled(View)`
   padding: 12px 20px 0 20px;
 `

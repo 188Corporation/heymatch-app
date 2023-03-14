@@ -16,7 +16,7 @@ import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
 export const BodyInfoScreen = observer(() => {
-  const { userProfileStore } = useStores()
+  const { userProfileStore, alertStore } = useStores()
 
   const heightItems = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
     return {
@@ -100,7 +100,15 @@ export const BodyInfoScreen = observer(() => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        onPress={() => navigation.navigate('JobInfoScreen')}
+        onPress={() => {
+          alertStore.open({
+            title: '추가 정보 입력을 건너뛸까요?',
+            body: '지금까지 작성해주신 정보만 저장돼요!',
+            mainButton: '계속 이어서 할게요!',
+            subButton: '네 건너뛸게요',
+            onSubPress: () => navigation.navigate('JobInfoScreen'),
+          })
+        }}
       />
       <BottomButton
         text='다음으로'

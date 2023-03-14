@@ -17,7 +17,7 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
-  const { userProfileStore } = useStores()
+  const { userProfileStore, alertStore } = useStores()
   const [jobTitle, setJobTitle] = useState()
 
   const handleOnPress = (v: any) => {
@@ -79,9 +79,16 @@ export const JobInfoScreen = observer(() => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        onPress={() =>
-          navigation.navigate('ProfilePhotoExaminationAfterScreen')
-        }
+        onPress={() => {
+          alertStore.open({
+            title: '추가 정보 입력을 건너뛸까요?',
+            body: '지금까지 작성해주신 정보만 저장돼요!',
+            mainButton: '계속 이어서 할게요!',
+            subButton: '네 건너뛸게요',
+            onSubPress: () =>
+              navigation.navigate('ProfilePhotoExaminationAfterScreen'),
+          })
+        }}
       />
       <BottomButton
         text='다음으로'
