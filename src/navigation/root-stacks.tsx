@@ -16,6 +16,7 @@ import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
+import { ProfilePhotoExaminationAfterScreen } from 'ui/auth/profile-photo-examination-after-screen'
 import { ProfilePhotoExaminationScreen } from 'ui/auth/profile-photo-examination-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
@@ -70,6 +71,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='EmailVerificationCodeInputScreen'
             component={EmailVerificationCodeInputScreen}
+          />
+          <Stack.Screen
+            name='ProfilePhotoExaminationAfterScreen'
+            component={ProfilePhotoExaminationAfterScreen}
           />
         </>
       ) : (
