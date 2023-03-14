@@ -10,7 +10,6 @@ import { StatusBar } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { StoresProvider } from 'store/globals'
 import { AlertModal } from 'ui/common/alert-modal'
-import { SkipModal } from 'ui/common/skip-modal'
 
 if (__DEV__) {
   import('../ReactotronConfig').then(() => console.log('Reactotron Configured'))
@@ -32,7 +31,6 @@ export const App = () => {
           <RootStacks />
         </NavigationContainer>
         <AlertModal />
-        <SkipModal />
         <Toast config={toastConfig} />
       </ChatProvider>
     </StoresProvider>
