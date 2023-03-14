@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react'
 import { useChats } from 'api/reads'
-import { Column, Row } from 'ui/common/layout'
-import { H1 } from 'ui/common/text'
-import styled from 'styled-components'
-import { FlatList } from 'react-native'
-import { ChatItem } from 'ui/chat/chat-item'
-import { Chat } from 'infra/types'
-import { useStores } from 'store/globals'
-import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
-import { ChatPlaceholderSvg } from 'image'
-import { TopInsetSpace } from 'ui/common/inset-space'
-import { navigation } from 'navigation/global'
 import { deleteChat } from 'api/writes'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { ChatPlaceholderSvg } from 'image'
+import { Chat } from 'infra/types'
+import { navigation } from 'navigation/global'
+import React, { useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { mutate } from 'swr'
+import { ChatItem } from 'ui/chat/chat-item'
+import { TopInsetSpace } from 'ui/common/inset-space'
+import { Column, Row } from 'ui/common/layout'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
+import { H1 } from 'ui/common/text'
 
 export const ChatScreen = () => {
   const { chatStore, alertStore } = useStores()
@@ -31,9 +31,9 @@ export const ChatScreen = () => {
     alertStore.open({
       title: '채팅을 삭제할까요?',
       body: '매칭된 그룹과의 채팅을 삭제하면\n더 이상 채팅을 할 수 없어요!',
-      buttonText: '삭제하기',
-      cancelText: '다음에',
-      onPress: async () => {
+      mainButton: '삭제하기',
+      subButton: '다음에',
+      onMainPress: async () => {
         setIsLoading(true)
         try {
           await deleteChat(chat.channel.cid)

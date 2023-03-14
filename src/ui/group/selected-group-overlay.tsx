@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
-import { TouchableWithoutFeedback, View } from 'react-native'
-import { Image as _Image } from 'ui/common/image'
-import { BaseText, Caption, H3 } from 'ui/common/text'
-import { useStores } from 'store/globals'
-import { observer } from 'mobx-react'
 import { geoinfoToGpsLocation } from 'infra/util'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
+import React from 'react'
+import { TouchableWithoutFeedback, View } from 'react-native'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { GroupDesc } from 'ui/common/group-desc'
+import { Image as _Image } from 'ui/common/image'
+import { Column, Row } from 'ui/common/layout'
+import { BaseText, Caption, H3 } from 'ui/common/text'
 
 export const SelectedGroupOverlay: React.FC<{
   hasJoinedGroup: boolean
@@ -29,8 +29,8 @@ export const SelectedGroupOverlay: React.FC<{
             : alertStore.open({
                 title: '그룹을 만들면 상세 프로필이 보여요!',
                 body: '그룹을 만들어 다른 그룹과 매칭해보세요 :)',
-                buttonText: '그룹 만들기',
-                onPress: () => navigation.navigate('GroupCreateStack'),
+                mainButton: '그룹 만들기',
+                onMainPress: () => navigation.navigate('GroupCreateStack'),
               })
         }
       >

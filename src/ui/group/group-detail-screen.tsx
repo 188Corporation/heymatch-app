@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
-import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { Image } from 'ui/common/image'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Caption, H1, H3 } from 'ui/common/text'
-import { Colors } from 'infra/colors'
-import { geoinfoToGpsLocation } from 'infra/util'
-import { useStores } from 'store/globals'
-import { Button } from 'ui/common/button'
-import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
-import { navigation } from 'navigation/global'
-import { GroupDesc } from 'ui/common/group-desc'
-import { SendSvg } from 'image'
-import { CurrentCandy } from 'ui/common/current-candy'
+import { ApiError } from 'api/error'
 import { useMy } from 'api/reads'
 import { reportAbuse, sendMatchRequest } from 'api/writes'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { ApiError } from 'api/error'
-import { BottomInsetSpace } from 'ui/common/inset-space'
+import { SendSvg } from 'image'
+import { Colors } from 'infra/colors'
+import { WINDOW_DIMENSIONS } from 'infra/constants'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import { geoinfoToGpsLocation } from 'infra/util'
+import { navigation } from 'navigation/global'
+import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
+import React, { useState } from 'react'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { accept, reject } from 'store/common-actions'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { mutate } from 'swr'
+import { Button } from 'ui/common/button'
+import { CurrentCandy } from 'ui/common/current-candy'
+import { GroupDesc } from 'ui/common/group-desc'
+import { Image } from 'ui/common/image'
+import { BottomInsetSpace } from 'ui/common/inset-space'
+import { Column, Row } from 'ui/common/layout'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { Body, Caption, H1, H3 } from 'ui/common/text'
 
 const CARD_BORDER_RADIUS = 32
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
@@ -46,9 +46,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                 alertStore.open({
                   title: '정말 이 사용자를 신고 및 차단할까요?',
                   body: '부적절한 컨텐츠(음란성, 폭력성 등)의\n경우 적극 신고해주세요! 해당 사용자는\n자동으로 차단되고 지도, 매칭, 채팅\n화면에서 사라져요. 관리자가 24시간 이내\n확인 후 컨텐츠 삭제 및 사용자 영구 제재\n조치를 취해요. 건전하고 안전한 그룹 매칭\n문화를 선도하기 위해 헤이매치가 노력할게요!',
-                  buttonText: '신고 및 차단할래요!',
-                  cancelText: '다음에',
-                  onPress: () => {
+                  mainButton: '신고 및 차단할래요!',
+                  subButton: '다음에',
+                  onMainPress: () => {
                     reportAbuse(data.id)
                       .then(() =>
                         Promise.all([
@@ -190,9 +190,9 @@ const ButtonContent: React.FC<{
         alertStore.open({
           title: '캔디 1개를 사용해서 매칭할까요?',
           body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요 :)',
-          buttonText: '캔디 1개 사용하기',
-          cancelText: '다음에 매칭하기',
-          onPress: async () => {
+          mainButton: '캔디 1개 사용하기',
+          subButton: '다음에 매칭하기',
+          onMainPress: async () => {
             if (!myData) return
             if (myData.user.point_balance >= 1) {
               setLoading(true)

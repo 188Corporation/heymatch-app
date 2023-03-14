@@ -116,9 +116,10 @@ export interface AlertContent {
   title: string
   body?: string
   bodyChildren?: () => ReactNode
-  buttonText?: string
-  cancelText?: string
-  onPress?: () => void
+  mainButton?: string
+  subButton?: string
+  onMainPress?: () => void
+  onSubPress?: () => void
   onClose?: () => void
   preventBackdropClose?: boolean
   children?: () => ReactNode

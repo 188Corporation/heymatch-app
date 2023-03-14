@@ -1,8 +1,8 @@
+import { Colors } from 'infra/colors'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Body } from 'ui/common/text'
-import { Colors } from 'infra/colors'
 import { useStores } from 'store/globals'
+import { Body } from 'ui/common/text'
 
 export const GroupDeleteButton: React.FC<{
   onDelete: () => void
@@ -23,9 +23,9 @@ export const GroupDeleteButton: React.FC<{
               그룹을 삭제하면 매칭 내역이 삭제돼요!
             </Body>
           ),
-          buttonText: '네 삭제할게요!',
-          cancelText: '다음에 하기',
-          onPress: () => onDelete(),
+          mainButton: '네 삭제할게요!',
+          subButton: '다음에 하기',
+          onMainPress: () => onDelete(),
         })
       }}
     >

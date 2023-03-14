@@ -1,15 +1,15 @@
+import { useIntervalEffect } from '@react-hookz/web'
+import { authorize, getCodeByPhone } from 'api/writes'
 import React, { useEffect, useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
-import styled from 'styled-components'
-import { DescBody2, H1 } from 'ui/common/text'
-import { Input } from 'ui/common/input'
 import { useStores } from 'store/globals'
-import { authorize, getCodeByPhone } from 'api/writes'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
-import { useIntervalEffect } from '@react-hookz/web'
-import { TopInsetSpace } from 'ui/common/inset-space'
+import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { Input } from 'ui/common/input'
+import { TopInsetSpace } from 'ui/common/inset-space'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { DescBody2, H1 } from 'ui/common/text'
 
 export const AuthScreen = () => {
   const { authStore, alertStore } = useStores()
@@ -103,7 +103,7 @@ export const AuthScreen = () => {
                         alertStore.open({
                           title: '계정이 복구되었어요!',
                           body: '7일 안에 재접속해 탈퇴가 취소되고 계정 정보가 복구되었어요. 다시 오신 걸 환영해요 🤗',
-                          buttonText: '매칭하러 고고~!',
+                          mainButton: '매칭하러 고고~!',
                         })
                       }
                       authStore.login(res.access_token, res.user)

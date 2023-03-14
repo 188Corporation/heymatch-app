@@ -1,13 +1,13 @@
+import { Colors } from 'infra/colors'
+import { CURRENT_OS, OS } from 'infra/constants'
+import { observer } from 'mobx-react'
 import React from 'react'
 import Modal from 'react-native-modal'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
-import { Colors } from 'infra/colors'
-import { Body2, H2 } from 'ui/common/text'
-import { Button } from 'ui/common/button'
-import { observer } from 'mobx-react'
 import { useStores } from 'store/globals'
-import { CURRENT_OS, OS } from 'infra/constants'
+import styled from 'styled-components'
+import { Button } from 'ui/common/button'
+import { Column, Row } from 'ui/common/layout'
+import { Body2, H2 } from 'ui/common/text'
 
 export const AlertModal: React.FC = observer(() => {
   const { alertStore: store } = useStores()
@@ -32,18 +32,21 @@ export const AlertModal: React.FC = observer(() => {
             )}
             <Row style={{ height: 24 }} />
             <Button
-              text={content.buttonText || '확인'}
+              text={content.mainButton || '확인'}
               onPress={() => {
                 store.close()
-                if (content.onPress) content.onPress()
+                if (content.onMainPress) content.onMainPress()
               }}
               textColor={Colors.white}
             />
-            {content.cancelText && (
+            {content.subButton && (
               <Row style={{ marginTop: 8 }}>
                 <Button
-                  text={content.cancelText}
-                  onPress={() => store.close()}
+                  text={content.subButton}
+                  onPress={() => {
+                    store.close()
+                    if (content.onSubPress) content.onSubPress()
+                  }}
                   color={Colors.white}
                   textColor={Colors.gray.v400}
                 />

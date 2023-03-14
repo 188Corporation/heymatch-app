@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body2, H1 } from 'ui/common/text'
-import { SimpleInput } from 'ui/common/simple-input'
-import { Column } from 'ui/common/layout'
-import styled from 'styled-components'
-import { Colors } from 'infra/colors'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
-import { useStores } from 'store/globals'
 import { withdraw } from 'api/writes'
+import { Colors } from 'infra/colors'
+import React, { useState } from 'react'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { Column } from 'ui/common/layout'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { SimpleInput } from 'ui/common/simple-input'
+import { Body2, H1 } from 'ui/common/text'
 
 export const UserWithdrawalScreen = () => {
   const { alertStore, authStore } = useStores()
@@ -64,16 +64,16 @@ export const UserWithdrawalScreen = () => {
           alertStore.open({
             title: '정말로 탈퇴할까요?',
             body: '구매한 캔디와 모든 매칭, 채팅 기록이 사라져요!',
-            buttonText: '바이매치~!',
-            cancelText: '다시 한번 생각하기',
-            onPress: async () => {
+            mainButton: '바이매치~!',
+            subButton: '다시 한번 생각하기',
+            onMainPress: async () => {
               try {
                 await withdraw(v)
                 alertStore.open({
                   title: '회원탈퇴에 성공했어요!',
                   body: '7일 안에 돌아오면 언제든 계정을 복구할 수 있어요. 다음에 또 만나요 👋',
                   preventBackdropClose: true,
-                  onPress: () => authStore.logout(),
+                  onMainPress: () => authStore.logout(),
                 })
               } catch (e) {
                 alertStore.error(e)

@@ -1,12 +1,12 @@
+import { Colors } from 'infra/colors'
+import { navigation } from 'navigation/global'
 import React from 'react'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { Menu } from 'ui/my/menu'
-import { Body, Body2 } from 'ui/common/text'
+import { TouchableOpacity } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { Colors } from 'infra/colors'
-import { TouchableOpacity } from 'react-native'
-import { navigation } from 'navigation/global'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { Body, Body2 } from 'ui/common/text'
+import { Menu } from 'ui/my/menu'
 
 export const UserManagementScreen = () => {
   const { alertStore, authStore } = useStores()
@@ -17,9 +17,9 @@ export const UserManagementScreen = () => {
         onPress={() =>
           alertStore.open({
             title: '로그아웃할까요?',
-            buttonText: '로그아웃하기',
-            cancelText: '다음에',
-            onPress: () => authStore.logout(),
+            mainButton: '로그아웃하기',
+            subButton: '다음에',
+            onMainPress: () => authStore.logout(),
           })
         }
       >

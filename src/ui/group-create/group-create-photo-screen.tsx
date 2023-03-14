@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Colors } from 'infra/colors'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { TouchableOpacity, View } from 'react-native'
-import { Camera, useCameraDevices } from 'react-native-vision-camera'
-import { PhotoShotCircleSvg } from 'image'
-import { useStores } from 'store/globals'
-import { openSettings } from 'react-native-permissions'
-import { PermissionType } from 'store/permission'
-import { observer } from 'mobx-react'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { navigation } from 'navigation/global'
 import { useIsFocused } from '@react-navigation/native'
+import { PhotoShotCircleSvg } from 'image'
+import { Colors } from 'infra/colors'
+import { observer } from 'mobx-react'
+import { navigation } from 'navigation/global'
+import React, { useEffect, useRef, useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { openSettings } from 'react-native-permissions'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import { Camera, useCameraDevices } from 'react-native-vision-camera'
+import { useStores } from 'store/globals'
+import { PermissionType } from 'store/permission'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { NavigationHeader } from 'ui/common/navigation-header'
 import {
+  PhotoScreenContainer,
   PHOTO_SCREEN_HEIGHT,
   PHOTO_SCREEN_WIDTH,
-  PhotoScreenContainer,
 } from 'ui/group-create/group-create-photo-common'
 
 export const GroupCreatePhotoScreen = observer(() => {
@@ -28,8 +28,8 @@ export const GroupCreatePhotoScreen = observer(() => {
       alertStore.open({
         title: '헤이매치 필수 권한',
         body: '그룹 사진을 촬영하려면 카메라 권한이 필요해요.',
-        buttonText: '권한 설정하러 가기',
-        onPress: () => openSettings(),
+        mainButton: '권한 설정하러 가기',
+        onMainPress: () => openSettings(),
       })
     } else {
       permissionStore.request(PermissionType.camera)
