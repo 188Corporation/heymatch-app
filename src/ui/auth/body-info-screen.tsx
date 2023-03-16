@@ -1,7 +1,8 @@
 import { Colors } from 'infra/colors'
+import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import RadioForm, {
   RadioButton,
@@ -24,11 +25,9 @@ export const BodyInfoScreen = observer(() => {
       label: `${x}cm`,
     }
   })
-  const [bodyForm, setBodyForm] = useState()
 
-  const handleOnPress = (v: any) => {
-    setBodyForm(v)
-    userProfileStore.setBodyForm(v)
+  const handleOnPress = (v: MaleBodyForm | FemaleBodyForm) => {
+    userProfileStore.setBodyForm(userProfileStore.gender!, v)
   }
 
   return (
@@ -63,19 +62,19 @@ export const BodyInfoScreen = observer(() => {
                       <RadioButtonInput
                         obj={x}
                         index={idx}
-                        isSelected={bodyForm === x.value}
+                        isSelected={userProfileStore.getBodyForm === x.value}
                         onPress={handleOnPress}
                         buttonOuterSize={24}
                         buttonSize={12}
                         buttonInnerColor={Colors.white}
                         buttonOuterColor={
-                          bodyForm === x.value
+                          userProfileStore.getBodyForm === x.value
                             ? Colors.primary.blue
                             : Colors.gray.v200
                         }
                         buttonStyle={{
                           backgroundColor:
-                            bodyForm === x.value
+                            userProfileStore.getBodyForm === x.value
                               ? Colors.primary.blue
                               : Colors.gray.v200,
                         }}
@@ -112,7 +111,7 @@ export const BodyInfoScreen = observer(() => {
       />
       <BottomButton
         text='다음으로'
-        disabled={!bodyForm}
+        disabled={!userProfileStore.getBodyForm}
         onPress={() => navigation.navigate('JobInfoScreen')}
       />
     </>
