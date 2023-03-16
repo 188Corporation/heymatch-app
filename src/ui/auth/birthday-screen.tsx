@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 import { useStores } from 'store/globals'
@@ -12,16 +12,20 @@ import { DescBody2, H1 } from 'ui/common/text'
 
 export const BirthdayScreen = observer(() => {
   const { userProfileStore } = useStores()
-  const [birthday, setBirthday] = useState<Date>(new Date())
+  const [birthday, setBirthday] = useState<Date>(new Date('2003-12-31'))
 
-  const convertBirthdate = () => {
+  const convertBirthdate = useCallback(() => {
     const month =
       birthday.getMonth() < 9
         ? `0${birthday.getMonth() + 1}`
         : `${birthday.getMonth() + 1}`
 
     return `${birthday.getFullYear()}-${month}-${birthday.getDate()}`
-  }
+  }, [birthday])
+
+  useEffect(() => {
+    userProfileStore.setBirthdate(convertBirthdate())
+  }, [convertBirthdate, userProfileStore])
 
   return (
     <>
