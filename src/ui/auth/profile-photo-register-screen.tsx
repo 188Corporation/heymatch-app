@@ -1,9 +1,10 @@
+import { editUserInfo } from 'api/writes'
 import { PlusSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { CURRENT_OS, OS } from 'infra/constants'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { openSettings } from 'react-native-permissions'
@@ -14,10 +15,12 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { CaptionS, DescBody2, H1 } from 'ui/common/text'
 
 export const ProfilePhotoRegisterScreen = observer(() => {
   const { permissionStore, alertStore, userProfileStore } = useStores()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (permissionStore.camera === 'blocked') {
@@ -118,8 +121,30 @@ export const ProfilePhotoRegisterScreen = observer(() => {
       <BottomButton
         text='다음으로'
         disabled={!userProfileStore.photos.mainPhoto}
-        onPress={() => navigation.navigate('ProfilePhotoExaminationScreen')}
+        onPress={async () => {
+          setLoading(true)
+          try {
+            await editUserInfo(
+              userProfileStore.gender!,
+              userProfileStore.birthdate!,
+              userProfileStore.photos.mainPhoto,
+              userProfileStore.photos.sub1Photo,
+              userProfileStore.photos.sub2Photo,
+              userProfileStore.height,
+              userProfileStore.maleBodyForm,
+              userProfileStore.femaleBodyForm,
+              userProfileStore.jobTitle,
+            )
+            navigation.navigate('ProfilePhotoExaminationScreen')
+          } catch (e) {
+            console.log(e)
+            alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+          } finally {
+            setLoading(false)
+          }
+        }}
       />
+      {loading && <LoadingOverlay />}
     </>
   )
 })

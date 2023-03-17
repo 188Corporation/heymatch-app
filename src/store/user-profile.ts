@@ -9,8 +9,9 @@ export class UserProfileStore {
     sub1Photo: '',
     sub2Photo: '',
   }
-  height: number = 160
-  bodyForm: MaleBodyForm | FemaleBodyForm | null = null
+  height: number | null = null
+  maleBodyForm: MaleBodyForm | null = null
+  femaleBodyForm: FemaleBodyForm | null = null
   jobTitle: JobTitle | null = null
 
   constructor() {
@@ -19,6 +20,16 @@ export class UserProfileStore {
 
   get getPhotos() {
     return this.photos
+  }
+
+  get getBodyForm() {
+    if (this.gender === 'm') {
+      return this.maleBodyForm
+    } else if (this.gender === 'f') {
+      return this.femaleBodyForm
+    } else {
+      return null
+    }
   }
 
   setGender(gender: Gender) {
@@ -46,8 +57,12 @@ export class UserProfileStore {
     this.height = height
   }
 
-  setBodyForm(bodyForm: MaleBodyForm | FemaleBodyForm) {
-    this.bodyForm = bodyForm
+  setBodyForm(gender: Gender, bodyForm: MaleBodyForm | FemaleBodyForm) {
+    if (gender === 'm') {
+      this.maleBodyForm = bodyForm as MaleBodyForm
+    } else {
+      this.femaleBodyForm = bodyForm as FemaleBodyForm
+    }
   }
 
   setJobTitle(jobTitle: JobTitle) {

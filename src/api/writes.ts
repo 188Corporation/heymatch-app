@@ -1,11 +1,21 @@
+import { ApiError } from 'api/error'
 import {
   deleteRequest,
   postFormRequest,
   postRequest,
+  putFormRequest,
   putRequest,
 } from 'api/fetcher'
-import { GpsLocation, GroupDetail, ResponseEnvelope, User } from 'infra/types'
-import { ApiError } from 'api/error'
+import {
+  FemaleBodyForm,
+  Gender,
+  GpsLocation,
+  GroupDetail,
+  JobTitle,
+  MaleBodyForm,
+  ResponseEnvelope,
+  User,
+} from 'infra/types'
 import { gpsLocationToGeoinfo } from 'infra/util'
 import { Platform } from 'react-native'
 
@@ -149,4 +159,44 @@ export const reportAbuse = async (groupId: number) => {
 export const deleteChat = async (chatId: string) => {
   const res: ResponseEnvelope<{}> = await deleteRequest(`/chats/${chatId}/`)
   if (res.code !== 200) throw new ApiError(res)
+}
+
+export const editUserInfo = async (
+  gender: Gender,
+  birthdate: string,
+  main_profile_image: string,
+  other_profile_image1?: string,
+  other_profile_image2?: string,
+  height_cm?: number | null,
+  male_body_form?: MaleBodyForm | null,
+  female_body_form?: FemaleBodyForm | null,
+  job_title?: JobTitle | null,
+) => {
+  const form = new FormData()
+  form.append('gender', gender)
+  form.append('birthdate', birthdate)
+  height_cm && form.append('height_cm', height_cm)
+  male_body_form && form.append('male_body_form', male_body_form)
+  female_body_form && form.append('female_body_form', female_body_form)
+  job_title && form.append('job_title', job_title)
+  form.append('main_profile_image', {
+    uri: main_profile_image,
+    type: 'image/jpeg',
+    name: 'main_photo.jpg',
+  })
+  other_profile_image1 &&
+    form.append('other_profile_image_1', {
+      uri: other_profile_image1,
+      type: 'image/jpeg',
+      name: 'sub_photo1.jpg',
+    })
+  other_profile_image2 &&
+    form.append('other_profile_image_2', {
+      uri: other_profile_image2,
+      type: 'image/jpeg',
+      name: 'sub_photo2.jpg',
+    })
+  const res = await putFormRequest('/users/my/', form)
+  if (res.code !== 200) throw new ApiError(res)
+  return res.data
 }

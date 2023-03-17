@@ -57,6 +57,17 @@ export const putRequest = async (path: string, payload: object) => {
   }).then(chainJsonParser)
 }
 
+export const putFormRequest = async (path: string, body: FormData) => {
+  return fetch(`${SERVER_BASE_URL}${path}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      ...tokenManager.authHeader,
+    },
+    body,
+  }).then(chainJsonParser)
+}
+
 export const deleteRequest = async (path: string, payload?: object) => {
   return fetch(`${SERVER_BASE_URL}${path}`, {
     method: 'DELETE',
