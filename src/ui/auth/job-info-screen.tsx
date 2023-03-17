@@ -1,3 +1,4 @@
+import { editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -13,15 +14,15 @@ import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
   const { userProfileStore, alertStore } = useStores()
-  const [jobTitle, setJobTitle] = useState()
+  const [loading, setLoading] = useState(false)
 
   const handleOnPress = (v: any) => {
-    setJobTitle(v)
     userProfileStore.setJobTitle(v)
   }
 
@@ -44,19 +45,19 @@ export const JobInfoScreen = observer(() => {
                     <RadioButtonInput
                       obj={x}
                       index={idx}
-                      isSelected={jobTitle === x.value}
+                      isSelected={userProfileStore.jobTitle === x.value}
                       onPress={handleOnPress}
                       buttonOuterSize={24}
                       buttonSize={12}
                       buttonInnerColor={Colors.white}
                       buttonOuterColor={
-                        jobTitle === x.value
+                        userProfileStore.jobTitle === x.value
                           ? Colors.primary.blue
                           : Colors.gray.v200
                       }
                       buttonStyle={{
                         backgroundColor:
-                          jobTitle === x.value
+                          userProfileStore.jobTitle === x.value
                             ? Colors.primary.blue
                             : Colors.gray.v200,
                       }}
@@ -85,25 +86,65 @@ export const JobInfoScreen = observer(() => {
             body: '지금까지 작성해주신 정보만 저장돼요!',
             mainButton: '계속 이어서 할게요!',
             subButton: '네 건너뛸게요',
-            onSubPress: () =>
-              navigation.navigate('ProfilePhotoExaminationAfterScreen'),
+            onSubPress: async () => {
+              setLoading(true)
+              try {
+                await editUserInfo(
+                  userProfileStore.gender!,
+                  userProfileStore.birthdate!,
+                  userProfileStore.photos.mainPhoto,
+                  userProfileStore.photos.sub1Photo,
+                  userProfileStore.photos.sub2Photo,
+                  userProfileStore.height,
+                  userProfileStore.maleBodyForm,
+                  userProfileStore.femaleBodyForm,
+                  userProfileStore.jobTitle,
+                )
+                // TODO: profile-photo-examination 혹은 메인화면
+                navigation.navigate('ProfilePhotoExaminationAfterScreen')
+              } catch (e) {
+                alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+              } finally {
+                setLoading(false)
+              }
+            },
           })
         }}
       />
       <BottomButton
         text='다음으로'
-        disabled={!jobTitle}
-        onPress={() => {
+        disabled={!userProfileStore.jobTitle}
+        onPress={async () => {
           if (
             userProfileStore.jobTitle === 'college_student' ||
             userProfileStore.jobTitle === 'employee'
           ) {
             navigation.navigate('EmailInputScreen')
           } else {
-            navigation.navigate('ProfilePhotoExaminationAfterScreen')
+            setLoading(true)
+            try {
+              await editUserInfo(
+                userProfileStore.gender!,
+                userProfileStore.birthdate!,
+                userProfileStore.photos.mainPhoto,
+                userProfileStore.photos.sub1Photo,
+                userProfileStore.photos.sub2Photo,
+                userProfileStore.height,
+                userProfileStore.maleBodyForm,
+                userProfileStore.femaleBodyForm,
+                userProfileStore.jobTitle,
+              )
+              // TODO: profile-photo-examination 혹은 메인화면
+              navigation.navigate('ProfilePhotoExaminationAfterScreen')
+            } catch (e) {
+              alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+            } finally {
+              setLoading(false)
+            }
           }
         }}
       />
+      {loading && <LoadingOverlay />}
     </>
   )
 })

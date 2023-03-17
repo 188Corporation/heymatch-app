@@ -137,7 +137,6 @@ export const ProfilePhotoRegisterScreen = observer(() => {
             )
             navigation.navigate('ProfilePhotoExaminationScreen')
           } catch (e) {
-            console.log(e)
             alertStore.error(e, '프로필 사진 등록에 실패했어요!')
           } finally {
             setLoading(false)

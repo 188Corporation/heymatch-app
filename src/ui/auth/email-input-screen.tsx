@@ -1,3 +1,4 @@
+import { editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -10,6 +11,7 @@ import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Input } from 'ui/common/input'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
@@ -17,6 +19,7 @@ export const EmailInputScreen = observer(() => {
   const { userProfileStore, alertStore } = useStores()
   const emailInputRef = useRef<TextInput | null>(null)
   const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
 
   return (
     <KeyboardAvoidingView>
@@ -54,15 +57,34 @@ export const EmailInputScreen = observer(() => {
         text='건너뛰기'
         color={Colors.white}
         textColor={Colors.gray.v400}
-        // TODO: profile-photo-examination 혹은 메인화면
         onPress={() => {
           alertStore.open({
             title: '추가 정보 입력을 건너뛸까요?',
             body: '지금까지 작성해주신 정보만 저장돼요!',
             mainButton: '계속 이어서 할게요!',
             subButton: '네 건너뛸게요',
-            onSubPress: () =>
-              navigation.navigate('ProfilePhotoExaminationAfterScreen'),
+            onSubPress: async () => {
+              setLoading(true)
+              try {
+                await editUserInfo(
+                  userProfileStore.gender!,
+                  userProfileStore.birthdate!,
+                  userProfileStore.photos.mainPhoto,
+                  userProfileStore.photos.sub1Photo,
+                  userProfileStore.photos.sub2Photo,
+                  userProfileStore.height,
+                  userProfileStore.maleBodyForm,
+                  userProfileStore.femaleBodyForm,
+                  userProfileStore.jobTitle,
+                )
+                // TODO: profile-photo-examination 혹은 메인화면
+                navigation.navigate('ProfilePhotoExaminationAfterScreen')
+              } catch (e) {
+                alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+              } finally {
+                setLoading(false)
+              }
+            },
           })
         }}
       />
@@ -71,6 +93,7 @@ export const EmailInputScreen = observer(() => {
         disabled={!email}
         onPress={() => navigation.navigate('EmailVerificationCodeInputScreen')}
       />
+      {loading && <LoadingOverlay />}
     </KeyboardAvoidingView>
   )
 })
