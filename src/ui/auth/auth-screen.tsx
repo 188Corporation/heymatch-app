@@ -1,5 +1,5 @@
 import { useIntervalEffect } from '@react-hookz/web'
-import { authorize, getCodeByPhone } from 'api/writes'
+import { authorizePhoneNumber, getCodeByPhone } from 'api/writes'
 import React, { useEffect, useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
 import { useStores } from 'store/globals'
@@ -93,7 +93,7 @@ export const AuthScreen = () => {
               onValueChange={(v) => {
                 setCode(v)
                 if (v.length === 6) {
-                  authorize(phone, v, sessionToken)
+                  authorizePhoneNumber(phone, v, sessionToken)
                     .then((res) => {
                       setCodeError(undefined)
                       if (res.user.is_old_user) {

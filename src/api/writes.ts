@@ -28,7 +28,11 @@ export const getCodeByPhone = async (phone: string) => {
   return res.data?.session_token as string
 }
 
-export const authorize = async (phone: string, code: string, token: string) => {
+export const authorizePhoneNumber = async (
+  phone: string,
+  code: string,
+  token: string,
+) => {
   const res: ResponseEnvelope<{
     // valid for 6 months
     access_token: string
