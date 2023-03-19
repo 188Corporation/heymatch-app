@@ -96,7 +96,8 @@ export const AuthScreen = () => {
                   authorizePhoneNumber(phone, v, sessionToken)
                     .then((res) => {
                       setCodeError(undefined)
-                      if (res.user.is_old_user) {
+
+                      if (res.user.agreed_to_terms) {
                         authStore.checkAgreement()
                       }
                       if (res.user.schedule_delete_canceled) {
