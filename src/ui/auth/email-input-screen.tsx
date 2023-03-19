@@ -1,4 +1,4 @@
-import { editUserInfo } from 'api/writes'
+import { editUserInfo, getCodeByEmail } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -19,7 +19,6 @@ import { DescBody2, H1 } from 'ui/common/text'
 export const EmailInputScreen = observer(() => {
   const { userProfileStore, alertStore } = useStores()
   const emailInputRef = useRef<TextInput | null>(null)
-  const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
   return (
@@ -46,10 +45,11 @@ export const EmailInputScreen = observer(() => {
               keyboardType='email-address'
               autoComplete='email'
               textContentType='emailAddress'
-              value={email}
+              value={userProfileStore.email ?? ''}
               onValueChange={(v) => {
-                setEmail(v)
+                userProfileStore.setEmail(v)
               }}
+              letterCase='lower'
             />
           </Container>
         </FlexScrollView>
@@ -93,8 +93,27 @@ export const EmailInputScreen = observer(() => {
       />
       <BottomButton
         text='다음으로'
-        disabled={!email}
-        onPress={() => navigation.navigate('EmailVerificationCodeInputScreen')}
+        disabled={!userProfileStore.email}
+        onPress={async () => {
+          setLoading(true)
+          try {
+            await getCodeByEmail(
+              userProfileStore.email!,
+              userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
+            ).then((res) => {
+              // TODO: 계열사 선택 ui 추가 후
+              console.log(res.names)
+            })
+            await mutate('/auth/email/get-code/')
+
+            // TODO: profile-photo-examination 혹은 메인화면
+            navigation.navigate('EmailVerificationCodeInputScreen')
+          } catch (e) {
+            alertStore.error(e, '이메일을 다시 확인해주세요!')
+          } finally {
+            setLoading(false)
+          }
+        }}
       />
       {loading && <LoadingOverlay />}
     </KeyboardAvoidingView>

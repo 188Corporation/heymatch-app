@@ -13,6 +13,7 @@ import {
   GroupDetail,
   JobTitle,
   MaleBodyForm,
+  OrganizationType,
   ResponseEnvelope,
   User,
 } from 'infra/types'
@@ -46,6 +47,39 @@ export const authorizePhoneNumber = async (
   })
   if (res.code === 400)
     throw new ApiError({ ...res, message: '번호를 확인해주세요!' })
+  if (res.code !== 200) throw new ApiError(res)
+  return res.data!
+}
+
+export const getCodeByEmail = async (email: string, type: OrganizationType) => {
+  const res: ResponseEnvelope<{
+    type: OrganizationType
+    names: string[]
+  }> = await postRequest('/auth/email/get-code/', {
+    email,
+    type,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+  return res.data!
+}
+
+export const authorizeEmail = async (
+  email: string,
+  code: string,
+  type: OrganizationType,
+  selected_name: string,
+) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    '/auth/email/authorize/',
+    {
+      email,
+      code,
+      type,
+      selected_name,
+    },
+  )
+  if (res.code === 400)
+    throw new ApiError({ ...res, message: '이메일을 확인해주세요!' })
   if (res.code !== 200) throw new ApiError(res)
   return res.data!
 }

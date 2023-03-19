@@ -1,4 +1,4 @@
-import { editUserInfo } from 'api/writes'
+import { authorizeEmail, editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -37,19 +37,17 @@ export const EmailVerificationCodeInputScreen = observer(() => {
               inputRef={emailVerificationCodeInputRef}
               label='인증 코드'
               placeholder='인증 코드를 입력해주세요'
-              keyboardType='number-pad'
-              autoComplete='sms-otp'
+              keyboardType='default'
               textContentType='oneTimeCode'
               value={emailVerificationCode}
               onValueChange={(v) => {
                 if (v.length === 6) {
-                  // TODO: authorize
                   return
                 }
                 setEmailVerificationCode(v)
               }}
-              // TODO
-              errorMessage={''}
+              letterCase='upper'
+              // errorMessage={'인증코드를 다시 확인해주세요!'}
             />
           </Container>
         </FlexScrollView>
@@ -96,20 +94,18 @@ export const EmailVerificationCodeInputScreen = observer(() => {
         onPress={async () => {
           setLoading(true)
           try {
-            await editUserInfo(
-              userProfileStore.gender!,
-              userProfileStore.birthdate!,
-              userProfileStore.photos.mainPhoto,
-              userProfileStore.photos.sub1Photo,
-              userProfileStore.photos.sub2Photo,
-              userProfileStore.height,
-              userProfileStore.maleBodyForm,
-              userProfileStore.femaleBodyForm,
-              userProfileStore.jobTitle,
+            await authorizeEmail(
+              userProfileStore.email!,
+              emailVerificationCode,
+              userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
+              // TODO: 계열사 선택 ui 추가 후
+              '서강대학교',
             )
+            await mutate('/auth/phone/authorize/')
+
             navigation.navigate('ProfilePhotoExaminationAfterScreen')
           } catch (e) {
-            alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+            alertStore.error(e, '코드 인증에 실패했어요!')
           } finally {
             setLoading(false)
           }

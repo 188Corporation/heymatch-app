@@ -13,6 +13,7 @@ export class UserProfileStore {
   maleBodyForm: MaleBodyForm | null = null
   femaleBodyForm: FemaleBodyForm | null = null
   jobTitle: JobTitle | null = null
+  email: string | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -67,5 +68,9 @@ export class UserProfileStore {
 
   setJobTitle(jobTitle: JobTitle) {
     this.jobTitle = jobTitle
+  }
+
+  setEmail(email: string) {
+    this.email = email
   }
 }

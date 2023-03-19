@@ -1,3 +1,4 @@
+import { Colors } from 'infra/colors'
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
 import {
   TextInput as _TextInput,
@@ -5,7 +6,6 @@ import {
   View,
 } from 'react-native'
 import styled from 'styled-components'
-import { Colors } from 'infra/colors'
 import { Caption, DEFAULT_FONT_FAMILY } from 'ui/common/text'
 
 interface Props extends React.ComponentProps<typeof _TextInput> {
@@ -16,6 +16,7 @@ interface Props extends React.ComponentProps<typeof _TextInput> {
   errorMessage?: string
   inputRef?: React.MutableRefObject<_TextInput | null>
   setIsFocused?: Dispatch<SetStateAction<boolean>>
+  letterCase?: 'upper' | 'lower'
 }
 
 export const Input: React.FC<Props> = ({
@@ -30,10 +31,20 @@ export const Input: React.FC<Props> = ({
   maxLength,
   inputRef,
   setIsFocused,
+  letterCase,
 }) => {
   const _inputRef = useRef<_TextInput | null>(null)
   const [_isFocused, _setIsFocused] = useState(false)
   const isError = !!errorMessage && errorMessage.length > 0
+
+  const caseConversion = (_value: string) => {
+    if (letterCase === 'upper') {
+      return _value.toUpperCase()
+    } else if (letterCase === 'lower') {
+      return _value.toLowerCase()
+    } else return _value
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => _inputRef.current?.focus()}>
       <Container isFocused={_isFocused} isError={isError}>
@@ -53,7 +64,7 @@ export const Input: React.FC<Props> = ({
           placeholderTextColor={Colors.gray.v400}
           selectionColor={Colors.primary.blue}
           value={value}
-          onChangeText={(v) => onValueChange(v)}
+          onChangeText={(v) => onValueChange(caseConversion(v))}
           onFocus={() => {
             _setIsFocused(true)
             if (setIsFocused) setIsFocused(true)

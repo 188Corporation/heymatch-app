@@ -31,6 +31,8 @@ export type JobTitle =
   | 'part_time'
   | 'businessman'
   | 'etc'
+
+export type OrganizationType = 'school' | 'company'
 // n: not verified | u: under verification | a: accepted | r: rejected
 type UserProfileImageStatus = 'n' | 'u' | 'a' | 'r'
 type UserProfileImages = {
@@ -49,6 +51,7 @@ export interface User {
   is_first_signup: boolean
   username: string
   phone_number: string
+  schedule_delete_canceled: boolean
   gender: Gender | null
   birthdate: string | null
   height_cm: number | null
