@@ -11,6 +11,7 @@ import { openSettings } from 'react-native-permissions'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Image } from 'ui/common/image'
@@ -135,6 +136,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               userProfileStore.femaleBodyForm,
               userProfileStore.jobTitle,
             )
+            await mutate('/users/my/')
             navigation.navigate('ProfilePhotoExaminationScreen')
           } catch (e) {
             alertStore.error(e, '프로필 사진 등록에 실패했어요!')

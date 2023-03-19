@@ -6,6 +6,7 @@ import React, { useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -77,6 +78,8 @@ export const EmailVerificationCodeInputScreen = observer(() => {
                   userProfileStore.femaleBodyForm,
                   userProfileStore.jobTitle,
                 )
+                await mutate('/users/my/')
+
                 navigation.navigate('ProfilePhotoExaminationAfterScreen')
               } catch (e) {
                 alertStore.error(e, '프로필 사진 등록에 실패했어요!')

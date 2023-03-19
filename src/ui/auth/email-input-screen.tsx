@@ -6,6 +6,7 @@ import React, { useRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -77,6 +78,8 @@ export const EmailInputScreen = observer(() => {
                   userProfileStore.femaleBodyForm,
                   userProfileStore.jobTitle,
                 )
+                await mutate('/users/my/')
+
                 // TODO: profile-photo-examination 혹은 메인화면
                 navigation.navigate('ProfilePhotoExaminationAfterScreen')
               } catch (e) {

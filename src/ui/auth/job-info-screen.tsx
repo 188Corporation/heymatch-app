@@ -11,6 +11,7 @@ import RadioForm, {
 } from 'react-native-simple-radio-button'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -100,6 +101,7 @@ export const JobInfoScreen = observer(() => {
                   userProfileStore.femaleBodyForm,
                   userProfileStore.jobTitle,
                 )
+                await mutate('/users/my/')
                 // TODO: profile-photo-examination 혹은 메인화면
                 navigation.navigate('ProfilePhotoExaminationAfterScreen')
               } catch (e) {
@@ -134,6 +136,7 @@ export const JobInfoScreen = observer(() => {
                 userProfileStore.femaleBodyForm,
                 userProfileStore.jobTitle,
               )
+              await mutate('/users/my/')
               // TODO: profile-photo-examination 혹은 메인화면
               navigation.navigate('ProfilePhotoExaminationAfterScreen')
             } catch (e) {
