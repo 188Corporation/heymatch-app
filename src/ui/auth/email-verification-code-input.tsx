@@ -1,9 +1,9 @@
-import { authorizeEmail, editUserInfo } from 'api/writes'
+import { authorizeEmail, editUserInfo, getCodeByEmail } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useRef, useState } from 'react'
-import { TextInput, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { TextInput, TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
@@ -11,10 +11,13 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Input } from 'ui/common/input'
+import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { DescBody2, H1 } from 'ui/common/text'
+import { Caption, DescBody2, H1 } from 'ui/common/text'
+
+const VALID_TIME = 180
+const CAN_RESEND_TIME = 120
 
 export const EmailVerificationCodeInputScreen = observer(() => {
   const { alertStore, userProfileStore } = useStores()
@@ -22,12 +25,41 @@ export const EmailVerificationCodeInputScreen = observer(() => {
   const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
   const [emailVerificationCode, setEmailVerificationCode] = useState('')
   const [loading, setLoading] = useState(false)
+  const [alreadySend, setAlreadySend] = useState(true)
+  const [timer, setTimer] = useState(VALID_TIME)
+
+  const handleClickResendCode = async () => {
+    if (alreadySend) return
+    try {
+      setLoading(true)
+      await getCodeByEmail(
+        userProfileStore.email!,
+        userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
+      ).then((res) => {
+        // TODO: 계열사 선택 ui 추가 후
+        console.log(res.names)
+      })
+      await mutate('/auth/email/get-code/')
+    } catch (e) {
+      alertStore.error(e, '코드 발송에 실패했어요!')
+    } finally {
+      setLoading(false)
+      setAlreadySend(true)
+      setTimer(VALID_TIME)
+    }
+  }
+
+  useEffect(() => {
+    if (timer < CAN_RESEND_TIME) {
+      setAlreadySend(false)
+    }
+  }, [timer])
 
   return (
     <KeyboardAvoidingView>
-      <NavigationHeader backButtonStyle='black' title='' />
       <View style={{ flexGrow: 1 }}>
         <FlexScrollView>
+          <TopInsetSpace />
           <Container>
             <View style={{ marginBottom: 60 }}>
               <H1 style={{ marginBottom: 12 }}>인증 코드를 입력해주세요</H1>
@@ -47,8 +79,12 @@ export const EmailVerificationCodeInputScreen = observer(() => {
                 setEmailVerificationCode(v)
               }}
               letterCase='upper'
+              suffix={timer > 0 && <Timer timer={timer} setTimer={setTimer} />}
               // errorMessage={'인증코드를 다시 확인해주세요!'}
             />
+            <SendButton onPress={handleClickResendCode}>
+              <Caption>{alreadySend ? '보냈어요!' : '다시 보내기'}</Caption>
+            </SendButton>
           </Container>
         </FlexScrollView>
       </View>
@@ -118,3 +154,43 @@ export const EmailVerificationCodeInputScreen = observer(() => {
 const Container = styled(View)`
   padding: 12px 20px 0 20px;
 `
+const SendButton = styled(TouchableOpacity)`
+  margin-top: 12px;
+  width: 108px;
+  height: 38px;
+  border-radius: 10px;
+  padding: 10px 24px 10px 24px;
+  background-color: #f4f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Timer = ({
+  timer,
+  setTimer,
+}: {
+  timer: number
+  setTimer: React.Dispatch<React.SetStateAction<number>>
+}) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1)
+    }, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [setTimer])
+
+  const convertTime = () => {
+    const minute = Math.floor(timer / 60)
+    const second = timer % 60
+    return `${minute}:${!second || second < 10 ? '0' : ''}${second}`
+  }
+
+  return (
+    <>
+      <Caption>{convertTime()}</Caption>
+    </>
+  )
+}
