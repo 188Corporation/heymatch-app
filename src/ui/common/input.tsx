@@ -17,6 +17,7 @@ interface Props extends React.ComponentProps<typeof _TextInput> {
   inputRef?: React.MutableRefObject<_TextInput | null>
   setIsFocused?: Dispatch<SetStateAction<boolean>>
   letterCase?: 'upper' | 'lower'
+  suffix?: any
 }
 
 export const Input: React.FC<Props> = ({
@@ -32,6 +33,7 @@ export const Input: React.FC<Props> = ({
   inputRef,
   setIsFocused,
   letterCase,
+  suffix,
 }) => {
   const _inputRef = useRef<_TextInput | null>(null)
   const [_isFocused, _setIsFocused] = useState(false)
@@ -75,6 +77,7 @@ export const Input: React.FC<Props> = ({
           }}
         />
         {isError && <ErrorText>{errorMessage}</ErrorText>}
+        {suffix && <SuffixContainer>{suffix}</SuffixContainer>}
       </Container>
     </TouchableWithoutFeedback>
   )
@@ -113,4 +116,9 @@ const LabelText = styled(Caption)`
 const ErrorText = styled(Caption)`
   color: ${Colors.primary.red};
   margin-top: 4px;
+`
+
+const SuffixContainer = styled(View)`
+  position: absolute;
+  right: 20px;
 `
