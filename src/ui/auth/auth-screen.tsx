@@ -164,7 +164,7 @@ export const AuthScreen = () => {
 }
 
 const Container = styled(View)`
-  padding: 72px 20px 0 20px;
+  padding: 72px 28px 0px 28px;
 `
 
 const TextArea = styled(View)`

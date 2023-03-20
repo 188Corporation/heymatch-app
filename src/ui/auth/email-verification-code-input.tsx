@@ -61,7 +61,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
         <FlexScrollView>
           <TopInsetSpace />
           <Container>
-            <View style={{ marginBottom: 60 }}>
+            <View style={{ marginBottom: 40 }}>
               <H1 style={{ marginBottom: 12 }}>인증 코드를 입력해주세요</H1>
               <DescBody2>메일로 전송된 코드를 입력해주세요 :)</DescBody2>
             </View>
@@ -141,7 +141,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
 
             navigation.navigate('ProfilePhotoExaminationAfterScreen')
           } catch (e) {
-            alertStore.error(e, '코드 인증에 실패했어요!')
+            alertStore.error(e, '코드가 만료됐어요!')
           } finally {
             setLoading(false)
           }
@@ -152,7 +152,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
   )
 })
 const Container = styled(View)`
-  padding: 12px 20px 0 20px;
+  padding: 72px 28px 0px 28px;
 `
 const SendButton = styled(TouchableOpacity)`
   margin-top: 12px;

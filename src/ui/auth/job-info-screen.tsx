@@ -153,7 +153,7 @@ export const JobInfoScreen = observer(() => {
 })
 
 const Container = styled(View)`
-  padding: 0px 28px 0 28px;
+  padding: 12px 28px 0px 28px;
 `
 
 const jobTitleForm = [

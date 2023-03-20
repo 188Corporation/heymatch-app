@@ -121,5 +121,5 @@ export const EmailInputScreen = observer(() => {
 })
 
 const Container = styled(View)`
-  padding: 12px 20px 0 20px;
+  padding: 12px 28px 0px 28px;
 `

@@ -204,5 +204,5 @@ const AgreementItem: React.FC<{
 }
 
 const Container = styled(View)`
-  padding: 72px 28px 0 28px;
+  padding: 72px 28px 0px 28px;
 `
