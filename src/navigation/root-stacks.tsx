@@ -16,9 +16,9 @@ import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
-import { ProfilePhotoExaminationAfterScreen } from 'ui/auth/profile-photo-examination-after-screen'
-import { ProfilePhotoExaminationScreen } from 'ui/auth/profile-photo-examination-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
+import { ProfilePhotoVerificationAfterScreen } from 'ui/auth/profile-photo-verification-after-screen'
+import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
@@ -62,8 +62,8 @@ export const RootStacks = observer(() => {
             component={ProfilePhotoRegisterScreen}
           />
           <Stack.Screen
-            name='ProfilePhotoExaminationScreen'
-            component={ProfilePhotoExaminationScreen}
+            name='ProfilePhotoVerificationScreen'
+            component={ProfilePhotoVerificationScreen}
           />
           <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
           <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
@@ -73,8 +73,8 @@ export const RootStacks = observer(() => {
             component={EmailVerificationCodeInputScreen}
           />
           <Stack.Screen
-            name='ProfilePhotoExaminationAfterScreen'
-            component={ProfilePhotoExaminationAfterScreen}
+            name='ProfilePhotoVerificationAfterScreen'
+            component={ProfilePhotoVerificationAfterScreen}
           />
         </>
       ) : (

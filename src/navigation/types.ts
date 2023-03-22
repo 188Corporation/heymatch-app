@@ -23,12 +23,12 @@ export type RootStackParamList = {
   GenderScreen: {}
   BirthdayScreen: {}
   ProfilePhotoRegisterScreen: {}
-  ProfilePhotoExaminationScreen: {}
+  ProfilePhotoVerificationScreen: {}
   BodyInfoScreen: {}
   JobInfoScreen: {}
   EmailInputScreen: {}
   EmailVerificationCodeInputScreen: {}
-  ProfilePhotoExaminationAfterScreen: {}
+  ProfilePhotoVerificationAfterScreen: {}
 }
 
 export interface MatchRequestTarget {

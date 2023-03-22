@@ -137,7 +137,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               userProfileStore.jobTitle,
             )
             await mutate('/users/my/')
-            navigation.navigate('ProfilePhotoExaminationScreen')
+            navigation.navigate('ProfilePhotoVerificationScreen')
           } catch (e) {
             alertStore.error(e, '프로필 사진 등록에 실패했어요!')
           } finally {

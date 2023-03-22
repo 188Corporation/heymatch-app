@@ -81,7 +81,7 @@ export const EmailInputScreen = observer(() => {
                 await mutate('/users/my/')
 
                 // TODO: profile-photo-examination 혹은 메인화면
-                navigation.navigate('ProfilePhotoExaminationAfterScreen')
+                navigation.navigate('ProfilePhotoVerificationAfterScreen')
               } catch (e) {
                 alertStore.error(e, '프로필 사진 등록에 실패했어요!')
               } finally {

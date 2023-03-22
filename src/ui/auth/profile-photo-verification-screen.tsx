@@ -10,7 +10,7 @@ import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H2 } from 'ui/common/text'
 
-export const ProfilePhotoExaminationScreen = () => {
+export const ProfilePhotoVerificationScreen = () => {
   const { userProfileStore } = useStores()
   return (
     <>

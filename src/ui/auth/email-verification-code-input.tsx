@@ -114,7 +114,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
                 )
                 await mutate('/users/my/')
 
-                navigation.navigate('ProfilePhotoExaminationAfterScreen')
+                navigation.navigate('ProfilePhotoVerificationAfterScreen')
               } catch (e) {
                 alertStore.error(e, '프로필 사진 등록에 실패했어요!')
               } finally {
@@ -139,7 +139,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
             )
             await mutate('/auth/phone/authorize/')
 
-            navigation.navigate('ProfilePhotoExaminationAfterScreen')
+            navigation.navigate('ProfilePhotoVerificationAfterScreen')
           } catch (e) {
             alertStore.error(e, '코드가 만료됐어요!')
           } finally {
