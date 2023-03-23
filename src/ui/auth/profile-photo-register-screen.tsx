@@ -27,7 +27,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
     if (permissionStore.camera === 'blocked') {
       alertStore.open({
         title: '헤이매치 필수 권한',
-        body: '그룹 사진을 업로드하려면 갤러리 접근 권한이 필요해요.',
+        body: '프로필 사진을 업로드하려면 갤러리 접근 권한이 필요해요.',
         mainButton: '권한 설정하러 가기',
         onMainPress: () => openSettings(),
       })
