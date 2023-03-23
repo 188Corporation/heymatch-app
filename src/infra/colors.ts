@@ -6,7 +6,7 @@ export const Colors = {
     blueDisabled: '#b4c3ff',
   },
   gray: {
-    v100: '#f4f4f6',
+    v100: '#f7f7f8',
     v200: '#e5e5ea',
     v300: '#bebec1',
     v400: '#8e8e93',
