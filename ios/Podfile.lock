@@ -355,7 +355,7 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-cameraroll (5.3.0):
+  - react-native-cameraroll (5.3.1):
     - React-Core
   - react-native-cookies (6.2.1):
     - React-Core
@@ -365,7 +365,7 @@ PODS:
     - React-Core
   - react-native-geolocation-service (5.3.1):
     - React
-  - react-native-image-picker (5.1.0):
+  - react-native-image-picker (5.2.0):
     - React-Core
   - react-native-image-resizer (1.4.5):
     - React-Core
@@ -883,12 +883,12 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-cameraroll: a05136a5e648c35f2e8cced939ba85966e3bba8e
+  react-native-cameraroll: f3050460fe1708378698c16686bfaa5f34099be2
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-date-picker: c063a8967058c58a02d7d0e1d655f0453576fb0d
   react-native-document-picker: 958e2bc82e128be69055be261aeac8d872c8d34c
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
-  react-native-image-picker: c33d4e79f0a14a2b66e5065e14946ae63749660b
+  react-native-image-picker: d60541a8ad96ff1a2396457b6ff119aeaf17d0c8
   react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
   react-native-netinfo: 2517ad504b3d303e90d7a431b0fcaef76d207983
   react-native-nmap: cfcc5402746040494c544ea90a6062f49505acdf
