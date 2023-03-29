@@ -9,7 +9,6 @@ import { RootStackParamList } from 'navigation/types'
 import React, { useEffect } from 'react'
 import { useStores } from 'store/globals'
 import { AgreementScreen } from 'ui/auth/agreement-screen'
-import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
 import { BodyInfoScreen } from 'ui/auth/body-info-screen'
 import { EmailInputScreen } from 'ui/auth/email-input-screen'
@@ -22,6 +21,7 @@ import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verificati
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
+import { GroupList } from 'ui/group/group-list'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
@@ -51,7 +51,11 @@ export const RootStacks = observer(() => {
       {authStore.isInitializing ? (
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : !authStore.isLoggedIn ? (
-        <Stack.Screen name='AuthScreen' component={AuthScreen} />
+        <>
+          {/* TODO: 서버 작동시 삭제 */}
+          <Stack.Screen name='GroupList' component={GroupList} />
+          {/* <Stack.Screen name='AuthScreen' component={AuthScreen} /> */}
+        </>
       ) : !authStore.isAgreementChecked ? (
         <>
           <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
