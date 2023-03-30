@@ -1,11 +1,13 @@
 import { SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { Group_v2 } from 'infra/types'
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
+import Modal from 'react-native-modal'
 import styled from 'styled-components'
+import { Button } from 'ui/common/button'
 import { TopInsetSpace } from 'ui/common/inset-space'
-import { Body2, Caption, H3 } from 'ui/common/text'
+import { Body, Body2, Caption, H2, H3 } from 'ui/common/text'
 
 export const GroupList = () => {
   const [searchPlace, setSearchPlace] = useState<string>('')
@@ -14,8 +16,41 @@ export const GroupList = () => {
     endDate: Date
   } | null>(null)
   const [membersFilter, setMembersFilter] = useState<number | null>(null)
-  const [heightFilter, setHeightFilter] = useState<number | null>(null)
+  const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
+    useState(false)
+  const [heightFilter, setHeightFilter] = useState<{
+    minHeight: number
+    maxHeight: number
+  } | null>(null)
+  const [isVisibleHeightFilterModal, setIsVisibleHeightFilterModal] =
+    useState(false)
   const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
+  const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
+    useState(false)
+  const getDisplayedMembersFilter = () => {
+    return membersFilter
+      ? membersFilter < 5
+        ? `${membersFilter}명`
+        : `${membersFilter}명 이상`
+      : '멤버수'
+  }
+
+  const getDisplayedHeightFilter = () => {
+    if (!heightFilter) return '키'
+    if (heightFilter.minHeight === 0 && heightFilter.maxHeight === 150)
+      return '150cm 이하'
+    else if (heightFilter.minHeight === 181 && heightFilter.maxHeight === 300)
+      return '181cm 이상'
+    else return `${heightFilter.minHeight}cm ~ ${heightFilter.maxHeight}cm`
+  }
+
+  const getDisplayedDistanceFilter = () => {
+    return distanceFilter
+      ? distanceFilter === 500
+        ? `${distanceFilter}m 이내`
+        : `${distanceFilter / 1000}km 이내`
+      : '거리'
+  }
 
   return (
     <>
@@ -29,19 +64,115 @@ export const GroupList = () => {
           <FilterTouchable selected={!!dateFilter}>
             <Body2>날짜</Body2>
           </FilterTouchable>
-          <FilterTouchable selected={!!membersFilter}>
-            <Body2>멤버수</Body2>
+          <FilterTouchable
+            selected={!!membersFilter}
+            onPress={() => setIsVisibleMembersFilterModal(true)}
+          >
+            <Body2
+              style={{
+                color: membersFilter ? Colors.primary.blueD1 : Colors.black,
+                fontWeight: membersFilter ? '600' : '400',
+              }}
+            >
+              {getDisplayedMembersFilter()}
+            </Body2>
           </FilterTouchable>
-          <FilterTouchable selected={!!heightFilter}>
-            <Body2>키</Body2>
+          <FilterTouchable
+            selected={!!heightFilter}
+            onPress={() => setIsVisibleHeightFilterModal(true)}
+          >
+            <Body2
+              style={{
+                color: heightFilter ? Colors.primary.blueD1 : Colors.black,
+                fontWeight: heightFilter ? '600' : '400',
+              }}
+            >
+              {getDisplayedHeightFilter()}
+            </Body2>
           </FilterTouchable>
-          <FilterTouchable selected={!!distanceFilter}>
-            <Body2>거리</Body2>
+          <FilterTouchable
+            selected={!!distanceFilter}
+            onPress={() => setIsVisibleDistanceFilterModal(true)}
+          >
+            <Body2
+              style={{
+                color: distanceFilter ? Colors.primary.blueD1 : Colors.black,
+                fontWeight: distanceFilter ? '600' : '400',
+              }}
+            >
+              {getDisplayedDistanceFilter()}
+            </Body2>
           </FilterTouchable>
         </FilterButtonContainer>
         <GroupItem />
         <GroupItem />
         <GroupItem />
+        <FilterModal isVisible={isVisibleMembersFilterModal}>
+          <ModalContent
+            title='멤버수'
+            onClose={() => setIsVisibleMembersFilterModal(false)}
+            formList={[
+              { label: '1명', value: 1 },
+              { label: '2명', value: 2 },
+              { label: '3명', value: 3 },
+              { label: '4명', value: 4 },
+              { label: '5명 이상', value: 5 },
+            ]}
+            setValue={setMembersFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleHeightFilterModal}>
+          <ModalContent
+            title='키'
+            onClose={() => setIsVisibleHeightFilterModal(false)}
+            formList={[
+              { label: '150cm 이하', value: { minHeight: 0, maxHeight: 150 } },
+              {
+                label: '151cm ~ 160cm',
+                value: { minHeight: 151, maxHeight: 160 },
+              },
+              {
+                label: '161cm ~ 170cm',
+                value: { minHeight: 161, maxHeight: 170 },
+              },
+              {
+                label: '171cm ~ 180cm',
+                value: { minHeight: 171, maxHeight: 180 },
+              },
+              {
+                label: '181cm 이상',
+                value: { minHeight: 181, maxHeight: 300 },
+              },
+            ]}
+            setValue={setHeightFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleDistanceFilterModal}>
+          <ModalContent
+            title='거리'
+            onClose={() => setIsVisibleDistanceFilterModal(false)}
+            formList={[
+              { label: '500m 이내', value: 500 },
+              {
+                label: '1km 이내',
+                value: 1000,
+              },
+              {
+                label: '5km 이내',
+                value: 5000,
+              },
+              {
+                label: '10km 이내',
+                value: 10000,
+              },
+              {
+                label: '50km 이내',
+                value: 50000,
+              },
+            ]}
+            setValue={setDistanceFilter}
+          />
+        </FilterModal>
       </Container>
     </>
   )
@@ -140,4 +271,111 @@ const ProfilePhoto = styled(View)`
   height: 56px;
   border-radius: 20px;
   background-color: ${Colors.gray.v200};
+`
+
+const CalenderModal = () => {}
+
+const FilterModal = ({
+  isVisible,
+  children,
+}: {
+  isVisible: boolean
+  children: ReactNode
+}) => {
+  return (
+    <Modal
+      isVisible={isVisible}
+      style={{
+        margin: 0,
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+      }}
+    >
+      {isVisible && <>{children}</>}
+    </Modal>
+  )
+}
+
+const ModalContent = ({
+  title,
+  onClose,
+  formList,
+  setValue,
+}: {
+  title: string
+  onClose: () => void
+  formList: { value: any; label: string }[]
+  setValue: React.Dispatch<React.SetStateAction<any | null>>
+}) => {
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false)
+
+  // 디폴트값은 어떻게 결정할까?
+  const [selectedValue, setSelectedValue] = useState<{
+    value: any
+    label: string
+  }>(formList[2])
+  return (
+    <FilterModalContainer isOpen={isOpenDropdown}>
+      <H2 style={{ marginLeft: 8, marginBottom: 10 }}>{title}</H2>
+      {!isOpenDropdown ? (
+        <FilterModalDropdownItem onPress={() => setIsOpenDropdown(true)}>
+          <Body style={{ marginRight: 'auto', color: Colors.gray.v400 }}>
+            {selectedValue.label}
+          </Body>
+        </FilterModalDropdownItem>
+      ) : (
+        <View style={{ backgroundColor: Colors.gray.v100, borderRadius: 12 }}>
+          {formList.map((form) => {
+            return (
+              <FilterModalDropdownItem
+                key={form.label}
+                onPress={() => {
+                  setIsOpenDropdown(false)
+                  setSelectedValue(form)
+                }}
+              >
+                <Body style={{ marginRight: 'auto', color: Colors.gray.v400 }}>
+                  {form.label}
+                </Body>
+              </FilterModalDropdownItem>
+            )
+          })}
+        </View>
+      )}
+      <View style={{ flexDirection: 'row', width: '50%', marginTop: 'auto' }}>
+        <Button
+          text='다음에'
+          textColor={Colors.gray.v400}
+          color={Colors.white}
+          onPress={onClose}
+        />
+        <Button
+          text='선택하기'
+          textColor={Colors.white}
+          color={Colors.primary.blue}
+          onPress={() => {
+            setValue(selectedValue.value)
+            onClose()
+          }}
+        />
+      </View>
+    </FilterModalContainer>
+  )
+}
+
+const FilterModalContainer = styled(View)<{ isOpen: boolean }>`
+  padding: 40px 20px 44px 20px;
+  width: 100%;
+  height: ${(p) => (p.isOpen ? '490px' : '270px')};
+  background-color: #fff;
+  margin-top: auto;
+  border-radius: 40px;
+`
+const FilterModalDropdownItem = styled(TouchableOpacity)`
+  height: 56px;
+  background-color: ${Colors.gray.v100};
+  align-items: center;
+  padding-horizontal: 20px
+  padding-vertical: 16px
+  border-radius: 12px
 `
