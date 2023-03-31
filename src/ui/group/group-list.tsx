@@ -1,20 +1,59 @@
+import dayjs from 'dayjs'
 import { SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { Group_v2 } from 'infra/types'
 import React, { ReactNode, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
+import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
 import styled from 'styled-components'
 import { Button } from 'ui/common/button'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, Body2, Caption, H2, H3 } from 'ui/common/text'
 
+LocaleConfig.locales['ko'] = {
+  monthNames: [
+    '1월',
+    '2월',
+    '3월',
+    '4월',
+    '5월',
+    '6월',
+    '7월',
+    '8월',
+    '9월',
+    '10월',
+    '11월',
+    '12월',
+  ],
+  monthNamesShort: [
+    '1월',
+    '2월',
+    '3월',
+    '4월',
+    '5월',
+    '6월',
+    '7월',
+    '8월',
+    '9월',
+    '10월',
+    '11월',
+    '12월',
+  ],
+  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+  today: '오늘',
+}
+LocaleConfig.defaultLocale = 'ko'
+
 export const GroupList = () => {
   const [searchPlace, setSearchPlace] = useState<string>('')
   const [dateFilter, setDateFilter] = useState<{
-    startDate: Date
-    endDate: Date
+    startDate?: string
+    endDate?: string
   } | null>(null)
+  const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
+    useState(false)
   const [membersFilter, setMembersFilter] = useState<number | null>(null)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
     useState(false)
@@ -52,6 +91,13 @@ export const GroupList = () => {
       : '거리'
   }
 
+  const getDisplayedDateFilter = () => {
+    if (!dateFilter) return '날짜'
+    return `${dayjs(dateFilter.startDate).format('M월D일')}-${dayjs(
+      dateFilter.endDate,
+    ).format('M월D일')}`
+  }
+
   return (
     <>
       <Container>
@@ -61,47 +107,37 @@ export const GroupList = () => {
           onValueChange={(v: string) => setSearchPlace(v)}
         />
         <FilterButtonContainer>
-          <FilterTouchable selected={!!dateFilter}>
-            <Body2>날짜</Body2>
+          <FilterTouchable
+            selected={!!dateFilter}
+            onPress={() => setIsVisibleDateFilterModal(true)}
+          >
+            <FilterTypography filter={!!dateFilter}>
+              {getDisplayedDateFilter()}
+            </FilterTypography>
           </FilterTouchable>
           <FilterTouchable
             selected={!!membersFilter}
             onPress={() => setIsVisibleMembersFilterModal(true)}
           >
-            <Body2
-              style={{
-                color: membersFilter ? Colors.primary.blueD1 : Colors.black,
-                fontWeight: membersFilter ? '600' : '400',
-              }}
-            >
+            <FilterTypography filter={!!membersFilter}>
               {getDisplayedMembersFilter()}
-            </Body2>
+            </FilterTypography>
           </FilterTouchable>
           <FilterTouchable
             selected={!!heightFilter}
             onPress={() => setIsVisibleHeightFilterModal(true)}
           >
-            <Body2
-              style={{
-                color: heightFilter ? Colors.primary.blueD1 : Colors.black,
-                fontWeight: heightFilter ? '600' : '400',
-              }}
-            >
+            <FilterTypography filter={!!heightFilter}>
               {getDisplayedHeightFilter()}
-            </Body2>
+            </FilterTypography>
           </FilterTouchable>
           <FilterTouchable
             selected={!!distanceFilter}
             onPress={() => setIsVisibleDistanceFilterModal(true)}
           >
-            <Body2
-              style={{
-                color: distanceFilter ? Colors.primary.blueD1 : Colors.black,
-                fontWeight: distanceFilter ? '600' : '400',
-              }}
-            >
+            <FilterTypography filter={!!distanceFilter}>
               {getDisplayedDistanceFilter()}
-            </Body2>
+            </FilterTypography>
           </FilterTouchable>
         </FilterButtonContainer>
         <GroupItem />
@@ -171,6 +207,13 @@ export const GroupList = () => {
               },
             ]}
             setValue={setDistanceFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleDateFilterModal}>
+          <CalendarModal
+            value={dateFilter}
+            onClose={() => setIsVisibleDateFilterModal(false)}
+            setValue={setDateFilter}
           />
         </FilterModal>
       </Container>
@@ -272,8 +315,6 @@ const ProfilePhoto = styled(View)`
   border-radius: 20px;
   background-color: ${Colors.gray.v200};
 `
-
-const CalenderModal = () => {}
 
 const FilterModal = ({
   isVisible,
@@ -378,4 +419,169 @@ const FilterModalDropdownItem = styled(TouchableOpacity)`
   padding-horizontal: 20px
   padding-vertical: 16px
   border-radius: 12px
+`
+
+const CalendarModal = ({
+  value,
+  onClose,
+  setValue,
+}: {
+  value: {
+    startDate?: string
+    endDate?: string
+  } | null
+  onClose: () => void
+  setValue: React.Dispatch<
+    React.SetStateAction<{
+      startDate?: string
+      endDate?: string
+    } | null>
+  >
+}) => {
+  const [selectedValue, setSelectedValue] = useState<{
+    startDate?: string
+    endDate?: string
+  } | null>(value)
+
+  const updateSortedDate = (date: DateData) => {
+    if (!selectedValue?.startDate) {
+      setSelectedValue({ startDate: date.dateString })
+      return
+    }
+    if (
+      selectedValue.startDate &&
+      !selectedValue.endDate &&
+      selectedValue.startDate === date.dateString
+    ) {
+      setSelectedValue(null)
+      return
+    }
+    if (selectedValue.startDate && !selectedValue.endDate) {
+      setSelectedValue((prev) => {
+        if (isEarlier(selectedValue.startDate!, date.dateString)) {
+          return {
+            ...prev,
+            endDate: date.dateString,
+          }
+        } else {
+          return {
+            startDate: date.dateString,
+            endDate: selectedValue.startDate,
+          }
+        }
+      })
+      return
+    }
+    if (selectedValue.startDate && selectedValue.endDate) {
+      setSelectedValue({ startDate: date.dateString })
+      return
+    }
+  }
+
+  const getDatesPeriod = (startDate: string, endDate: string) => {
+    const period = {} as any
+    period[startDate] = {
+      startingDay: true,
+      selected: true,
+      color: '#FF4369',
+      customContainerStyle: { borderRadius: 12 },
+    }
+    period[endDate] = {
+      endingDay: true,
+      selected: true,
+      color: '#FF4369',
+      customContainerStyle: { borderRadius: 12 },
+    }
+    getDates(startDate, endDate).forEach((date) => {
+      period[date] = {
+        selected: true,
+        color: '#FF4369',
+      }
+    })
+    return period
+  }
+
+  const getMarkedDatesPeriod = () => {
+    if (!selectedValue) return {}
+    if (selectedValue.startDate && !selectedValue.endDate) {
+      return {
+        [selectedValue.startDate]: {
+          startingDay: true,
+          selected: true,
+          color: '#FF4369',
+          customContainerStyle: { borderRadius: 12 },
+        },
+      }
+    }
+    if (selectedValue.startDate && selectedValue.endDate) {
+      return getDatesPeriod(selectedValue.startDate, selectedValue.endDate)
+    }
+  }
+
+  return (
+    <CalenderModalContainer>
+      <View style={{ marginBottom: 32 }}>
+        <Calendar
+          monthFormat={'yyyy년 M월'}
+          minDate={String(new Date())}
+          markingType={'period'}
+          markedDates={getMarkedDatesPeriod()}
+          onDayPress={(date: DateData) => {
+            updateSortedDate(date)
+          }}
+          theme={{
+            arrowColor: Colors.black,
+          }}
+        />
+      </View>
+      <View style={{ flexDirection: 'row', width: '50%', marginTop: 'auto' }}>
+        <Button
+          text='다음에'
+          textColor={Colors.gray.v400}
+          color={Colors.white}
+          onPress={() => {
+            onClose()
+          }}
+        />
+        <Button
+          text='선택하기'
+          textColor={Colors.white}
+          color={Colors.primary.blue}
+          onPress={() => {
+            setValue(selectedValue)
+            onClose()
+          }}
+        />
+      </View>
+    </CalenderModalContainer>
+  )
+}
+
+const CalenderModalContainer = styled(View)`
+  padding: 32px 45px 44px 45px;
+  width: 100%;
+  margin-top: auto;
+  border-radius: 40px;
+  background-color: #fff;
+`
+
+function getDates(startDate: string, endDate: string) {
+  let dates = []
+  let currentDate = new Date(startDate)
+
+  while (currentDate <= new Date(endDate)) {
+    dates.push(currentDate.toISOString().slice(0, 10))
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+
+  return dates.slice(1, -1)
+}
+
+function isEarlier(startDate: string, endDate: string) {
+  return new Date(startDate).toISOString() < new Date(endDate).toISOString()
+}
+
+const FilterTypography = styled(Body2)<{ filter: boolean }>`
+  color: ${(p) => (p.filter ? Colors.primary.blueD1 : Colors.black)};
+  font-weight: ${(p) => (p.filter ? '600' : '400')};
 `
