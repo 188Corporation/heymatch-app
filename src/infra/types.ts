@@ -159,16 +159,24 @@ export interface HotPlaceWithGroups {
   groups: Group[]
 }
 
-interface GroupMember extends User {
+export interface GroupMember {
   is_user_leader: boolean
+  user: User
 }
 
-// TODO: HotPlaceWithGroups 대체 타입. 이름 바꿔야함
 export interface Group_v2 {
   title: string
   meetup_date: string
   group_members: GroupMember[]
   created_at: Date
+}
+
+// TODO: HotPlaceWithGroups 대체 타입. 이름 바꿔야함
+export interface Groups_v2 {
+  count: number
+  next: string
+  previous: string
+  results: Group_v2[]
 }
 
 export interface PurchaseItem {

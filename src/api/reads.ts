@@ -1,16 +1,16 @@
 import useSWRNative from '@nandorojo/swr-react-native'
-import qs from 'query-string'
+import { getRequest } from 'api/fetcher'
 import {
   Chat,
   GroupDetail,
+  Groups_v2,
   HotPlace,
-  HotPlaceWithGroups,
   MatchRequest,
   MyInfo,
   PurchaseItem,
   ResponseEnvelope,
 } from 'infra/types'
-import { getRequest } from 'api/fetcher'
+import qs from 'query-string'
 import { PublicConfiguration } from 'swr/dist/types'
 
 export const useCustomSWR = <T>(
@@ -38,8 +38,10 @@ export const useMy = (isLoggedIn: boolean = true) =>
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 
-export const useHotPlaceWithGroupsList = () =>
-  useCustomSWR<HotPlaceWithGroups[]>('/groups/')
+// export const useHotPlaceWithGroupsList = () =>
+//   useCustomSWR<HotPlaceWithGroups[]>('/groups/')
+
+export const useGroupList = () => useCustomSWR<Groups_v2>('/groups/')
 
 export const useGroup = (groupId?: number) =>
   useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)
