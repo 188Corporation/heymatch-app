@@ -1,24 +1,27 @@
 import { useMy } from 'api/reads'
 import { Colors } from 'infra/colors'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, DescBody2, H1, H3 } from 'ui/common/text'
 
-export const AgreementScreen = () => {
+export const AgreementScreen = observer(() => {
   const { data } = useMy()
+  const { authStore } = useStores()
+
   const [isServiceChecked, setIsServiceChecked] = useState(false)
   const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false)
   const [isGeoChecked, setIsGeoChecked] = useState(false)
   const [isAllChecked, setIsAllChecked] = useState(
     isServiceChecked && isPersonalInfoChecked && isGeoChecked,
   )
-
   useEffect(() => {
     if (isServiceChecked && isPersonalInfoChecked && isGeoChecked) {
       setIsAllChecked(true)
@@ -175,11 +178,14 @@ export const AgreementScreen = () => {
       <BottomButton
         text='시작할게요!'
         disabled={!isAllChecked}
-        onPress={() => navigation.navigate('GenderScreen')}
+        onPress={() => {
+          authStore.setIsAgreementChecked(true)
+          navigation.navigate('GenderScreen')
+        }}
       />
     </>
   )
-}
+})
 
 const AgreementItem: React.FC<{
   text: string

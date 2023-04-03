@@ -1,17 +1,18 @@
-import { TouchableOpacity } from 'react-native'
-import React from 'react'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { Column, Row } from 'ui/common/layout'
+import { SendSvg } from 'image'
+import { Colors } from 'infra/colors'
+import { genTabBarCommon } from 'navigation/common'
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
-import { Colors } from 'infra/colors'
-import { CaptionS } from 'ui/common/text'
-import { SendSvg } from 'image'
-import { genTabBarCommon } from 'navigation/common'
 import { BottomInsetSpace } from 'ui/common/inset-space'
+import { Column, Row } from 'ui/common/layout'
+import { CaptionS } from 'ui/common/text'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
-  GroupScreen: { icon: 'whatshot', text: '핫플' },
+  GroupList: { icon: 'whatshot', text: '핫플' },
+  // GroupScreen: { icon: 'whatshot', text: '핫플' },
   MatchTabs: { icon: 'send', text: '매칭' },
   ChatScreen: { icon: 'question-answer', text: '채팅' },
   MyScreen: { icon: 'person', text: '마이' },
