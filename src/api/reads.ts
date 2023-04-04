@@ -41,7 +41,8 @@ export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 // export const useHotPlaceWithGroupsList = () =>
 //   useCustomSWR<HotPlaceWithGroups[]>('/groups/')
 
-export const useGroupList = () => useCustomSWR<Groups_v2>('/groups/')
+export const useGroupList = (filter?: string) =>
+  useCustomSWR<Groups_v2>(`/groups/${filter}`)
 
 export const useGroup = (groupId?: number) =>
   useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)

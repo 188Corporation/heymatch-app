@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { SearchSvg, Verified } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupMember, Group_v2, JobTitle } from 'infra/types'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
@@ -51,27 +51,31 @@ LocaleConfig.locales['ko'] = {
 LocaleConfig.defaultLocale = 'ko'
 
 export const GroupList = () => {
-  const { data: groupList } = useGroupList()
+  const [filterParams, setFilterParams] = useState('')
 
   const [searchPlace, setSearchPlace] = useState<string>('')
   const [dateFilter, setDateFilter] = useState<{
     startDate?: string
     endDate?: string
   } | null>(null)
-  const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
-    useState(false)
   const [membersFilter, setMembersFilter] = useState<number | null>(null)
-  const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
-    useState(false)
+  const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
   const [heightFilter, setHeightFilter] = useState<{
     minHeight: number
     maxHeight: number
   } | null>(null)
+
+  const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
+    useState(false)
+  const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
+    useState(false)
   const [isVisibleHeightFilterModal, setIsVisibleHeightFilterModal] =
     useState(false)
-  const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
+
+  const { data: groupList } = useGroupList(filterParams)
+
   const getDisplayedMembersFilter = () => {
     return membersFilter
       ? membersFilter < 5
@@ -103,6 +107,20 @@ export const GroupList = () => {
       dateFilter.endDate,
     ).format('M월D일')}`
   }
+
+  useEffect(() => {
+    let params = ''
+    if (dateFilter) {
+      params = `${params}?meetup_date_after=${dateFilter.startDate}&meetup_date_before=${dateFilter.endDate}`
+    }
+    if (distanceFilter) {
+      params = `${params}?dist=${distanceFilter}&point=127.03952,37.52628`
+    }
+    if (heightFilter) {
+      params = `${params}?height_min=${heightFilter.minHeight}&height_max=${heightFilter.maxHeight}`
+    }
+    setFilterParams(params)
+  }, [dateFilter, distanceFilter, heightFilter])
 
   return (
     <>
@@ -148,6 +166,7 @@ export const GroupList = () => {
             </FilterTouchable>
           </FilterButtonContainer>
           {groupList &&
+            groupList.results &&
             groupList.results.map((group) => {
               return <GroupItem key={String(group.created_at)} group={group} />
             })}
@@ -296,18 +315,10 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
   }
 
   const isVerifiedGroup = (_group: Group_v2): boolean => {
-    const a = _group.group_members.some(
+    return _group.group_members.some(
       (member) =>
         member.user.verified_company_name || member.user.verified_school_name,
     )
-    console.log(
-      _group.group_members.map((x) => [
-        x.user.verified_company_name,
-        x.user.verified_school_name,
-      ]),
-      a,
-    )
-    return a
   }
 
   return (
@@ -547,7 +558,9 @@ const CalendarModal = ({
       !selectedValue.endDate &&
       selectedValue.startDate === date.dateString
     ) {
-      setSelectedValue(null)
+      setSelectedValue((prev) => {
+        return { ...prev, endDate: date.dateString }
+      })
       return
     }
     if (selectedValue.startDate && !selectedValue.endDate) {
@@ -641,6 +654,7 @@ const CalendarModal = ({
           text='선택하기'
           textColor={Colors.white}
           color={Colors.primary.blue}
+          disabled={!selectedValue?.startDate || !selectedValue?.endDate}
           onPress={() => {
             setValue(selectedValue)
             onClose()
