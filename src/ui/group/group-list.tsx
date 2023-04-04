@@ -1,10 +1,10 @@
 import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
-import { SearchSvg, Verified } from 'image'
+import { CloseSvg, SearchSvg, Verified } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupMember, Group_v2, JobTitle } from 'infra/types'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
 import styled from 'styled-components'
@@ -131,40 +131,54 @@ export const GroupList = () => {
             value={searchPlace}
             onValueChange={(v: string) => setSearchPlace(v)}
           />
-          <FilterButtonContainer>
-            <FilterTouchable
-              selected={!!dateFilter}
-              onPress={() => setIsVisibleDateFilterModal(true)}
-            >
-              <FilterTypography filter={!!dateFilter}>
-                {getDisplayedDateFilter()}
-              </FilterTypography>
-            </FilterTouchable>
-            <FilterTouchable
-              selected={!!membersFilter}
-              onPress={() => setIsVisibleMembersFilterModal(true)}
-            >
-              <FilterTypography filter={!!membersFilter}>
-                {getDisplayedMembersFilter()}
-              </FilterTypography>
-            </FilterTouchable>
-            <FilterTouchable
-              selected={!!heightFilter}
-              onPress={() => setIsVisibleHeightFilterModal(true)}
-            >
-              <FilterTypography filter={!!heightFilter}>
-                {getDisplayedHeightFilter()}
-              </FilterTypography>
-            </FilterTouchable>
-            <FilterTouchable
-              selected={!!distanceFilter}
-              onPress={() => setIsVisibleDistanceFilterModal(true)}
-            >
-              <FilterTypography filter={!!distanceFilter}>
-                {getDisplayedDistanceFilter()}
-              </FilterTypography>
-            </FilterTouchable>
-          </FilterButtonContainer>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <FilterButtonContainer>
+              <FilterTouchable
+                selected={!!dateFilter}
+                onPress={() => setIsVisibleDateFilterModal(true)}
+              >
+                <FilterTypography filter={!!dateFilter}>
+                  {getDisplayedDateFilter()}
+                </FilterTypography>
+                <TouchableOpacity onPress={() => setDateFilter(null)}>
+                  {!!dateFilter && <CloseSvg />}
+                </TouchableOpacity>
+              </FilterTouchable>
+              <FilterTouchable
+                selected={!!membersFilter}
+                onPress={() => setIsVisibleMembersFilterModal(true)}
+              >
+                <FilterTypography filter={!!membersFilter}>
+                  {getDisplayedMembersFilter()}
+                </FilterTypography>
+                <TouchableOpacity onPress={() => setMembersFilter(null)}>
+                  {!!membersFilter && <CloseSvg />}
+                </TouchableOpacity>
+              </FilterTouchable>
+              <FilterTouchable
+                selected={!!heightFilter}
+                onPress={() => setIsVisibleHeightFilterModal(true)}
+              >
+                <FilterTypography filter={!!heightFilter}>
+                  {getDisplayedHeightFilter()}
+                </FilterTypography>
+                <TouchableOpacity onPress={() => setHeightFilter(null)}>
+                  {!!heightFilter && <CloseSvg />}
+                </TouchableOpacity>
+              </FilterTouchable>
+              <FilterTouchable
+                selected={!!distanceFilter}
+                onPress={() => setIsVisibleDistanceFilterModal(true)}
+              >
+                <FilterTypography filter={!!distanceFilter}>
+                  {getDisplayedDistanceFilter()}
+                </FilterTypography>
+                <TouchableOpacity onPress={() => setDistanceFilter(null)}>
+                  {!!distanceFilter && <CloseSvg />}
+                </TouchableOpacity>
+              </FilterTouchable>
+            </FilterButtonContainer>
+          </ScrollView>
           {groupList &&
             groupList.results &&
             groupList.results.map((group) => {
@@ -403,6 +417,9 @@ const FilterTouchable = styled(TouchableOpacity)<{ selected: boolean }>`
   height: 37px;
   padding: 8px 16px 8px 16px;
   margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `
 
 const GroupItemContainer = styled(TouchableOpacity)`
