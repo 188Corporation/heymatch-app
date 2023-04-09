@@ -359,7 +359,7 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
   return (
     <GroupItemContainer>
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
-        만남 날짜 D-{getDifferenceInDays(group.meetup_date)}
+        {toMonthDayString(group.meetup_date)}
       </Caption>
       <H3 style={{ marginBottom: 16 }}>{group.title}</H3>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -735,10 +735,10 @@ const FilterTypography = styled(Body2)<{ filter: boolean }>`
   font-weight: ${(p) => (p.filter ? '600' : '400')};
 `
 
-function getDifferenceInDays(meetUpDate: string) {
-  const date1 = new Date(meetUpDate)
-  const date2 = new Date()
-  const diffInMilliseconds = Math.abs(date2.getTime() - date1.getTime())
-  const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24))
-  return diffInDays
+function toMonthDayString(meetUpDate: string) {
+  const weekdays = ['일', '월', '화', '수', '목', '금', '토']
+  const month = new Date(meetUpDate).getMonth() + 1
+  const date = new Date(meetUpDate).getDate()
+  const dayOfWeek = weekdays[new Date(meetUpDate).getDay()]
+  return `${month}월 ${date}일 (${dayOfWeek})`
 }
