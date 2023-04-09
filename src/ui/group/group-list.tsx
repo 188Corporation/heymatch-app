@@ -3,13 +3,20 @@ import dayjs from 'dayjs'
 import { CloseSvg, SearchSvg, Verified } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupMember, Group_v2, JobTitle } from 'infra/types'
+import { observer } from 'mobx-react'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  FlatList,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { Button } from 'ui/common/button'
-import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
@@ -50,9 +57,10 @@ LocaleConfig.locales['ko'] = {
 }
 LocaleConfig.defaultLocale = 'ko'
 
-export const GroupList = () => {
-  const [filterParams, setFilterParams] = useState('')
+export const GroupList = observer(() => {
+  const { locationStore } = useStores()
 
+  const [filterParams, setFilterParams] = useState('')
   const [searchPlace, setSearchPlace] = useState<string>('')
   const [dateFilter, setDateFilter] = useState<{
     startDate?: string
@@ -74,7 +82,7 @@ export const GroupList = () => {
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
 
-  const { data: groupList } = useGroupList(filterParams)
+  const { data: groupLists, size, setSize } = useGroupList(filterParams)
 
   const getDisplayedMembersFilter = () => {
     return membersFilter
@@ -109,162 +117,175 @@ export const GroupList = () => {
   }
 
   useEffect(() => {
+    locationStore.getLocation(true)
+  }, [locationStore])
+
+  useEffect(() => {
     let params = ''
     if (dateFilter) {
       params = `${params}?meetup_date_after=${dateFilter.startDate}&meetup_date_before=${dateFilter.endDate}`
     }
-    if (distanceFilter) {
-      params = `${params}?dist=${distanceFilter}&point=127.03952,37.52628`
+    if (distanceFilter && locationStore._location) {
+      params = `${params}?dist=${distanceFilter}&point=${-locationStore
+        ._location.lng},${locationStore._location.lat}`
     }
     if (heightFilter) {
       params = `${params}?height_min=${heightFilter.minHeight}&height_max=${heightFilter.maxHeight}`
     }
     setFilterParams(params)
-  }, [dateFilter, distanceFilter, heightFilter])
+  }, [dateFilter, distanceFilter, heightFilter, locationStore._location])
 
   return (
     <>
-      <FlexScrollView>
-        <Container>
-          <TopInsetSpace />
-          <SearchInput
-            value={searchPlace}
-            onValueChange={(v: string) => setSearchPlace(v)}
+      <Container>
+        <TopInsetSpace />
+        <SearchInput
+          value={searchPlace}
+          onValueChange={(v: string) => setSearchPlace(v)}
+        />
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <FilterButtonContainer>
+            <FilterTouchable
+              selected={!!dateFilter}
+              onPress={() => setIsVisibleDateFilterModal(true)}
+            >
+              <FilterTypography filter={!!dateFilter}>
+                {getDisplayedDateFilter()}
+              </FilterTypography>
+              <TouchableOpacity onPress={() => setDateFilter(null)}>
+                {!!dateFilter && <CloseSvg />}
+              </TouchableOpacity>
+            </FilterTouchable>
+            <FilterTouchable
+              selected={!!membersFilter}
+              onPress={() => setIsVisibleMembersFilterModal(true)}
+            >
+              <FilterTypography filter={!!membersFilter}>
+                {getDisplayedMembersFilter()}
+              </FilterTypography>
+              <TouchableOpacity onPress={() => setMembersFilter(null)}>
+                {!!membersFilter && <CloseSvg />}
+              </TouchableOpacity>
+            </FilterTouchable>
+            <FilterTouchable
+              selected={!!heightFilter}
+              onPress={() => setIsVisibleHeightFilterModal(true)}
+            >
+              <FilterTypography filter={!!heightFilter}>
+                {getDisplayedHeightFilter()}
+              </FilterTypography>
+              <TouchableOpacity onPress={() => setHeightFilter(null)}>
+                {!!heightFilter && <CloseSvg />}
+              </TouchableOpacity>
+            </FilterTouchable>
+            <FilterTouchable
+              selected={!!distanceFilter}
+              onPress={() => setIsVisibleDistanceFilterModal(true)}
+            >
+              <FilterTypography filter={!!distanceFilter}>
+                {getDisplayedDistanceFilter()}
+              </FilterTypography>
+              <TouchableOpacity onPress={() => setDistanceFilter(null)}>
+                {!!distanceFilter && <CloseSvg />}
+              </TouchableOpacity>
+            </FilterTouchable>
+          </FilterButtonContainer>
+        </ScrollView>
+        {groupLists && (
+          <FlatList
+            contentContainerStyle={{ flexGrow: 1 }}
+            data={groupLists.map((groupList) => groupList.data.results).flat()}
+            renderItem={(group) => {
+              return (
+                <GroupItem
+                  key={String(group.item.created_at)}
+                  group={group.item}
+                />
+              )
+            }}
+            onEndReached={() => setSize(size + 1)}
           />
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FilterButtonContainer>
-              <FilterTouchable
-                selected={!!dateFilter}
-                onPress={() => setIsVisibleDateFilterModal(true)}
-              >
-                <FilterTypography filter={!!dateFilter}>
-                  {getDisplayedDateFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setDateFilter(null)}>
-                  {!!dateFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!membersFilter}
-                onPress={() => setIsVisibleMembersFilterModal(true)}
-              >
-                <FilterTypography filter={!!membersFilter}>
-                  {getDisplayedMembersFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setMembersFilter(null)}>
-                  {!!membersFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!heightFilter}
-                onPress={() => setIsVisibleHeightFilterModal(true)}
-              >
-                <FilterTypography filter={!!heightFilter}>
-                  {getDisplayedHeightFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setHeightFilter(null)}>
-                  {!!heightFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!distanceFilter}
-                onPress={() => setIsVisibleDistanceFilterModal(true)}
-              >
-                <FilterTypography filter={!!distanceFilter}>
-                  {getDisplayedDistanceFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setDistanceFilter(null)}>
-                  {!!distanceFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-            </FilterButtonContainer>
-          </ScrollView>
-          {groupList &&
-            groupList.results &&
-            groupList.results.map((group) => {
-              return <GroupItem key={String(group.created_at)} group={group} />
-            })}
-          <FilterModal isVisible={isVisibleMembersFilterModal}>
-            <ModalContent
-              title='멤버수'
-              onClose={() => setIsVisibleMembersFilterModal(false)}
-              formList={[
-                { label: '1명', value: 1 },
-                { label: '2명', value: 2 },
-                { label: '3명', value: 3 },
-                { label: '4명', value: 4 },
-                { label: '5명 이상', value: 5 },
-              ]}
-              setValue={setMembersFilter}
-            />
-          </FilterModal>
-          <FilterModal isVisible={isVisibleHeightFilterModal}>
-            <ModalContent
-              title='키'
-              onClose={() => setIsVisibleHeightFilterModal(false)}
-              formList={[
-                {
-                  label: '150cm 이하',
-                  value: { minHeight: 0, maxHeight: 150 },
-                },
-                {
-                  label: '151cm ~ 160cm',
-                  value: { minHeight: 151, maxHeight: 160 },
-                },
-                {
-                  label: '161cm ~ 170cm',
-                  value: { minHeight: 161, maxHeight: 170 },
-                },
-                {
-                  label: '171cm ~ 180cm',
-                  value: { minHeight: 171, maxHeight: 180 },
-                },
-                {
-                  label: '181cm 이상',
-                  value: { minHeight: 181, maxHeight: 300 },
-                },
-              ]}
-              setValue={setHeightFilter}
-            />
-          </FilterModal>
-          <FilterModal isVisible={isVisibleDistanceFilterModal}>
-            <ModalContent
-              title='거리'
-              onClose={() => setIsVisibleDistanceFilterModal(false)}
-              formList={[
-                { label: '500m 이내', value: 500 },
-                {
-                  label: '1km 이내',
-                  value: 1000,
-                },
-                {
-                  label: '5km 이내',
-                  value: 5000,
-                },
-                {
-                  label: '10km 이내',
-                  value: 10000,
-                },
-                {
-                  label: '50km 이내',
-                  value: 50000,
-                },
-              ]}
-              setValue={setDistanceFilter}
-            />
-          </FilterModal>
-          <FilterModal isVisible={isVisibleDateFilterModal}>
-            <CalendarModal
-              value={dateFilter}
-              onClose={() => setIsVisibleDateFilterModal(false)}
-              setValue={setDateFilter}
-            />
-          </FilterModal>
-        </Container>
-      </FlexScrollView>
+        )}
+        <FilterModal isVisible={isVisibleMembersFilterModal}>
+          <ModalContent
+            title='멤버수'
+            onClose={() => setIsVisibleMembersFilterModal(false)}
+            formList={[
+              { label: '1명', value: 1 },
+              { label: '2명', value: 2 },
+              { label: '3명', value: 3 },
+              { label: '4명', value: 4 },
+              { label: '5명 이상', value: 5 },
+            ]}
+            setValue={setMembersFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleHeightFilterModal}>
+          <ModalContent
+            title='키'
+            onClose={() => setIsVisibleHeightFilterModal(false)}
+            formList={[
+              {
+                label: '150cm 이하',
+                value: { minHeight: 0, maxHeight: 150 },
+              },
+              {
+                label: '151cm ~ 160cm',
+                value: { minHeight: 151, maxHeight: 160 },
+              },
+              {
+                label: '161cm ~ 170cm',
+                value: { minHeight: 161, maxHeight: 170 },
+              },
+              {
+                label: '171cm ~ 180cm',
+                value: { minHeight: 171, maxHeight: 180 },
+              },
+              {
+                label: '181cm 이상',
+                value: { minHeight: 181, maxHeight: 300 },
+              },
+            ]}
+            setValue={setHeightFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleDistanceFilterModal}>
+          <ModalContent
+            title='거리'
+            onClose={() => setIsVisibleDistanceFilterModal(false)}
+            formList={[
+              { label: '500m 이내', value: 500 },
+              {
+                label: '1km 이내',
+                value: 1000,
+              },
+              {
+                label: '5km 이내',
+                value: 5000,
+              },
+              {
+                label: '10km 이내',
+                value: 10000,
+              },
+              {
+                label: '50km 이내',
+                value: 50000,
+              },
+            ]}
+            setValue={setDistanceFilter}
+          />
+        </FilterModal>
+        <FilterModal isVisible={isVisibleDateFilterModal}>
+          <CalendarModal
+            value={dateFilter}
+            onClose={() => setIsVisibleDateFilterModal(false)}
+            setValue={setDateFilter}
+          />
+        </FilterModal>
+      </Container>
     </>
   )
-}
+})
 
 const SearchInput = ({
   value,
@@ -399,6 +420,7 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
 }
 
 const Container = styled(View)`
+  margin-bottom: 155px;
   padding: 33px 20px 0px 20px;
 `
 
@@ -633,7 +655,9 @@ const CalendarModal = ({
           startingDay: true,
           selected: true,
           color: '#FF4369',
-          customContainerStyle: { borderRadius: 12 },
+          customContainerStyle: {
+            container: { borderRadius: 12 },
+          },
         },
       }
     }

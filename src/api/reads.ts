@@ -12,6 +12,7 @@ import {
 } from 'infra/types'
 import qs from 'query-string'
 import { PublicConfiguration } from 'swr/dist/types'
+import useSWRInfinite from 'swr/infinite'
 
 export const useCustomSWR = <T>(
   path: string | null,
@@ -42,7 +43,15 @@ export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 //   useCustomSWR<HotPlaceWithGroups[]>('/groups/')
 
 export const useGroupList = (filter?: string) =>
-  useCustomSWR<Groups_v2>(`/groups/${filter}`)
+  useSWRInfinite<Groups_v2>(
+    (pageIndex: number, previousPageData: Groups_v2) => {
+      if (previousPageData && previousPageData.data.next === null) {
+        return null
+      }
+      return `/groups/?page=${pageIndex + 1}${filter}`
+    },
+    getRequest,
+  )
 
 export const useGroup = (groupId?: number) =>
   useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)

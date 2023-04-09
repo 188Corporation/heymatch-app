@@ -173,10 +173,15 @@ export interface Group_v2 {
 
 // TODO: HotPlaceWithGroups 대체 타입. 이름 바꿔야함
 export interface Groups_v2 {
-  count: number
-  next: string
-  previous: string
-  results: Group_v2[]
+  status: string
+  code: number
+  data: {
+    count: number
+    next: string
+    previous: string
+    results: Group_v2[]
+  }
+  message: string | null
 }
 
 export interface PurchaseItem {
