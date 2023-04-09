@@ -58,7 +58,7 @@ LocaleConfig.locales['ko'] = {
 LocaleConfig.defaultLocale = 'ko'
 
 export const GroupList = observer(() => {
-  const { locationStore } = useStores()
+  const { locationStore, userProfileStore } = useStores()
 
   const [filterParams, setFilterParams] = useState('')
   const [searchPlace, setSearchPlace] = useState<string>('')
@@ -68,16 +68,15 @@ export const GroupList = observer(() => {
   } | null>(null)
   const [membersFilter, setMembersFilter] = useState<number | null>(null)
   const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
-  const [heightFilter, setHeightFilter] = useState<{
-    minHeight: number
-    maxHeight: number
-  } | null>(null)
+  const [genderFilter, setGenderFilter] = useState<
+    'male_only' | 'female_only' | 'mixed' | null
+  >(null)
 
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
     useState(false)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
     useState(false)
-  const [isVisibleHeightFilterModal, setIsVisibleHeightFilterModal] =
+  const [isVisibleGenderFilterModal, setIsVisibleGenderFilterModal] =
     useState(false)
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
@@ -93,12 +92,15 @@ export const GroupList = observer(() => {
   }
 
   const getDisplayedHeightFilter = () => {
-    if (!heightFilter) return '키'
-    if (heightFilter.minHeight === 0 && heightFilter.maxHeight === 150)
-      return '150cm 이하'
-    else if (heightFilter.minHeight === 181 && heightFilter.maxHeight === 300)
-      return '181cm 이상'
-    else return `${heightFilter.minHeight}cm ~ ${heightFilter.maxHeight}cm`
+    if (!genderFilter) return '성별'
+    switch (genderFilter) {
+      case 'male_only':
+        return '남자'
+      case 'female_only':
+        return '여자'
+      case 'mixed':
+        return '혼성'
+    }
   }
 
   const getDisplayedDistanceFilter = () => {
@@ -129,11 +131,20 @@ export const GroupList = observer(() => {
       params = `${params}&dist=${distanceFilter}&point=${-locationStore
         ._location.lng},${locationStore._location.lat}`
     }
-    if (heightFilter) {
-      params = `${params}&height_min=${heightFilter.minHeight}&height_max=${heightFilter.maxHeight}`
+    if (membersFilter) {
+      params = `${params}&member_num=${membersFilter}`
+    }
+    if (genderFilter) {
+      params = `${params}&gender=${genderFilter}`
     }
     setFilterParams(params)
-  }, [dateFilter, distanceFilter, heightFilter, locationStore._location])
+  }, [
+    dateFilter,
+    distanceFilter,
+    genderFilter,
+    locationStore._location,
+    membersFilter,
+  ])
 
   return (
     <>
@@ -169,14 +180,14 @@ export const GroupList = observer(() => {
                 </TouchableOpacity>
               </FilterTouchable>
               <FilterTouchable
-                selected={!!heightFilter}
-                onPress={() => setIsVisibleHeightFilterModal(true)}
+                selected={!!genderFilter}
+                onPress={() => setIsVisibleGenderFilterModal(true)}
               >
-                <FilterTypography filter={!!heightFilter}>
+                <FilterTypography filter={!!genderFilter}>
                   {getDisplayedHeightFilter()}
                 </FilterTypography>
-                <TouchableOpacity onPress={() => setHeightFilter(null)}>
-                  {!!heightFilter && <CloseSvg />}
+                <TouchableOpacity onPress={() => setGenderFilter(null)}>
+                  {!!genderFilter && <CloseSvg />}
                 </TouchableOpacity>
               </FilterTouchable>
               <FilterTouchable
@@ -222,33 +233,26 @@ export const GroupList = observer(() => {
             setValue={setMembersFilter}
           />
         </FilterModal>
-        <FilterModal isVisible={isVisibleHeightFilterModal}>
+        <FilterModal isVisible={isVisibleGenderFilterModal}>
           <ModalContent
-            title='키'
-            onClose={() => setIsVisibleHeightFilterModal(false)}
+            title='성별'
+            onClose={() => setIsVisibleGenderFilterModal(false)}
             formList={[
               {
-                label: '150cm 이하',
-                value: { minHeight: 0, maxHeight: 150 },
+                label: '남자',
+                value: 'male_only',
               },
               {
-                label: '151cm ~ 160cm',
-                value: { minHeight: 151, maxHeight: 160 },
+                label: '여자',
+                value: 'female_only',
               },
               {
-                label: '161cm ~ 170cm',
-                value: { minHeight: 161, maxHeight: 170 },
-              },
-              {
-                label: '171cm ~ 180cm',
-                value: { minHeight: 171, maxHeight: 180 },
-              },
-              {
-                label: '181cm 이상',
-                value: { minHeight: 181, maxHeight: 300 },
+                label: '혼성',
+                value: 'mixed',
               },
             ]}
-            setValue={setHeightFilter}
+            setValue={setGenderFilter}
+            defalutIndex={userProfileStore.gender === 'm' ? 1 : 0}
           />
         </FilterModal>
         <FilterModal isVisible={isVisibleDistanceFilterModal}>
@@ -488,19 +492,20 @@ const ModalContent = ({
   onClose,
   formList,
   setValue,
+  defalutIndex,
 }: {
   title: string
   onClose: () => void
   formList: { value: any; label: string }[]
   setValue: React.Dispatch<React.SetStateAction<any | null>>
+  defalutIndex?: number
 }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 
-  // 디폴트값은 어떻게 결정할까?
   const [selectedValue, setSelectedValue] = useState<{
     value: any
     label: string
-  }>(formList[2])
+  }>(defalutIndex ? formList[defalutIndex] : formList[0])
   return (
     <FilterModalContainer isOpen={isOpenDropdown}>
       <H2 style={{ marginLeft: 8, marginBottom: 10 }}>{title}</H2>
