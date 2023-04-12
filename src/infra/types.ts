@@ -256,3 +256,21 @@ export interface UserPurchase {
   purchase_processed: boolean
   purchased_at: string
 }
+
+export interface SearchPlaceList {
+  lastBuildDate: string
+  total: number
+  start: number
+  display: number
+  items: {
+    title: string
+    link: string
+    category: string
+    description: string
+    telephone: string
+    address: string
+    roadAddress: string
+    mapx: string
+    mapy: string
+  }[]
+}

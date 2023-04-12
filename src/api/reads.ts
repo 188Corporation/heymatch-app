@@ -1,5 +1,5 @@
 import useSWRNative from '@nandorojo/swr-react-native'
-import { getRequest } from 'api/fetcher'
+import { chainJsonParser, getRequest } from 'api/fetcher'
 import {
   Chat,
   GroupDetail,
@@ -9,6 +9,7 @@ import {
   MyInfo,
   PurchaseItem,
   ResponseEnvelope,
+  SearchPlaceList,
 } from 'infra/types'
 import qs from 'query-string'
 import { PublicConfiguration } from 'swr/dist/types'
@@ -71,3 +72,26 @@ export const useMatchRequests = () =>
   })
 
 export const useChats = () => useCustomSWR<Chat[]>('/chats/')
+
+export const useSearchPlace = (query: string) => {
+  const { data: res, error } = useSWRNative<SearchPlaceList>(
+    `https://openapi.naver.com/v1/search/local.json?query=${query}&display=5`,
+    (url: string) => {
+      const CLIENT_ID = 'yTGgiqz_swvAiOWZN74G'
+      const CLIENT_SECRET = 'eldIpeJeBI'
+      const headers = new Headers()
+      headers.append('X-Naver-Client-Id', CLIENT_ID)
+      headers.append('X-Naver-Client-Secret', CLIENT_SECRET)
+      const options = {
+        method: 'GET',
+        headers: headers,
+      }
+      return fetch(url, options).then(chainJsonParser)
+    },
+  )
+  return {
+    data: res,
+    isLoading: !error && !res,
+    isError: error,
+  }
+}
