@@ -20,8 +20,9 @@ import { Button } from 'ui/common/button'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Body, Body2, Caption, H2, H3 } from 'ui/common/text'
-
+import { SearchPlaceResults } from './search-place-results'
 LocaleConfig.locales['ko'] = {
   monthNames: [
     '1월',
@@ -61,7 +62,11 @@ export const GroupList = observer(() => {
   const { locationStore, userProfileStore } = useStores()
 
   const [filterParams, setFilterParams] = useState('')
-  const [searchPlace, setSearchPlace] = useState<string>('')
+  const [searchPlaceKeyword, setSearchPlaceKeyword] = useState<string>('')
+  const [screenState, setScreenState] = useState<
+    'BEFORE_SEARCH' | 'SEARCHING' | 'AFTER_SEARCH'
+  >('AFTER_SEARCH')
+
   const [dateFilter, setDateFilter] = useState<{
     startDate?: string
     endDate?: string
@@ -118,6 +123,17 @@ export const GroupList = observer(() => {
     ).format('M월D일')}`
   }
 
+  const handleFocus = () => {
+    if (!searchPlaceKeyword) {
+      setScreenState('BEFORE_SEARCH')
+    } else {
+      setScreenState('SEARCHING')
+    }
+  }
+  const handleBlur = () => {
+    setScreenState('SEARCHING')
+  }
+
   useEffect(() => {
     locationStore.getLocation(true)
   }, [locationStore])
@@ -145,81 +161,99 @@ export const GroupList = observer(() => {
     locationStore._location,
     membersFilter,
   ])
-
   return (
-    <>
+    <KeyboardAvoidingView>
       <Container>
         <TopInsetSpace />
         <SearchInput
-          value={searchPlace}
-          onValueChange={(v: string) => setSearchPlace(v)}
+          onValueChange={(v: string) => setSearchPlaceKeyword(v)}
+          handleFocus={handleFocus}
+          handleBlur={handleBlur}
         />
-        <View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <FilterButtonContainer>
-              <FilterTouchable
-                selected={!!dateFilter}
-                onPress={() => setIsVisibleDateFilterModal(true)}
+        {screenState === 'AFTER_SEARCH' ? (
+          <>
+            <View>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
-                <FilterTypography filter={!!dateFilter}>
-                  {getDisplayedDateFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setDateFilter(null)}>
-                  {!!dateFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!membersFilter}
-                onPress={() => setIsVisibleMembersFilterModal(true)}
-              >
-                <FilterTypography filter={!!membersFilter}>
-                  {getDisplayedMembersFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setMembersFilter(null)}>
-                  {!!membersFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!genderFilter}
-                onPress={() => setIsVisibleGenderFilterModal(true)}
-              >
-                <FilterTypography filter={!!genderFilter}>
-                  {getDisplayedHeightFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setGenderFilter(null)}>
-                  {!!genderFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-              <FilterTouchable
-                selected={!!distanceFilter}
-                onPress={() => setIsVisibleDistanceFilterModal(true)}
-              >
-                <FilterTypography filter={!!distanceFilter}>
-                  {getDisplayedDistanceFilter()}
-                </FilterTypography>
-                <TouchableOpacity onPress={() => setDistanceFilter(null)}>
-                  {!!distanceFilter && <CloseSvg />}
-                </TouchableOpacity>
-              </FilterTouchable>
-            </FilterButtonContainer>
-          </ScrollView>
-        </View>
-        {groupLists && (
-          <FlatList
-            contentContainerStyle={{ flexGrow: 1 }}
-            data={groupLists.map((groupList) => groupList.data.results).flat()}
-            renderItem={(group) => {
-              return (
-                <GroupItem
-                  key={String(group.item.created_at)}
-                  group={group.item}
-                />
-              )
-            }}
-            onEndReached={() => setSize(size + 1)}
+                <FilterButtonContainer>
+                  <FilterTouchable
+                    selected={!!dateFilter}
+                    onPress={() => setIsVisibleDateFilterModal(true)}
+                  >
+                    <FilterTypography filter={!!dateFilter}>
+                      {getDisplayedDateFilter()}
+                    </FilterTypography>
+                    <TouchableOpacity onPress={() => setDateFilter(null)}>
+                      {!!dateFilter && <CloseSvg />}
+                    </TouchableOpacity>
+                  </FilterTouchable>
+                  <FilterTouchable
+                    selected={!!membersFilter}
+                    onPress={() => setIsVisibleMembersFilterModal(true)}
+                  >
+                    <FilterTypography filter={!!membersFilter}>
+                      {getDisplayedMembersFilter()}
+                    </FilterTypography>
+                    <TouchableOpacity onPress={() => setMembersFilter(null)}>
+                      {!!membersFilter && <CloseSvg />}
+                    </TouchableOpacity>
+                  </FilterTouchable>
+                  <FilterTouchable
+                    selected={!!genderFilter}
+                    onPress={() => setIsVisibleGenderFilterModal(true)}
+                  >
+                    <FilterTypography filter={!!genderFilter}>
+                      {getDisplayedHeightFilter()}
+                    </FilterTypography>
+                    <TouchableOpacity onPress={() => setGenderFilter(null)}>
+                      {!!genderFilter && <CloseSvg />}
+                    </TouchableOpacity>
+                  </FilterTouchable>
+                  <FilterTouchable
+                    selected={!!distanceFilter}
+                    onPress={() => setIsVisibleDistanceFilterModal(true)}
+                  >
+                    <FilterTypography filter={!!distanceFilter}>
+                      {getDisplayedDistanceFilter()}
+                    </FilterTypography>
+                    <TouchableOpacity onPress={() => setDistanceFilter(null)}>
+                      {!!distanceFilter && <CloseSvg />}
+                    </TouchableOpacity>
+                  </FilterTouchable>
+                </FilterButtonContainer>
+              </ScrollView>
+            </View>
+            {groupLists && (
+              <FlatList
+                contentContainerStyle={{ flexGrow: 1 }}
+                data={groupLists
+                  .map((groupList) => groupList.data.results)
+                  .flat()}
+                renderItem={(group) => {
+                  return (
+                    <GroupItem
+                      key={String(group.item.created_at)}
+                      group={group.item}
+                    />
+                  )
+                }}
+                onEndReached={() => setSize(size + 1)}
+              />
+            )}
+          </>
+        ) : (
+          <SearchPlaceResults
+            searchPlaceKeyword={searchPlaceKeyword}
+            setScreenState={setScreenState}
           />
         )}
-        <FilterModal isVisible={isVisibleMembersFilterModal}>
+
+        <FilterModal
+          isVisible={isVisibleMembersFilterModal}
+          onClose={() => setIsVisibleMembersFilterModal(false)}
+        >
           <ModalContent
             title='멤버수'
             onClose={() => setIsVisibleMembersFilterModal(false)}
@@ -233,7 +267,10 @@ export const GroupList = observer(() => {
             setValue={setMembersFilter}
           />
         </FilterModal>
-        <FilterModal isVisible={isVisibleGenderFilterModal}>
+        <FilterModal
+          isVisible={isVisibleGenderFilterModal}
+          onClose={() => setIsVisibleGenderFilterModal(false)}
+        >
           <ModalContent
             title='성별'
             onClose={() => setIsVisibleGenderFilterModal(false)}
@@ -255,7 +292,10 @@ export const GroupList = observer(() => {
             defalutIndex={userProfileStore.gender === 'm' ? 1 : 0}
           />
         </FilterModal>
-        <FilterModal isVisible={isVisibleDistanceFilterModal}>
+        <FilterModal
+          isVisible={isVisibleDistanceFilterModal}
+          onClose={() => setIsVisibleDistanceFilterModal(false)}
+        >
           <ModalContent
             title='거리'
             onClose={() => setIsVisibleDistanceFilterModal(false)}
@@ -281,7 +321,10 @@ export const GroupList = observer(() => {
             setValue={setDistanceFilter}
           />
         </FilterModal>
-        <FilterModal isVisible={isVisibleDateFilterModal}>
+        <FilterModal
+          isVisible={isVisibleDateFilterModal}
+          onClose={() => setIsVisibleDateFilterModal(false)}
+        >
           <CalendarModal
             value={dateFilter}
             onClose={() => setIsVisibleDateFilterModal(false)}
@@ -289,25 +332,29 @@ export const GroupList = observer(() => {
           />
         </FilterModal>
       </Container>
-    </>
+    </KeyboardAvoidingView>
   )
 })
 
 const SearchInput = ({
-  value,
   onValueChange,
+  handleFocus,
+  handleBlur,
 }: {
-  value: string
   onValueChange: (v: string) => void
+  handleFocus: () => void
+  handleBlur: () => void
 }) => {
+  const [text, setText] = useState('')
   return (
     <View>
       <View style={{ position: 'absolute', left: 0, top: 10 }}>
         <SearchSvg />
       </View>
       <TextInput
-        value={value}
-        onChangeText={onValueChange}
+        value={text}
+        onChangeText={setText}
+        onEndEditing={(e) => onValueChange(e.nativeEvent.text)}
         placeholder='장소를 검색해볼까요?'
         style={{
           width: '100%',
@@ -316,6 +363,8 @@ const SearchInput = ({
           fontWeight: '700',
           paddingLeft: 32,
         }}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </View>
   )
@@ -468,14 +517,17 @@ const ProfilePhotoContainer = styled(View)`
 
 const FilterModal = ({
   isVisible,
+  onClose,
   children,
 }: {
   isVisible: boolean
+  onClose: () => void
   children: ReactNode
 }) => {
   return (
     <Modal
       isVisible={isVisible}
+      onBackdropPress={onClose}
       style={{
         margin: 0,
         borderTopLeftRadius: 40,
