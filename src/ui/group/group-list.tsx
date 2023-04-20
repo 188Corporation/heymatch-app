@@ -14,7 +14,9 @@ import {
 } from 'react-native'
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
+import { openSettings } from 'react-native-permissions'
 import { useStores } from 'store/globals'
+import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
 import { Button } from 'ui/common/button'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
@@ -59,7 +61,8 @@ LocaleConfig.locales['ko'] = {
 LocaleConfig.defaultLocale = 'ko'
 
 export const GroupList = observer(() => {
-  const { locationStore, userProfileStore } = useStores()
+  const { locationStore, userProfileStore, permissionStore, alertStore } =
+    useStores()
 
   const [filterParams, setFilterParams] = useState('')
   const [searchPlaceKeyword, setSearchPlaceKeyword] = useState<string>('')
@@ -144,8 +147,7 @@ export const GroupList = observer(() => {
       params = `${params}&meetup_date_after=${dateFilter.startDate}&meetup_date_before=${dateFilter.endDate}`
     }
     if (distanceFilter && locationStore._location) {
-      params = `${params}&dist=${distanceFilter}&point=${-locationStore
-        ._location.lng},${locationStore._location.lat}`
+      params = `${params}&dist=${distanceFilter}&point=${locationStore._location.lng},${locationStore._location.lat}`
     }
     if (membersFilter) {
       params = `${params}&member_num=${membersFilter}`
@@ -161,6 +163,22 @@ export const GroupList = observer(() => {
     locationStore._location,
     membersFilter,
   ])
+
+  useEffect(() => {
+    if (permissionStore.location === 'blocked') {
+      alertStore.open({
+        title: '헤이매치 필수 권한',
+        body: '헤이매치를 시작하려면 위치 권한이 필요해요.',
+        mainButton: '권한 설정하러 가기',
+        onMainPress: () => openSettings(),
+      })
+    } else {
+      permissionStore
+        .request(PermissionType.location)
+        .then(() => locationStore.getLocation(true))
+    }
+  }, [permissionStore, locationStore, alertStore])
+
   return (
     <KeyboardAvoidingView>
       <Container>
@@ -300,7 +318,6 @@ export const GroupList = observer(() => {
             title='거리'
             onClose={() => setIsVisibleDistanceFilterModal(false)}
             formList={[
-              { label: '500m 이내', value: 500 },
               {
                 label: '1km 이내',
                 value: 1000,
@@ -312,6 +329,10 @@ export const GroupList = observer(() => {
               {
                 label: '10km 이내',
                 value: 10000,
+              },
+              {
+                label: '20km 이내',
+                value: 20000,
               },
               {
                 label: '50km 이내',
@@ -356,6 +377,7 @@ const SearchInput = ({
         onChangeText={setText}
         onEndEditing={(e) => onValueChange(e.nativeEvent.text)}
         placeholder='장소를 검색해볼까요?'
+        placeholderTextColor={Colors.gray.v300}
         style={{
           width: '100%',
           height: 48,

@@ -274,3 +274,31 @@ export interface SearchPlaceList {
     mapy: string
   }[]
 }
+
+export interface Geocoding {
+  addresses: {
+    addressElements: {
+      roadAddress: string
+      jibunAddress: string
+      englishAddress: string
+      x: string
+      y: string
+      distance: number
+      addressElements: {
+        types: string[]
+        longName: string
+        shortName: string
+        code: string
+      }[]
+    }[]
+    distance: number
+    englishAddress: string
+    jibunAddress: string
+    roadAddress: string
+    x: string
+    y: string
+  }[]
+  errorMessage: string
+  meta: { count: number; page: number; totalCount: number }
+  status: string
+}

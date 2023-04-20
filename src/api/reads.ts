@@ -2,6 +2,7 @@ import useSWRNative from '@nandorojo/swr-react-native'
 import { chainJsonParser, getRequest } from 'api/fetcher'
 import {
   Chat,
+  Geocoding,
   GroupDetail,
   Groups_v2,
   HotPlace,
@@ -82,6 +83,29 @@ export const useSearchPlace = (query: string) => {
       const headers = new Headers()
       headers.append('X-Naver-Client-Id', CLIENT_ID)
       headers.append('X-Naver-Client-Secret', CLIENT_SECRET)
+      const options = {
+        method: 'GET',
+        headers: headers,
+      }
+      return fetch(url, options).then(chainJsonParser)
+    },
+  )
+  return {
+    data: res,
+    isLoading: !error && !res,
+    isError: error,
+  }
+}
+
+export const useGeocoding = (query: string) => {
+  const { data: res, error } = useSWRNative<Geocoding>(
+    `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${query}`,
+    (url: string) => {
+      const CLIENT_ID = 'iuvp8u5i1b'
+      const CLIENT_SECRET = 'hametJJlKEj8tCulH4TfStljsEF4IKyUJ4dqetMm'
+      const headers = new Headers()
+      headers.append('X-NCP-APIGW-API-KEY-ID', CLIENT_ID)
+      headers.append('X-NCP-APIGW-API-KEY', CLIENT_SECRET)
       const options = {
         method: 'GET',
         headers: headers,

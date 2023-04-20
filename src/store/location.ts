@@ -1,7 +1,7 @@
+import { getDistance } from 'geolib'
+import { GpsLocation } from 'infra/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import Geolocation, { GeoPosition } from 'react-native-geolocation-service'
-import { GpsLocation } from 'infra/types'
-import { getDistance } from 'geolib'
 
 export class LocationStore {
   _location: GpsLocation | null = null

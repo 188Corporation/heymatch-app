@@ -1,8 +1,9 @@
-import { useSearchPlace } from 'api/reads'
+import { useGeocoding, useSearchPlace } from 'api/reads'
 import { Pin } from 'image'
 import { Colors } from 'infra/colors'
-import React from 'react'
-import { View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { Body, DescBody2, H3 } from 'ui/common/text'
 
@@ -15,10 +16,40 @@ export const SearchPlaceResults = ({
     React.SetStateAction<'BEFORE_SEARCH' | 'SEARCHING' | 'AFTER_SEARCH'>
   >
 }) => {
-  const { data: searchPlaceList, isLoading } =
+  const { locationStore } = useStores()
+  const { data: searchPlaceList, isLoading: isLoadingSearchPlaceList } =
     useSearchPlace(searchPlaceKeyword)
+  const [address, setAddress] = useState('')
+  const { data: geocoding, isLoading: isLoadingGeocoding } =
+    useGeocoding(address)
 
-  if (isLoading) {
+  useEffect(() => {
+    if (isLoadingGeocoding) return
+    if (!geocoding || !searchPlaceKeyword || !address) return
+    const { x: longitude, y: latitude } = geocoding.addresses[0]
+
+    locationStore._onLocationChange({
+      coords: {
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+        accuracy: 100,
+        altitude: null,
+        heading: null,
+        speed: null,
+      },
+      timestamp: new Date().getTime(),
+    })
+    setScreenState('AFTER_SEARCH')
+  }, [
+    address,
+    geocoding,
+    isLoadingGeocoding,
+    locationStore,
+    searchPlaceKeyword,
+    setScreenState,
+  ])
+
+  if (isLoadingSearchPlaceList) {
     return (
       <>
         <Body>잠시만 기다려주세요</Body>
@@ -42,41 +73,47 @@ export const SearchPlaceResults = ({
     }
     return (
       <>
-        {/* 위치 선택 시 네이버 지도 api로 lat, lng를 반환받아 현재 위치로 적용 */}
-        {/* 근데 검색했다 치면 검색 결과는 현재 위치로부터 반경 몇 km의 결과를 표시해야하지? */}
         {searchPlaceList &&
           searchPlaceList.items.map((searchPlace) => {
             return (
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginBottom: 8,
+              <TouchableOpacity
+                key={`${searchPlace.address}-${searchPlace.telephone}-${searchPlace.mapx}-${searchPlace.mapy}`}
+                style={{ width: '100%' }}
+                onPress={() => {
+                  setAddress(searchPlace.address)
                 }}
               >
                 <View
                   style={{
-                    paddingTop: 2,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginBottom: 8,
                   }}
                 >
-                  <Pin fill={Colors.gray.v400} />
-                </View>
-                <View style={{ marginLeft: 4, width: '90%' }}>
                   <View
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
+                      paddingTop: 2,
                     }}
                   >
-                    <Body>{searchPlace.title.replace(/<[^>]*>/g, '')}</Body>
-                    <DescBody2 style={{ marginLeft: 'auto' }}>
-                      {searchPlace.category.split('>')[0]}
-                    </DescBody2>
+                    <Pin fill={Colors.gray.v400} />
                   </View>
-                  <Body>{searchPlace.address}</Body>
+                  <View style={{ marginLeft: 4, width: '90%' }}>
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Body>{searchPlace.title.replace(/<[^>]*>/g, '')}</Body>
+                      <DescBody2 style={{ marginLeft: 'auto' }}>
+                        {searchPlace.category.split('>')[0]}
+                      </DescBody2>
+                    </View>
+                    <Body>{searchPlace.address}</Body>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             )
           })}
       </>
