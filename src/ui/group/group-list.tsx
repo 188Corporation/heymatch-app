@@ -1,10 +1,10 @@
 import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
-import { CloseSvg, SearchSvg, Verified } from 'image'
+import { CancelSvg, CloseSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupMember, Group_v2, JobTitle } from 'infra/types'
 import { observer } from 'mobx-react'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import {
   FlatList,
   ScrollView,
@@ -60,15 +60,15 @@ LocaleConfig.locales['ko'] = {
 }
 LocaleConfig.defaultLocale = 'ko'
 
+type ScreenState = 'BEFORE_SEARCH' | 'AFTER_SEARCH'
+
 export const GroupList = observer(() => {
   const { locationStore, userProfileStore, permissionStore, alertStore } =
     useStores()
 
   const [filterParams, setFilterParams] = useState('')
   const [searchPlaceKeyword, setSearchPlaceKeyword] = useState<string>('')
-  const [screenState, setScreenState] = useState<
-    'BEFORE_SEARCH' | 'SEARCHING' | 'AFTER_SEARCH'
-  >('AFTER_SEARCH')
+  const [screenState, setScreenState] = useState<ScreenState>('AFTER_SEARCH')
 
   const [dateFilter, setDateFilter] = useState<{
     startDate?: string
@@ -88,6 +88,8 @@ export const GroupList = observer(() => {
     useState(false)
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
+
+  const inputRef = useRef<TextInput | null>(null)
 
   const { data: groupLists, size, setSize } = useGroupList(filterParams)
 
@@ -127,19 +129,23 @@ export const GroupList = observer(() => {
   }
 
   const handleFocus = () => {
-    if (!searchPlaceKeyword) {
-      setScreenState('BEFORE_SEARCH')
-    } else {
-      setScreenState('SEARCHING')
-    }
+    setScreenState('BEFORE_SEARCH')
   }
   const handleBlur = () => {
-    setScreenState('SEARCHING')
+    setScreenState('AFTER_SEARCH')
+  }
+
+  const handleCancel = () => {
+    setSearchPlaceKeyword('')
   }
 
   useEffect(() => {
     locationStore.getLocation(true)
   }, [locationStore])
+
+  useEffect(() => {
+    console.log(screenState)
+  }, [screenState])
 
   useEffect(() => {
     let params = ''
@@ -184,9 +190,13 @@ export const GroupList = observer(() => {
       <Container>
         <TopInsetSpace />
         <SearchInput
+          inputRef={inputRef}
+          screenState={screenState}
+          value={searchPlaceKeyword}
           onValueChange={(v: string) => setSearchPlaceKeyword(v)}
           handleFocus={handleFocus}
           handleBlur={handleBlur}
+          handleCancel={handleCancel}
         />
         {screenState === 'AFTER_SEARCH' ? (
           <>
@@ -263,7 +273,9 @@ export const GroupList = observer(() => {
           </>
         ) : (
           <SearchPlaceResults
+            inputRef={inputRef}
             searchPlaceKeyword={searchPlaceKeyword}
+            setSearchPlaceKeyword={setSearchPlaceKeyword}
             setScreenState={setScreenState}
           />
         )}
@@ -358,23 +370,31 @@ export const GroupList = observer(() => {
 })
 
 const SearchInput = ({
+  inputRef,
+  screenState,
+  value,
   onValueChange,
   handleFocus,
   handleBlur,
+  handleCancel,
 }: {
+  inputRef: React.MutableRefObject<TextInput | null>
+  screenState: ScreenState
+  value: string
   onValueChange: (v: string) => void
   handleFocus: () => void
   handleBlur: () => void
+  handleCancel: () => void
 }) => {
-  const [text, setText] = useState('')
   return (
     <View>
       <View style={{ position: 'absolute', left: 0, top: 10 }}>
         <SearchSvg />
       </View>
       <TextInput
-        value={text}
-        onChangeText={setText}
+        ref={inputRef}
+        value={value}
+        onChangeText={onValueChange}
         onEndEditing={(e) => onValueChange(e.nativeEvent.text)}
         placeholder='장소를 검색해볼까요?'
         placeholderTextColor={Colors.gray.v300}
@@ -388,6 +408,17 @@ const SearchInput = ({
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
+      {screenState !== 'AFTER_SEARCH' && (
+        <TouchableOpacity
+          onPress={() => {
+            if (!value) handleCancel()
+            else handleBlur()
+          }}
+          style={{ position: 'absolute', right: 0, top: 10 }}
+        >
+          <CancelSvg />
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -476,7 +507,7 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
               marginBottom: 8,
             }}
           >
-            <Verified
+            <VerifiedSvg
               style={{ marginRight: 4 }}
               fill={
                 isVerifiedGroup(group) ? Colors.primary.blue : Colors.gray.v400

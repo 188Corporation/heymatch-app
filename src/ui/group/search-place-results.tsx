@@ -1,19 +1,23 @@
 import { useGeocoding, useSearchPlace } from 'api/reads'
-import { Pin } from 'image'
+import { PinSvg } from 'image'
 import { Colors } from 'infra/colors'
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TextInput, TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { Body, DescBody2, H3 } from 'ui/common/text'
 
 export const SearchPlaceResults = ({
+  inputRef,
   searchPlaceKeyword,
+  setSearchPlaceKeyword,
   setScreenState,
 }: {
+  inputRef: React.MutableRefObject<TextInput | null>
   searchPlaceKeyword: string
+  setSearchPlaceKeyword: React.Dispatch<React.SetStateAction<string>>
   setScreenState: React.Dispatch<
-    React.SetStateAction<'BEFORE_SEARCH' | 'SEARCHING' | 'AFTER_SEARCH'>
+    React.SetStateAction<'BEFORE_SEARCH' | 'AFTER_SEARCH'>
   >
 }) => {
   const { locationStore } = useStores()
@@ -80,7 +84,12 @@ export const SearchPlaceResults = ({
                 key={`${searchPlace.address}-${searchPlace.telephone}-${searchPlace.mapx}-${searchPlace.mapy}`}
                 style={{ width: '100%' }}
                 onPress={() => {
+                  if (!inputRef.current) return
                   setAddress(searchPlace.address)
+                  setSearchPlaceKeyword(
+                    searchPlace.title.replace(/<[^>]*>/g, ''),
+                  )
+                  inputRef.current?.blur()
                 }}
               >
                 <View
@@ -95,7 +104,7 @@ export const SearchPlaceResults = ({
                       paddingTop: 2,
                     }}
                   >
-                    <Pin fill={Colors.gray.v400} />
+                    <PinSvg fill={Colors.gray.v400} />
                   </View>
                   <View style={{ marginLeft: 4, width: '90%' }}>
                     <View
@@ -132,7 +141,7 @@ export const HotPlaces = () => {
           marginBottom: 20,
         }}
       >
-        <Pin fill={Colors.primary.red} />
+        <PinSvg fill={Colors.primary.red} />
         <H3 style={{ color: Colors.primary.red }}>지금 뜨는 핫플</H3>
       </View>
       <View style={{ marginLeft: 4 }}>
