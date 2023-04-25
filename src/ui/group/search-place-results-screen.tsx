@@ -78,6 +78,9 @@ export const SearchPlaceResultsScreen = observer(() => {
                     groupListStore.setSearchPlaceKeyword(
                       searchPlace.title.replace(/<[^>]*>/g, ''),
                     )
+                    if (!groupListStore.distanceFilter) {
+                      groupListStore.setDistanceFilter(10000)
+                    }
                     navigation.goBack()
                   }}
                 >

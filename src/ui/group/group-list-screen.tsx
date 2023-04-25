@@ -136,7 +136,7 @@ export const GroupListScreen = observer(() => {
         <TopInsetSpace />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('SearchPlaceResults')
+            navigation.navigate('SearchPlaceResultsScreen')
           }}
           style={{
             display: 'flex',
@@ -200,7 +200,10 @@ export const GroupListScreen = observer(() => {
                     {getDisplayedDistanceFilter()}
                   </FilterTypography>
                   <TouchableOpacity
-                    onPress={() => groupListStore.setDistanceFilter(null)}
+                    onPress={() => {
+                      groupListStore.setDistanceFilter(null)
+                      groupListStore.setSearchPlaceKeyword('')
+                    }}
                   >
                     {!!groupListStore.distanceFilter && <CloseSvg />}
                   </TouchableOpacity>
