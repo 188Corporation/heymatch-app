@@ -22,6 +22,7 @@ import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verificati
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
+import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
@@ -99,6 +100,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='UserWithdrawalScreen'
             component={UserWithdrawalScreen}
+          />
+          <Stack.Screen
+            name='SearchPlaceResults'
+            component={SearchPlaceResultsScreen}
           />
         </>
       )}

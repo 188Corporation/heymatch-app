@@ -3,6 +3,7 @@ import { AlertStore } from 'store/alert'
 import { AuthStore } from 'store/auth'
 import { ChatStore } from 'store/chat'
 import { GroupCreateStore } from 'store/group-create'
+import { GroupListStore } from 'store/group-list'
 import { KeyboardStore } from 'store/keyboard'
 import { LocationStore } from 'store/location'
 import { MapStore } from 'store/map'
@@ -20,6 +21,7 @@ const stores = {
   groupCreateStore: new GroupCreateStore(),
   chatStore: new ChatStore(),
   userProfileStore: new UserProfileStore(),
+  groupListStore: new GroupListStore(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)

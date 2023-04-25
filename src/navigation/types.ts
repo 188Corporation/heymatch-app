@@ -30,7 +30,8 @@ export type RootStackParamList = {
   EmailVerificationCodeInputScreen: {}
   ProfilePhotoVerificationAfterScreen: {}
   // TODO: 서버 작동하면 삭제하기
-  GroupList: {}
+  GroupListScreen: {}
+  SearchPlaceResultsScreen: {}
 }
 
 export interface MatchRequestTarget {
