@@ -102,7 +102,7 @@ export const RootStacks = observer(() => {
             component={UserWithdrawalScreen}
           />
           <Stack.Screen
-            name='SearchPlaceResults'
+            name='SearchPlaceResultsScreen'
             component={SearchPlaceResultsScreen}
           />
         </>

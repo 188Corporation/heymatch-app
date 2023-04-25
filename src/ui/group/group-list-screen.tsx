@@ -59,14 +59,6 @@ export const GroupListScreen = observer(() => {
     useStores()
 
   const [filterParams, setFilterParams] = useState('')
-
-  const [dateFilter, setDateFilter] = useState<{
-    startDate?: string
-    endDate?: string
-  } | null>(null)
-  const [membersFilter, setMembersFilter] = useState<number | null>(null)
-  const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
-
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
     useState(false)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
@@ -78,26 +70,26 @@ export const GroupListScreen = observer(() => {
   const { data: groupLists, size, setSize } = useGroupList(filterParams)
 
   const getDisplayedMembersFilter = () => {
-    return membersFilter
-      ? membersFilter < 5
-        ? `${membersFilter}명`
-        : `${membersFilter}명 이상`
+    return groupListStore.membersFilter
+      ? groupListStore.membersFilter < 5
+        ? `${groupListStore.membersFilter}명`
+        : `${groupListStore.membersFilter}명 이상`
       : '멤버수'
   }
 
   const getDisplayedDistanceFilter = () => {
-    return distanceFilter
-      ? distanceFilter === 500
-        ? `${distanceFilter}m 이내`
-        : `${distanceFilter / 1000}km 이내`
+    return groupListStore.distanceFilter
+      ? groupListStore.distanceFilter === 500
+        ? `${groupListStore.distanceFilter}m 이내`
+        : `${groupListStore.distanceFilter / 1000}km 이내`
       : '거리'
   }
 
   const getDisplayedDateFilter = () => {
-    if (!dateFilter) return '날짜'
-    return `${dayjs(dateFilter.startDate).format('M월D일')}-${dayjs(
-      dateFilter.endDate,
-    ).format('M월D일')}`
+    if (!groupListStore.dateFilter) return '날짜'
+    return `${dayjs(groupListStore.dateFilter.startDate).format(
+      'M월D일',
+    )}-${dayjs(groupListStore.dateFilter.endDate).format('M월D일')}`
   }
 
   useEffect(() => {
@@ -106,17 +98,22 @@ export const GroupListScreen = observer(() => {
 
   useEffect(() => {
     let params = ''
-    if (dateFilter) {
-      params = `${params}&meetup_date_after=${dateFilter.startDate}&meetup_date_before=${dateFilter.endDate}`
+    if (groupListStore.dateFilter) {
+      params = `${params}&meetup_date_after=${groupListStore.dateFilter.startDate}&meetup_date_before=${groupListStore.dateFilter.endDate}`
     }
-    if (distanceFilter && locationStore._location) {
-      params = `${params}&dist=${distanceFilter}&point=${locationStore._location.lng},${locationStore._location.lat}`
+    if (groupListStore.distanceFilter && locationStore._location) {
+      params = `${params}&dist=${groupListStore.distanceFilter}&point=${locationStore._location.lng},${locationStore._location.lat}`
     }
-    if (membersFilter) {
-      params = `${params}&member_num=${membersFilter}`
+    if (groupListStore.membersFilter) {
+      params = `${params}&member_num=${groupListStore.membersFilter}`
     }
     setFilterParams(params)
-  }, [dateFilter, distanceFilter, locationStore._location, membersFilter])
+  }, [
+    groupListStore.dateFilter,
+    groupListStore.distanceFilter,
+    groupListStore.membersFilter,
+    locationStore._location,
+  ])
 
   useEffect(() => {
     if (permissionStore.location === 'blocked') {
@@ -169,37 +166,43 @@ export const GroupListScreen = observer(() => {
             >
               <FilterButtonContainer>
                 <FilterTouchable
-                  selected={!!dateFilter}
+                  selected={!!groupListStore.dateFilter}
                   onPress={() => setIsVisibleDateFilterModal(true)}
                 >
-                  <FilterTypography filter={!!dateFilter}>
+                  <FilterTypography filter={!!groupListStore.dateFilter}>
                     {getDisplayedDateFilter()}
                   </FilterTypography>
-                  <TouchableOpacity onPress={() => setDateFilter(null)}>
-                    {!!dateFilter && <CloseSvg />}
+                  <TouchableOpacity
+                    onPress={() => groupListStore.setDateFilter(null)}
+                  >
+                    {!!groupListStore.dateFilter && <CloseSvg />}
                   </TouchableOpacity>
                 </FilterTouchable>
                 <FilterTouchable
-                  selected={!!membersFilter}
+                  selected={!!groupListStore.membersFilter}
                   onPress={() => setIsVisibleMembersFilterModal(true)}
                 >
-                  <FilterTypography filter={!!membersFilter}>
+                  <FilterTypography filter={!!groupListStore.membersFilter}>
                     {getDisplayedMembersFilter()}
                   </FilterTypography>
-                  <TouchableOpacity onPress={() => setMembersFilter(null)}>
-                    {!!membersFilter && <CloseSvg />}
+                  <TouchableOpacity
+                    onPress={() => groupListStore.setMembersFilter(null)}
+                  >
+                    {!!groupListStore.membersFilter && <CloseSvg />}
                   </TouchableOpacity>
                 </FilterTouchable>
 
                 <FilterTouchable
-                  selected={!!distanceFilter}
+                  selected={!!groupListStore.distanceFilter}
                   onPress={() => setIsVisibleDistanceFilterModal(true)}
                 >
-                  <FilterTypography filter={!!distanceFilter}>
+                  <FilterTypography filter={!!groupListStore.distanceFilter}>
                     {getDisplayedDistanceFilter()}
                   </FilterTypography>
-                  <TouchableOpacity onPress={() => setDistanceFilter(null)}>
-                    {!!distanceFilter && <CloseSvg />}
+                  <TouchableOpacity
+                    onPress={() => groupListStore.setDistanceFilter(null)}
+                  >
+                    {!!groupListStore.distanceFilter && <CloseSvg />}
                   </TouchableOpacity>
                 </FilterTouchable>
               </FilterButtonContainer>
@@ -238,7 +241,7 @@ export const GroupListScreen = observer(() => {
               { label: '4명', value: 4 },
               { label: '5명 이상', value: 5 },
             ]}
-            setValue={setMembersFilter}
+            setValue={(v) => groupListStore.setMembersFilter(v)}
           />
         </FilterModal>
 
@@ -271,7 +274,7 @@ export const GroupListScreen = observer(() => {
                 value: 50000,
               },
             ]}
-            setValue={setDistanceFilter}
+            setValue={(v) => groupListStore.setDistanceFilter(v)}
           />
         </FilterModal>
         <FilterModal
@@ -279,9 +282,9 @@ export const GroupListScreen = observer(() => {
           onClose={() => setIsVisibleDateFilterModal(false)}
         >
           <CalendarModal
-            value={dateFilter}
+            value={groupListStore.dateFilter}
             onClose={() => setIsVisibleDateFilterModal(false)}
-            setValue={setDateFilter}
+            setValue={(v) => groupListStore.setDateFilter(v)}
           />
         </FilterModal>
       </Container>
@@ -468,7 +471,7 @@ const ModalContent = ({
   title: string
   onClose: () => void
   formList: { value: any; label: string }[]
-  setValue: React.Dispatch<React.SetStateAction<any | null>>
+  setValue: (v: any) => void
   defalutIndex?: number
 }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState(false)
@@ -553,12 +556,12 @@ const CalendarModal = ({
     endDate?: string
   } | null
   onClose: () => void
-  setValue: React.Dispatch<
-    React.SetStateAction<{
-      startDate?: string
-      endDate?: string
-    } | null>
-  >
+  setValue: (
+    v: {
+      startDate?: string | undefined
+      endDate?: string | undefined
+    } | null,
+  ) => void
 }) => {
   const [selectedValue, setSelectedValue] = useState<{
     startDate?: string

@@ -1,7 +1,10 @@
 import { makeAutoObservable } from 'mobx'
 
 export class GroupListStore {
-  searchPlaceKeyword = ''
+  searchPlaceKeyword: string = ''
+  dateFilter: { startDate?: string; endDate?: string } | null = null
+  membersFilter: number | null = null
+  distanceFilter: number | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -9,5 +12,17 @@ export class GroupListStore {
 
   setSearchPlaceKeyword(v: string) {
     this.searchPlaceKeyword = v
+  }
+
+  setDateFilter(v: { startDate?: string; endDate?: string } | null) {
+    this.dateFilter = v
+  }
+
+  setMembersFilter(v: number | null) {
+    this.membersFilter = v
+  }
+
+  setDistanceFilter(v: number | null) {
+    this.distanceFilter = v
   }
 }
