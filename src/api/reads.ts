@@ -44,8 +44,13 @@ export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 // export const useHotPlaceWithGroupsList = () =>
 //   useCustomSWR<HotPlaceWithGroups[]>('/groups/')
 
-export const useGroupList = (filter?: string) =>
-  useSWRInfinite<Groups_v2>(
+export const useGroupList = (filter?: string) => {
+  const {
+    data: res,
+    error,
+    size,
+    setSize,
+  } = useSWRInfinite<Groups_v2>(
     (pageIndex: number, previousPageData: Groups_v2) => {
       if (previousPageData && previousPageData.data.next === null) {
         return null
@@ -54,6 +59,14 @@ export const useGroupList = (filter?: string) =>
     },
     getRequest,
   )
+  return {
+    data: res,
+    isLoading: !error && !res,
+    isError: error,
+    size,
+    setSize,
+  }
+}
 
 export const useGroup = (groupId?: number) =>
   useCustomSWR<GroupDetail>(groupId ? `/groups/${groupId}/` : null)

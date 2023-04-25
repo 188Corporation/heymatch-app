@@ -1,12 +1,18 @@
 import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
-import { CloseSvg, SearchSvg, VerifiedSvg } from 'image'
+import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupMember, Group_v2, JobTitle } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
 import Modal from 'react-native-modal'
 import { openSettings } from 'react-native-permissions'
@@ -18,7 +24,7 @@ import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
-import { Body, Body2, Caption, H2, H3 } from 'ui/common/text'
+import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 LocaleConfig.locales['ko'] = {
   monthNames: [
     '1월',
@@ -211,22 +217,39 @@ export const GroupListScreen = observer(() => {
               </FilterButtonContainer>
             </ScrollView>
           </View>
-          {groupLists && (
-            <FlatList
-              contentContainerStyle={{ flexGrow: 1 }}
-              data={groupLists
-                .map((groupList) => groupList.data.results)
-                .flat()}
-              renderItem={(group) => {
-                return (
-                  <GroupItem
-                    key={String(group.item.created_at)}
-                    group={group.item}
-                  />
-                )
+          {groupLists && groupLists[0].data.count ? (
+            <>
+              <FlatList
+                contentContainerStyle={{ flexGrow: 1 }}
+                data={groupLists
+                  .map((groupList) => groupList.data.results)
+                  .flat()}
+                renderItem={(group) => {
+                  return (
+                    <GroupItem
+                      key={String(group.item.created_at)}
+                      group={group.item}
+                    />
+                  )
+                }}
+                onEndReached={() => setSize(size + 1)}
+                ListFooterComponent={<ActivityIndicator size='large' />}
+              />
+            </>
+          ) : (
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: 100,
               }}
-              onEndReached={() => setSize(size + 1)}
-            />
+            >
+              <GroupsPlaceHolderSvg />
+              <H3>생성된 그룹이 없어요</H3>
+              <DescBody2>헤이매치의 첫 번째 그룹이 되어주세요😊</DescBody2>
+            </View>
           )}
         </>
 
