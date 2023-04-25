@@ -55,13 +55,8 @@ LocaleConfig.locales['ko'] = {
 LocaleConfig.defaultLocale = 'ko'
 
 export const GroupListScreen = observer(() => {
-  const {
-    locationStore,
-    userProfileStore,
-    permissionStore,
-    alertStore,
-    groupListStore,
-  } = useStores()
+  const { locationStore, permissionStore, alertStore, groupListStore } =
+    useStores()
 
   const [filterParams, setFilterParams] = useState('')
 
@@ -71,16 +66,12 @@ export const GroupListScreen = observer(() => {
   } | null>(null)
   const [membersFilter, setMembersFilter] = useState<number | null>(null)
   const [distanceFilter, setDistanceFilter] = useState<number | null>(null)
-  const [genderFilter, setGenderFilter] = useState<
-    'male_only' | 'female_only' | 'mixed' | null
-  >(null)
 
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
     useState(false)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
     useState(false)
-  const [isVisibleGenderFilterModal, setIsVisibleGenderFilterModal] =
-    useState(false)
+
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
 
@@ -92,18 +83,6 @@ export const GroupListScreen = observer(() => {
         ? `${membersFilter}명`
         : `${membersFilter}명 이상`
       : '멤버수'
-  }
-
-  const getDisplayedHeightFilter = () => {
-    if (!genderFilter) return '성별'
-    switch (genderFilter) {
-      case 'male_only':
-        return '남자'
-      case 'female_only':
-        return '여자'
-      case 'mixed':
-        return '혼성'
-    }
   }
 
   const getDisplayedDistanceFilter = () => {
@@ -136,17 +115,8 @@ export const GroupListScreen = observer(() => {
     if (membersFilter) {
       params = `${params}&member_num=${membersFilter}`
     }
-    if (genderFilter) {
-      params = `${params}&gender=${genderFilter}`
-    }
     setFilterParams(params)
-  }, [
-    dateFilter,
-    distanceFilter,
-    genderFilter,
-    locationStore._location,
-    membersFilter,
-  ])
+  }, [dateFilter, distanceFilter, locationStore._location, membersFilter])
 
   useEffect(() => {
     if (permissionStore.location === 'blocked') {
@@ -220,17 +190,7 @@ export const GroupListScreen = observer(() => {
                     {!!membersFilter && <CloseSvg />}
                   </TouchableOpacity>
                 </FilterTouchable>
-                <FilterTouchable
-                  selected={!!genderFilter}
-                  onPress={() => setIsVisibleGenderFilterModal(true)}
-                >
-                  <FilterTypography filter={!!genderFilter}>
-                    {getDisplayedHeightFilter()}
-                  </FilterTypography>
-                  <TouchableOpacity onPress={() => setGenderFilter(null)}>
-                    {!!genderFilter && <CloseSvg />}
-                  </TouchableOpacity>
-                </FilterTouchable>
+
                 <FilterTouchable
                   selected={!!distanceFilter}
                   onPress={() => setIsVisibleDistanceFilterModal(true)}
@@ -281,31 +241,7 @@ export const GroupListScreen = observer(() => {
             setValue={setMembersFilter}
           />
         </FilterModal>
-        <FilterModal
-          isVisible={isVisibleGenderFilterModal}
-          onClose={() => setIsVisibleGenderFilterModal(false)}
-        >
-          <ModalContent
-            title='성별'
-            onClose={() => setIsVisibleGenderFilterModal(false)}
-            formList={[
-              {
-                label: '남자',
-                value: 'male_only',
-              },
-              {
-                label: '여자',
-                value: 'female_only',
-              },
-              {
-                label: '혼성',
-                value: 'mixed',
-              },
-            ]}
-            setValue={setGenderFilter}
-            defalutIndex={userProfileStore.gender === 'm' ? 1 : 0}
-          />
-        </FilterModal>
+
         <FilterModal
           isVisible={isVisibleDistanceFilterModal}
           onClose={() => setIsVisibleDistanceFilterModal(false)}
