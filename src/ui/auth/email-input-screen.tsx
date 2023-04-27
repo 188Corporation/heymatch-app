@@ -101,13 +101,15 @@ export const EmailInputScreen = observer(() => {
               userProfileStore.email!,
               userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
             ).then((res) => {
-              // TODO: 계열사 선택 ui 추가 후
-              console.log(res.names)
+              userProfileStore.setOrganizationNames(res.names)
             })
             await mutate('/auth/email/get-code/')
 
-            // TODO: profile-photo-examination 혹은 메인화면
-            navigation.navigate('EmailVerificationCodeInputScreen')
+            if (userProfileStore.organizationNames?.length === 1) {
+              navigation.navigate('EmailVerificationCodeInputScreen')
+            } else {
+              navigation.navigate('SelectSubsidiaryScreen')
+            }
           } catch (e) {
             alertStore.error(e, '이메일을 다시 확인해주세요!')
           } finally {

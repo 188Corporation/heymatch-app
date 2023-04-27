@@ -12,6 +12,7 @@ import { AgreementScreen } from 'ui/auth/agreement-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
 import { BodyInfoScreen } from 'ui/auth/body-info-screen'
+import { ConfirmCompanyScreen } from 'ui/auth/confirm-company-screen'
 import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { GenderScreen } from 'ui/auth/gender-screen'
@@ -19,6 +20,7 @@ import { JobInfoScreen } from 'ui/auth/job-info-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
 import { ProfilePhotoVerificationAfterScreen } from 'ui/auth/profile-photo-verification-after-screen'
 import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
+import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
@@ -70,8 +72,16 @@ export const RootStacks = observer(() => {
           <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
           <Stack.Screen name='EmailInputScreen' component={EmailInputScreen} />
           <Stack.Screen
+            name='SelectSubsidiaryScreen'
+            component={SelectSubsidiaryScreen}
+          />
+          <Stack.Screen
             name='EmailVerificationCodeInputScreen'
             component={EmailVerificationCodeInputScreen}
+          />
+          <Stack.Screen
+            name='ConfirmCompanyScreen'
+            component={ConfirmCompanyScreen}
           />
           <Stack.Screen
             name='ProfilePhotoVerificationAfterScreen'

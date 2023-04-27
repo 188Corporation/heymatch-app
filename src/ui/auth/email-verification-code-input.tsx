@@ -23,7 +23,6 @@ export const EmailVerificationCodeInputScreen = observer(() => {
   const { alertStore, userProfileStore } = useStores()
 
   const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
-  const [emailVerificationCode, setEmailVerificationCode] = useState('')
   const [loading, setLoading] = useState(false)
   const [alreadySend, setAlreadySend] = useState(true)
   const [timer, setTimer] = useState(VALID_TIME)
@@ -36,8 +35,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
         userProfileStore.email!,
         userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
       ).then((res) => {
-        // TODO: 계열사 선택 ui 추가 후
-        console.log(res.names)
+        userProfileStore.setOrganizationNames(res.names)
       })
       await mutate('/auth/email/get-code/')
     } catch (e) {
@@ -71,12 +69,12 @@ export const EmailVerificationCodeInputScreen = observer(() => {
               placeholder='인증 코드를 입력해주세요'
               keyboardType='default'
               textContentType='oneTimeCode'
-              value={emailVerificationCode}
+              value={userProfileStore.emailVerificationCode}
               onValueChange={(v) => {
                 if (v.length === 6) {
                   return
                 }
-                setEmailVerificationCode(v)
+                userProfileStore.setEmailVerificationCode(v)
               }}
               letterCase='upper'
               suffix={timer > 0 && <Timer timer={timer} setTimer={setTimer} />}
@@ -126,22 +124,20 @@ export const EmailVerificationCodeInputScreen = observer(() => {
       />
       <BottomButton
         text='다음으로'
-        disabled={!emailVerificationCode}
+        disabled={!userProfileStore.emailVerificationCode}
         onPress={async () => {
           setLoading(true)
           try {
             await authorizeEmail(
               userProfileStore.email!,
-              emailVerificationCode,
+              userProfileStore.emailVerificationCode,
               userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
-              // TODO: 계열사 선택 ui 추가 후
-              '서강대학교',
+              userProfileStore.organizationNames![0],
             )
             await mutate('/auth/phone/authorize/')
-
-            navigation.navigate('ProfilePhotoVerificationAfterScreen')
+            navigation.navigate('ConfirmCompanyScreen')
           } catch (e) {
-            alertStore.error(e, '코드가 만료됐어요!')
+            alertStore.error(e, '코드가 유효하지 않아요!')
           } finally {
             setLoading(false)
           }
