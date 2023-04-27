@@ -18,7 +18,7 @@ import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-cod
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
-import { ProfilePhotoVerificationAfterScreen } from 'ui/auth/profile-photo-verification-after-screen'
+import { ProfilePhotoRejectedScreen } from 'ui/auth/profile-photo-rejected-screen'
 import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
 import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
@@ -84,8 +84,8 @@ export const RootStacks = observer(() => {
             component={ConfirmCompanyScreen}
           />
           <Stack.Screen
-            name='ProfilePhotoVerificationAfterScreen'
-            component={ProfilePhotoVerificationAfterScreen}
+            name='ProfilePhotoRejectedScreen'
+            component={ProfilePhotoRejectedScreen}
           />
         </>
       ) : (

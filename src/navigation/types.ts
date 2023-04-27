@@ -23,12 +23,12 @@ export type RootStackParamList = {
   GenderScreen: {}
   BirthdayScreen: {}
   ProfilePhotoRegisterScreen: {}
-  ProfilePhotoVerificationScreen: {}
+  ProfilePhotoVerificationScreen: { stage: 'BEFORE' | 'AFTER' }
+  ProfilePhotoRejectedScreen: {}
   BodyInfoScreen: {}
   JobInfoScreen: {}
   EmailInputScreen: {}
   EmailVerificationCodeInputScreen: {}
-  ProfilePhotoVerificationAfterScreen: {}
   SelectSubsidiaryScreen: {}
   ConfirmCompanyScreen: {}
   // TODO: 서버 작동하면 삭제하기
@@ -50,4 +50,9 @@ export type GroupDetailScreenProps = StackScreenProps<
 export type WebViewScreenProps = StackScreenProps<
   RootStackParamList,
   'WebViewScreen'
+>
+
+export type ProfilePhotoVerificationScreenProps = StackScreenProps<
+  RootStackParamList,
+  'ProfilePhotoVerificationScreen'
 >

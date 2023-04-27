@@ -1,5 +1,6 @@
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
+import { ProfilePhotoVerificationScreenProps } from 'navigation/types'
 import React from 'react'
 import { View } from 'react-native'
 import { useStores } from 'store/globals'
@@ -10,7 +11,10 @@ import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H2 } from 'ui/common/text'
 
-export const ProfilePhotoVerificationScreen = () => {
+export const ProfilePhotoVerificationScreen: React.FC<
+  ProfilePhotoVerificationScreenProps
+> = (props) => {
+  const { stage } = props.route.params
   const { userProfileStore } = useStores()
   return (
     <>
@@ -34,17 +38,28 @@ export const ProfilePhotoVerificationScreen = () => {
               <Body2 style={{ color: Colors.gray.v400 }}>
                 빠르게 확인하고 알려드릴게요 😀
               </Body2>
-              <Body2 style={{ color: Colors.gray.v400 }}>
-                기다리는 동안 회원님에 대해 조금 더 알려줄래요?
-              </Body2>
+              {stage === 'BEFORE' && (
+                <Body2 style={{ color: Colors.gray.v400 }}>
+                  기다리는 동안 회원님에 대해 조금 더 알려줄래요?
+                </Body2>
+              )}
             </View>
           </View>
         </Container>
       </FlexScrollView>
-      <BottomButton
-        text='+ 추가 정보 등록하기'
-        onPress={() => navigation.navigate('BodyInfoScreen')}
-      />
+      {stage === 'BEFORE' && (
+        <BottomButton
+          text='+ 추가 정보 등록하기'
+          onPress={() => navigation.navigate('BodyInfoScreen')}
+        />
+      )}
+      {stage === 'AFTER' && (
+        <BottomButton
+          disabled
+          text='추가 정보를 모두 적었어요 🎉'
+          onPress={() => {}}
+        />
+      )}
     </>
   )
 }

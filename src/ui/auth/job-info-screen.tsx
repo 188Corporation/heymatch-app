@@ -103,7 +103,9 @@ export const JobInfoScreen = observer(() => {
                 )
                 await mutate('/users/my/')
                 // TODO: profile-photo-examination 혹은 메인화면
-                navigation.navigate('ProfilePhotoVerificationAfterScreen')
+                navigation.navigate('ProfilePhotoVerificationScreen', {
+                  stage: 'AFTER',
+                })
               } catch (e) {
                 alertStore.error(e, '프로필 사진 등록에 실패했어요!')
               } finally {
@@ -138,7 +140,9 @@ export const JobInfoScreen = observer(() => {
               )
               await mutate('/users/my/')
               // TODO: profile-photo-examination 혹은 메인화면
-              navigation.navigate('ProfilePhotoVerificationAfterScreen')
+              navigation.navigate('ProfilePhotoVerificationScreen', {
+                stage: 'AFTER',
+              })
             } catch (e) {
               alertStore.error(e, '프로필 사진 등록에 실패했어요!')
             } finally {

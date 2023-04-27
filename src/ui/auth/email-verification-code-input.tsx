@@ -112,7 +112,9 @@ export const EmailVerificationCodeInputScreen = observer(() => {
                 )
                 await mutate('/users/my/')
 
-                navigation.navigate('ProfilePhotoVerificationAfterScreen')
+                navigation.navigate('ProfilePhotoVerificationScreen', {
+                  stage: 'AFTER',
+                })
               } catch (e) {
                 alertStore.error(e, '프로필 사진 등록에 실패했어요!')
               } finally {

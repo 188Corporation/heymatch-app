@@ -34,7 +34,9 @@ export const ConfirmCompanyScreen = () => {
       <BottomButton
         text='다음으로'
         onPress={() =>
-          navigation.navigate('ProfilePhotoVerificationAfterScreen')
+          navigation.navigate('ProfilePhotoVerificationScreen', {
+            stage: 'AFTER',
+          })
         }
       />
     </>
