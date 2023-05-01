@@ -3,7 +3,6 @@ import { oneSignal } from 'infra/one-signal'
 import { paymentManager } from 'infra/payments'
 import { observer } from 'mobx-react'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
-import { GroupCreateStacks } from 'navigation/group-create-stacks'
 import { MainTabs } from 'navigation/main-tabs'
 import { RootStackParamList } from 'navigation/types'
 import React, { useEffect } from 'react'
@@ -31,6 +30,7 @@ import { UserManagementScreen } from 'ui/my/user-management-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
+import { NewGroupCreateStacks } from './new-group-create-stacks'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -91,7 +91,11 @@ export const RootStacks = observer(() => {
       ) : (
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />
-          <Stack.Screen name='GroupCreateStack' component={GroupCreateStacks} />
+          {/* <Stack.Screen name='GroupCreateStack' component={GroupCreateStacks} /> */}
+          <Stack.Screen
+            name='NewGroupCreateStacks'
+            component={NewGroupCreateStacks}
+          />
           <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
           <Stack.Screen
             name='GroupDetailScreen'

@@ -7,6 +7,7 @@ export type RootStackParamList = {
   AuthScreen: {}
   MainTabs: {}
   GroupCreateStack: {}
+  NewGroupCreateStacks: {}
   GroupEditScreen: {}
   GroupDetailScreen: {
     data: GroupDetail
