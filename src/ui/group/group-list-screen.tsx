@@ -13,52 +13,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Calendar, DateData, LocaleConfig } from 'react-native-calendars'
+import { DateData } from 'react-native-calendars'
 import Modal from 'react-native-modal'
 import { openSettings } from 'react-native-permissions'
 import { useStores } from 'store/globals'
 import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
 import { Button } from 'ui/common/button'
+import { CalendarModal } from 'ui/common/CalenderModal'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
-LocaleConfig.locales['ko'] = {
-  monthNames: [
-    '1월',
-    '2월',
-    '3월',
-    '4월',
-    '5월',
-    '6월',
-    '7월',
-    '8월',
-    '9월',
-    '10월',
-    '11월',
-    '12월',
-  ],
-  monthNamesShort: [
-    '1월',
-    '2월',
-    '3월',
-    '4월',
-    '5월',
-    '6월',
-    '7월',
-    '8월',
-    '9월',
-    '10월',
-    '11월',
-    '12월',
-  ],
-  dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-  dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-  today: '오늘',
-}
-LocaleConfig.defaultLocale = 'ko'
 
 export const GroupListScreen = observer(() => {
   const { locationStore, permissionStore, alertStore, groupListStore } =
@@ -307,16 +274,117 @@ export const GroupListScreen = observer(() => {
           isVisible={isVisibleDateFilterModal}
           onClose={() => setIsVisibleDateFilterModal(false)}
         >
-          <CalendarModal
-            value={groupListStore.dateFilter}
-            onClose={() => setIsVisibleDateFilterModal(false)}
-            setValue={(v) => groupListStore.setDateFilter(v)}
+          <PeriodCalenderModal
+            setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
           />
         </FilterModal>
       </Container>
     </KeyboardAvoidingView>
   )
 })
+
+const PeriodCalenderModal = ({
+  setIsVisibleDateFilterModal,
+}: {
+  setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const { groupListStore } = useStores()
+  const [selectedValue, setSelectedValue] = useState<{
+    startDate?: string
+    endDate?: string
+  } | null>(groupListStore.dateFilter)
+
+  const updateSortedDate = (date: DateData) => {
+    if (!selectedValue?.startDate) {
+      setSelectedValue({ startDate: date.dateString })
+      return
+    }
+    if (
+      selectedValue.startDate &&
+      !selectedValue.endDate &&
+      selectedValue.startDate === date.dateString
+    ) {
+      setSelectedValue((prev) => {
+        return { ...prev, endDate: date.dateString }
+      })
+      return
+    }
+    if (selectedValue.startDate && !selectedValue.endDate) {
+      setSelectedValue((prev) => {
+        if (isEarlier(selectedValue.startDate!, date.dateString)) {
+          return {
+            ...prev,
+            endDate: date.dateString,
+          }
+        } else {
+          return {
+            startDate: date.dateString,
+            endDate: selectedValue.startDate,
+          }
+        }
+      })
+      return
+    }
+    if (selectedValue.startDate && selectedValue.endDate) {
+      setSelectedValue({ startDate: date.dateString })
+      return
+    }
+  }
+
+  const getDatesPeriod = (startDate: string, endDate: string) => {
+    const period = {} as any
+    period[startDate] = {
+      startingDay: true,
+      selected: true,
+      color: '#FF4369',
+    }
+    period[endDate] = {
+      endingDay: true,
+      selected: true,
+      color: '#FF4369',
+    }
+    getDates(startDate, endDate).forEach((date) => {
+      period[date] = {
+        selected: true,
+        color: '#FF4369',
+      }
+    })
+    return period
+  }
+
+  const getMarkedDatesPeriod = () => {
+    if (!selectedValue) return {}
+    if (selectedValue.startDate && !selectedValue.endDate) {
+      return {
+        [selectedValue.startDate]: {
+          startingDay: true,
+          selected: true,
+          color: '#FF4369',
+        },
+      }
+    }
+    if (selectedValue.startDate && selectedValue.endDate) {
+      return getDatesPeriod(selectedValue.startDate, selectedValue.endDate)
+    }
+  }
+
+  return (
+    <CalendarModal
+      disabled={!selectedValue?.startDate || !selectedValue?.endDate}
+      markedDates={getMarkedDatesPeriod()}
+      markingType='period'
+      onDayPress={updateSortedDate}
+      onSelect={() => {
+        groupListStore.setDateFilter(selectedValue)
+        setIsVisibleDateFilterModal(false)
+      }}
+      onClose={() => {
+        groupListStore.setDateFilter(null)
+        setIsVisibleDateFilterModal(false)
+      }}
+    />
+  )
+}
 
 const GroupItem = ({ group }: { group: Group_v2 }) => {
   const convertJobtitle = (jobTitle: JobTitle) => {
@@ -570,155 +638,6 @@ const FilterModalDropdownItem = styled(TouchableOpacity)`
   padding-horizontal: 20px
   padding-vertical: 16px
   border-radius: 12px
-`
-
-const CalendarModal = ({
-  value,
-  onClose,
-  setValue,
-}: {
-  value: {
-    startDate?: string
-    endDate?: string
-  } | null
-  onClose: () => void
-  setValue: (
-    v: {
-      startDate?: string | undefined
-      endDate?: string | undefined
-    } | null,
-  ) => void
-}) => {
-  const [selectedValue, setSelectedValue] = useState<{
-    startDate?: string
-    endDate?: string
-  } | null>(value)
-
-  const updateSortedDate = (date: DateData) => {
-    if (!selectedValue?.startDate) {
-      setSelectedValue({ startDate: date.dateString })
-      return
-    }
-    if (
-      selectedValue.startDate &&
-      !selectedValue.endDate &&
-      selectedValue.startDate === date.dateString
-    ) {
-      setSelectedValue((prev) => {
-        return { ...prev, endDate: date.dateString }
-      })
-      return
-    }
-    if (selectedValue.startDate && !selectedValue.endDate) {
-      setSelectedValue((prev) => {
-        if (isEarlier(selectedValue.startDate!, date.dateString)) {
-          return {
-            ...prev,
-            endDate: date.dateString,
-          }
-        } else {
-          return {
-            startDate: date.dateString,
-            endDate: selectedValue.startDate,
-          }
-        }
-      })
-      return
-    }
-    if (selectedValue.startDate && selectedValue.endDate) {
-      setSelectedValue({ startDate: date.dateString })
-      return
-    }
-  }
-
-  const getDatesPeriod = (startDate: string, endDate: string) => {
-    const period = {} as any
-    period[startDate] = {
-      startingDay: true,
-      selected: true,
-      color: '#FF4369',
-      customContainerStyle: { borderRadius: 12 },
-    }
-    period[endDate] = {
-      endingDay: true,
-      selected: true,
-      color: '#FF4369',
-      customContainerStyle: { borderRadius: 12 },
-    }
-    getDates(startDate, endDate).forEach((date) => {
-      period[date] = {
-        selected: true,
-        color: '#FF4369',
-      }
-    })
-    return period
-  }
-
-  const getMarkedDatesPeriod = () => {
-    if (!selectedValue) return {}
-    if (selectedValue.startDate && !selectedValue.endDate) {
-      return {
-        [selectedValue.startDate]: {
-          startingDay: true,
-          selected: true,
-          color: '#FF4369',
-          customContainerStyle: {
-            container: { borderRadius: 12 },
-          },
-        },
-      }
-    }
-    if (selectedValue.startDate && selectedValue.endDate) {
-      return getDatesPeriod(selectedValue.startDate, selectedValue.endDate)
-    }
-  }
-
-  return (
-    <CalenderModalContainer>
-      <View style={{ marginBottom: 32 }}>
-        <Calendar
-          monthFormat={'yyyy년 M월'}
-          minDate={String(new Date())}
-          markingType={'period'}
-          markedDates={getMarkedDatesPeriod()}
-          onDayPress={(date: DateData) => {
-            updateSortedDate(date)
-          }}
-          theme={{
-            arrowColor: Colors.black,
-          }}
-        />
-      </View>
-      <View style={{ flexDirection: 'row', width: '50%', marginTop: 'auto' }}>
-        <Button
-          text='다음에'
-          textColor={Colors.gray.v400}
-          color={Colors.white}
-          onPress={() => {
-            onClose()
-          }}
-        />
-        <Button
-          text='선택하기'
-          textColor={Colors.white}
-          color={Colors.primary.blue}
-          disabled={!selectedValue?.startDate || !selectedValue?.endDate}
-          onPress={() => {
-            setValue(selectedValue)
-            onClose()
-          }}
-        />
-      </View>
-    </CalenderModalContainer>
-  )
-}
-
-const CalenderModalContainer = styled(View)`
-  padding: 32px 45px 44px 45px;
-  width: 100%;
-  margin-top: auto;
-  border-radius: 40px;
-  background-color: #fff;
 `
 
 function getDates(startDate: string, endDate: string) {
