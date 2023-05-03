@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import React from 'react'
+import { GroupCreateDoneScreen } from 'ui/group-create/group-create-done-screen'
 import { GroupCreateInfoScreen } from 'ui/group-create/group-create-info-screen'
 import { GroupCreateNameScreen } from 'ui/group-create/group-create-name-screen'
 
@@ -16,6 +17,10 @@ export const NewGroupCreateStacks = () => {
       <Stack.Screen
         name='GroupCreateInfoScreen'
         component={GroupCreateInfoScreen}
+      />
+      <Stack.Screen
+        name='GroupCreateDoneScreen'
+        component={GroupCreateDoneScreen}
       />
     </Stack.Navigator>
   )

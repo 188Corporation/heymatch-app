@@ -2,6 +2,7 @@ import { useSearchPlace } from 'api/reads'
 import { PinSvg, RightArrowSvg, SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
+import { navigation } from 'navigation/global'
 import React, { ReactNode, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
 import { DateData } from 'react-native-calendars'
@@ -150,7 +151,9 @@ export const GroupCreateInfoScreen = () => {
           disabled={
             !selectedDate || !address || !introduce || !member || !averageAge
           }
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('GroupCreateDoneScreen')
+          }}
         />
       </KeyboardAvoidingView>
     </>
