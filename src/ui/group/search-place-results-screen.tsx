@@ -139,48 +139,46 @@ const Container = styled(View)`
   padding: 33px 20px 0px 20px;
 `
 
-const SearchInput = observer(
-  ({
-    handleEndEditing,
-    handleCancel,
-  }: {
-    handleEndEditing: (v: string) => void
-    handleCancel: () => void
-  }) => {
-    const [text, setText] = useState('')
+const SearchInput = ({
+  handleEndEditing,
+  handleCancel,
+}: {
+  handleEndEditing: (v: string) => void
+  handleCancel: () => void
+}) => {
+  const [text, setText] = useState('')
 
-    return (
-      <View>
-        <View style={{ position: 'absolute', left: 0, top: 10 }}>
-          <SearchSvg />
-        </View>
-        <TextInput
-          autoFocus
-          value={text}
-          onChangeText={(v) => setText(v)}
-          onEndEditing={() => {
-            handleEndEditing(text)
-          }}
-          placeholder='장소를 검색해볼까요?'
-          placeholderTextColor={Colors.gray.v300}
-          style={{
-            width: '100%',
-            height: 48,
-            fontSize: 20,
-            fontWeight: '700',
-            paddingLeft: 32,
-          }}
-        />
-        <TouchableOpacity
-          onPress={handleCancel}
-          style={{ position: 'absolute', right: 0, top: 10 }}
-        >
-          <CancelSvg />
-        </TouchableOpacity>
+  return (
+    <View>
+      <View style={{ position: 'absolute', left: 0, top: 10 }}>
+        <SearchSvg />
       </View>
-    )
-  },
-)
+      <TextInput
+        autoFocus
+        value={text}
+        onChangeText={(v) => setText(v)}
+        onEndEditing={() => {
+          handleEndEditing(text)
+        }}
+        placeholder='장소를 검색해볼까요?'
+        placeholderTextColor={Colors.gray.v300}
+        style={{
+          width: '100%',
+          height: 48,
+          fontSize: 20,
+          fontWeight: '700',
+          paddingLeft: 32,
+        }}
+      />
+      <TouchableOpacity
+        onPress={handleCancel}
+        style={{ position: 'absolute', right: 0, top: 10 }}
+      >
+        <CancelSvg />
+      </TouchableOpacity>
+    </View>
+  )
+}
 
 export const HotPlaces = () => {
   return (

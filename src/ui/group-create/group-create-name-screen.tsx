@@ -1,3 +1,4 @@
+import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
@@ -37,7 +38,13 @@ export const GroupCreateNameScreen = () => {
             </Container>
           </FlexScrollView>
         </View>
-        <BottomButton text='다음으로' disabled={!text} onPress={() => {}} />
+        <BottomButton
+          text='다음으로'
+          disabled={!text}
+          onPress={() => {
+            navigation.navigate('GroupCreateInfoScreen')
+          }}
+        />
       </KeyboardAvoidingView>
     </>
   )
