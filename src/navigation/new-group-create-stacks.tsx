@@ -1,11 +1,11 @@
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import React from 'react'
 import { GroupCreateDoneScreen } from 'ui/group-create/group-create-done-screen'
 import { GroupCreateInfoScreen } from 'ui/group-create/group-create-info-screen'
 import { GroupCreateNameScreen } from 'ui/group-create/group-create-name-screen'
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<GroupStackParamList>()
 
 export const NewGroupCreateStacks = () => {
   return (
@@ -25,3 +25,14 @@ export const NewGroupCreateStacks = () => {
     </Stack.Navigator>
   )
 }
+
+export type GroupStackParamList = {
+  GroupCreateNameScreen: {}
+  GroupCreateInfoScreen: { title: string }
+  GroupCreateDoneScreen: {}
+}
+
+export type GroupCreateInfoScreenProps = StackScreenProps<
+  GroupStackParamList,
+  'GroupCreateInfoScreen'
+>

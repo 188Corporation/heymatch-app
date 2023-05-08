@@ -42,7 +42,7 @@ export const GroupCreateNameScreen = () => {
           text='다음으로'
           disabled={!text}
           onPress={() => {
-            navigation.navigate('GroupCreateInfoScreen')
+            navigation.navigate('GroupCreateInfoScreen', { title: text })
           }}
         />
       </KeyboardAvoidingView>

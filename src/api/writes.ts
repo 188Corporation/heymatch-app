@@ -120,6 +120,27 @@ export const createGroup = async (
   return res.data as GroupDetail
 }
 
+export const newCreateGroup = async (
+  title: string,
+  introduction: string,
+  gps_point: string,
+  meetup_date: string,
+  member_number: number,
+  member_avg_age: number,
+  meetup_address: string,
+) => {
+  const res: ResponseEnvelope<{}> = await postRequest('/groups/', {
+    title,
+    introduction,
+    gps_point,
+    meetup_date,
+    member_number,
+    member_avg_age,
+    meetup_address,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}
+
 export const editGroup = async (
   groupId: number,
   title: string,
