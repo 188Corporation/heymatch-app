@@ -57,7 +57,7 @@ export const GroupDesc_v2: React.FC<{
           flexWrap: 'wrap',
         }}
       >
-        {data.group_members.length}명·평균 {getAverageAge(data)}세
+        {data.member_number}명·평균 {getAverageAge(data)}세
       </Body>
     </Row>
   )

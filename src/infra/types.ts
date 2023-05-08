@@ -168,6 +168,8 @@ export interface Group_v2 {
   title: string
   meetup_date: string
   group_members: GroupMember[]
+  member_number: number
+  member_avg_age: number
   created_at: Date
 }
 

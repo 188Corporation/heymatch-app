@@ -452,7 +452,7 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
           }}
         >
           <Caption style={{ color: Colors.gray.v400 }}>
-            +{group.group_members.length - 1}
+            +{group.member_number}
           </Caption>
         </ProfilePhotoContainer>
         <View
