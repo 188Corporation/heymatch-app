@@ -180,7 +180,7 @@ const ButtonContent: React.FC<{
       text='매칭하기'
       onPress={() => {
         // check is my group
-        if (data.id === myData?.joined_group?.id) {
+        if (data.id === myData?.joined_groups?.id) {
           alertStore.open({
             title: '내 그룹과는 매칭할 수 없어요',
             body: '[핫플 탭] 에서 관심 가는 그룹을 찾아보세요 :)',

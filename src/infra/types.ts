@@ -51,7 +51,6 @@ export interface User {
   is_first_signup: boolean
   username: string
   phone_number: string
-  schedule_delete_canceled: boolean
   gender: Gender | null
   birthdate: string | null
   height_cm: number | null
@@ -64,12 +63,14 @@ export interface User {
   free_pass: boolean
   free_pass_active_until: string | null
   user_profile_images: UserProfileImages[]
+  // TODO: remove
+  schedule_delete_canceled: boolean
   agreed_to_terms: boolean
 }
 
 export interface MyInfo {
   user: User
-  joined_group: GroupDetail | null
+  joined_groups: GroupDetail[] | null
   user_purchases: UserPurchase[]
   app_info: AppInfo
 }
@@ -151,6 +152,18 @@ export interface Group {
 
 export interface GroupDetail extends Group {
   introduction: string
+}
+
+export interface GroupDetail_v2 {
+  id: number
+  mode: string
+  title: string
+  introduction: string
+  meetup_date: string
+  meetup_address: string
+  member_number: number
+  member_avg_age: number
+  created_at: string
 }
 
 export interface HotPlaceWithGroups {

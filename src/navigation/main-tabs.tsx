@@ -26,7 +26,7 @@ export const MainTabs = () => {
         component={NewGroupDetailScreen}
         listeners={{
           tabPress: (e) => {
-            if (data?.joined_group) return
+            if (data?.joined_groups) return
             e.preventDefault()
             alertStore.open({
               title: '아직 속한 그룹이 없어요!',

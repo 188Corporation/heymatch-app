@@ -117,7 +117,7 @@ export const GroupScreen = () => {
       </NaverMap>
       <MapOverlay pointerEvents='box-none'>
         <ButtonGroupOverlay />
-        <SelectedGroupOverlay hasJoinedGroup={!!myData?.joined_group?.id} />
+        <SelectedGroupOverlay hasJoinedGroup={!!myData?.joined_groups?.id} />
         <CandyOverlay />
         <NoticeOverlay />
       </MapOverlay>
