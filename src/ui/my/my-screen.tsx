@@ -1,79 +1,74 @@
+import { useMy } from 'api/reads'
+import { CandyIconPng, MyCandyGradientSvg as _MyCandyGradientSvg } from 'image'
+import { Colors } from 'infra/colors'
+import { syncCodePush } from 'infra/util'
+import { CODEPUSH_VERSION } from 'infra/version'
+import { navigation } from 'navigation/global'
 import React from 'react'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
 import {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import { Body, Caption, H2, H3 } from 'ui/common/text'
-import {
-  CandyIconPng,
-  GroupAddSvg,
-  GroupEditSvg,
-  MyCandyGradientSvg as _MyCandyGradientSvg,
-} from 'image'
-import { Colors } from 'infra/colors'
-import { Image } from 'ui/common/image'
-import { useMy } from 'api/reads'
-import { Avatar, AvatarRing } from 'ui/common/avatar'
-import { GroupDesc } from 'ui/common/group-desc'
-import { navigation } from 'navigation/global'
-import { Menu, WebViewMenu } from 'ui/my/menu'
-import { TopInsetSpace } from 'ui/common/inset-space'
-import { syncCodePush } from 'infra/util'
 import Toast from 'react-native-toast-message'
-import { CODEPUSH_VERSION } from 'infra/version'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
+import { Avatar, AvatarRing } from 'ui/common/avatar'
+import { Image } from 'ui/common/image'
+import { TopInsetSpace } from 'ui/common/inset-space'
+import { Column, Row } from 'ui/common/layout'
+import { Body, Caption, H3 } from 'ui/common/text'
+import { Menu, WebViewMenu } from 'ui/my/menu'
 
 export const MyScreen = () => {
   const { data } = useMy()
+  const { alertStore } = useStores()
+
   return (
     <ScrollView>
       <TopInsetSpace />
       <GroupSection>
-        {data?.joined_group ? (
-          <>
-            <Row style={{ marginBottom: 16 }}>
-              <TouchableOpacity
-                style={{ position: 'relative' }}
-                onPress={() => navigation.navigate('GroupEditScreen')}
-              >
-                <AvatarRing>
-                  <Avatar
-                    side={60}
-                    source={{
-                      uri: data.joined_group.group_profile_images[0].thumbnail,
-                    }}
-                  />
-                </AvatarRing>
-                <GroupEditSvg
-                  style={{ position: 'absolute', right: -8, bottom: -8 }}
-                />
-              </TouchableOpacity>
-            </Row>
-            <H2 numberOfLines={1} style={{ marginBottom: 4 }}>
-              {data.joined_group.title}
-            </H2>
-            <GroupDesc data={data.joined_group} />
-          </>
-        ) : (
-          <>
-            <Row style={{ marginBottom: 16 }}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('GroupCreateStack')}
-              >
-                <AvatarRing>
-                  <GroupAddSvg />
-                </AvatarRing>
-              </TouchableOpacity>
-            </Row>
-            <H2 style={{ marginBottom: 4 }}>내 그룹을 만들어볼까요?</H2>
-            <Caption style={{ lineHeight: 16, color: Colors.gray.v400 }}>
-              그룹을 만들어 다른 그룹과 매칭해보세요 :)
-            </Caption>
-          </>
-        )}
+        <Row style={{ marginBottom: 16 }}>
+          <TouchableOpacity
+            style={{ position: 'relative' }}
+            onPress={() => navigation.navigate('GroupEditScreen')}
+          >
+            <AvatarRing>
+              <Avatar
+                side={60}
+                source={{
+                  uri: data?.user.user_profile_images[0].image,
+                }}
+              />
+            </AvatarRing>
+          </TouchableOpacity>
+        </Row>
+        <Row>
+          <MyButton
+            onPress={() => {
+              if (!data?.joined_groups) {
+                alertStore.open({
+                  title: '아직 속한 그룹이 없어요!',
+                  body: '먼저 그룹을 생성해주세요!',
+                  mainButton: '그룹 생성하기',
+                  subButton: '나중에 하기',
+                  onMainPress: () => {
+                    navigation.navigate('NewGroupCreateStacks')
+                  },
+                })
+                return
+              }
+              navigation.navigate('NewGroupDetailScreen')
+            }}
+            style={{ marginRight: 12 }}
+          >
+            <Caption>내 그룹</Caption>
+          </MyButton>
+          <MyButton>
+            <Caption>프로필 편집</Caption>
+          </MyButton>
+        </Row>
       </GroupSection>
       <CandySection>
         <MyCandyGradientSvg preserveAspectRatio='none' width='120%' />
@@ -172,4 +167,13 @@ const EmptySpace = styled(View)`
 
 const VerticalSpace = styled(View)`
   height: 4px;
+`
+const MyButton = styled(TouchableOpacity)`
+  width: 120px;
+  height: 34px;
+  background-color: ${Colors.gray.v100};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
 `
