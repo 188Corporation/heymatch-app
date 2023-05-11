@@ -19,6 +19,7 @@ export { default as GroupEditSvg } from './group-edit.svg'
 export { default as GroupsPlaceHolderSvg } from './groups-placeholder.svg'
 export { default as MaleSvg } from './male.svg'
 export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
+export { default as PenSvg } from './pen.svg'
 export { default as PhotoShotCircleSvg } from './photo-shot-circle.svg'
 export { default as PinSvg } from './pin.svg'
 export { default as PlusSvg } from './plus.svg'
@@ -29,6 +30,7 @@ export { default as SendSvg } from './send.svg'
 export { default as SentMatchesPlaceholderSvg } from './sent-matches-placeholder.svg'
 export { default as UsersFillSvg } from './users-fill.svg'
 export { default as VerifiedSvg } from './verified.svg'
+
 export const LocationMarkerPng = require('./location-marker.png')
 export const CandyIconPng = require('./candy-icon.png')
 export const GroupMarkerBg = {
