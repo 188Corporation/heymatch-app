@@ -36,26 +36,6 @@ export const ProfilePhotoRegisterScreen = observer(() => {
     }
   }, [alertStore, permissionStore])
 
-  const openPhotoGallery = (photoType: 'main' | 'sub1' | 'sub2') => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        includeBase64: CURRENT_OS === OS.ANDROID,
-      },
-      (res) => {
-        if (!res.assets) return
-        const uri = res.assets[0].uri!
-        if (photoType === 'main') {
-          userProfileStore.setPhotos(uri, 'main')
-        } else if (photoType === 'sub1') {
-          userProfileStore.setPhotos(uri, 'sub1')
-        } else {
-          userProfileStore.setPhotos(uri, 'sub2')
-        }
-      },
-    )
-  }
-
   return (
     <>
       <FlexScrollView>
@@ -64,58 +44,13 @@ export const ProfilePhotoRegisterScreen = observer(() => {
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>프로필 사진을 등록해주세요</H1>
             <DescBody2>얼굴이 잘 보이는 사진으로 등록해주세요</DescBody2>
-          </View>
-          <View style={{ flexDirection: 'row', width: '100%', height: 218 }}>
-            <MainTouchable onPress={() => openPhotoGallery('main')}>
-              <Chip>
-                <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
-              </Chip>
-              {userProfileStore.getPhotos.mainPhoto ? (
-                <Image
-                  source={{ uri: userProfileStore.getPhotos.mainPhoto }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 20,
-                  }}
-                />
-              ) : (
-                <PlusSvg />
-              )}
-            </MainTouchable>
-            <View style={{ flex: 1, marginLeft: 15 }}>
-              <SubTouchable onPress={() => openPhotoGallery('sub1')}>
-                {userProfileStore.getPhotos.sub1Photo ? (
-                  <Image
-                    source={{ uri: userProfileStore.getPhotos.sub1Photo }}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: 20,
-                    }}
-                  />
-                ) : (
-                  <PlusSvg />
-                )}
-              </SubTouchable>
-              <SubTouchable
-                style={{ marginTop: 14 }}
-                onPress={() => openPhotoGallery('sub2')}
-              >
-                {userProfileStore.getPhotos.sub2Photo ? (
-                  <Image
-                    source={{ uri: userProfileStore.getPhotos.sub2Photo }}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: 20,
-                    }}
-                  />
-                ) : (
-                  <PlusSvg />
-                )}
-              </SubTouchable>
-            </View>
+            <ProfilePhotoEditor
+              photos={{
+                mainPhoto: userProfileStore.getPhotos.mainPhoto,
+                sub1Photo: userProfileStore.getPhotos.sub1Photo,
+                sub2Photo: userProfileStore.getPhotos.sub2Photo,
+              }}
+            />
           </View>
         </Container>
       </FlexScrollView>
@@ -181,3 +116,96 @@ const Chip = styled(View)`
   top: 24px;
   left: 26px;
 `
+
+export const ProfilePhotoEditor = ({
+  photos,
+}: {
+  photos: {
+    mainPhoto: string
+    sub1Photo?: string
+    sub2Photo?: string
+  }
+}) => {
+  const { userProfileStore } = useStores()
+
+  const openPhotoGallery = (photoType: 'main' | 'sub1' | 'sub2') => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: CURRENT_OS === OS.ANDROID,
+      },
+      (res) => {
+        if (!res.assets) return
+        const uri = res.assets[0].uri!
+        if (photoType === 'main') {
+          userProfileStore.setPhotos(uri, 'main')
+        } else if (photoType === 'sub1') {
+          userProfileStore.setPhotos(uri, 'sub1')
+        } else {
+          userProfileStore.setPhotos(uri, 'sub2')
+        }
+      },
+    )
+  }
+
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        height: 218,
+      }}
+    >
+      <MainTouchable onPress={() => openPhotoGallery('main')}>
+        <Chip>
+          <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
+        </Chip>
+        {photos.mainPhoto ? (
+          <Image
+            source={{ uri: photos.mainPhoto }}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: 20,
+            }}
+          />
+        ) : (
+          <PlusSvg />
+        )}
+      </MainTouchable>
+      <View style={{ flex: 1, marginLeft: 15 }}>
+        <SubTouchable onPress={() => openPhotoGallery('sub1')}>
+          {photos.sub1Photo ? (
+            <Image
+              source={{ uri: photos.sub1Photo }}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 20,
+              }}
+            />
+          ) : (
+            <PlusSvg />
+          )}
+        </SubTouchable>
+        <SubTouchable
+          style={{ marginTop: 14 }}
+          onPress={() => openPhotoGallery('sub2')}
+        >
+          {photos.sub2Photo ? (
+            <Image
+              source={{ uri: photos.sub2Photo }}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 20,
+              }}
+            />
+          ) : (
+            <PlusSvg />
+          )}
+        </SubTouchable>
+      </View>
+    </View>
+  )
+}
