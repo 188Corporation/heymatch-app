@@ -1,7 +1,7 @@
 import { GpsLocation, Group, LatLngDelta } from 'infra/types'
+import CodePush from 'react-native-code-push'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
-import CodePush from 'react-native-code-push'
 import Toast from 'react-native-toast-message'
 
 export const gpsLocationToNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
@@ -81,4 +81,14 @@ export const getLatLngDeltaFromBounds = (
   const latitudeDelta = Math.max(...lats) - Math.min(...lats)
   const longitudeDelta = Math.max(...lngs) - Math.min(...lngs)
   return { latitudeDelta, longitudeDelta }
+}
+
+export function getAge(birthDateString: string) {
+  const birthDate = new Date(birthDateString)
+  const now = new Date()
+  const diffInMilliseconds = now.getTime() - birthDate.getTime()
+  // 365.25: 윤년 고려
+  const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
+  const age = Math.floor(diffInYears)
+  return age
 }

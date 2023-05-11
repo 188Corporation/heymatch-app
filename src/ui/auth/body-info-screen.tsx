@@ -1,4 +1,5 @@
 import { Colors } from 'infra/colors'
+import { femaleBodyForm, maleBodyForm } from 'infra/constants'
 import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -121,55 +122,3 @@ export const BodyInfoScreen = observer(() => {
 const Container = styled(View)`
   padding: 72px 28px 0px 28px;
 `
-const maleBodyForm = [
-  {
-    label: '마른',
-    value: 'thin',
-  },
-  {
-    label: '날씬한',
-    value: 'slender',
-  },
-  {
-    label: '보통',
-    value: 'normal',
-  },
-  {
-    label: '통통한',
-    value: 'chubby',
-  },
-  {
-    label: '탄탄한',
-    value: 'muscular',
-  },
-  {
-    label: '근육질',
-    value: 'bulky',
-  },
-]
-const femaleBodyForm = [
-  {
-    label: '마른',
-    value: 'thin',
-  },
-  {
-    label: '날씬한',
-    value: 'slender',
-  },
-  {
-    label: '보통',
-    value: 'normal',
-  },
-  {
-    label: '통통한',
-    value: 'chubby',
-  },
-  {
-    label: '글래머러스한',
-    value: 'glamourous',
-  },
-  {
-    label: '근육질',
-    value: 'bulky',
-  },
-]

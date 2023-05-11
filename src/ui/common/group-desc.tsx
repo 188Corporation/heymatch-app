@@ -1,7 +1,7 @@
 import { UsersFillSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { Group, Group_v2 } from 'infra/types'
-import { formatMaleFemaleInfo } from 'infra/util'
+import { formatMaleFemaleInfo, getAge } from 'infra/util'
 import React from 'react'
 import { ColorValue } from 'react-native'
 import { Row } from 'ui/common/layout'
@@ -69,14 +69,4 @@ function getAverageAge(group: Group_v2) {
       .map((groupMember) => getAge(groupMember.user.birthdate!))
       .reduce((total, num) => total + num, 0) / group.group_members.length,
   )
-}
-
-function getAge(birthDateString: string) {
-  const birthDate = new Date(birthDateString)
-  const now = new Date()
-  const diffInMilliseconds = now.getTime() - birthDate.getTime()
-  // 365.25: 윤년 고려
-  const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
-  const age = Math.floor(diffInYears)
-  return age
 }

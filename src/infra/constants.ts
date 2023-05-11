@@ -1,5 +1,5 @@
-import { Dimensions, Platform } from 'react-native'
 import { GpsLocation } from 'infra/types'
+import { Dimensions, Platform } from 'react-native'
 
 export const IS_DEV = __DEV__
 export const SERVER_BASE_URL = !IS_DEV
@@ -42,3 +42,57 @@ export const LOCATION_FOR_TEST: GpsLocation = {
   lat: 37.5262894,
   lng: 127.0395281,
 }
+
+export const maleBodyForm = [
+  {
+    label: '마른',
+    value: 'thin',
+  },
+  {
+    label: '날씬한',
+    value: 'slender',
+  },
+  {
+    label: '보통',
+    value: 'normal',
+  },
+  {
+    label: '통통한',
+    value: 'chubby',
+  },
+  {
+    label: '탄탄한',
+    value: 'muscular',
+  },
+  {
+    label: '근육질',
+    value: 'bulky',
+  },
+]
+
+export const femaleBodyForm = [
+  {
+    label: '마른',
+    value: 'thin',
+  },
+  {
+    label: '날씬한',
+    value: 'slender',
+  },
+  {
+    label: '보통',
+    value: 'normal',
+  },
+  {
+    label: '통통한',
+    value: 'chubby',
+  },
+  {
+    label: '글래머러스한',
+    value: 'glamourous',
+  },
+  {
+    label: '근육질',
+    value: 'bulky',
+  },
+]
