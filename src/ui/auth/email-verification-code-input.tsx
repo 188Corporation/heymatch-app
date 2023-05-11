@@ -125,7 +125,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
         }}
       />
       <BottomButton
-        text='다음으로'
+        text='인증하기'
         disabled={!userProfileStore.emailVerificationCode}
         onPress={async () => {
           setLoading(true)
