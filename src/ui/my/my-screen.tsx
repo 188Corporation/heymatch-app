@@ -65,7 +65,9 @@ export const MyScreen = () => {
           >
             <Caption>내 그룹</Caption>
           </MyButton>
-          <MyButton>
+          <MyButton
+            onPress={() => navigation.navigate('PersonalProfileEditScreen')}
+          >
             <Caption>프로필 편집</Caption>
           </MyButton>
         </Row>

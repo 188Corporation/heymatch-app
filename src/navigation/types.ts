@@ -32,6 +32,8 @@ export type RootStackParamList = {
   EmailVerificationCodeInputScreen: {}
   SelectSubsidiaryScreen: {}
   ConfirmCompanyScreen: {}
+  PersonalProfileEditScreen: {}
+  EditPersonalInfoStacks: {}
   // TODO: 서버 작동하면 삭제하기
   GroupListScreen: {}
   SearchPlaceResultsScreen: {}

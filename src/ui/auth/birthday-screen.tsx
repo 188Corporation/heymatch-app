@@ -11,7 +11,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const BirthdayScreen = observer(() => {
-  const { userProfileStore } = useStores()
+  const { userProfileStore, editPersonalInfoStore } = useStores()
   const [birthday, setBirthday] = useState<Date>(new Date('2003-12-31'))
 
   const convertBirthdate = useCallback(() => {
@@ -53,8 +53,15 @@ export const BirthdayScreen = observer(() => {
         </Container>
       </FlexScrollView>
       <BottomButton
-        text='다음으로'
-        onPress={() => navigation.navigate('ProfilePhotoRegisterScreen')}
+        text={editPersonalInfoStore.isEditingNow ? '수정하기' : '다음으로'}
+        onPress={() => {
+          if (editPersonalInfoStore.isEditingNow) {
+            editPersonalInfoStore.setIsEditingNow(false)
+            navigation.goBack()
+          } else {
+            navigation.navigate('ProfilePhotoRegisterScreen')
+          }
+        }}
       />
     </>
   )

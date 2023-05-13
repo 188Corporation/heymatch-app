@@ -9,6 +9,7 @@ import { LocationStore } from 'store/location'
 import { MapStore } from 'store/map'
 import { PermissionStore } from 'store/permission'
 import { UserProfileStore } from 'store/user-profile'
+import { EditPersonalInfo } from './edit-personal-info'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -22,6 +23,7 @@ const stores = {
   chatStore: new ChatStore(),
   userProfileStore: new UserProfileStore(),
   groupListStore: new GroupListStore(),
+  editPersonalInfoStore: new EditPersonalInfo(),
 }
 
 export const StoresContext = createContext<typeof stores>(stores)
