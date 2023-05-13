@@ -1,4 +1,5 @@
 import { useMy } from 'api/reads'
+import { editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { femaleBodyForm, maleBodyForm } from 'infra/constants'
@@ -9,6 +10,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { ProfilePhotoEditor } from 'ui/auth/profile-photo-register-screen'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -19,7 +21,7 @@ import { Body, H3 } from 'ui/common/text'
 
 export const EditPersonalProfileScreen = observer(() => {
   const { data } = useMy()
-  const { userProfileStore, editPersonalInfoStore } = useStores()
+  const { userProfileStore, editPersonalInfoStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -32,28 +34,38 @@ export const EditPersonalProfileScreen = observer(() => {
   const getBodyForm = () => {
     if (!data) return
     if (data.user.gender === 'm') {
-      return (
-        maleBodyForm.find(
-          (v) =>
-            v.value === userProfileStore.maleBodyForm ??
-            data.user.male_body_form,
-        )?.label ?? '-'
-      )
+      return maleBodyForm.find(
+        (v) =>
+          v.value ===
+          (userProfileStore.maleBodyForm ?? data.user.male_body_form),
+      )?.label
     } else {
-      return (
-        femaleBodyForm.find(
-          (v) =>
-            v.value === userProfileStore.femaleBodyForm ??
-            data.user.female_body_form,
-        )?.label ?? '-'
-      )
+      return femaleBodyForm.find(
+        (v) =>
+          v.value ===
+          (userProfileStore.femaleBodyForm ?? data.user.female_body_form),
+      )?.label
     }
   }
 
+  const noneEmptyString = (a: string, b: string) => {
+    if (a !== '') return a
+    return b
+  }
+
   const profilePhotos = {
-    mainPhoto: data.user.user_profile_images[0].image,
-    // sub1Photo: data.user.user_profile_images[1].image ?? '',
-    // sub2Photo: data.user.user_profile_images[2].image ?? '',
+    mainPhoto: noneEmptyString(
+      userProfileStore.photos.mainPhoto,
+      data.user.user_profile_images[0].image,
+    ),
+    sub1Photo: noneEmptyString(
+      userProfileStore.photos.sub1Photo,
+      data.user.user_profile_images[1]?.image,
+    ),
+    sub2Photo: noneEmptyString(
+      userProfileStore.photos.sub2Photo,
+      data.user.user_profile_images[2]?.image,
+    ),
   }
 
   return (
@@ -63,9 +75,7 @@ export const EditPersonalProfileScreen = observer(() => {
         <FlexScrollView>
           <Container>
             <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
-            <ProfilePhotoEditor
-              photos={profilePhotos ?? userProfileStore.photos}
-            />
+            <ProfilePhotoEditor photos={profilePhotos} />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>나이</H3>
             <ProfileInfo
               value={
@@ -86,7 +96,9 @@ export const EditPersonalProfileScreen = observer(() => {
               value={
                 <Body>
                   {userProfileStore.height ?? data.user.height_cm}cm /{' '}
-                  {getBodyForm()}
+                  {getBodyForm() ??
+                    data.user.male_body_form ??
+                    data.user.female_body_form}
                 </Body>
               }
               onPress={() => {
@@ -98,6 +110,7 @@ export const EditPersonalProfileScreen = observer(() => {
             />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
             <ProfileInfo
+              editable={false}
               value={
                 <View
                   style={{
@@ -112,22 +125,41 @@ export const EditPersonalProfileScreen = observer(() => {
                       <VerifiedSvg fill={Colors.primary.blue} />
                     </View>
                   )}
-                  <Body>{}</Body>
+                  <Body>
+                    {data.user.verified_company_name ??
+                      data.user.verified_school_name ??
+                      data.user.job_title}
+                  </Body>
                 </View>
-              }
-              onPress={() =>
-                navigation.navigate('EditPersonalInfoStacks', {
-                  screen: 'JobInfoScreen',
-                })
               }
             />
           </Container>
         </FlexScrollView>
       </View>
       <BottomButton
-        text='다음으로'
-        disabled={!userProfileStore.email}
-        onPress={async () => {}}
+        text='수정하기'
+        onPress={async () => {
+          setLoading(true)
+          try {
+            await editUserInfo(
+              data.user.gender!,
+              userProfileStore.birthdate ?? data.user.birthdate!,
+              profilePhotos.mainPhoto,
+              profilePhotos.sub1Photo,
+              profilePhotos.sub2Photo,
+              userProfileStore.height ?? data.user.height_cm,
+              userProfileStore.maleBodyForm ?? data.user.male_body_form,
+              userProfileStore.femaleBodyForm ?? data.user.female_body_form,
+              data.user.job_title,
+            )
+            await mutate('/users/my/')
+            navigation.goBack()
+          } catch (e) {
+            alertStore.error(e, '정보 수정에 실패했어요!')
+          } finally {
+            setLoading(false)
+          }
+        }}
       />
       {loading && <LoadingOverlay />}
     </KeyboardAvoidingView>
@@ -140,17 +172,17 @@ const Container = styled(View)`
 
 const ProfileInfo = ({
   value,
+  editable = true,
   onPress,
 }: {
   value: ReactNode
-  onPress: () => void
+  editable?: boolean
+  onPress?: () => void
 }) => {
   return (
     <ProfileInfoContainer onPress={onPress}>
       {value}
-      <View style={{ marginLeft: 'auto' }}>
-        <PenSvg />
-      </View>
+      <View style={{ marginLeft: 'auto' }}>{editable && <PenSvg />}</View>
     </ProfileInfoContainer>
   )
 }
