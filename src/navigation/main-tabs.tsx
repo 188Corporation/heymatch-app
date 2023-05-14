@@ -8,6 +8,7 @@ import { GroupListScreen } from 'ui/group/group-list-screen'
 import { NewGroupDetailScreen } from 'ui/group/new-group-detail-screen'
 import { MyScreen } from 'ui/my/my-screen'
 import { navigation } from './global'
+import { MatchTabs } from './match-tabs'
 
 const Tab = createBottomTabNavigator()
 
@@ -40,6 +41,7 @@ export const MainTabs = () => {
           },
         }}
       />
+      <Tab.Screen name='MatchTabs' component={MatchTabs} />
       <Tab.Screen name='ChatScreen' component={ChatScreen} />
       <Tab.Screen name='MyScreen' component={MyScreen} />
     </Tab.Navigator>
