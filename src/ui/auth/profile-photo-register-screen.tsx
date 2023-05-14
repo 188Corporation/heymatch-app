@@ -162,19 +162,17 @@ export const ProfilePhotoEditor = observer(
           </Chip>
           {photos.mainPhoto ? (
             <>
-              <TouchableOpacity
+              <CloseButton
                 style={{
-                  position: 'absolute',
                   top: 24,
                   right: 24,
-                  zIndex: 100,
                 }}
                 onPress={() => {
                   userProfileStore.setPhotos('', 'main')
                 }}
               >
                 <CloseSvg />
-              </TouchableOpacity>
+              </CloseButton>
               <Image
                 source={{ uri: photos.mainPhoto }}
                 style={{
@@ -192,16 +190,17 @@ export const ProfilePhotoEditor = observer(
           <SubTouchable onPress={() => openPhotoGallery('sub1')}>
             {photos.sub1Photo ? (
               <>
-                <TouchableOpacity
+                <CloseButton
                   style={{
-                    position: 'absolute',
                     top: 8,
                     right: 8,
-                    zIndex: 100,
+                  }}
+                  onPress={() => {
+                    userProfileStore.setPhotos('', 'sub1')
                   }}
                 >
                   <CloseSvg />
-                </TouchableOpacity>
+                </CloseButton>
                 <Image
                   source={{ uri: photos.sub1Photo }}
                   style={{
@@ -221,16 +220,17 @@ export const ProfilePhotoEditor = observer(
           >
             {photos.sub2Photo ? (
               <>
-                <TouchableOpacity
+                <CloseButton
                   style={{
-                    position: 'absolute',
                     top: 8,
                     right: 8,
-                    zIndex: 100,
+                  }}
+                  onPress={() => {
+                    userProfileStore.setPhotos('', 'sub2')
                   }}
                 >
                   <CloseSvg />
-                </TouchableOpacity>
+                </CloseButton>
                 <Image
                   source={{ uri: photos.sub2Photo }}
                   style={{
@@ -249,3 +249,8 @@ export const ProfilePhotoEditor = observer(
     )
   },
 )
+
+const CloseButton = styled(TouchableOpacity)`
+  position: absolute;
+  z-index: 100;
+`
