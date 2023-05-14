@@ -482,8 +482,10 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
                 .join('/')}
             </Caption>
           </View>
-
-          <GroupDesc_v2 data={group} />
+          <GroupDesc_v2
+            memberNumber={group.member_number}
+            memberAvgAge={group.member_avg_age}
+          />
         </View>
       </View>
     </GroupItemContainer>

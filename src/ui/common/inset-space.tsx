@@ -1,7 +1,7 @@
-import React from 'react'
-import { View } from 'react-native'
 import { useSafeAreaInsets } from 'infra/util'
 import { observer } from 'mobx-react'
+import React from 'react'
+import { View } from 'react-native'
 import { useStores } from 'store/globals'
 
 export const TopInsetSpace = () => {

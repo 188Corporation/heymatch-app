@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react'
-import styled from 'styled-components'
-import { Row } from 'ui/common/layout'
 import { BackArrowBlackSvg, BackArrowSvg } from 'image'
-import { TouchableOpacity } from 'react-native'
 import { navigation } from 'navigation/global'
-import { H3 } from 'ui/common/text'
+import React, { ReactNode } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import styled from 'styled-components'
 import { TopInsetSpace } from 'ui/common/inset-space'
+import { Row } from 'ui/common/layout'
+import { H3 } from 'ui/common/text'
 
 export const NavigationHeader: React.FC<{
   backButton?: boolean
@@ -22,7 +22,7 @@ export const NavigationHeader: React.FC<{
     <>
       <TopInsetSpace />
       <Container>
-        {backButton && (
+        {backButton ? (
           <BackButton onPress={() => navigation.goBack()}>
             {
               { white: <BackArrowSvg />, black: <BackArrowBlackSvg /> }[
@@ -30,6 +30,8 @@ export const NavigationHeader: React.FC<{
               ]
             }
           </BackButton>
+        ) : (
+          <View style={{ height: 52 }} />
         )}
         {title && (
           <TitleTextContainer pointerEvents='none'>
