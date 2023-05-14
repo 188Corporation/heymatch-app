@@ -6,7 +6,7 @@ import { femaleBodyForm, maleBodyForm } from 'infra/constants'
 import { getAge } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
@@ -24,48 +24,24 @@ export const EditPersonalProfileScreen = observer(() => {
   const { userProfileStore, editPersonalInfoStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if (!data) return
-    userProfileStore.setGender(data.user.gender!)
-  }, [data, userProfileStore])
-
   if (!data) return <LoadingOverlay />
 
   const getBodyForm = () => {
     if (!data) return
     if (data.user.gender === 'm') {
-      return maleBodyForm.find(
-        (v) =>
-          v.value ===
-          (userProfileStore.maleBodyForm ?? data.user.male_body_form),
-      )?.label
+      return maleBodyForm.find((v) => v.value === userProfileStore.maleBodyForm)
+        ?.label
     } else {
       return femaleBodyForm.find(
-        (v) =>
-          v.value ===
-          (userProfileStore.femaleBodyForm ?? data.user.female_body_form),
+        (v) => v.value === userProfileStore.femaleBodyForm,
       )?.label
     }
   }
 
-  const noneEmptyString = (a: string, b: string) => {
-    if (a !== '') return a
-    return b
-  }
-
   const profilePhotos = {
-    mainPhoto: noneEmptyString(
-      userProfileStore.photos.mainPhoto,
-      data.user.user_profile_images[0].image,
-    ),
-    sub1Photo: noneEmptyString(
-      userProfileStore.photos.sub1Photo,
-      data.user.user_profile_images[1]?.image,
-    ),
-    sub2Photo: noneEmptyString(
-      userProfileStore.photos.sub2Photo,
-      data.user.user_profile_images[2]?.image,
-    ),
+    mainPhoto: userProfileStore.photos.mainPhoto,
+    sub1Photo: userProfileStore.photos.sub1Photo,
+    sub2Photo: userProfileStore.photos.sub2Photo,
   }
 
   return (
@@ -78,12 +54,7 @@ export const EditPersonalProfileScreen = observer(() => {
             <ProfilePhotoEditor photos={profilePhotos} />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>나이</H3>
             <ProfileInfo
-              value={
-                <Body>
-                  만{' '}
-                  {getAge(userProfileStore.birthdate ?? data.user.birthdate!)}세
-                </Body>
-              }
+              value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
               onPress={() => {
                 editPersonalInfoStore.setIsEditingNow(true)
                 navigation.navigate('EditPersonalInfoStacks', {
@@ -95,10 +66,7 @@ export const EditPersonalProfileScreen = observer(() => {
             <ProfileInfo
               value={
                 <Body>
-                  {userProfileStore.height ?? data.user.height_cm}cm /{' '}
-                  {getBodyForm() ??
-                    data.user.male_body_form ??
-                    data.user.female_body_form}
+                  {userProfileStore.height}cm / {getBodyForm()}
                 </Body>
               }
               onPress={() => {
@@ -126,9 +94,9 @@ export const EditPersonalProfileScreen = observer(() => {
                     </View>
                   )}
                   <Body>
-                    {data.user.verified_company_name ??
-                      data.user.verified_school_name ??
-                      data.user.job_title}
+                    {userProfileStore.organizationNames
+                      ? userProfileStore.organizationNames[0]
+                      : '-'}
                   </Body>
                 </View>
               }
@@ -142,17 +110,18 @@ export const EditPersonalProfileScreen = observer(() => {
           setLoading(true)
           try {
             await editUserInfo(
-              data.user.gender!,
-              userProfileStore.birthdate ?? data.user.birthdate!,
+              userProfileStore.gender!,
+              userProfileStore.birthdate!,
               profilePhotos.mainPhoto,
               profilePhotos.sub1Photo,
               profilePhotos.sub2Photo,
-              userProfileStore.height ?? data.user.height_cm,
-              userProfileStore.maleBodyForm ?? data.user.male_body_form,
-              userProfileStore.femaleBodyForm ?? data.user.female_body_form,
+              userProfileStore.height,
+              userProfileStore.maleBodyForm,
+              userProfileStore.femaleBodyForm,
               data.user.job_title,
             )
             await mutate('/users/my/')
+            // TODO: 프로필 인증 대기 화면으로 가야함.
             navigation.goBack()
           } catch (e) {
             alertStore.error(e, '정보 수정에 실패했어요!')

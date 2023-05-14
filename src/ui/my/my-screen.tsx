@@ -23,7 +23,7 @@ import { Menu, WebViewMenu } from 'ui/my/menu'
 
 export const MyScreen = () => {
   const { data } = useMy()
-  const { alertStore } = useStores()
+  const { alertStore, userProfileStore } = useStores()
 
   return (
     <ScrollView>
@@ -66,7 +66,54 @@ export const MyScreen = () => {
             <Caption>내 그룹</Caption>
           </MyButton>
           <MyButton
-            onPress={() => navigation.navigate('PersonalProfileEditScreen')}
+            onPress={() => {
+              if (!data) return
+              userProfileStore.setBirthdate(data.user.birthdate!)
+              userProfileStore.setGender(data.user.gender!)
+              userProfileStore.setPhotos(
+                data.user.user_profile_images[0].image,
+                'main',
+              )
+              userProfileStore.setPhotos(
+                data.user.user_profile_images[1].image,
+                'sub1',
+              )
+              userProfileStore.setPhotos(
+                data.user.user_profile_images[2].image,
+                'sub2',
+              )
+              if (data.user.male_body_form) {
+                userProfileStore.setBodyForm(
+                  data.user.gender!,
+                  data.user.male_body_form,
+                )
+              }
+              if (data.user.female_body_form) {
+                userProfileStore.setBodyForm(
+                  data.user.gender!,
+                  data.user.female_body_form,
+                )
+              }
+              if (data.user.height_cm) {
+                userProfileStore.setHeight(data.user.height_cm)
+              }
+              if (data.user.job_title) {
+                userProfileStore.setJobTitle(data.user.job_title)
+              }
+              if (data.user.verified_company_name) {
+                userProfileStore.setOrganizationNames([
+                  data.user.verified_company_name,
+                ])
+              }
+              if (data.user.verified_school_name) {
+                userProfileStore.setOrganizationNames([
+                  data.user.verified_school_name,
+                ])
+              }
+
+              navigation.navigate('PersonalProfileEditScreen')
+            }}
+            // 여기에 스토어 이니셜라이즈
           >
             <Caption>프로필 편집</Caption>
           </MyButton>
