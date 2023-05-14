@@ -70,7 +70,7 @@ export interface User {
 
 export interface MyInfo {
   user: User
-  joined_groups: GroupDetail[] | null
+  joined_groups: JoinedGroups[] | null
   user_purchases: UserPurchase[]
   app_info: AppInfo
 }
@@ -154,16 +154,20 @@ export interface GroupDetail extends Group {
   introduction: string
 }
 
-export interface GroupDetail_v2 {
-  id: number
-  mode: string
-  title: string
-  introduction: string
-  meetup_date: string
-  meetup_address: string
-  member_number: number
-  member_avg_age: number
-  created_at: string
+export interface JoinedGroups {
+  group: {
+    id: number
+    mode: string
+    title: string
+    introduction: string
+    meetup_date: string
+    meetup_address: string
+    member_number: number
+    member_avg_age: number
+    created_at: string
+  }
+  is_user_leader: boolean
+  is_active: boolean
 }
 
 export interface HotPlaceWithGroups {
