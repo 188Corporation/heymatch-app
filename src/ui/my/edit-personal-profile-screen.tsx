@@ -117,8 +117,8 @@ export const EditPersonalProfileScreen = observer(() => {
                     </View>
                   )}
                   <Body>
-                    {userProfileStore.organizationNames
-                      ? userProfileStore.organizationNames[0]
+                    {userProfileStore.verifiedOrganizationNames
+                      ? userProfileStore.verifiedOrganizationNames[0]
                       : '-'}
                   </Body>
                 </View>

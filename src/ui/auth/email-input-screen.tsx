@@ -103,11 +103,11 @@ export const EmailInputScreen = observer(() => {
               userProfileStore.email!,
               userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
             ).then((res) => {
-              userProfileStore.setOrganizationNames(res.names)
+              userProfileStore.setVerifiedOrganizationNames(res.names)
             })
             await mutate('/auth/email/get-code/')
 
-            if (userProfileStore.organizationNames?.length === 1) {
+            if (userProfileStore.verifiedOrganizationNames?.length === 1) {
               navigation.navigate('EmailVerificationCodeInputScreen')
             } else {
               navigation.navigate('SelectSubsidiaryScreen')

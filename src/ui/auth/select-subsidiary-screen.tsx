@@ -25,37 +25,39 @@ export const SelectSubsidiaryScreen = () => {
                 정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
               </DescBody2>
             </View>
-            {userProfileStore.organizationNames!.map((subsidiaryName) => {
-              return (
-                <TouchableOpacity
-                  key={subsidiaryName}
-                  onPress={() => setSelectedName(subsidiaryName)}
-                  style={{ height: 48 }}
-                >
-                  <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Body
-                      style={{
-                        color:
-                          selectedName === subsidiaryName
-                            ? Colors.primary.blue
-                            : Colors.black,
-                      }}
-                    >
-                      {subsidiaryName}
-                    </Body>
-                    {selectedName === subsidiaryName && (
-                      <CheckSvg
-                        fill={Colors.primary.blue}
-                        width={28}
+            {userProfileStore.verifiedOrganizationNames!.map(
+              (subsidiaryName) => {
+                return (
+                  <TouchableOpacity
+                    key={subsidiaryName}
+                    onPress={() => setSelectedName(subsidiaryName)}
+                    style={{ height: 48 }}
+                  >
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                      <Body
                         style={{
-                          marginLeft: 'auto',
+                          color:
+                            selectedName === subsidiaryName
+                              ? Colors.primary.blue
+                              : Colors.black,
                         }}
-                      />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              )
-            })}
+                      >
+                        {subsidiaryName}
+                      </Body>
+                      {selectedName === subsidiaryName && (
+                        <CheckSvg
+                          fill={Colors.primary.blue}
+                          width={28}
+                          style={{
+                            marginLeft: 'auto',
+                          }}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                )
+              },
+            )}
           </Container>
         </FlexScrollView>
       </View>
@@ -63,7 +65,7 @@ export const SelectSubsidiaryScreen = () => {
         text='선택하기'
         disabled={!selectedName}
         onPress={() => {
-          userProfileStore.setOrganizationNames([selectedName!])
+          userProfileStore.setVerifiedOrganizationNames([selectedName!])
           navigation.navigate('EmailVerificationCodeInputScreen')
         }}
       />

@@ -14,7 +14,7 @@ export class UserProfileStore {
   femaleBodyForm: FemaleBodyForm | null = null
   jobTitle: JobTitle | null = null
   email: string | null = null
-  organizationNames: string[] | null = null
+  verifiedOrganizationNames: string[] | null = null
   emailVerificationCode: string = ''
 
   constructor() {
@@ -76,8 +76,8 @@ export class UserProfileStore {
     this.email = email
   }
 
-  setOrganizationNames(names: string[]) {
-    this.organizationNames = names
+  setVerifiedOrganizationNames(names: string[]) {
+    this.verifiedOrganizationNames = names
   }
 
   setEmailVerificationCode(code: string) {

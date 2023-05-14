@@ -35,7 +35,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
         userProfileStore.email!,
         userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
       ).then((res) => {
-        userProfileStore.setOrganizationNames(res.names)
+        userProfileStore.setVerifiedOrganizationNames(res.names)
       })
       await mutate('/auth/email/get-code/')
     } catch (e) {
@@ -134,7 +134,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
               userProfileStore.email!,
               userProfileStore.emailVerificationCode,
               userProfileStore.jobTitle === 'employee' ? 'company' : 'school',
-              userProfileStore.organizationNames![0],
+              userProfileStore.verifiedOrganizationNames![0],
             )
             await mutate('/auth/phone/authorize/')
             navigation.navigate('ConfirmCompanyScreen')

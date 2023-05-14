@@ -101,12 +101,12 @@ export const MyScreen = () => {
                 userProfileStore.setJobTitle(data.user.job_title)
               }
               if (data.user.verified_company_name) {
-                userProfileStore.setOrganizationNames([
+                userProfileStore.setVerifiedOrganizationNames([
                   data.user.verified_company_name,
                 ])
               }
               if (data.user.verified_school_name) {
-                userProfileStore.setOrganizationNames([
+                userProfileStore.setVerifiedOrganizationNames([
                   data.user.verified_school_name,
                 ])
               }

@@ -27,7 +27,7 @@ export const ConfirmCompanyScreen = () => {
                 아래 정보가 맞으면 다음 단계로 넘어가주세요 :)
               </DescBody2>
             </View>
-            <Body>{userProfileStore.organizationNames![0]}</Body>
+            <Body>{userProfileStore.verifiedOrganizationNames![0]}</Body>
           </Container>
         </FlexScrollView>
       </View>
