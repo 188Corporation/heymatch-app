@@ -44,6 +44,29 @@ export const EditPersonalProfileScreen = observer(() => {
     sub2Photo: userProfileStore.photos.sub2Photo,
   }
 
+  const isEdited = () => {
+    if (
+      profilePhotos.mainPhoto !== data.user.user_profile_images[0].image ||
+      profilePhotos.sub1Photo !== data.user.user_profile_images[1].image ||
+      profilePhotos.sub2Photo !== data.user.user_profile_images[2].image
+    ) {
+      return false
+    }
+    if (userProfileStore.birthdate !== data.user.birthdate) {
+      return false
+    }
+    if (userProfileStore.height !== data.user.height_cm) {
+      return false
+    }
+    if (
+      userProfileStore.maleBodyForm !== data.user.male_body_form ||
+      userProfileStore.femaleBodyForm !== data.user.female_body_form
+    ) {
+      return false
+    }
+    return true
+  }
+
   return (
     <KeyboardAvoidingView>
       <NavigationHeader backButtonStyle='black' title='' />
@@ -106,6 +129,8 @@ export const EditPersonalProfileScreen = observer(() => {
       </View>
       <BottomButton
         text='수정하기'
+        // 체형, 키, 나이, 프사가 바뀌었을 때
+        disabled={isEdited()}
         onPress={async () => {
           setLoading(true)
           try {
