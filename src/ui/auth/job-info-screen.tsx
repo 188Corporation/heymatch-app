@@ -89,6 +89,7 @@ export const JobInfoScreen = observer(() => {
             subButton: '네 건너뛸게요',
             onSubPress: async () => {
               setLoading(true)
+              userProfileStore.setJobTitle('etc')
               try {
                 await editUserInfo(
                   userProfileStore.gender!,
