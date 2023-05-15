@@ -1,3 +1,4 @@
+import { useMy } from 'api/reads'
 import { authorizeEmail, editUserInfo, getCodeByEmail } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
@@ -20,6 +21,7 @@ const VALID_TIME = 180
 const CAN_RESEND_TIME = 120
 
 export const EmailVerificationCodeInputScreen = observer(() => {
+  const { data } = useMy()
   const { alertStore, userProfileStore } = useStores()
 
   const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
@@ -86,44 +88,46 @@ export const EmailVerificationCodeInputScreen = observer(() => {
           </Container>
         </FlexScrollView>
       </View>
-      <Button
-        text='건너뛰기'
-        color={Colors.white}
-        textColor={Colors.gray.v400}
-        onPress={() => {
-          alertStore.open({
-            title: '추가 정보 입력을 건너뛸까요?',
-            body: '지금까지 작성해주신 정보만 저장돼요!',
-            mainButton: '계속 이어서 할게요!',
-            subButton: '네 건너뛸게요',
-            onSubPress: async () => {
-              setLoading(true)
-              try {
-                await editUserInfo(
-                  userProfileStore.gender!,
-                  userProfileStore.birthdate!,
-                  userProfileStore.photos.mainPhoto,
-                  userProfileStore.photos.sub1Photo,
-                  userProfileStore.photos.sub2Photo,
-                  userProfileStore.height,
-                  userProfileStore.maleBodyForm,
-                  userProfileStore.femaleBodyForm,
-                  userProfileStore.jobTitle,
-                )
-                await mutate('/users/my/')
+      {data?.user.is_first_signup && (
+        <Button
+          text='건너뛰기'
+          color={Colors.white}
+          textColor={Colors.gray.v400}
+          onPress={() => {
+            alertStore.open({
+              title: '추가 정보 입력을 건너뛸까요?',
+              body: '지금까지 작성해주신 정보만 저장돼요!',
+              mainButton: '계속 이어서 할게요!',
+              subButton: '네 건너뛸게요',
+              onSubPress: async () => {
+                setLoading(true)
+                try {
+                  await editUserInfo(
+                    userProfileStore.gender!,
+                    userProfileStore.birthdate!,
+                    userProfileStore.photos.mainPhoto,
+                    userProfileStore.photos.sub1Photo,
+                    userProfileStore.photos.sub2Photo,
+                    userProfileStore.height,
+                    userProfileStore.maleBodyForm,
+                    userProfileStore.femaleBodyForm,
+                    userProfileStore.jobTitle,
+                  )
+                  await mutate('/users/my/')
 
-                navigation.navigate('ProfilePhotoVerificationScreen', {
-                  stage: 'AFTER',
-                })
-              } catch (e) {
-                alertStore.error(e, '프로필 사진 등록에 실패했어요!')
-              } finally {
-                setLoading(false)
-              }
-            },
-          })
-        }}
-      />
+                  navigation.navigate('ProfilePhotoVerificationScreen', {
+                    stage: 'AFTER',
+                  })
+                } catch (e) {
+                  alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+                } finally {
+                  setLoading(false)
+                }
+              },
+            })
+          }}
+        />
+      )}
       <BottomButton
         text='인증하기'
         disabled={!userProfileStore.emailVerificationCode}

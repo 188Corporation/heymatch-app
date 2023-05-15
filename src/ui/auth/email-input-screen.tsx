@@ -1,3 +1,4 @@
+import { useMy } from 'api/reads'
 import { editUserInfo, getCodeByEmail } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
@@ -17,6 +18,7 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const EmailInputScreen = observer(() => {
+  const { data } = useMy()
   const { userProfileStore, alertStore } = useStores()
   const emailInputRef = useRef<TextInput | null>(null)
   const [loading, setLoading] = useState(false)
@@ -54,45 +56,46 @@ export const EmailInputScreen = observer(() => {
           </Container>
         </FlexScrollView>
       </View>
-      <Button
-        text='건너뛰기'
-        color={Colors.white}
-        textColor={Colors.gray.v400}
-        onPress={() => {
-          alertStore.open({
-            title: '추가 정보 입력을 건너뛸까요?',
-            body: '지금까지 작성해주신 정보만 저장돼요!',
-            mainButton: '계속 이어서 할게요!',
-            subButton: '네 건너뛸게요',
-            onSubPress: async () => {
-              setLoading(true)
-              try {
-                await editUserInfo(
-                  userProfileStore.gender!,
-                  userProfileStore.birthdate!,
-                  userProfileStore.photos.mainPhoto,
-                  userProfileStore.photos.sub1Photo,
-                  userProfileStore.photos.sub2Photo,
-                  userProfileStore.height,
-                  userProfileStore.maleBodyForm,
-                  userProfileStore.femaleBodyForm,
-                  userProfileStore.jobTitle,
-                )
-                await mutate('/users/my/')
-
-                // TODO: profile-photo-examination 혹은 메인화면
-                navigation.navigate('ProfilePhotoVerificationScreen', {
-                  stage: 'AFTER',
-                })
-              } catch (e) {
-                alertStore.error(e, '프로필 사진 등록에 실패했어요!')
-              } finally {
-                setLoading(false)
-              }
-            },
-          })
-        }}
-      />
+      {data?.user.is_first_signup && (
+        <Button
+          text='건너뛰기'
+          color={Colors.white}
+          textColor={Colors.gray.v400}
+          onPress={() => {
+            alertStore.open({
+              title: '추가 정보 입력을 건너뛸까요?',
+              body: '지금까지 작성해주신 정보만 저장돼요!',
+              mainButton: '계속 이어서 할게요!',
+              subButton: '네 건너뛸게요',
+              onSubPress: async () => {
+                setLoading(true)
+                try {
+                  await editUserInfo(
+                    userProfileStore.gender!,
+                    userProfileStore.birthdate!,
+                    userProfileStore.photos.mainPhoto,
+                    userProfileStore.photos.sub1Photo,
+                    userProfileStore.photos.sub2Photo,
+                    userProfileStore.height,
+                    userProfileStore.maleBodyForm,
+                    userProfileStore.femaleBodyForm,
+                    userProfileStore.jobTitle,
+                  )
+                  await mutate('/users/my/')
+                  // TODO: profile-photo-examination 혹은 메인화면
+                  navigation.navigate('ProfilePhotoVerificationScreen', {
+                    stage: 'AFTER',
+                  })
+                } catch (e) {
+                  alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+                } finally {
+                  setLoading(false)
+                }
+              },
+            })
+          }}
+        />
+      )}
       <BottomButton
         text='다음으로'
         disabled={!userProfileStore.email}

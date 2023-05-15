@@ -1,5 +1,9 @@
 import { useMy } from 'api/reads'
-import { CandyIconPng, MyCandyGradientSvg as _MyCandyGradientSvg } from 'image'
+import {
+  CandyIconPng,
+  MyCandyGradientSvg as _MyCandyGradientSvg,
+  VerifiedSvg,
+} from 'image'
 import { Colors } from 'infra/colors'
 import { syncCodePush } from 'infra/util'
 import { CODEPUSH_VERSION } from 'infra/version'
@@ -24,6 +28,37 @@ import { Menu, WebViewMenu } from 'ui/my/menu'
 export const MyScreen = () => {
   const { data } = useMy()
   const { alertStore, userProfileStore } = useStores()
+
+  const initializeUserProfileStore = () => {
+    if (!data) return
+    userProfileStore.setBirthdate(data.user.birthdate!)
+    userProfileStore.setGender(data.user.gender!)
+    userProfileStore.setPhotos(data.user.user_profile_images[0].image, 'main')
+    userProfileStore.setPhotos(data.user.user_profile_images[1].image, 'sub1')
+    userProfileStore.setPhotos(data.user.user_profile_images[2].image, 'sub2')
+    if (data.user.male_body_form) {
+      userProfileStore.setBodyForm(data.user.gender!, data.user.male_body_form)
+    }
+    if (data.user.female_body_form) {
+      userProfileStore.setBodyForm(
+        data.user.gender!,
+        data.user.female_body_form,
+      )
+    }
+    if (data.user.height_cm) {
+      userProfileStore.setHeight(data.user.height_cm)
+    }
+    if (data.user.job_title) {
+      userProfileStore.setJobTitle(data.user.job_title)
+    }
+    if (data.user.verified_company_name || data.user.verified_school_name) {
+      userProfileStore.setVerifiedOrganizationNames([
+        data.user.verified_company_name ??
+          data.user.verified_school_name ??
+          '기타',
+      ])
+    }
+  }
 
   return (
     <ScrollView>
@@ -67,53 +102,9 @@ export const MyScreen = () => {
           </MyButton>
           <MyButton
             onPress={() => {
-              if (!data) return
-              userProfileStore.setBirthdate(data.user.birthdate!)
-              userProfileStore.setGender(data.user.gender!)
-              userProfileStore.setPhotos(
-                data.user.user_profile_images[0].image,
-                'main',
-              )
-              userProfileStore.setPhotos(
-                data.user.user_profile_images[1].image,
-                'sub1',
-              )
-              userProfileStore.setPhotos(
-                data.user.user_profile_images[2].image,
-                'sub2',
-              )
-              if (data.user.male_body_form) {
-                userProfileStore.setBodyForm(
-                  data.user.gender!,
-                  data.user.male_body_form,
-                )
-              }
-              if (data.user.female_body_form) {
-                userProfileStore.setBodyForm(
-                  data.user.gender!,
-                  data.user.female_body_form,
-                )
-              }
-              if (data.user.height_cm) {
-                userProfileStore.setHeight(data.user.height_cm)
-              }
-              if (data.user.job_title) {
-                userProfileStore.setJobTitle(data.user.job_title)
-              }
-              if (data.user.verified_company_name) {
-                userProfileStore.setVerifiedOrganizationNames([
-                  data.user.verified_company_name,
-                ])
-              }
-              if (data.user.verified_school_name) {
-                userProfileStore.setVerifiedOrganizationNames([
-                  data.user.verified_school_name,
-                ])
-              }
-
+              initializeUserProfileStore()
               navigation.navigate('PersonalProfileEditScreen')
             }}
-            // 여기에 스토어 이니셜라이즈
           >
             <Caption>프로필 편집</Caption>
           </MyButton>
@@ -141,10 +132,30 @@ export const MyScreen = () => {
       <Menu onPress={() => navigation.navigate('PurchaseHistoryScreen')}>
         <Body>결제내역</Body>
       </Menu>
+
       <VerticalSpace />
       <VerticalSpace />
       <View style={{ backgroundColor: Colors.gray.v100, height: 1 }} />
       <VerticalSpace />
+      <Menu
+        onPress={() => {
+          initializeUserProfileStore()
+          navigation.navigate('EditPersonalInfoStacks', {
+            screen: 'JobInfoScreen',
+          })
+        }}
+      >
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}
+        >
+          <VerifiedSvg fill={Colors.primary.blue} />
+          <Body style={{ marginLeft: 4 }}>회사/학교 인증하기</Body>
+        </View>
+      </Menu>
       <VerticalSpace />
       <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url!} />
       <VerticalSpace />

@@ -1,3 +1,4 @@
+import { useMy } from 'api/reads'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { View } from 'react-native'
@@ -9,6 +10,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const ConfirmCompanyScreen = () => {
+  const { data } = useMy()
   const { userProfileStore } = useStores()
   return (
     <>
@@ -33,11 +35,15 @@ export const ConfirmCompanyScreen = () => {
       </View>
       <BottomButton
         text='다음으로'
-        onPress={() =>
-          navigation.navigate('ProfilePhotoVerificationScreen', {
-            stage: 'AFTER',
-          })
-        }
+        onPress={() => {
+          if (data?.user.is_first_signup) {
+            navigation.navigate('ProfilePhotoVerificationScreen', {
+              stage: 'AFTER',
+            })
+          } else {
+            navigation.navigate('MyScreen')
+          }
+        }}
       />
     </>
   )
