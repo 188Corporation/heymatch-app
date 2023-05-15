@@ -107,13 +107,15 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
         >
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>만나는 날짜</H3>
-            <Body style={{ color: Colors.gray.v500 }}>{meetup_date}</Body>
+            <Body style={{ color: Colors.gray.v500 }}>
+              {formatDate(meetup_date!)}
+            </Body>
           </View>
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
             <Body style={{ color: Colors.gray.v500 }}>{meetup_address}</Body>
           </View>
-          <View style={{ height: 150 }}>
+          <View style={{ height: 150, marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>소개</H3>
             <ScrollView>
               <Body style={{ color: Colors.gray.v500 }}>{introduction}</Body>
@@ -135,3 +137,14 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
 const Container = styled(View)`
   padding: 12px 28px 0px 28px;
 `
+
+function formatDate(_date: string) {
+  const date = new Date(_date)
+
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+  const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
+
+  return `${year}년 ${month}월 ${day}일 (${dayOfWeek})`
+}
