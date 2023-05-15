@@ -12,8 +12,6 @@ import { CaptionS } from 'ui/common/text'
 
 const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupList: { icon: 'whatshot', text: '메인' },
-  // GroupScreen: { icon: 'whatshot', text: '핫플' },
-  NewGroupDetailScreen: { icon: 'group', text: '그룹' },
   MatchTabs: { icon: 'send', text: '매칭' },
   ChatScreen: { icon: 'question-answer', text: '채팅' },
   MyScreen: { icon: 'person', text: '마이' },

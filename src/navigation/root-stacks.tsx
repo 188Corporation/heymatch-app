@@ -32,6 +32,7 @@ import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { EditPersonalInfoStacks } from './edit-personal-info-stacks'
+import { GroupDetailStacks } from './group-detail-stacks'
 import { NewGroupCreateStacks } from './new-group-create-stacks'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -128,6 +129,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='EditPersonalInfoStacks'
             component={EditPersonalInfoStacks}
+          />
+          <Stack.Screen
+            name='GroupDetailStacks'
+            component={GroupDetailStacks}
           />
         </>
       )}

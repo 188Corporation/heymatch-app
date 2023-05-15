@@ -1,13 +1,18 @@
+import { useMy } from 'api/reads'
+import { deleteGroup } from 'api/writes'
 import { VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import { NewGroupDetailScreenProps } from 'navigation/group-detail-stacks'
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { Button } from 'ui/common/button'
+import { mutate } from 'swr'
+import { BottomButton } from 'ui/common/bottom-button'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
 
@@ -25,17 +30,35 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
     isJobVerified,
     profileImage,
   } = props.route.params
+  const { data } = useMy()
+  const { alertStore } = useStores()
+  const [loading, setLoading] = useState(false)
+
   return (
     <>
       <NavigationHeader
-        backButton={false}
+        backButtonStyle='black'
         rightChildren={
-          <TouchableOpacity style={{ marginRight: 24 }}>
+          <TouchableOpacity
+            style={{ marginRight: 24 }}
+            onPress={async () => {
+              if (!data || !data.joined_groups) return
+              setLoading(true)
+              try {
+                await deleteGroup(data.joined_groups[0].group.id)
+                await mutate('/users/my/')
+                navigation.goBack()
+              } catch (e) {
+                alertStore.error(e, '그룹 삭제에 실패했어요!')
+              } finally {
+                setLoading(false)
+              }
+            }}
+          >
             <Body style={{ color: Colors.gray.v400 }}>그룹 삭제</Body>
           </TouchableOpacity>
         }
       />
-
       <View style={{ flexGrow: 1 }}>
         <Container>
           <H1 style={{ marginBottom: 24 }}>{title}</H1>
@@ -121,15 +144,15 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
               <Body style={{ color: Colors.gray.v500 }}>{introduction}</Body>
             </ScrollView>
           </View>
-          <Button
-            text={'수정하기'}
-            color={Colors.primary.blue}
-            onPress={() => {
-              navigation.navigate('NewGroupCreateStacks')
-            }}
-          />
         </View>
       </View>
+      <BottomButton
+        text={'수정하기'}
+        onPress={() => {
+          navigation.navigate('NewGroupCreateStacks')
+        }}
+      />
+      {loading && <LoadingOverlay />}
     </>
   )
 }

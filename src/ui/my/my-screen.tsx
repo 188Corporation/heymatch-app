@@ -65,10 +65,7 @@ export const MyScreen = () => {
       <TopInsetSpace />
       <GroupSection>
         <Row style={{ marginBottom: 16 }}>
-          <TouchableOpacity
-            style={{ position: 'relative' }}
-            onPress={() => navigation.navigate('GroupEditScreen')}
-          >
+          <TouchableOpacity style={{ position: 'relative' }} onPress={() => {}}>
             <AvatarRing>
               <Avatar
                 side={60}
@@ -94,7 +91,9 @@ export const MyScreen = () => {
                 })
                 return
               }
-              navigation.navigate('NewGroupDetailScreen')
+              navigation.navigate('GroupDetailStacks', {
+                screen: 'NewGroupDetailScreen',
+              })
             }}
             style={{ marginRight: 12 }}
           >
