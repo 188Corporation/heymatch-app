@@ -21,7 +21,7 @@ import { Body, H3 } from 'ui/common/text'
 
 export const EditPersonalProfileScreen = observer(() => {
   const { data } = useMy()
-  const { userProfileStore, editPersonalInfoStore, alertStore } = useStores()
+  const { userProfileStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
 
   if (!data) return <LoadingOverlay />
@@ -79,7 +79,6 @@ export const EditPersonalProfileScreen = observer(() => {
             <ProfileInfo
               value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
               onPress={() => {
-                editPersonalInfoStore.setIsEditingNow(true)
                 navigation.navigate('EditPersonalInfoStacks', {
                   screen: 'BirthdayScreen',
                 })
@@ -93,7 +92,6 @@ export const EditPersonalProfileScreen = observer(() => {
                 </Body>
               }
               onPress={() => {
-                editPersonalInfoStore.setIsEditingNow(true)
                 navigation.navigate('EditPersonalInfoStacks', {
                   screen: 'BodyInfoScreen',
                 })

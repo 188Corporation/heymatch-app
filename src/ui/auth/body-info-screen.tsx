@@ -1,3 +1,4 @@
+import { useMy } from 'api/reads'
 import { Colors } from 'infra/colors'
 import { femaleBodyForm, maleBodyForm } from 'infra/constants'
 import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
@@ -18,7 +19,8 @@ import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
 export const BodyInfoScreen = observer(() => {
-  const { userProfileStore, alertStore, editPersonalInfoStore } = useStores()
+  const { data } = useMy()
+  const { userProfileStore, alertStore } = useStores()
   const [height, setHeight] = useState(160)
   const heightItems = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
     return {
@@ -91,7 +93,7 @@ export const BodyInfoScreen = observer(() => {
           </View>
         </Container>
       </View>
-      {!editPersonalInfoStore.isEditingNow && (
+      {data?.user.is_first_signup && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -108,13 +110,12 @@ export const BodyInfoScreen = observer(() => {
         />
       )}
       <BottomButton
-        text={editPersonalInfoStore.isEditingNow ? '수정하기' : '다음으로'}
+        text={!data?.user.is_first_signup ? '수정하기' : '다음으로'}
         disabled={!userProfileStore.getBodyForm}
         onPress={() => {
           userProfileStore.setHeight(height)
-          if (editPersonalInfoStore.isEditingNow) {
+          if (!data?.user.is_first_signup) {
             navigation.goBack()
-            editPersonalInfoStore.setIsEditingNow(false)
           } else {
             navigation.navigate('JobInfoScreen')
           }

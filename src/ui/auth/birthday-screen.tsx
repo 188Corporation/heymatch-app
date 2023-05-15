@@ -1,3 +1,4 @@
+import { useMy } from 'api/reads'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -11,7 +12,8 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const BirthdayScreen = observer(() => {
-  const { userProfileStore, editPersonalInfoStore } = useStores()
+  const { data } = useMy()
+  const { userProfileStore } = useStores()
   const [birthday, setBirthday] = useState<Date>(new Date('2003-12-31'))
 
   const convertBirthdate = useCallback(() => {
@@ -53,10 +55,9 @@ export const BirthdayScreen = observer(() => {
         </Container>
       </FlexScrollView>
       <BottomButton
-        text={editPersonalInfoStore.isEditingNow ? '수정하기' : '다음으로'}
+        text={!data?.user.is_first_signup ? '수정하기' : '다음으로'}
         onPress={() => {
-          if (editPersonalInfoStore.isEditingNow) {
-            editPersonalInfoStore.setIsEditingNow(false)
+          if (!data?.user.is_first_signup) {
             navigation.goBack()
           } else {
             navigation.navigate('ProfilePhotoRegisterScreen')
