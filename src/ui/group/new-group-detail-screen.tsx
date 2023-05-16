@@ -41,18 +41,27 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
         rightChildren={
           <TouchableOpacity
             style={{ marginRight: 24 }}
-            onPress={async () => {
-              if (!data || !data.joined_groups) return
-              setLoading(true)
-              try {
-                await deleteGroup(data.joined_groups[0].group.id)
-                await mutate('/users/my/')
-                navigation.goBack()
-              } catch (e) {
-                alertStore.error(e, '그룹 삭제에 실패했어요!')
-              } finally {
-                setLoading(false)
-              }
+            onPress={() => {
+              alertStore.open({
+                title: '그룹을 삭제할까요?',
+                body: '그룹을 삭제하면 다시 복구가 어려워요!',
+                mainButton: '네 삭제할게요!',
+                subButton: '다음에 하기',
+                onMainPress: async () => {
+                  setLoading(true)
+                  if (!data || !data.joined_groups) return
+                  setLoading(true)
+                  try {
+                    await deleteGroup(data.joined_groups[0].group.id)
+                    await mutate('/users/my/')
+                    navigation.goBack()
+                  } catch (e) {
+                    alertStore.error(e, '그룹 삭제에 실패했어요!')
+                  } finally {
+                    setLoading(false)
+                  }
+                },
+              })
             }}
           >
             <Body style={{ color: Colors.gray.v400 }}>그룹 삭제</Body>
