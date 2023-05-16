@@ -1,5 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import {
+  GroupDetail,
+  JoinedGroups,
+  MatchRequestStatus,
+  MatchRequestType,
+} from 'infra/types'
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
@@ -34,7 +39,11 @@ export type RootStackParamList = {
   ConfirmCompanyScreen: {}
   PersonalProfileEditScreen: {}
   EditPersonalInfoStacks: {}
-  GroupDetailStacks: {}
+  NewGroupDetailScreen: Partial<JoinedGroups['group']> & {
+    job: string
+    isJobVerified: boolean
+    profileImage: string
+  }
   // TODO: 서버 작동하면 삭제하기
   GroupListScreen: {}
   SearchPlaceResultsScreen: {}
@@ -59,4 +68,9 @@ export type WebViewScreenProps = StackScreenProps<
 export type ProfilePhotoVerificationScreenProps = StackScreenProps<
   RootStackParamList,
   'ProfilePhotoVerificationScreen'
+>
+
+export type NewGroupDetailScreenProps = StackScreenProps<
+  RootStackParamList,
+  'NewGroupDetailScreen'
 >

@@ -23,6 +23,7 @@ import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
+import { NewGroupDetailScreen } from 'ui/group/new-group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { EditPersonalProfileScreen } from 'ui/my/edit-personal-profile-screen'
@@ -32,7 +33,6 @@ import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { EditPersonalInfoStacks } from './edit-personal-info-stacks'
-import { GroupDetailStacks } from './group-detail-stacks'
 import { NewGroupCreateStacks } from './new-group-create-stacks'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -131,8 +131,8 @@ export const RootStacks = observer(() => {
             component={EditPersonalInfoStacks}
           />
           <Stack.Screen
-            name='GroupDetailStacks'
-            component={GroupDetailStacks}
+            name='NewGroupDetailScreen'
+            component={NewGroupDetailScreen}
           />
         </>
       )}
