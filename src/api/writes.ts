@@ -138,7 +138,7 @@ export const createGroup = async (
     member_avg_age,
     meetup_address,
   })
-  if (res.code !== 200) throw new ApiError(res)
+  if (res.code !== 201) throw new ApiError(res)
 }
 
 export const editGroup = async (
