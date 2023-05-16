@@ -21,7 +21,11 @@ import {
 export const GroupCreatePhotoScreen = observer(() => {
   const [isFront, setIsFront] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
-  const { permissionStore, groupCreateStore, alertStore } = useStores()
+  const {
+    permissionStore,
+    groupCreateStoreRegacy: groupCreateStore,
+    alertStore,
+  } = useStores()
   // handle camera permission
   useEffect(() => {
     if (permissionStore.camera === 'blocked') {

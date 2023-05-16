@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { BlueContainer } from 'ui/group-create/blue-container'
-import { Column, Row } from 'ui/common/layout'
-import { SimpleInput } from 'ui/common/simple-input'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { observer } from 'mobx-react'
-import { useStores } from 'store/globals'
-import { View } from 'react-native'
 import { navigation } from 'navigation/global'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
+import { useStores } from 'store/globals'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { Column, Row } from 'ui/common/layout'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { SimpleInput } from 'ui/common/simple-input'
+import { H2 } from 'ui/common/text'
+import { BlueContainer } from 'ui/group-create/blue-container'
 import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
 
 const LabelNumberInput: React.FC<{
@@ -34,7 +34,7 @@ const LabelNumberInput: React.FC<{
 }
 
 export const GroupCreateGenderAgeScreen = observer(() => {
-  const { groupCreateStore } = useStores()
+  const { groupCreateStoreRegacy: groupCreateStore } = useStores()
   useEffect(() => {
     groupCreateStore.clearGenderAge()
   }, [groupCreateStore])

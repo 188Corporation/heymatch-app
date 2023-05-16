@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Column } from 'ui/common/layout'
 import { Colors } from 'infra/colors'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { View } from 'react-native'
-import { Image } from 'ui/common/image'
-import { useStores } from 'store/globals'
-import { H2 } from 'ui/common/text'
 import { navigation } from 'navigation/global'
+import React from 'react'
+import { View } from 'react-native'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { CenterInLeftOver } from 'ui/common/center-in-left-over'
+import { Image } from 'ui/common/image'
+import { Column } from 'ui/common/layout'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { H2 } from 'ui/common/text'
 import {
   PHOTO_SCREEN_HEIGHT,
   PHOTO_SCREEN_WIDTH,
@@ -17,7 +17,7 @@ import {
 
 export const GroupCreatePhotoCheckScreen = () => {
   const {
-    groupCreateStore: { photo },
+    groupCreateStoreRegacy: { photo },
   } = useStores()
   if (!photo) {
     navigation.goBack()

@@ -84,7 +84,7 @@ export const authorizeEmail = async (
   return res.data!
 }
 
-export const createGroup = async (
+export const createGroup_regacy = async (
   photo: string,
   maleCount: number,
   femaleCount: number,
@@ -120,7 +120,7 @@ export const createGroup = async (
   return res.data as GroupDetail
 }
 
-export const newCreateGroup = async (
+export const createGroup = async (
   title: string,
   introduction: string,
   gps_point: string,
@@ -142,6 +142,28 @@ export const newCreateGroup = async (
 }
 
 export const editGroup = async (
+  id: string,
+  title: string,
+  introduction: string,
+  gps_point: string,
+  meetup_date: string,
+  member_number: number,
+  member_avg_age: number,
+  meetup_address: string,
+) => {
+  const res: ResponseEnvelope<{}> = await putRequest(`/groups/${id}`, {
+    title,
+    introduction,
+    gps_point,
+    meetup_date,
+    member_number,
+    member_avg_age,
+    meetup_address,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const editGroup_regacy = async (
   groupId: number,
   title: string,
   introduction: string,

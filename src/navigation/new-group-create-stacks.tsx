@@ -1,4 +1,4 @@
-import { createStackNavigator, StackScreenProps } from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
 import { COMMON_STACK_SCREEN_OPTIONS } from 'navigation/common'
 import React from 'react'
 import { GroupCreateDoneScreen } from 'ui/group-create/group-create-done-screen'
@@ -28,11 +28,6 @@ export const NewGroupCreateStacks = () => {
 
 export type GroupStackParamList = {
   GroupCreateNameScreen: {}
-  GroupCreateInfoScreen: { title: string }
+  GroupCreateInfoScreen: {}
   GroupCreateDoneScreen: {}
 }
-
-export type GroupCreateInfoScreenProps = StackScreenProps<
-  GroupStackParamList,
-  'GroupCreateInfoScreen'
->

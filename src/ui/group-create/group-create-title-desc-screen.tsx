@@ -1,26 +1,30 @@
-import React, { useState } from 'react'
-import { observer } from 'mobx-react'
-import { useStores } from 'store/globals'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
-import { BlueContainer } from 'ui/group-create/blue-container'
-import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Body2 } from 'ui/common/text'
+import { createGroup_regacy } from 'api/writes'
 import { Colors } from 'infra/colors'
-import { navigation } from 'navigation/global'
-import { createGroup } from 'api/writes'
-import { mutate } from 'swr'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { IS_DEV, LOCATION_FOR_TEST } from 'infra/constants'
-import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
-import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
+import { observer } from 'mobx-react'
+import { navigation } from 'navigation/global'
+import React, { useState } from 'react'
+import { useStores } from 'store/globals'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
-import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Row } from 'ui/common/layout'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
+import { NavigationHeader } from 'ui/common/navigation-header'
+import { Body, Body2 } from 'ui/common/text'
+import { BlueContainer } from 'ui/group-create/blue-container'
+import { checkTitleIntroValidity } from 'ui/group-create/check-validity'
+import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
+import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 
 export const GroupCreateTitleDescScreen = observer(() => {
-  const { groupCreateStore, locationStore, alertStore, keyboardStore } =
-    useStores()
+  const {
+    groupCreateStoreRegacy: groupCreateStore,
+    locationStore,
+    alertStore,
+    keyboardStore,
+  } = useStores()
   const [loading, setLoading] = useState(false)
   return (
     <KeyboardAvoidingView>
@@ -67,7 +71,7 @@ export const GroupCreateTitleDescScreen = observer(() => {
             trimmedIntro: intro,
           } = groupCreateStore
           try {
-            await createGroup(
+            await createGroup_regacy(
               photo as string,
               maleCount || 0,
               femaleCount || 0,

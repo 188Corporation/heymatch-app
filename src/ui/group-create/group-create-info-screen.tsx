@@ -1,10 +1,9 @@
-import { useGeocoding, useSearchPlace } from 'api/reads'
-import { newCreateGroup } from 'api/writes'
+import { useGeocoding, useMy, useSearchPlace } from 'api/reads'
+import { createGroup, editGroup } from 'api/writes'
 import { PinSvg, RightArrowSvg, SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import { GroupCreateInfoScreenProps } from 'navigation/new-group-create-stacks'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
 import { DateData } from 'react-native-calendars'
@@ -20,38 +19,31 @@ import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, DescBody2, H3 } from 'ui/common/text'
 
-export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
-  props,
-) => {
-  const { alertStore } = useStores()
+export const GroupCreateInfoScreen = observer(() => {
+  const { data } = useMy()
+  const { alertStore, groupCreateStore } = useStores()
 
-  const { title } = props.route.params
   const [isVisibleCalenderModal, setIsVisibleCalenderModal] = useState(false)
   const [isVisiblePlaceModal, setIsVisiblePlaceModal] = useState(false)
-  const [selectedDate, setSelectedDate] = useState<string | null>(null)
-  const [address, setAddress] = useState<{
-    title: string
-    address: string
-  }>({
-    title: '',
-    address: '',
-  })
-  const [gpsPoint, setGpsPoint] = useState('')
-  const [introduce, setIntroduce] = useState('')
-  const [memberNumber, setMemberNumber] = useState('')
-  const [memberAverageAge, setMemberAverageAge] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const { data: geocoding, isLoading: isLoadingGeocoding } = useGeocoding(
-    address.address,
+    groupCreateStore.address.address,
   )
 
+  const isEditingGroupInfo = data && data.joined_groups && data.joined_groups[0]
+
   useEffect(() => {
-    if (!geocoding || !address || isLoadingGeocoding || !geocoding.addresses)
+    if (
+      !geocoding ||
+      !groupCreateStore.address ||
+      isLoadingGeocoding ||
+      !geocoding.addresses
+    )
       return
     const { x: longitude, y: latitude } = geocoding.addresses[0]
-    setGpsPoint(`${longitude},${latitude}`)
-  }, [address, geocoding, isLoadingGeocoding, setGpsPoint])
+    groupCreateStore.setGpsPoint(`${longitude},${latitude}`)
+  }, [geocoding, groupCreateStore, isLoadingGeocoding])
 
   return (
     <KeyboardAvoidingView>
@@ -62,8 +54,8 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
             <View style={{ marginBottom: 20 }}>
               <H3 style={{ marginBottom: 12 }}>몇 명인가요?</H3>
               <TextInput
-                value={memberNumber}
-                onChangeText={(text) => setMemberNumber(text)}
+                value={groupCreateStore.memberNumber}
+                onChangeText={(text) => groupCreateStore.setMemberNumber(text)}
                 keyboardType='number-pad'
                 placeholder='인원 수를 기입해주세요'
                 placeholderTextColor={Colors.gray.v500}
@@ -80,8 +72,10 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
             <View style={{ marginBottom: 20 }}>
               <H3 style={{ marginBottom: 12 }}>몇 살인가요?</H3>
               <TextInput
-                value={memberAverageAge}
-                onChangeText={(text) => setMemberAverageAge(text)}
+                value={groupCreateStore.memberAverageAge}
+                onChangeText={(text) =>
+                  groupCreateStore.setMemberAverageAge(text)
+                }
                 keyboardType='number-pad'
                 placeholder='평균 나이를 기입해주세요'
                 placeholderTextColor={Colors.gray.v500}
@@ -99,9 +93,9 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
               <H3 style={{ marginBottom: 12 }}>언제 만날까요?</H3>
               <ModalTrigger
                 value={
-                  selectedDate ? (
+                  groupCreateStore.meetupDate ? (
                     <Body style={{ color: Colors.black }}>
-                      {toMonthDayString(selectedDate)}
+                      {toMonthDayString(groupCreateStore.meetupDate)}
                     </Body>
                   ) : (
                     <Body style={{ color: Colors.gray.v500 }}>
@@ -118,8 +112,10 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
               <H3 style={{ marginBottom: 12 }}>어디서 만날까요?</H3>
               <ModalTrigger
                 value={
-                  address.title ? (
-                    <Body style={{ color: Colors.black }}>{address.title}</Body>
+                  groupCreateStore.address.title ? (
+                    <Body style={{ color: Colors.black }}>
+                      {groupCreateStore.address.title}
+                    </Body>
                   ) : (
                     <Body style={{ color: Colors.gray.v500 }}>
                       장소를 선택해주세요
@@ -144,11 +140,11 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
               >
                 <TextInput
                   multiline
-                  value={introduce}
+                  value={groupCreateStore.introduce}
                   placeholder='간단한 소개글을 적어주세요 :)
 좋아하는 음식이나 취미, 직업은 어떤지 구체적으로
 적어주면 매칭 확률이 올라가요!'
-                  onChangeText={(text) => setIntroduce(text)}
+                  onChangeText={(text) => groupCreateStore.setIntroduce(text)}
                   placeholderTextColor={Colors.gray.v500}
                   style={{ height: '100%', paddingTop: 0 }}
                 />
@@ -161,44 +157,53 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
         isVisible={isVisibleCalenderModal}
         onClose={() => setIsVisibleCalenderModal(false)}
       >
-        <DateCalenderModal
-          setSelectedDate={setSelectedDate}
-          onClose={() => setIsVisibleCalenderModal(false)}
-        />
+        <DateCalenderModal onClose={() => setIsVisibleCalenderModal(false)} />
       </MyModal>
       <MyModal
         isVisible={isVisiblePlaceModal}
         onClose={() => setIsVisiblePlaceModal(false)}
       >
-        <SearchPlaceModal
-          setAddress={setAddress}
-          onClose={() => setIsVisiblePlaceModal(false)}
-        />
+        <SearchPlaceModal onClose={() => setIsVisiblePlaceModal(false)} />
       </MyModal>
       <BottomButton
-        text='그룹 만들기'
+        text={isEditingGroupInfo ? '수정하기' : '그룹 만들기'}
         disabled={
-          !selectedDate ||
-          !address ||
-          !introduce ||
-          !memberNumber ||
-          !memberAverageAge
+          !groupCreateStore.meetupDate ||
+          !groupCreateStore.address ||
+          !groupCreateStore.introduce ||
+          !groupCreateStore.memberNumber ||
+          !groupCreateStore.memberAverageAge
         }
         onPress={async () => {
           setIsLoading(true)
 
           try {
-            await newCreateGroup(
-              title,
-              introduce,
-              gpsPoint,
-              selectedDate!,
-              Number(memberNumber),
-              Number(memberAverageAge),
-              address.title,
-            )
-            await mutate('/groups/')
-            navigation.navigate('GroupCreateDoneScreen')
+            if (isEditingGroupInfo) {
+              await editGroup(
+                groupCreateStore.id,
+                groupCreateStore.title,
+                groupCreateStore.introduce,
+                groupCreateStore.gpsPoint,
+                groupCreateStore.meetupDate!,
+                Number(groupCreateStore.memberNumber),
+                Number(groupCreateStore.memberAverageAge),
+                groupCreateStore.address.title,
+              )
+              await mutate('/groups/')
+              navigation.navigate('GroupCreateDoneScreen')
+            } else {
+              await createGroup(
+                groupCreateStore.title,
+                groupCreateStore.introduce,
+                groupCreateStore.gpsPoint,
+                groupCreateStore.meetupDate!,
+                Number(groupCreateStore.memberNumber),
+                Number(groupCreateStore.memberAverageAge),
+                groupCreateStore.address.title,
+              )
+              await mutate('/groups/')
+              navigation.navigate('GroupCreateDoneScreen')
+            }
           } catch (e) {
             alertStore.error(e, '그룹 생성에 실패했어요!')
           } finally {
@@ -209,113 +214,103 @@ export const GroupCreateInfoScreen: React.FC<GroupCreateInfoScreenProps> = (
       {isLoading && <LoadingOverlay />}
     </KeyboardAvoidingView>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 12px 28px 0px 28px;
 `
 
-const SearchPlaceModal = observer(
-  ({
-    setAddress,
-    onClose,
-  }: {
-    setAddress: React.Dispatch<
-      React.SetStateAction<{ title: string; address: string }>
-    >
-    onClose: () => void
-  }) => {
-    const [searchKeyword, setSearchKeyword] = useState('')
-    const { data: searchPlaceList, isLoading: isLoadingSearchPlaceList } =
-      useSearchPlace(searchKeyword)
+const SearchPlaceModal = observer(({ onClose }: { onClose: () => void }) => {
+  const { groupCreateStore } = useStores()
 
-    const renderSearchList = () => {
-      if (isLoadingSearchPlaceList) {
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const { data: searchPlaceList, isLoading: isLoadingSearchPlaceList } =
+    useSearchPlace(searchKeyword)
+
+  const renderSearchList = () => {
+    if (isLoadingSearchPlaceList) {
+      return (
+        <View style={{ height: 280 }}>
+          <Body>잠시만 기다려주세요</Body>
+        </View>
+      )
+    } else {
+      if (searchKeyword === '') {
+        return <View style={{ height: 280 }} />
+      }
+
+      if (
+        !searchPlaceList ||
+        !searchPlaceList.items ||
+        searchPlaceList.items.length === 0
+      ) {
         return (
           <View style={{ height: 280 }}>
-            <Body>잠시만 기다려주세요</Body>
+            <Body>검색결과가 없습니다</Body>
           </View>
         )
-      } else {
-        if (searchKeyword === '') {
-          return <View style={{ height: 280 }} />
-        }
-
-        if (
-          !searchPlaceList ||
-          !searchPlaceList.items ||
-          searchPlaceList.items.length === 0
-        ) {
-          return (
-            <View style={{ height: 280 }}>
-              <Body>검색결과가 없습니다</Body>
-            </View>
-          )
-        }
-        return (
-          <>
-            {searchPlaceList &&
-              searchPlaceList.items.map((searchPlace) => {
-                return (
-                  <TouchableOpacity
-                    key={`${searchPlace.mapx}-${searchPlace.mapy}`}
-                    style={{ width: '100%' }}
-                    onPress={() => {
-                      setAddress({
-                        title: searchPlace.title.replace(/<[^>]*>/g, ''),
-                        address: searchPlace.address,
-                      })
-                      onClose()
+      }
+      return (
+        <>
+          {searchPlaceList &&
+            searchPlaceList.items.map((searchPlace) => {
+              return (
+                <TouchableOpacity
+                  key={`${searchPlace.mapx}-${searchPlace.mapy}`}
+                  style={{ width: '100%' }}
+                  onPress={() => {
+                    groupCreateStore.setAddress({
+                      title: searchPlace.title.replace(/<[^>]*>/g, ''),
+                      address: searchPlace.address,
+                    })
+                    onClose()
+                  }}
+                >
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      marginBottom: 8,
                     }}
                   >
                     <View
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginBottom: 8,
+                        paddingTop: 2,
                       }}
                     >
+                      <PinSvg fill={Colors.gray.v400} />
+                    </View>
+                    <View style={{ marginLeft: 4, width: '90%' }}>
                       <View
                         style={{
-                          paddingTop: 2,
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
                         }}
                       >
-                        <PinSvg fill={Colors.gray.v400} />
+                        <Body>{searchPlace.title.replace(/<[^>]*>/g, '')}</Body>
+                        <DescBody2 style={{ marginLeft: 'auto' }}>
+                          {searchPlace.category.split('>')[0]}
+                        </DescBody2>
                       </View>
-                      <View style={{ marginLeft: 4, width: '90%' }}>
-                        <View
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Body>
-                            {searchPlace.title.replace(/<[^>]*>/g, '')}
-                          </Body>
-                          <DescBody2 style={{ marginLeft: 'auto' }}>
-                            {searchPlace.category.split('>')[0]}
-                          </DescBody2>
-                        </View>
-                        <Body>{searchPlace.address}</Body>
-                      </View>
+                      <Body>{searchPlace.address}</Body>
                     </View>
-                  </TouchableOpacity>
-                )
-              })}
-          </>
-        )
-      }
+                  </View>
+                </TouchableOpacity>
+              )
+            })}
+        </>
+      )
     }
+  }
 
-    return (
-      <SearchPlaceModalContainer>
-        <SearchInput handleEndEditing={(v) => setSearchKeyword(v)} />
-        {renderSearchList()}
-      </SearchPlaceModalContainer>
-    )
-  },
-)
+  return (
+    <SearchPlaceModalContainer>
+      <SearchInput handleEndEditing={(v) => setSearchKeyword(v)} />
+      {renderSearchList()}
+    </SearchPlaceModalContainer>
+  )
+})
 
 const SearchPlaceModalContainer = styled(View)`
   width: 100%;
@@ -360,13 +355,9 @@ const SearchInput = ({
   )
 }
 
-const DateCalenderModal = ({
-  setSelectedDate,
-  onClose,
-}: {
-  setSelectedDate: React.Dispatch<React.SetStateAction<string | null>>
-  onClose: () => void
-}) => {
+const DateCalenderModal = observer(({ onClose }: { onClose: () => void }) => {
+  const { groupCreateStore } = useStores()
+
   const [_date, setDate] = useState('')
   return (
     <CalendarModal
@@ -391,13 +382,13 @@ const DateCalenderModal = ({
       }
       markingType='custom'
       onSelect={() => {
-        setSelectedDate(_date)
+        groupCreateStore.setMeetupDate(_date)
         onClose()
       }}
       onClose={onClose}
     />
   )
-}
+})
 
 const MyModal = ({
   isVisible,

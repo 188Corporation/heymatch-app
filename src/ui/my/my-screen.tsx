@@ -79,7 +79,7 @@ export const MyScreen = () => {
         <Row>
           <MyButton
             onPress={() => {
-              if (!data?.joined_groups) {
+              if (!data?.joined_groups?.[0]) {
                 alertStore.open({
                   title: '아직 속한 그룹이 없어요!',
                   body: '먼저 그룹을 생성해주세요!',

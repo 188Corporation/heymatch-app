@@ -1,13 +1,13 @@
-import React from 'react'
-import { Column, Row } from 'ui/common/layout'
-import { H2 } from 'ui/common/text'
 import { Colors } from 'infra/colors'
-import { SimpleInput } from 'ui/common/simple-input'
-import { useStores } from 'store/globals'
 import { observer } from 'mobx-react'
+import React from 'react'
+import { useStores } from 'store/globals'
+import { Column, Row } from 'ui/common/layout'
+import { SimpleInput } from 'ui/common/simple-input'
+import { H2 } from 'ui/common/text'
 
 export const GroupTitleIntroInput = observer(() => {
-  const { groupCreateStore } = useStores()
+  const { groupCreateStoreRegacy: groupCreateStore } = useStores()
   return (
     <>
       <Column style={{ alignItems: 'center', marginBottom: 28 }}>

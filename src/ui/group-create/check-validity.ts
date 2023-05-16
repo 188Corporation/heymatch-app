@@ -1,8 +1,8 @@
 import { AlertStore } from 'store/alert'
-import { GroupCreateStore } from 'store/group-create'
+import { GroupCreateStoreRegacy } from 'store/group-create-regacy'
 
 export const checkTitleIntroValidity = (
-  groupCreateStore: GroupCreateStore,
+  groupCreateStore: GroupCreateStoreRegacy,
   alertStore: AlertStore,
 ): boolean => {
   if (!groupCreateStore.isTitleValid) {

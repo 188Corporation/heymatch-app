@@ -2,13 +2,14 @@ import React, { createContext } from 'react'
 import { AlertStore } from 'store/alert'
 import { AuthStore } from 'store/auth'
 import { ChatStore } from 'store/chat'
-import { GroupCreateStore } from 'store/group-create'
+import { GroupCreateStoreRegacy } from 'store/group-create-regacy'
 import { GroupListStore } from 'store/group-list'
 import { KeyboardStore } from 'store/keyboard'
 import { LocationStore } from 'store/location'
 import { MapStore } from 'store/map'
 import { PermissionStore } from 'store/permission'
 import { UserProfileStore } from 'store/user-profile'
+import { GroupCreateStore } from './group-create'
 
 // STEP1: 전역 인스턴스 생성
 const stores = {
@@ -18,6 +19,7 @@ const stores = {
   mapStore: new MapStore(),
   alertStore: new AlertStore(),
   authStore: new AuthStore(),
+  groupCreateStoreRegacy: new GroupCreateStoreRegacy(),
   groupCreateStore: new GroupCreateStore(),
   chatStore: new ChatStore(),
   userProfileStore: new UserProfileStore(),

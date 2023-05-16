@@ -1,66 +1,51 @@
 import { makeAutoObservable } from 'mobx'
 
 export class GroupCreateStore {
-  photo: string | null = null
-  maleCount: number | null = null
-  femaleCount: number | null = null
-  averageAge: number | null = null
+  id: string = ''
   title: string = ''
-  intro: string = ''
+  meetupDate: string | null = null
+  address: { title: string; address: string } = {
+    title: '',
+    address: '',
+  }
+  gpsPoint: string = ''
+  introduce: string = ''
+  memberNumber: string = ''
+  memberAverageAge: string = ''
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  get trimmedTitle() {
-    return this.title.trim()
-  }
-
-  get isTitleValid() {
-    const title = this.trimmedTitle
-    return title && title.length <= 15
-  }
-
-  get trimmedIntro() {
-    return this.intro.trim()
-  }
-
-  get isIntroValid() {
-    const intro = this.trimmedIntro
-    return intro && intro.length >= 10 && intro.length <= 400
-  }
-
-  setPhoto(v: string) {
-    this.photo = v
-  }
-
-  clearPhoto() {
-    this.photo = null
-  }
-
-  setMaleCount(v: number) {
-    this.maleCount = v
-  }
-
-  setFemaleCount(v: number) {
-    this.femaleCount = v
-  }
-
-  setAverageAge(v: number) {
-    this.averageAge = v
-  }
-
-  clearGenderAge() {
-    this.maleCount = null
-    this.femaleCount = null
-    this.averageAge = null
+  setId(v: string) {
+    this.id = v
   }
 
   setTitle(v: string) {
     this.title = v
   }
 
-  setIntro(v: string) {
-    this.intro = v
+  setMeetupDate(v: string) {
+    this.meetupDate = v
+  }
+
+  setAddress(v: { title: string; address: string }) {
+    this.address = v
+  }
+
+  setGpsPoint(v: string) {
+    this.gpsPoint = v
+  }
+
+  setIntroduce(v: string) {
+    this.introduce = v
+  }
+
+  setMemberNumber(v: string) {
+    this.memberNumber = v
+  }
+
+  setMemberAverageAge(v: string) {
+    this.memberAverageAge = v
   }
 }

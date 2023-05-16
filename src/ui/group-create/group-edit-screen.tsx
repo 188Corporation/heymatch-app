@@ -1,5 +1,5 @@
 import { useMy } from 'api/reads'
-import { deleteGroup, editGroup } from 'api/writes'
+import { deleteGroup, editGroup_regacy } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { IS_DEV, LOCATION_FOR_TEST } from 'infra/constants'
 import { observer } from 'mobx-react'
@@ -20,7 +20,12 @@ import { GroupDeleteButton } from 'ui/group-create/group-delete-button'
 import { GroupTitleIntroInput } from 'ui/group-create/group-title-intro-input'
 
 export const GroupEditScreen = observer(() => {
-  const { groupCreateStore, locationStore, alertStore, mapStore } = useStores()
+  const {
+    groupCreateStoreRegacy: groupCreateStore,
+    locationStore,
+    alertStore,
+    mapStore,
+  } = useStores()
   const { data } = useMy()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
@@ -98,7 +103,7 @@ export const GroupEditScreen = observer(() => {
             ? LOCATION_FOR_TEST
             : await locationStore.getLocation(true)
           try {
-            await editGroup(
+            await editGroup_regacy(
               data.joined_groups.id,
               groupCreateStore.trimmedTitle,
               groupCreateStore.trimmedIntro,

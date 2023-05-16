@@ -162,17 +162,6 @@ export const ProfilePhotoEditor = observer(
           </Chip>
           {photos.mainPhoto ? (
             <>
-              <CloseButton
-                style={{
-                  top: 24,
-                  right: 24,
-                }}
-                onPress={() => {
-                  userProfileStore.setPhotos('', 'main')
-                }}
-              >
-                <CloseSvg />
-              </CloseButton>
               <Image
                 source={{ uri: photos.mainPhoto }}
                 style={{
