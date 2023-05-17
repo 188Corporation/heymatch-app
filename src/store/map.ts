@@ -1,21 +1,21 @@
-import { makeAutoObservable } from 'mobx'
-import { createRef, RefObject } from 'react'
-import NaverMapView from 'react-native-nmap'
+import { DEFAULT_ZOOM } from 'infra/constants'
 import {
   GpsBounds,
   GpsLocation,
-  Group,
+  Group_regacy,
+  LatLngDelta,
   LocationTrackingMode,
   NaverMapCamera,
-  LatLngDelta,
 } from 'infra/types'
-import { DEFAULT_ZOOM } from 'infra/constants'
 import { geoinfoToNmapCoord } from 'infra/util'
+import { makeAutoObservable } from 'mobx'
+import { createRef, RefObject } from 'react'
+import NaverMapView from 'react-native-nmap'
 
 export class MapStore {
   mapRef: RefObject<NaverMapView> = createRef()
   camera: NaverMapCamera | null = null
-  selectedGroup: Group | null = null
+  selectedGroup: Group_regacy | null = null
   isReady: boolean = false
 
   constructor() {
@@ -66,7 +66,7 @@ export class MapStore {
     this.isReady = v
   }
 
-  selectGroup(g: Group) {
+  selectGroup(g: Group_regacy) {
     this.selectedGroup = g
     const { latitude, longitude } = geoinfoToNmapCoord(g.gps_geoinfo)
     this.mapRef.current?.animateToCoordinate({

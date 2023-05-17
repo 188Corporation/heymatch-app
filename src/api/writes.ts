@@ -10,7 +10,7 @@ import {
   FemaleBodyForm,
   Gender,
   GpsLocation,
-  GroupDetail,
+  GroupDetail_regacy,
   JobTitle,
   MaleBodyForm,
   OrganizationType,
@@ -105,7 +105,7 @@ export const createGroup_regacy = async (
     type: 'image/jpeg',
     name: 'photo.jpg',
   })
-  const res: ResponseEnvelope<GroupDetail> = await postFormRequest(
+  const res: ResponseEnvelope<GroupDetail_regacy> = await postFormRequest(
     '/groups/',
     form,
   )
@@ -117,7 +117,7 @@ export const createGroup_regacy = async (
   if (res.code === 403)
     throw new ApiError({ ...res, message: '이미 그룹을 생성했어요!' })
   if (res.code !== 201) throw new ApiError(res)
-  return res.data as GroupDetail
+  return res.data as GroupDetail_regacy
 }
 
 export const createGroup = async (
@@ -203,7 +203,7 @@ export const acceptMatchRequest = async (matchRequestId: number) => {
   )
   if (res.code !== 200) throw new ApiError(res)
   return res.data as {
-    sender_group: GroupDetail
+    sender_group: GroupDetail_regacy
     stream_channel_cid: string
   }
 }

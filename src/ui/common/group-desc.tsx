@@ -1,6 +1,6 @@
 import { UsersFillSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { Group } from 'infra/types'
+import { Group_regacy } from 'infra/types'
 import { formatMaleFemaleInfo } from 'infra/util'
 import React from 'react'
 import { ColorValue } from 'react-native'
@@ -8,7 +8,7 @@ import { Row } from 'ui/common/layout'
 import { Body } from 'ui/common/text'
 
 export const GroupDesc: React.FC<{
-  data: Group
+  data: Group_regacy
   color?: ColorValue
   size?: number
   fontSize?: number

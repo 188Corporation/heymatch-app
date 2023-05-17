@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import {
-  GroupDetail,
+  GroupDetail_regacy,
   JoinedGroups,
   MatchRequestStatus,
   MatchRequestType,
@@ -15,7 +15,7 @@ export type RootStackParamList = {
   NewGroupCreateStacks: {}
   GroupEditScreen: {}
   GroupDetailScreen: {
-    data: GroupDetail
+    data: GroupDetail_regacy
     matchRequest?: MatchRequestTarget
     hideButton?: boolean
   }

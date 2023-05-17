@@ -1,4 +1,4 @@
-import { GpsLocation, Group, LatLngDelta } from 'infra/types'
+import { GpsLocation, Group_regacy, LatLngDelta } from 'infra/types'
 import CodePush from 'react-native-code-push'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -23,7 +23,7 @@ export const gpsLocationToGeoinfo = ({ lat, lng }: GpsLocation): string => {
   return `${lat},${lng}`
 }
 
-export const formatMaleFemaleInfo = (data: Group) => {
+export const formatMaleFemaleInfo = (data: Group_regacy) => {
   const final = []
   if (data.male_member_number > 0) {
     final.push(`남 ${data.male_member_number}명`)

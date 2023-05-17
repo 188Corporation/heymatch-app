@@ -45,7 +45,7 @@ type UserProfileImages = {
   order: number
   is_active: boolean
 }
-export interface User {
+export type User = {
   id: string
   stream_token: string
   is_first_signup: boolean
@@ -137,7 +137,7 @@ export interface HotPlace {
   zone_boundary_geoinfos: string[]
 }
 
-export interface Group {
+export interface Group_regacy {
   id: number
   hotplace: number
   title: string
@@ -150,22 +150,12 @@ export interface Group {
   active_until: string
 }
 
-export interface GroupDetail extends Group {
+export interface GroupDetail_regacy extends Group_regacy {
   introduction: string
 }
 
 export interface JoinedGroups {
-  group: {
-    id: number
-    mode: string
-    title: string
-    introduction: string
-    meetup_date: string
-    meetup_address: string
-    member_number: number
-    member_avg_age: number
-    created_at: string
-  }
+  group: GroupInfo
   is_user_leader: boolean
   is_active: boolean
 }
@@ -173,32 +163,55 @@ export interface JoinedGroups {
 export interface HotPlaceWithGroups {
   id: number
   name: string
-  groups: Group[]
+  groups: Group_regacy[]
 }
 
 export interface GroupMember {
   is_user_leader: boolean
-  user: User
+  user: {
+    id: string
+    gender: Gender
+    birthdata: string
+    jobtitle: JobTitle
+    verified_school_name: string
+    verified_company_name: string
+    user_profile_images: UserProfileImages[]
+  }
 }
 
-export interface Group_v2 {
+export type GroupInfo = {
+  id: number
+  mode: string
   title: string
+  introduction: string
   meetup_date: string
-  group_members: GroupMember[]
+  meetup_address: string
   member_number: number
   member_avg_age: number
-  created_at: Date
+  created_at: string
+  group_members: GroupMember[]
 }
 
+export type GroupDetail = {
+  status: string
+  code: string
+  data: GroupInfo
+}
+
+export type GroupsListItem = Omit<
+  GroupInfo,
+  'mode' | 'introduction' | 'meetup_address'
+>
+
 // TODO: HotPlaceWithGroups 대체 타입. 이름 바꿔야함
-export interface Groups_v2 {
+export type GroupsList = {
   status: string
   code: number
   data: {
     count: number
     next: string
     previous: string
-    results: Group_v2[]
+    results: GroupsListItem[]
   }
   message: string | null
 }
@@ -227,8 +240,8 @@ export interface MatchRequest {
   id: number
   status: MatchRequestStatus
   created_at: string
-  sender_group: number | GroupDetail
-  receiver_group: number | GroupDetail
+  sender_group: number | GroupDetail_regacy
+  receiver_group: number | GroupDetail_regacy
 }
 
 // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters
@@ -243,7 +256,7 @@ export interface Channel {
 
 export interface Chat {
   channel: Channel
-  group: GroupDetail
+  group: GroupDetail_regacy
 }
 
 export interface TabBarLabel {

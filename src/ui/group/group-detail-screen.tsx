@@ -4,7 +4,11 @@ import { reportAbuse, sendMatchRequest } from 'api/writes'
 import { SendSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import {
+  GroupDetail_regacy,
+  MatchRequestStatus,
+  MatchRequestType,
+} from 'infra/types'
 import { geoinfoToGpsLocation } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
@@ -115,7 +119,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
 }
 
 const ButtonContent: React.FC<{
-  data: GroupDetail
+  data: GroupDetail_regacy
   setLoading: (v: boolean) => void
   matchRequest?: MatchRequestTarget
 }> = ({ data, setLoading, matchRequest }) => {

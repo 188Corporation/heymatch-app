@@ -4,7 +4,7 @@ import {
   Chat,
   Geocoding,
   GroupDetail,
-  Groups_v2,
+  GroupsList,
   HotPlace,
   MatchRequest,
   MyInfo,
@@ -50,8 +50,8 @@ export const useGroupList = (filter?: string) => {
     error,
     size,
     setSize,
-  } = useSWRInfinite<Groups_v2>(
-    (pageIndex: number, previousPageData: Groups_v2) => {
+  } = useSWRInfinite<GroupsList>(
+    (pageIndex: number, previousPageData: GroupsList) => {
       if (previousPageData && previousPageData.data.next === null) {
         return null
       }

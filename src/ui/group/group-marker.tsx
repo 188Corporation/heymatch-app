@@ -1,12 +1,12 @@
-import { Marker } from 'react-native-nmap'
-import { geoinfoToNmapCoord } from 'infra/util'
 import { GroupMarkerBg } from 'image'
+import { geoinfoToNmapCoord } from 'infra/util'
 import { Image, PixelRatio } from 'react-native'
+import { Marker } from 'react-native-nmap'
 // @ts-ignore
-import RNImageTools from 'react-native-image-tools-wm'
 import { CURRENT_OS, OS } from 'infra/constants'
+import { Group_regacy } from 'infra/types'
 import React, { useEffect, useState } from 'react'
-import { Group } from 'infra/types'
+import RNImageTools from 'react-native-image-tools-wm'
 import { useStores } from 'store/globals'
 
 const MARKER_SIDE = PixelRatio.getPixelSizeForLayoutSize(88)
@@ -22,7 +22,7 @@ const getImage = async (imageUrl: string) => {
 }
 
 export const GroupMarker: React.FC<{
-  data: Group
+  data: Group_regacy
   isSelected: boolean
 }> = ({ data, isSelected }) => {
   const { mapStore } = useStores()

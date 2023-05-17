@@ -1,24 +1,28 @@
-import React from 'react'
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
-import { Column, Row } from 'ui/common/layout'
-import { Caption, H3 } from 'ui/common/text'
-import { Colors } from 'infra/colors'
-import { useStores } from 'store/globals'
-import { WINDOW_DIMENSIONS } from 'infra/constants'
 import {
   CardOverlayRejectedSvg as _CardOverlayRejectedSvg,
   CardOverlaySvg as _CardOverlaySvg,
   CheckSvg,
   CloseSvg,
 } from 'image'
+import { Colors } from 'infra/colors'
+import { WINDOW_DIMENSIONS } from 'infra/constants'
+import {
+  GroupDetail_regacy,
+  MatchRequestStatus,
+  MatchRequestType,
+} from 'infra/types'
 import { geoinfoToGpsLocation } from 'infra/util'
-import styled from 'styled-components'
-import { Image } from 'ui/common/image'
-import { TouchableOpacity, View } from 'react-native'
-import { GroupDesc } from 'ui/common/group-desc'
-import { MatchRequestStatusLabel } from 'ui/match/match-request-status-label'
 import { navigation } from 'navigation/global'
+import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import { accept, reject } from 'store/common-actions'
+import { useStores } from 'store/globals'
+import styled from 'styled-components'
+import { GroupDesc } from 'ui/common/group-desc'
+import { Image } from 'ui/common/image'
+import { Column, Row } from 'ui/common/layout'
+import { Caption, H3 } from 'ui/common/text'
+import { MatchRequestStatusLabel } from 'ui/match/match-request-status-label'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
@@ -27,7 +31,7 @@ export const MatchRequestItem: React.FC<{
   matchRequestId: number
   status: MatchRequestStatus
   type: MatchRequestType
-  group: GroupDetail
+  group: GroupDetail_regacy
 }> = ({ matchRequestId, status, type, group }) => {
   const { locationStore, alertStore, chatStore } = useStores()
   return (

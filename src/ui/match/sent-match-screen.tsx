@@ -1,10 +1,10 @@
-import React from 'react'
 import { useMatchRequests } from 'api/reads'
-import { FlatList } from 'react-native'
-import { MatchRequestItem } from 'ui/match/match-request-item'
-import { GroupDetail, MatchRequest, MatchRequestType } from 'infra/types'
-import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
 import { SentMatchesPlaceholderSvg } from 'image'
+import { GroupDetail_regacy, MatchRequest, MatchRequestType } from 'infra/types'
+import React from 'react'
+import { FlatList } from 'react-native'
+import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
+import { MatchRequestItem } from 'ui/match/match-request-item'
 
 export const SentMatchesScreen = () => {
   const { data } = useMatchRequests()
@@ -24,7 +24,7 @@ export const SentMatchesScreen = () => {
           matchRequestId={x.id}
           status={x.status}
           type={MatchRequestType.SENT}
-          group={x.receiver_group as GroupDetail}
+          group={x.receiver_group as GroupDetail_regacy}
         />
       )}
       ListEmptyComponent={
