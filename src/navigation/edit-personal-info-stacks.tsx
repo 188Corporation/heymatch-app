@@ -7,6 +7,7 @@ import { ConfirmCompanyScreen } from 'ui/auth/confirm-company-screen'
 import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
+import { NicknameScreen } from 'ui/auth/nickname-screen'
 import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { COMMON_STACK_SCREEN_OPTIONS } from './common'
 
@@ -15,6 +16,7 @@ const Stack = createStackNavigator()
 export const EditPersonalInfoStacks = () => {
   return (
     <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
+      <Stack.Screen name='NicknameScreen' component={NicknameScreen} />
       <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
       <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
       <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />

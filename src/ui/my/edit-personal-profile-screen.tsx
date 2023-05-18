@@ -7,14 +7,12 @@ import { getAge } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { ProfilePhotoEditor } from 'ui/auth/profile-photo-register-screen'
 import { BottomButton } from 'ui/common/bottom-button'
-import { FlexScrollView } from 'ui/common/flex-scroll-view'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H3 } from 'ui/common/text'
@@ -68,19 +66,29 @@ export const EditPersonalProfileScreen = observer(() => {
   }
 
   return (
-    <KeyboardAvoidingView>
+    <>
       <NavigationHeader backButtonStyle='black' title='' />
       <View style={{ flexGrow: 1 }}>
-        <FlexScrollView>
-          <Container>
-            <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
-            <ProfilePhotoEditor photos={profilePhotos} />
-            <H3 style={{ marginTop: 20, marginBottom: 12 }}>나이</H3>
+        <Container>
+          <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
+          <ProfilePhotoEditor photos={profilePhotos} />
+          <View style={{ height: 20 }} />
+          <ScrollView style={{ height: 350 }}>
+            <H3 style={{ marginBottom: 12 }}>나이</H3>
             <ProfileInfo
               value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
               onPress={() => {
                 navigation.navigate('EditPersonalInfoStacks', {
                   screen: 'BirthdayScreen',
+                })
+              }}
+            />
+            <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
+            <ProfileInfo
+              value={<Body>{userProfileStore.nickname}</Body>}
+              onPress={() => {
+                navigation.navigate('EditPersonalInfoStacks', {
+                  screen: 'NicknameScreen',
                 })
               }}
             />
@@ -122,8 +130,8 @@ export const EditPersonalProfileScreen = observer(() => {
                 </View>
               }
             />
-          </Container>
-        </FlexScrollView>
+          </ScrollView>
+        </Container>
       </View>
       <BottomButton
         text='수정하기'
@@ -154,12 +162,12 @@ export const EditPersonalProfileScreen = observer(() => {
         }}
       />
       {loading && <LoadingOverlay />}
-    </KeyboardAvoidingView>
+    </>
   )
 })
 
 const Container = styled(View)`
-  padding: 12px 28px 0px 28px;
+  padding: 12px 28px 12px 28px;
 `
 
 const ProfileInfo = ({

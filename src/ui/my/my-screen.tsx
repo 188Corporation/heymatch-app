@@ -23,7 +23,7 @@ import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { Body, Caption, H3 } from 'ui/common/text'
+import { Body, Caption, H2, H3 } from 'ui/common/text'
 import { Menu, WebViewMenu } from 'ui/my/menu'
 
 export const MyScreen = () => {
@@ -66,7 +66,7 @@ export const MyScreen = () => {
     <ScrollView>
       <TopInsetSpace />
       <GroupSection>
-        <Row style={{ marginBottom: 16 }}>
+        <Row style={{ marginBottom: 8 }}>
           <TouchableOpacity style={{ position: 'relative' }} onPress={() => {}}>
             <AvatarRing>
               <Avatar
@@ -78,6 +78,7 @@ export const MyScreen = () => {
             </AvatarRing>
           </TouchableOpacity>
         </Row>
+        <H2 style={{ marginBottom: 8 }}>안녕안녕</H2>
         <Row>
           <MyButton
             onPress={() => {
