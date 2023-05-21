@@ -170,7 +170,7 @@ export interface GroupMember {
     id: string
     gender: Gender
     birthdata: string
-    jobtitle: JobTitle
+    job_title: JobTitle
     verified_school_name: string
     verified_company_name: string
     user_profile_images: UserProfileImages[]
@@ -190,11 +190,7 @@ export type GroupInfo = {
   group_members: GroupMember[]
 }
 
-export type GroupDetail = {
-  status: string
-  code: string
-  data: GroupInfo
-}
+export type GroupDetail = GroupInfo
 
 export type GroupsListItem = Omit<
   GroupInfo,

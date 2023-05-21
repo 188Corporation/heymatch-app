@@ -1,6 +1,4 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { StackScreenProps } from '@react-navigation/stack'
-import { JoinedGroups } from 'infra/types'
 import { MainBottomTabBar } from 'navigation/main-bottom-tab-bar'
 import React from 'react'
 import { ChatScreen } from 'ui/chat/chat-screen'
@@ -10,20 +8,10 @@ import { MatchTabs } from './match-tabs'
 
 type MainTabsParamList = {
   GroupList: {}
-  NewGroupDetailScreen: Partial<JoinedGroups['group']> & {
-    job: string
-    isJobVerified: boolean
-    profileImage: string
-  }
   MatchTabs: {}
   ChatScreen: {}
   MyScreen: {}
 }
-
-export type NewGroupDetailScreenProps = StackScreenProps<
-  MainTabsParamList,
-  'NewGroupDetailScreen'
->
 
 const Tab = createBottomTabNavigator<MainTabsParamList>()
 

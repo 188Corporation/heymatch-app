@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import {
   GroupDetail_regacy,
-  JoinedGroups,
   MatchRequestStatus,
   MatchRequestType,
 } from 'infra/types'
@@ -40,11 +39,8 @@ export type RootStackParamList = {
   ConfirmCompanyScreen: {}
   PersonalProfileEditScreen: {}
   EditPersonalInfoStacks: {}
-  NewGroupDetailScreen: Partial<JoinedGroups['group']> & {
-    job: string
-    isJobVerified: boolean
-    profileImage: string
-  }
+  NewGroupDetailScreen: { id: number }
+  PersonalProfileScreen: {}
   // TODO: 서버 작동하면 삭제하기
   GroupListScreen: {}
   SearchPlaceResultsScreen: {}
