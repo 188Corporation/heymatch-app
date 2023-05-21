@@ -17,7 +17,7 @@ export const PUSH_PROVIDER = 'firebase'
 export const PUSH_PROVIDER_NAME = !IS_DEV
   ? 'heymatch-firebase-prod'
   : 'heymatch-firebase-dev'
-export const ONESIGNAL_APP_ID = '83e737f6-2a8d-46df-87f0-61175df1e6b8'
+export const ONESIGNAL_APP_ID = '0361ed79-72c2-439e-9ed6-d38d7af5d587'
 
 export const KOREA_CENTER = {
   latitude: 36.4,
