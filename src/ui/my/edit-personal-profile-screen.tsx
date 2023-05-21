@@ -85,10 +85,10 @@ export const EditPersonalProfileScreen = observer(() => {
             />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
             <ProfileInfo
-              value={<Body>{userProfileStore.nickname}</Body>}
+              value={<Body>{userProfileStore.username}</Body>}
               onPress={() => {
                 navigation.navigate('EditPersonalInfoStacks', {
-                  screen: 'NicknameScreen',
+                  screen: 'UsernameScreen',
                 })
               }}
             />

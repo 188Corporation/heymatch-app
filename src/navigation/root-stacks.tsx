@@ -16,11 +16,11 @@ import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
-import { NicknameScreen } from 'ui/auth/nickname-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
 import { ProfilePhotoRejectedScreen } from 'ui/auth/profile-photo-rejected-screen'
 import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
 import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
+import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
@@ -62,7 +62,7 @@ export const RootStacks = observer(() => {
       ) : !authStore.isAgreementChecked ? (
         <>
           <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
-          <Stack.Screen name='NicknameScreen' component={NicknameScreen} />
+          <Stack.Screen name='UsernameScreen' component={UsernameScreen} />
           <Stack.Screen name='GenderScreen' component={GenderScreen} />
           <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
           <Stack.Screen

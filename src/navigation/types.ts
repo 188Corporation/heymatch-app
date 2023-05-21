@@ -26,6 +26,7 @@ export type RootStackParamList = {
   UserManagementScreen: {}
   UserWithdrawalScreen: {}
   AgreementScreen: {}
+  UsernameScreen: {}
   GenderScreen: {}
   BirthdayScreen: {}
   ProfilePhotoRegisterScreen: {}

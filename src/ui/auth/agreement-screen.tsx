@@ -180,7 +180,7 @@ export const AgreementScreen = observer(() => {
         disabled={!isAllChecked}
         onPress={() => {
           authStore.setIsAgreementChecked(true)
-          navigation.navigate('NicknameScreen')
+          navigation.navigate('UsernameScreen')
         }}
       />
     </>

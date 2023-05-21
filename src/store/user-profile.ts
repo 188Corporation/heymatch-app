@@ -2,7 +2,7 @@ import { FemaleBodyForm, Gender, JobTitle, MaleBodyForm } from 'infra/types'
 import { makeAutoObservable } from 'mobx'
 
 export class UserProfileStore {
-  nickname: string = ''
+  username: string = ''
   gender: Gender | null = null
   birthdate: string | null = null
   photos: { mainPhoto: string; sub1Photo: string; sub2Photo: string } = {
@@ -36,8 +36,8 @@ export class UserProfileStore {
     }
   }
 
-  setNickname(v: string) {
-    this.nickname = v
+  setUsername(v: string) {
+    this.username = v
   }
 
   setGender(gender: Gender) {

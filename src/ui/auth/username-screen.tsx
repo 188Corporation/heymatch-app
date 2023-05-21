@@ -13,7 +13,7 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Caption, DescBody2, H1 } from 'ui/common/text'
 
-export const NicknameScreen = observer(() => {
+export const UsernameScreen = observer(() => {
   const { data } = useMy()
   const { userProfileStore } = useStores()
   const isUnique = false
@@ -36,9 +36,9 @@ export const NicknameScreen = observer(() => {
             <Input
               label='닉네임'
               placeholder='닉네임을 입력해주세요'
-              value={userProfileStore.nickname}
+              value={userProfileStore.username}
               onValueChange={(v) => {
-                userProfileStore.setNickname(v)
+                userProfileStore.setUsername(v)
               }}
               letterCase='lower'
             />
@@ -50,7 +50,7 @@ export const NicknameScreen = observer(() => {
       </View>
       <BottomButton
         text={isEditing ? '수정하기' : '다음으로'}
-        disabled={!userProfileStore.nickname && isUnique}
+        disabled={!userProfileStore.username && isUnique}
         onPress={() => {
           if (isEditing) {
             navigation.goBack()
