@@ -56,7 +56,7 @@ export const EmailInputScreen = observer(() => {
           </Container>
         </FlexScrollView>
       </View>
-      {data?.user.is_first_signup && (
+      {data?.user.has_account && (
         <Button
           text='건너뛰기'
           color={Colors.white}

@@ -55,9 +55,9 @@ export const BirthdayScreen = observer(() => {
         </Container>
       </FlexScrollView>
       <BottomButton
-        text={!data?.user.is_first_signup ? '수정하기' : '다음으로'}
+        text={!data?.user.has_account ? '수정하기' : '다음으로'}
         onPress={() => {
-          if (!data?.user.is_first_signup) {
+          if (!data?.user.has_account) {
             navigation.goBack()
           } else {
             navigation.navigate('ProfilePhotoRegisterScreen')

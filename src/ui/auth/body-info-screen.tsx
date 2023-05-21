@@ -93,7 +93,7 @@ export const BodyInfoScreen = observer(() => {
           </View>
         </Container>
       </View>
-      {data?.user.is_first_signup && (
+      {data?.user.has_account && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -110,11 +110,11 @@ export const BodyInfoScreen = observer(() => {
         />
       )}
       <BottomButton
-        text={!data?.user.is_first_signup ? '수정하기' : '다음으로'}
+        text={!data?.user.has_account ? '수정하기' : '다음으로'}
         disabled={!userProfileStore.getBodyForm}
         onPress={() => {
           userProfileStore.setHeight(height)
-          if (!data?.user.is_first_signup) {
+          if (!data?.user.has_account) {
             navigation.goBack()
           } else {
             navigation.navigate('JobInfoScreen')

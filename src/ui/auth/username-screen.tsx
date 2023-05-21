@@ -17,10 +17,10 @@ export const UsernameScreen = observer(() => {
   const { data } = useMy()
   const { userProfileStore } = useStores()
   const isUnique = false
-  const isEditing = !data?.user.is_first_signup
+  const isEditing = !data?.user.has_account
   return (
     <KeyboardAvoidingView>
-      {!data?.user.is_first_signup ? (
+      {!data?.user.has_account ? (
         <NavigationHeader backButtonStyle='black' title='' />
       ) : (
         <TopInsetSpace />
