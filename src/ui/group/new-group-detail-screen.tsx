@@ -165,7 +165,7 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
             <Body style={{ color: Colors.gray.v500 }}>
-              {groupData.meetup_address}
+              {groupData.meetup_place_title}
             </Body>
           </View>
           <View style={{ height: 150, marginBottom: 40 }}>

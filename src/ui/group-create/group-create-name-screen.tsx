@@ -64,10 +64,10 @@ export const GroupCreateNameScreen = observer(() => {
               groupCreateStore.setMemberAverageAge(
                 String(data.joined_groups[0].group.member_avg_age),
               )
-              // TODO: title, address 모두 필요
-              // groupCreateStore.setAddress(
-              //   String(data.joined_groups[0].group.meetup_address),
-              // )
+              groupCreateStore.setAddress({
+                title: data.joined_groups[0].group.meetup_place_title,
+                address: data.joined_groups[0].group.meetup_place_address,
+              })
               groupCreateStore.setIntroduce(
                 data.joined_groups[0].group.introduction,
               )

@@ -188,6 +188,7 @@ export const GroupCreateInfoScreen = observer(() => {
                 Number(groupCreateStore.memberNumber),
                 Number(groupCreateStore.memberAverageAge),
                 groupCreateStore.address.title,
+                groupCreateStore.address.address,
               )
               await mutate('/groups/')
               navigation.navigate('GroupCreateDoneScreen')
@@ -200,6 +201,7 @@ export const GroupCreateInfoScreen = observer(() => {
                 Number(groupCreateStore.memberNumber),
                 Number(groupCreateStore.memberAverageAge),
                 groupCreateStore.address.title,
+                groupCreateStore.address.address,
               )
               await mutate('/groups/')
               navigation.navigate('GroupCreateDoneScreen')
