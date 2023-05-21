@@ -183,7 +183,8 @@ export type GroupInfo = {
   title: string
   introduction: string
   meetup_date: string
-  meetup_address: string
+  meetup_place_title: string
+  meetup_place_address: string
   member_number: number
   member_avg_age: number
   created_at: string
