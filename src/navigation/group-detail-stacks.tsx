@@ -56,7 +56,7 @@ export const GroupDetailStacks = () => {
           isJobVerified:
             !!data.user.verified_company_name ||
             !!data.user.verified_school_name,
-          profileImage: data.user.user_profile_images[0].image,
+          profileImage: data.user_profile_images[0].image,
         }}
       />
     </Stack.Navigator>

@@ -34,9 +34,9 @@ export const MyScreen = () => {
     if (!data) return
     userProfileStore.setBirthdate(data.user.birthdate!)
     userProfileStore.setGender(data.user.gender!)
-    userProfileStore.setPhotos(data.user.user_profile_images[0].image, 'main')
-    userProfileStore.setPhotos(data.user.user_profile_images[1].image, 'sub1')
-    userProfileStore.setPhotos(data.user.user_profile_images[2].image, 'sub2')
+    userProfileStore.setPhotos(data.user_profile_images[0].image, 'main')
+    userProfileStore.setPhotos(data.user_profile_images[1].image, 'sub1')
+    userProfileStore.setPhotos(data.user_profile_images[2].image, 'sub2')
     if (data.user.male_body_form) {
       userProfileStore.setBodyForm(data.user.gender!, data.user.male_body_form)
     }
@@ -72,7 +72,7 @@ export const MyScreen = () => {
               <Avatar
                 side={60}
                 source={{
-                  uri: data?.user.user_profile_images[0].image,
+                  uri: data?.user_profile_images[0].image,
                 }}
               />
             </AvatarRing>
@@ -121,7 +121,7 @@ export const MyScreen = () => {
                 isJobVerified:
                   !!data.user.verified_company_name ||
                   !!data.user.verified_school_name,
-                profileImage: data.user.user_profile_images[0].image,
+                profileImage: data.user_profile_images[0].image,
               })
             }}
             style={{ marginRight: 12 }}

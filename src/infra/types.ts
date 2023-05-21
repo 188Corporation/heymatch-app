@@ -47,9 +47,8 @@ type UserProfileImages = {
 }
 export type User = {
   id: string
-  stream_token: string
-  is_first_signup: boolean
   username: string
+  stream_token: string
   phone_number: string
   gender: Gender | null
   birthdate: string | null
@@ -60,18 +59,17 @@ export type User = {
   verified_school_name?: string
   verified_company_name?: string
   point_balance: number
+  has_account: boolean
+  is_main_profile_photo_under_verification: boolean
   free_pass: boolean
   free_pass_active_until: string | null
-  user_profile_images: UserProfileImages[]
-  // TODO: remove
-  schedule_delete_canceled: boolean
-  agreed_to_terms: boolean
 }
 
 export interface MyInfo {
   user: User
-  joined_groups: JoinedGroups[] | null
   user_purchases: UserPurchase[]
+  user_profile_images: UserProfileImages[]
+  joined_groups: JoinedGroups[] | null
   app_info: AppInfo
 }
 
