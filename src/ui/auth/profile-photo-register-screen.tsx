@@ -61,6 +61,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
           setLoading(true)
           try {
             await editUserInfo(
+              userProfileStore.username,
               userProfileStore.gender!,
               userProfileStore.birthdate!,
               userProfileStore.photos.mainPhoto,

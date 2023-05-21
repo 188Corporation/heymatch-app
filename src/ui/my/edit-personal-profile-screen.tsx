@@ -141,6 +141,7 @@ export const EditPersonalProfileScreen = observer(() => {
           setLoading(true)
           try {
             await editUserInfo(
+              userProfileStore.username,
               userProfileStore.gender!,
               userProfileStore.birthdate!,
               profilePhotos.mainPhoto,

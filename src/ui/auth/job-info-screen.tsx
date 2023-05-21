@@ -95,6 +95,7 @@ export const JobInfoScreen = observer(() => {
                 userProfileStore.setJobTitle('etc')
                 try {
                   await editUserInfo(
+                    userProfileStore.username,
                     userProfileStore.gender!,
                     userProfileStore.birthdate!,
                     userProfileStore.photos.mainPhoto,
@@ -133,6 +134,7 @@ export const JobInfoScreen = observer(() => {
             setLoading(true)
             try {
               await editUserInfo(
+                userProfileStore.username,
                 userProfileStore.gender!,
                 userProfileStore.birthdate!,
                 userProfileStore.photos.mainPhoto,

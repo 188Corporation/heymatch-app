@@ -247,6 +247,7 @@ export const deleteChat = async (chatId: string) => {
 }
 
 export const editUserInfo = async (
+  username: string,
   gender: Gender,
   birthdate: string,
   main_profile_image: string,
@@ -258,6 +259,7 @@ export const editUserInfo = async (
   job_title?: JobTitle | null,
 ) => {
   const form = new FormData()
+  form.append('username', username)
   form.append('gender', gender)
   form.append('birthdate', birthdate)
   height_cm && form.append('height_cm', height_cm)
