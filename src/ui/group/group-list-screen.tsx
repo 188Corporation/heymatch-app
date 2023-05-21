@@ -2,7 +2,7 @@ import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
 import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { GroupMember, Group_v2, JobTitle } from 'infra/types'
+import { GroupMember, GroupsListItem, JobTitle } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useEffect, useState } from 'react'
@@ -41,29 +41,6 @@ export const GroupListScreen = observer(() => {
     useState(false)
 
   const { data: groupLists, size, setSize } = useGroupList(filterParams)
-
-  const getDisplayedMembersFilter = () => {
-    return groupListStore.membersFilter
-      ? groupListStore.membersFilter < 5
-        ? `${groupListStore.membersFilter}명`
-        : `${groupListStore.membersFilter}명 이상`
-      : '멤버수'
-  }
-
-  const getDisplayedDistanceFilter = () => {
-    return groupListStore.distanceFilter
-      ? groupListStore.distanceFilter === 500
-        ? `${groupListStore.distanceFilter}m 이내`
-        : `${groupListStore.distanceFilter / 1000}km 이내`
-      : '거리'
-  }
-
-  const getDisplayedDateFilter = () => {
-    if (!groupListStore.dateFilter) return '날짜'
-    return `${dayjs(groupListStore.dateFilter.startDate).format(
-      'M월D일',
-    )}-${dayjs(groupListStore.dateFilter.endDate).format('M월D일')}`
-  }
 
   useEffect(() => {
     locationStore.getLocation(true)
@@ -107,83 +84,13 @@ export const GroupListScreen = observer(() => {
     <KeyboardAvoidingView>
       <Container>
         <TopInsetSpace />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('SearchPlaceResultsScreen')
-          }}
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            marginBottom: 8,
-            alignItems: 'center',
-            height: 48,
-          }}
-        >
-          <SearchSvg />
-          <H2
-            style={{
-              marginLeft: 4,
-              color: groupListStore.searchPlaceKeyword
-                ? Colors.black
-                : Colors.gray.v300,
-            }}
-          >
-            {groupListStore.searchPlaceKeyword || '장소를 검색해볼까요?'}
-          </H2>
-        </TouchableOpacity>
+        <SearchButton />
         <>
-          <View>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              <FilterButtonContainer>
-                <FilterTouchable
-                  selected={!!groupListStore.dateFilter}
-                  onPress={() => setIsVisibleDateFilterModal(true)}
-                >
-                  <FilterTypography filter={!!groupListStore.dateFilter}>
-                    {getDisplayedDateFilter()}
-                  </FilterTypography>
-                  <TouchableOpacity
-                    onPress={() => groupListStore.setDateFilter(null)}
-                  >
-                    {!!groupListStore.dateFilter && <CloseSvg />}
-                  </TouchableOpacity>
-                </FilterTouchable>
-                <FilterTouchable
-                  selected={!!groupListStore.membersFilter}
-                  onPress={() => setIsVisibleMembersFilterModal(true)}
-                >
-                  <FilterTypography filter={!!groupListStore.membersFilter}>
-                    {getDisplayedMembersFilter()}
-                  </FilterTypography>
-                  <TouchableOpacity
-                    onPress={() => groupListStore.setMembersFilter(null)}
-                  >
-                    {!!groupListStore.membersFilter && <CloseSvg />}
-                  </TouchableOpacity>
-                </FilterTouchable>
-
-                <FilterTouchable
-                  selected={!!groupListStore.distanceFilter}
-                  onPress={() => setIsVisibleDistanceFilterModal(true)}
-                >
-                  <FilterTypography filter={!!groupListStore.distanceFilter}>
-                    {getDisplayedDistanceFilter()}
-                  </FilterTypography>
-                  <TouchableOpacity
-                    onPress={() => {
-                      groupListStore.setDistanceFilter(null)
-                      groupListStore.setSearchPlaceKeyword('')
-                    }}
-                  >
-                    {!!groupListStore.distanceFilter && <CloseSvg />}
-                  </TouchableOpacity>
-                </FilterTouchable>
-              </FilterButtonContainer>
-            </ScrollView>
-          </View>
+          <FilterGroup
+            setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
+            setIsVisibleMembersFilterModal={setIsVisibleMembersFilterModal}
+            setIsVisibleDistanceFilterModal={setIsVisibleDistanceFilterModal}
+          />
           {groupLists && groupLists[0].data.count ? (
             <>
               <FlatList
@@ -195,6 +102,10 @@ export const GroupListScreen = observer(() => {
                   return (
                     <GroupItem
                       key={String(group.item.created_at)}
+                      id={
+                        // TODO group.item.id
+                        100
+                      }
                       group={group.item}
                     />
                   )
@@ -219,69 +130,226 @@ export const GroupListScreen = observer(() => {
             </View>
           )}
         </>
-
-        <FilterModal
-          isVisible={isVisibleMembersFilterModal}
-          onClose={() => setIsVisibleMembersFilterModal(false)}
-        >
-          <ModalContent
-            title='멤버수'
-            onClose={() => setIsVisibleMembersFilterModal(false)}
-            formList={[
-              { label: '1명', value: 1 },
-              { label: '2명', value: 2 },
-              { label: '3명', value: 3 },
-              { label: '4명', value: 4 },
-              { label: '5명 이상', value: 5 },
-            ]}
-            setValue={(v) => groupListStore.setMembersFilter(v)}
-          />
-        </FilterModal>
-
-        <FilterModal
-          isVisible={isVisibleDistanceFilterModal}
-          onClose={() => setIsVisibleDistanceFilterModal(false)}
-        >
-          <ModalContent
-            title='거리'
-            onClose={() => setIsVisibleDistanceFilterModal(false)}
-            formList={[
-              {
-                label: '1km 이내',
-                value: 1000,
-              },
-              {
-                label: '5km 이내',
-                value: 5000,
-              },
-              {
-                label: '10km 이내',
-                value: 10000,
-              },
-              {
-                label: '20km 이내',
-                value: 20000,
-              },
-              {
-                label: '50km 이내',
-                value: 50000,
-              },
-            ]}
-            setValue={(v) => groupListStore.setDistanceFilter(v)}
-          />
-        </FilterModal>
-        <FilterModal
-          isVisible={isVisibleDateFilterModal}
-          onClose={() => setIsVisibleDateFilterModal(false)}
-        >
-          <PeriodCalenderModal
-            setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
-          />
-        </FilterModal>
+        <FilterModals
+          isVisibleMembersFilterModal={isVisibleMembersFilterModal}
+          isVisibleDistanceFilterModal={isVisibleDistanceFilterModal}
+          isVisibleDateFilterModal={isVisibleDateFilterModal}
+          setIsVisibleMembersFilterModal={setIsVisibleMembersFilterModal}
+          setIsVisibleDistanceFilterModal={setIsVisibleDistanceFilterModal}
+          setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
+        />
       </Container>
     </KeyboardAvoidingView>
   )
 })
+
+const FilterModals = ({
+  isVisibleMembersFilterModal,
+  isVisibleDistanceFilterModal,
+  isVisibleDateFilterModal,
+  setIsVisibleMembersFilterModal,
+  setIsVisibleDistanceFilterModal,
+  setIsVisibleDateFilterModal,
+}: {
+  isVisibleMembersFilterModal: boolean
+  isVisibleDistanceFilterModal: boolean
+  isVisibleDateFilterModal: boolean
+  setIsVisibleMembersFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVisibleDistanceFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const { groupListStore } = useStores()
+  return (
+    <>
+      <FilterModal
+        isVisible={isVisibleMembersFilterModal}
+        onClose={() => setIsVisibleMembersFilterModal(false)}
+      >
+        <ModalContent
+          title='멤버수'
+          onClose={() => setIsVisibleMembersFilterModal(false)}
+          formList={[
+            { label: '1명', value: 1 },
+            { label: '2명', value: 2 },
+            { label: '3명', value: 3 },
+            { label: '4명', value: 4 },
+            { label: '5명 이상', value: 5 },
+          ]}
+          setValue={(v) => groupListStore.setMembersFilter(v)}
+        />
+      </FilterModal>
+      <FilterModal
+        isVisible={isVisibleDistanceFilterModal}
+        onClose={() => setIsVisibleDistanceFilterModal(false)}
+      >
+        <ModalContent
+          title='거리'
+          onClose={() => setIsVisibleDistanceFilterModal(false)}
+          formList={[
+            {
+              label: '1km 이내',
+              value: 1000,
+            },
+            {
+              label: '5km 이내',
+              value: 5000,
+            },
+            {
+              label: '10km 이내',
+              value: 10000,
+            },
+            {
+              label: '20km 이내',
+              value: 20000,
+            },
+            {
+              label: '50km 이내',
+              value: 50000,
+            },
+          ]}
+          setValue={(v) => groupListStore.setDistanceFilter(v)}
+        />
+      </FilterModal>
+      <FilterModal
+        isVisible={isVisibleDateFilterModal}
+        onClose={() => setIsVisibleDateFilterModal(false)}
+      >
+        <PeriodCalenderModal
+          setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
+        />
+      </FilterModal>
+    </>
+  )
+}
+
+const SearchButton = observer(() => {
+  const { groupListStore } = useStores()
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('SearchPlaceResultsScreen')
+      }}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 8,
+        alignItems: 'center',
+        height: 48,
+      }}
+    >
+      <SearchSvg />
+      <H2
+        style={{
+          marginLeft: 4,
+          color: groupListStore.searchPlaceKeyword
+            ? Colors.black
+            : Colors.gray.v300,
+        }}
+      >
+        {groupListStore.searchPlaceKeyword || '장소를 검색해볼까요?'}
+      </H2>
+    </TouchableOpacity>
+  )
+})
+
+const FilterGroup = observer(
+  ({
+    setIsVisibleDateFilterModal,
+    setIsVisibleMembersFilterModal,
+    setIsVisibleDistanceFilterModal,
+  }: {
+    setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+    setIsVisibleMembersFilterModal: React.Dispatch<
+      React.SetStateAction<boolean>
+    >
+    setIsVisibleDistanceFilterModal: React.Dispatch<
+      React.SetStateAction<boolean>
+    >
+  }) => {
+    const { groupListStore } = useStores()
+
+    const getDisplayedMembersFilter = () => {
+      return groupListStore.membersFilter
+        ? groupListStore.membersFilter < 5
+          ? `${groupListStore.membersFilter}명`
+          : `${groupListStore.membersFilter}명 이상`
+        : '멤버수'
+    }
+
+    const getDisplayedDistanceFilter = () => {
+      return groupListStore.distanceFilter
+        ? groupListStore.distanceFilter === 500
+          ? `${groupListStore.distanceFilter}m 이내`
+          : `${groupListStore.distanceFilter / 1000}km 이내`
+        : '거리'
+    }
+
+    const getDisplayedDateFilter = () => {
+      if (!groupListStore.dateFilter) return '날짜'
+      return `${dayjs(groupListStore.dateFilter.startDate).format(
+        'M월D일',
+      )}-${dayjs(groupListStore.dateFilter.endDate).format('M월D일')}`
+    }
+
+    return (
+      <View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <FilterButtonContainer>
+            <FilterTouchable
+              selected={!!groupListStore.dateFilter}
+              onPress={() => setIsVisibleDateFilterModal(true)}
+            >
+              <FilterTypography filter={!!groupListStore.dateFilter}>
+                {getDisplayedDateFilter()}
+              </FilterTypography>
+              <TouchableOpacity
+                onPress={() => groupListStore.setDateFilter(null)}
+              >
+                {!!groupListStore.dateFilter && (
+                  <CloseSvg width={16} height={16} />
+                )}
+              </TouchableOpacity>
+            </FilterTouchable>
+            <FilterTouchable
+              selected={!!groupListStore.membersFilter}
+              onPress={() => setIsVisibleMembersFilterModal(true)}
+            >
+              <FilterTypography filter={!!groupListStore.membersFilter}>
+                {getDisplayedMembersFilter()}
+              </FilterTypography>
+              <TouchableOpacity
+                onPress={() => groupListStore.setMembersFilter(null)}
+              >
+                {!!groupListStore.membersFilter && (
+                  <CloseSvg width={16} height={16} />
+                )}
+              </TouchableOpacity>
+            </FilterTouchable>
+
+            <FilterTouchable
+              selected={!!groupListStore.distanceFilter}
+              onPress={() => setIsVisibleDistanceFilterModal(true)}
+            >
+              <FilterTypography filter={!!groupListStore.distanceFilter}>
+                {getDisplayedDistanceFilter()}
+              </FilterTypography>
+              <TouchableOpacity
+                onPress={() => {
+                  groupListStore.setDistanceFilter(null)
+                  groupListStore.setSearchPlaceKeyword('')
+                }}
+              >
+                {!!groupListStore.distanceFilter && (
+                  <CloseSvg width={16} height={16} />
+                )}
+              </TouchableOpacity>
+            </FilterTouchable>
+          </FilterButtonContainer>
+        </ScrollView>
+      </View>
+    )
+  },
+)
 
 const PeriodCalenderModal = ({
   setIsVisibleDateFilterModal,
@@ -386,7 +454,7 @@ const PeriodCalenderModal = ({
   )
 }
 
-const GroupItem = ({ group }: { group: Group_v2 }) => {
+const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
   const convertJobtitle = (jobTitle: JobTitle) => {
     switch (jobTitle) {
       case 'employee':
@@ -420,7 +488,7 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
     }
   }
 
-  const isVerifiedGroup = (_group: Group_v2): boolean => {
+  const isVerifiedGroup = (_group: GroupsListItem): boolean => {
     return _group.group_members.some(
       (member) =>
         member.user.verified_company_name || member.user.verified_school_name,
@@ -428,7 +496,11 @@ const GroupItem = ({ group }: { group: Group_v2 }) => {
   }
 
   return (
-    <GroupItemContainer>
+    <GroupItemContainer
+      onPress={() => {
+        navigation.navigate('NewGroupDetailScreen', { id: id })
+      }}
+    >
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
         {toMonthDayString(group.meetup_date)}
       </Caption>
