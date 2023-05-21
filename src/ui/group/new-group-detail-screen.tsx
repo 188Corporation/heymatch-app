@@ -37,7 +37,8 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
 
   if (!groupData || !myData) return <LoadingOverlay />
   const leader = groupData.group_members[0]
-  const isEditing = id === myData?.joined_groups?.[0].group.id
+
+  const isEditing = id === myData.joined_groups?.[0].group.id
 
   return (
     <>
