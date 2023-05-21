@@ -32,11 +32,16 @@ export const MyScreen = () => {
 
   const initializeUserProfileStore = () => {
     if (!data) return
+    userProfileStore.setUsername(data.user.username)
     userProfileStore.setBirthdate(data.user.birthdate!)
     userProfileStore.setGender(data.user.gender!)
     userProfileStore.setPhotos(data.user_profile_images[0].image, 'main')
-    userProfileStore.setPhotos(data.user_profile_images[1].image, 'sub1')
-    userProfileStore.setPhotos(data.user_profile_images[2].image, 'sub2')
+    if (data.user_profile_images[1]) {
+      userProfileStore.setPhotos(data.user_profile_images[1].image, 'sub1')
+    }
+    if (data.user_profile_images[2]) {
+      userProfileStore.setPhotos(data.user_profile_images[2].image, 'sub2')
+    }
     if (data.user.male_body_form) {
       userProfileStore.setBodyForm(data.user.gender!, data.user.male_body_form)
     }
@@ -78,7 +83,7 @@ export const MyScreen = () => {
             </AvatarRing>
           </TouchableOpacity>
         </Row>
-        <H2 style={{ marginBottom: 8 }}>안녕안녕</H2>
+        <H2 style={{ marginBottom: 8 }}>{data.user.username}</H2>
         <Row>
           <MyButton
             onPress={() => {

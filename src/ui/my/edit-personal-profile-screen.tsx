@@ -45,8 +45,8 @@ export const EditPersonalProfileScreen = observer(() => {
   const isEdited = () => {
     if (
       profilePhotos.mainPhoto !== data.user_profile_images[0].image ||
-      profilePhotos.sub1Photo !== data.user_profile_images[1].image ||
-      profilePhotos.sub2Photo !== data.user_profile_images[2].image
+      profilePhotos.sub1Photo !== data.user_profile_images[1]?.image ||
+      profilePhotos.sub2Photo !== data.user_profile_images[2]?.image
     ) {
       return false
     }

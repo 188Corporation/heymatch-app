@@ -17,7 +17,7 @@ export const UsernameScreen = observer(() => {
   const { data } = useMy()
   const { userProfileStore } = useStores()
   const isUnique = false
-  const isEditing = !data?.user.has_account
+  const isEditing = !!data?.user.has_account
   return (
     <KeyboardAvoidingView>
       {!data?.user.has_account ? (
