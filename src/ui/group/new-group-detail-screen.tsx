@@ -4,6 +4,7 @@ import { deleteGroup, sendMatchRequest } from 'api/writes'
 import { SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import { convertJobtitle } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { MatchRequestTarget, NewGroupDetailScreenProps } from 'navigation/types'
 import React, { useState } from 'react'
@@ -118,7 +119,7 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
                 <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
                   {leader.user.verified_company_name ??
                     leader.user.verified_school_name ??
-                    leader.user.job_title}
+                    convertJobtitle(leader.user.job_title)}
                 </Caption>
               </View>
               <View

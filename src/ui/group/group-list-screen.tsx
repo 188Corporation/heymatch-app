@@ -2,7 +2,8 @@ import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
 import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { GroupMember, GroupsListItem, JobTitle } from 'infra/types'
+import { GroupMember, GroupsListItem } from 'infra/types'
+import { convertJobtitle } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useEffect, useState } from 'react'
@@ -455,23 +456,6 @@ const PeriodCalenderModal = ({
 }
 
 const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
-  const convertJobtitle = (jobTitle: JobTitle) => {
-    switch (jobTitle) {
-      case 'employee':
-        return '직장인'
-      case 'college_student':
-        return '대학(원)생'
-      case 'businessman':
-        return '사업가'
-      case 'part_time':
-        return '아르바이트'
-      case 'self_employed':
-        return '자영업'
-      case 'etc':
-        return '기타'
-    }
-  }
-
   const getOrganization = (groupMember: GroupMember) => {
     const verifiedSchoolName = groupMember.user.verified_school_name
     const verifiedCompanyName = groupMember.user.verified_company_name

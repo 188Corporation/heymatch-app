@@ -1,4 +1,4 @@
-import { GpsLocation, Group_regacy, LatLngDelta } from 'infra/types'
+import { GpsLocation, Group_regacy, JobTitle, LatLngDelta } from 'infra/types'
 import CodePush from 'react-native-code-push'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -91,4 +91,21 @@ export function getAge(birthDateString: string) {
   const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25)
   const age = Math.floor(diffInYears)
   return age
+}
+
+export const convertJobtitle = (jobTitle: JobTitle) => {
+  switch (jobTitle) {
+    case 'employee':
+      return '직장인'
+    case 'college_student':
+      return '대학(원)생'
+    case 'businessman':
+      return '사업가'
+    case 'part_time':
+      return '아르바이트'
+    case 'self_employed':
+      return '자영업'
+    case 'etc':
+      return '기타'
+  }
 }
