@@ -28,6 +28,7 @@ import { NewGroupDetailScreen } from 'ui/group/new-group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { EditPersonalProfileScreen } from 'ui/my/edit-personal-profile-screen'
+import { PersonalProfileScreen } from 'ui/my/personal-profile-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
@@ -135,6 +136,10 @@ export const RootStacks = observer(() => {
           <Stack.Screen
             name='NewGroupDetailScreen'
             component={NewGroupDetailScreen}
+          />
+          <Stack.Screen
+            name='PersonalProfileScreen'
+            component={PersonalProfileScreen}
           />
         </>
       )}

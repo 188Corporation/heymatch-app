@@ -282,6 +282,7 @@ const ButtonContent: React.FC<{
 
   return (
     <Button
+      //TODO: 내 그룹이 없다면 alert
       text='매칭하기'
       onPress={() => {
         // check is my group
