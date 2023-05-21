@@ -1,4 +1,4 @@
-import { useGroupList, useMy } from 'api/reads'
+import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
 import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
@@ -454,137 +454,115 @@ const PeriodCalenderModal = ({
   )
 }
 
-const GroupItem = observer(
-  ({ id, group }: { id: number; group: GroupsListItem }) => {
-    const { alertStore } = useStores()
-    const { data: myData } = useMy()
-
-    const convertJobtitle = (jobTitle: JobTitle) => {
-      switch (jobTitle) {
-        case 'employee':
-          return '직장인'
-        case 'college_student':
-          return '대학(원)생'
-        case 'businessman':
-          return '사업가'
-        case 'part_time':
-          return '아르바이트'
-        case 'self_employed':
-          return '자영업'
-        case 'etc':
-          return '기타'
-      }
+const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
+  const convertJobtitle = (jobTitle: JobTitle) => {
+    switch (jobTitle) {
+      case 'employee':
+        return '직장인'
+      case 'college_student':
+        return '대학(원)생'
+      case 'businessman':
+        return '사업가'
+      case 'part_time':
+        return '아르바이트'
+      case 'self_employed':
+        return '자영업'
+      case 'etc':
+        return '기타'
     }
+  }
 
-    const getOrganization = (groupMember: GroupMember) => {
-      const verifiedSchoolName = groupMember.user.verified_school_name
-      const verifiedCompanyName = groupMember.user.verified_company_name
-      if (!verifiedSchoolName && !verifiedCompanyName) {
-        return groupMember.user.job_title
-          ? convertJobtitle(groupMember.user.job_title)
-          : '기타'
-      }
-      if (verifiedCompanyName) {
-        return verifiedCompanyName
-      }
-      if (verifiedSchoolName) {
-        return verifiedSchoolName
-      }
+  const getOrganization = (groupMember: GroupMember) => {
+    const verifiedSchoolName = groupMember.user.verified_school_name
+    const verifiedCompanyName = groupMember.user.verified_company_name
+    if (!verifiedSchoolName && !verifiedCompanyName) {
+      return groupMember.user.job_title
+        ? convertJobtitle(groupMember.user.job_title)
+        : '기타'
     }
-
-    const isVerifiedGroup = (_group: GroupsListItem): boolean => {
-      return _group.group_members.some(
-        (member) =>
-          member.user.verified_company_name || member.user.verified_school_name,
-      )
+    if (verifiedCompanyName) {
+      return verifiedCompanyName
     }
+    if (verifiedSchoolName) {
+      return verifiedSchoolName
+    }
+  }
 
-    return (
-      <GroupItemContainer
-        onPress={() => {
-          if (!myData) {
-            return
-          }
-          if (myData.joined_groups?.length === 0) {
-            alertStore.open({
-              title: '아직 속한 그룹이 없어요!',
-              body: '먼저 그룹을 생성해주세요!',
-              mainButton: '그룹 생성하기',
-              subButton: '나중에 하기',
-              onMainPress: () => {
-                navigation.navigate('NewGroupCreateStacks')
-              },
-            })
-          } else {
-            navigation.navigate('NewGroupDetailScreen', { id: id })
-          }
-        }}
-      >
-        <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
-          {toMonthDayString(group.meetup_date)}
-        </Caption>
-        <H3 style={{ marginBottom: 16 }}>{group.title}</H3>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <ProfilePhotoContainer style={{ marginRight: 6 }}>
-            <Image
-              style={{ width: '100%', height: '100%', borderRadius: 20 }}
-              source={{
-                uri: group.group_members[0].user.user_profile_images[0]
-                  .thumbnail_blurred,
-              }}
-            />
-          </ProfilePhotoContainer>
-          <ProfilePhotoContainer
-            style={{
-              marginRight: 20,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+  const isVerifiedGroup = (_group: GroupsListItem): boolean => {
+    return _group.group_members.some(
+      (member) =>
+        member.user.verified_company_name || member.user.verified_school_name,
+    )
+  }
+
+  return (
+    <GroupItemContainer
+      onPress={() => {
+        navigation.navigate('NewGroupDetailScreen', { id: id })
+      }}
+    >
+      <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
+        {toMonthDayString(group.meetup_date)}
+      </Caption>
+      <H3 style={{ marginBottom: 16 }}>{group.title}</H3>
+      <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <ProfilePhotoContainer style={{ marginRight: 6 }}>
+          <Image
+            style={{ width: '100%', height: '100%', borderRadius: 20 }}
+            source={{
+              uri: group.group_members[0].user.user_profile_images[0]
+                .thumbnail_blurred,
             }}
-          >
-            <Caption style={{ color: Colors.gray.v400 }}>
-              +{group.member_number}
-            </Caption>
-          </ProfilePhotoContainer>
+          />
+        </ProfilePhotoContainer>
+        <ProfilePhotoContainer
+          style={{
+            marginRight: 20,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Caption style={{ color: Colors.gray.v400 }}>
+            +{group.member_number}
+          </Caption>
+        </ProfilePhotoContainer>
+        <View
+          style={{
+            height: '100%',
+            width: 127,
+            paddingVertical: 7,
+          }}
+        >
           <View
             style={{
-              height: '100%',
-              width: 127,
-              paddingVertical: 7,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 8,
             }}
           >
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 8,
-              }}
-            >
-              <VerifiedSvg
-                style={{ marginRight: 4 }}
-                fill={
-                  isVerifiedGroup(group)
-                    ? Colors.primary.blue
-                    : Colors.gray.v400
-                }
-              />
-              <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
-                {group.group_members
-                  .map((groupMember) => getOrganization(groupMember))
-                  .join('/')}
-              </Caption>
-            </View>
-            <GroupDesc_v2
-              memberNumber={group.member_number}
-              memberAvgAge={group.member_avg_age}
+            <VerifiedSvg
+              style={{ marginRight: 4 }}
+              fill={
+                isVerifiedGroup(group) ? Colors.primary.blue : Colors.gray.v400
+              }
             />
+            <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
+              {group.group_members
+                .map((groupMember) => getOrganization(groupMember))
+                .join('/')}
+            </Caption>
           </View>
+          <GroupDesc_v2
+            memberNumber={group.member_number}
+            memberAvgAge={group.member_avg_age}
+          />
         </View>
-      </GroupItemContainer>
-    )
-  },
-)
+      </View>
+    </GroupItemContainer>
+  )
+}
 
 const Container = styled(View)`
   margin-bottom: 155px;
