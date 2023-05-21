@@ -95,33 +95,7 @@ export const MyScreen = () => {
                 return
               }
               navigation.navigate('NewGroupDetailScreen', {
-                title: data.joined_groups
-                  ? data.joined_groups[0].group.title
-                  : '-',
-                meetup_date: data.joined_groups
-                  ? data.joined_groups[0].group.meetup_date
-                  : '-',
-                member_avg_age: data.joined_groups
-                  ? data.joined_groups[0].group.member_avg_age
-                  : -1,
-                member_number: data.joined_groups
-                  ? data.joined_groups[0].group.member_number
-                  : -1,
-
-                meetup_address: data.joined_groups
-                  ? data.joined_groups[0].group.meetup_address
-                  : '-',
-                introduction: data.joined_groups
-                  ? data.joined_groups[0].group.introduction
-                  : '-',
-                job:
-                  data.user.verified_company_name ??
-                  data.user.verified_school_name ??
-                  data.user.job_title,
-                isJobVerified:
-                  !!data.user.verified_company_name ||
-                  !!data.user.verified_school_name,
-                profileImage: data.user_profile_images[0].image,
+                id: data.joined_groups[0].group.id,
               })
             }}
             style={{ marginRight: 12 }}
