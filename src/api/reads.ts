@@ -61,7 +61,6 @@ export const useGroupList = (filter?: string) => {
   )
   return {
     data: res,
-    isLoading: !error && !res,
     isError: error,
     size,
     setSize,

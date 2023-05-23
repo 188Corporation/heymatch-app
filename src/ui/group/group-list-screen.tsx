@@ -103,16 +103,18 @@ export const GroupListScreen = observer(() => {
                   return (
                     <GroupItem
                       key={String(group.item.created_at)}
-                      id={
-                        // TODO group.item.id
-                        100
-                      }
                       group={group.item}
                     />
                   )
                 }}
                 onEndReached={() => setSize(size + 1)}
-                ListFooterComponent={<ActivityIndicator size='large' />}
+                ListFooterComponent={
+                  <>
+                    {groupLists[groupLists?.length - 1].data.next && (
+                      <ActivityIndicator size='large' />
+                    )}
+                  </>
+                }
               />
             </>
           ) : (
@@ -455,7 +457,7 @@ const PeriodCalenderModal = ({
   )
 }
 
-const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
+const GroupItem = ({ group }: { group: GroupsListItem }) => {
   const isVerifiedGroup = (_group: GroupsListItem): boolean => {
     return _group.group_members.some(
       (member) =>
@@ -466,7 +468,7 @@ const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
   return (
     <GroupItemContainer
       onPress={() => {
-        navigation.navigate('NewGroupDetailScreen', { id: id })
+        navigation.navigate('NewGroupDetailScreen', { id: group.id })
       }}
     >
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
