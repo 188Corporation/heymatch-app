@@ -1,20 +1,25 @@
 import { UserProfileBgSVG, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { UserProfileImages } from 'infra/types'
 import { convertBodyform, getAge, getOrganization } from 'infra/util'
 import { UserProfileScreenProps } from 'navigation/types'
-import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import React, { ReactNode, useState } from 'react'
+import { Image, TouchableOpacity, View } from 'react-native'
+import Modal from 'react-native-modal'
+import Carousel from 'react-native-reanimated-carousel'
 import styled from 'styled-components'
 import { Avatar, AvatarRing } from 'ui/common/avatar'
 import { Row } from 'ui/common/layout'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, H2 } from 'ui/common/text'
+import { Body, CaptionS, H2 } from 'ui/common/text'
 
 export const UserProfileScreen: React.FC<UserProfileScreenProps> = (props) => {
   const { user } = props.route.params
   const isVerified = user.verified_company_name || user.verified_school_name
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
   return (
-    <View>
+    <>
       <NavigationHeader backButtonStyle='black' title='' />
       <View style={{ flexGrow: 1 }}>
         <View style={{ position: 'absolute' }}>
@@ -28,7 +33,9 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = (props) => {
               marginBottom: 16,
               marginTop: 47,
             }}
-            onPress={() => {}}
+            onPress={() => {
+              setIsModalVisible(true)
+            }}
           >
             <AvatarRing>
               <Avatar
@@ -71,13 +78,84 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = (props) => {
               몸매를 소유했어요
             </H2>
           </View>
+          <CarouselModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+          >
+            <ProfileImagesCarousel images={user.user_profile_images} />
+          </CarouselModal>
         </Container>
       </View>
-    </View>
+    </>
   )
 }
 
 const Container = styled(View)`
   padding-horizontal: 20px;
   align-items: center;
+`
+
+const CarouselModal = ({
+  isVisible,
+  onClose,
+  children,
+}: {
+  isVisible: boolean
+  onClose: () => void
+  children: ReactNode
+}) => {
+  return (
+    <Modal isVisible={isVisible} onBackdropPress={onClose}>
+      {isVisible && <>{children}</>}
+    </Modal>
+  )
+}
+
+const ProfileImagesCarousel = ({ images }: { images: UserProfileImages[] }) => {
+  return (
+    <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Carousel
+        data={images.map((image) => image.thumbnail_blurred)}
+        loop={false}
+        width={240}
+        height={240}
+        mode='parallax'
+        modeConfig={{
+          parallaxScrollingScale: 0.9,
+          parallaxScrollingOffset: 50,
+        }}
+        scrollAnimationDuration={1000}
+        renderItem={({ index }) => {
+          return (
+            <>
+              {index === 0 && (
+                <Chip>
+                  <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
+                </Chip>
+              )}
+              <Image
+                style={{ width: 240, height: 240, borderRadius: 20 }}
+                source={{
+                  uri: images[index].thumbnail_blurred,
+                }}
+              />
+            </>
+          )
+        }}
+      />
+    </Row>
+  )
+}
+
+const Chip = styled(View)`
+  width: 33px;
+  height: 23px;
+  border-radius: 8px;
+  background-color: ${Colors.primary.blue};
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 24px;
+  left: 26px;
+  z-index: 100;
 `

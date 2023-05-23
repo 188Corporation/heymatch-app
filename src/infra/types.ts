@@ -35,7 +35,7 @@ export type JobTitle =
 export type OrganizationType = 'school' | 'company'
 // n: not verified | u: under verification | a: accepted | r: rejected
 type UserProfileImageStatus = 'n' | 'u' | 'a' | 'r'
-type UserProfileImages = {
+export type UserProfileImages = {
   is_main: boolean
   status: UserProfileImageStatus
   image: string
