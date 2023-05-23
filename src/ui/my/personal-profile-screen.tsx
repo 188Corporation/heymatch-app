@@ -1,5 +1,7 @@
 import { PersonalBgSVG, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { convertBodyform, getAge, getOrganization } from 'infra/util'
+import { PersonalProfileScreenProps } from 'navigation/types'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
@@ -8,7 +10,11 @@ import { Row } from 'ui/common/layout'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H2 } from 'ui/common/text'
 
-export const PersonalProfileScreen = () => {
+export const PersonalProfileScreen: React.FC<PersonalProfileScreenProps> = (
+  props,
+) => {
+  const { user } = props.route.params
+  const isVerified = user.verified_company_name || user.verified_school_name
   return (
     <View>
       <NavigationHeader backButtonStyle='black' title='' />
@@ -30,16 +36,22 @@ export const PersonalProfileScreen = () => {
               <Avatar
                 side={102}
                 source={{
-                  uri: '',
+                  uri: user.user_profile_images[0].image,
                 }}
               />
             </AvatarRing>
           </TouchableOpacity>
-          <H2>수수, 만 27세</H2>
+          <H2>
+            {user.username}, 만 {getAge(user.birthdate)}세
+          </H2>
           <Row style={{ alignItems: 'center', marginBottom: 64 }}>
-            <VerifiedSvg fill={Colors.primary.blue} />
+            {isVerified && <VerifiedSvg fill={Colors.primary.blue} />}
             <Body style={{ color: Colors.gray.v400 }}>
-              삼성전자 | UX디자이너
+              {getOrganization(
+                user.verified_company_name,
+                user.verified_school_name,
+                user.job_title,
+              )}
             </Body>
           </Row>
           <View
@@ -52,8 +64,14 @@ export const PersonalProfileScreen = () => {
               justifyContent: 'center',
             }}
           >
-            <H2>키 168CM에</H2>
-            <H2>슬림 탄탄 몸매를 소유했어요</H2>
+            <H2>키 {user.height_cm}CM에</H2>
+            <H2>
+              {convertBodyform(
+                user.gender,
+                user.male_body_form ?? user.female_body_form,
+              )}{' '}
+              몸매를 소유했어요
+            </H2>
           </View>
         </Container>
       </View>

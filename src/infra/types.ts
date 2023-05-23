@@ -169,7 +169,11 @@ export interface GroupMember {
   user: {
     id: string
     gender: Gender
-    birthdata: string
+    username: string
+    height_cm: number
+    male_body_form: MaleBodyForm
+    female_body_form: FemaleBodyForm
+    birthdate: string
     job_title: JobTitle
     verified_school_name: string
     verified_company_name: string

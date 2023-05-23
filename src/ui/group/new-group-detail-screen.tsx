@@ -134,7 +134,9 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('PersonalProfileScreen')
+                  navigation.navigate('PersonalProfileScreen', {
+                    user: leader.user,
+                  })
                 }}
               >
                 <CaptionS

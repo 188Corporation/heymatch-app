@@ -2,8 +2,8 @@ import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
 import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { GroupMember, GroupsListItem } from 'infra/types'
-import { convertJobtitle } from 'infra/util'
+import { GroupsListItem } from 'infra/types'
+import { getOrganization } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useEffect, useState } from 'react'
@@ -456,22 +456,6 @@ const PeriodCalenderModal = ({
 }
 
 const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
-  const getOrganization = (groupMember: GroupMember) => {
-    const verifiedSchoolName = groupMember.user.verified_school_name
-    const verifiedCompanyName = groupMember.user.verified_company_name
-    if (!verifiedSchoolName && !verifiedCompanyName) {
-      return groupMember.user.job_title
-        ? convertJobtitle(groupMember.user.job_title)
-        : '기타'
-    }
-    if (verifiedCompanyName) {
-      return verifiedCompanyName
-    }
-    if (verifiedSchoolName) {
-      return verifiedSchoolName
-    }
-  }
-
   const isVerifiedGroup = (_group: GroupsListItem): boolean => {
     return _group.group_members.some(
       (member) =>
@@ -534,7 +518,13 @@ const GroupItem = ({ id, group }: { id: number; group: GroupsListItem }) => {
             />
             <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
               {group.group_members
-                .map((groupMember) => getOrganization(groupMember))
+                .map((groupMember) =>
+                  getOrganization(
+                    groupMember.user.verified_company_name,
+                    groupMember.user.verified_school_name,
+                    groupMember.user.job_title,
+                  ),
+                )
                 .join('/')}
             </Caption>
           </View>

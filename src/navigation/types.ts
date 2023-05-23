@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import {
   GroupDetail_regacy,
+  GroupMember,
   MatchRequestStatus,
   MatchRequestType,
 } from 'infra/types'
@@ -40,7 +41,7 @@ export type RootStackParamList = {
   PersonalProfileEditScreen: {}
   EditPersonalInfoStacks: {}
   NewGroupDetailScreen: { id: number }
-  PersonalProfileScreen: {}
+  PersonalProfileScreen: { user: GroupMember['user'] }
   // TODO: 서버 작동하면 삭제하기
   GroupListScreen: {}
   SearchPlaceResultsScreen: {}
@@ -70,4 +71,9 @@ export type ProfilePhotoVerificationScreenProps = StackScreenProps<
 export type NewGroupDetailScreenProps = StackScreenProps<
   RootStackParamList,
   'NewGroupDetailScreen'
+>
+
+export type PersonalProfileScreenProps = StackScreenProps<
+  RootStackParamList,
+  'PersonalProfileScreen'
 >
