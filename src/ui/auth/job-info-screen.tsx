@@ -79,7 +79,7 @@ export const JobInfoScreen = observer(() => {
           </RadioForm>
         </Container>
       </FlexScrollView>
-      {data?.user.has_account && (
+      {!data?.user.has_account && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -146,7 +146,7 @@ export const JobInfoScreen = observer(() => {
                 userProfileStore.jobTitle,
               )
               await mutate('/users/my/')
-              if (!data?.user.has_account) {
+              if (data?.user.has_account) {
                 navigation.navigate('MyScreen')
               } else {
                 // TODO: profile-photo-examination 혹은 메인화면

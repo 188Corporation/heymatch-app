@@ -1,7 +1,7 @@
-import { PersonalBgSVG, VerifiedSvg } from 'image'
+import { UserProfileBgSVG, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { convertBodyform, getAge, getOrganization } from 'infra/util'
-import { PersonalProfileScreenProps } from 'navigation/types'
+import { UserProfileScreenProps } from 'navigation/types'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
@@ -10,9 +10,7 @@ import { Row } from 'ui/common/layout'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H2 } from 'ui/common/text'
 
-export const PersonalProfileScreen: React.FC<PersonalProfileScreenProps> = (
-  props,
-) => {
+export const UserProfileScreen: React.FC<UserProfileScreenProps> = (props) => {
   const { user } = props.route.params
   const isVerified = user.verified_company_name || user.verified_school_name
   return (
@@ -20,7 +18,7 @@ export const PersonalProfileScreen: React.FC<PersonalProfileScreenProps> = (
       <NavigationHeader backButtonStyle='black' title='' />
       <View style={{ flexGrow: 1 }}>
         <View style={{ position: 'absolute' }}>
-          <PersonalBgSVG />
+          <UserProfileBgSVG />
         </View>
         <Container>
           <TouchableOpacity

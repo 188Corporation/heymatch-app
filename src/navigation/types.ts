@@ -38,10 +38,10 @@ export type RootStackParamList = {
   EmailVerificationCodeInputScreen: {}
   SelectSubsidiaryScreen: {}
   ConfirmCompanyScreen: {}
-  PersonalProfileEditScreen: {}
-  EditPersonalInfoStacks: {}
+  EditUserProfileScreen: {}
+  EditUserInfoStacks: {}
   NewGroupDetailScreen: { id: number }
-  PersonalProfileScreen: { user: GroupMember['user'] }
+  UserProfileScreen: { user: GroupMember['user'] }
   // TODO: 서버 작동하면 삭제하기
   GroupListScreen: {}
   SearchPlaceResultsScreen: {}
@@ -73,7 +73,7 @@ export type NewGroupDetailScreenProps = StackScreenProps<
   'NewGroupDetailScreen'
 >
 
-export type PersonalProfileScreenProps = StackScreenProps<
+export type UserProfileScreenProps = StackScreenProps<
   RootStackParamList,
-  'PersonalProfileScreen'
+  'UserProfileScreen'
 >

@@ -27,14 +27,14 @@ import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { NewGroupDetailScreen } from 'ui/group/new-group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
-import { EditPersonalProfileScreen } from 'ui/my/edit-personal-profile-screen'
-import { PersonalProfileScreen } from 'ui/my/personal-profile-screen'
+import { EditUserProfileScreen } from 'ui/my/edit-user-profile-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
+import { UserProfileScreen } from 'ui/my/user-profile-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
-import { EditPersonalInfoStacks } from './edit-personal-info-stacks'
+import { EditUserInfoStacks } from './edit-user-info-stacks'
 import { NewGroupCreateStacks } from './new-group-create-stacks'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -126,20 +126,20 @@ export const RootStacks = observer(() => {
             component={SearchPlaceResultsScreen}
           />
           <Stack.Screen
-            name='PersonalProfileEditScreen'
-            component={EditPersonalProfileScreen}
+            name='EditUserProfileScreen'
+            component={EditUserProfileScreen}
           />
           <Stack.Screen
-            name='EditPersonalInfoStacks'
-            component={EditPersonalInfoStacks}
+            name='EditUserInfoStacks'
+            component={EditUserInfoStacks}
           />
           <Stack.Screen
             name='NewGroupDetailScreen'
             component={NewGroupDetailScreen}
           />
           <Stack.Screen
-            name='PersonalProfileScreen'
-            component={PersonalProfileScreen}
+            name='UserProfileScreen'
+            component={UserProfileScreen}
           />
         </>
       )}

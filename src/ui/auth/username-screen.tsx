@@ -20,7 +20,7 @@ export const UsernameScreen = observer(() => {
   const isEditing = !!data?.user.has_account
   return (
     <KeyboardAvoidingView>
-      {!data?.user.has_account ? (
+      {data?.user.has_account ? (
         <NavigationHeader backButtonStyle='black' title='' />
       ) : (
         <TopInsetSpace />

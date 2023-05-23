@@ -13,7 +13,7 @@ import { COMMON_STACK_SCREEN_OPTIONS } from './common'
 
 const Stack = createStackNavigator()
 
-export const EditPersonalInfoStacks = () => {
+export const EditUserInfoStacks = () => {
   return (
     <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
       <Stack.Screen name='UsernameScreen' component={UsernameScreen} />

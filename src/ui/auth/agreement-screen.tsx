@@ -17,18 +17,18 @@ export const AgreementScreen = observer(() => {
   const { authStore } = useStores()
 
   const [isServiceChecked, setIsServiceChecked] = useState(false)
-  const [isPersonalInfoChecked, setIsPersonalInfoChecked] = useState(false)
+  const [isUserInfoChecked, setIsUserInfoChecked] = useState(false)
   const [isGeoChecked, setIsGeoChecked] = useState(false)
   const [isAllChecked, setIsAllChecked] = useState(
-    isServiceChecked && isPersonalInfoChecked && isGeoChecked,
+    isServiceChecked && isUserInfoChecked && isGeoChecked,
   )
   useEffect(() => {
-    if (isServiceChecked && isPersonalInfoChecked && isGeoChecked) {
+    if (isServiceChecked && isUserInfoChecked && isGeoChecked) {
       setIsAllChecked(true)
     } else {
       setIsAllChecked(false)
     }
-  }, [isGeoChecked, isPersonalInfoChecked, isServiceChecked])
+  }, [isGeoChecked, isUserInfoChecked, isServiceChecked])
 
   return (
     <>
@@ -49,19 +49,17 @@ export const AgreementScreen = observer(() => {
             onPress={() => {
               if (isAllChecked) {
                 setIsServiceChecked(false)
-                setIsPersonalInfoChecked(false)
+                setIsUserInfoChecked(false)
                 setIsGeoChecked(false)
               } else {
                 setIsServiceChecked(true)
-                setIsPersonalInfoChecked(true)
+                setIsUserInfoChecked(true)
                 setIsGeoChecked(true)
               }
             }}
           >
             <BouncyCheckbox
-              isChecked={
-                isServiceChecked && isPersonalInfoChecked && isGeoChecked
-              }
+              isChecked={isServiceChecked && isUserInfoChecked && isGeoChecked}
               fillColor={Colors.primary.blue}
               size={24}
               disabled
@@ -121,10 +119,10 @@ export const AgreementScreen = observer(() => {
                 flexDirection: 'row',
                 borderRadius: 0,
               }}
-              onPress={() => setIsPersonalInfoChecked((prev) => !prev)}
+              onPress={() => setIsUserInfoChecked((prev) => !prev)}
             >
               <BouncyCheckbox
-                isChecked={isPersonalInfoChecked}
+                isChecked={isUserInfoChecked}
                 fillColor={Colors.primary.blue}
                 size={24}
                 disabled

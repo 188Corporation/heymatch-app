@@ -110,7 +110,7 @@ export const MyScreen = () => {
           <MyButton
             onPress={() => {
               initializeUserProfileStore()
-              navigation.navigate('PersonalProfileEditScreen')
+              navigation.navigate('EditUserProfileScreen')
             }}
           >
             <Caption>프로필 편집</Caption>
@@ -147,7 +147,7 @@ export const MyScreen = () => {
       <Menu
         onPress={() => {
           initializeUserProfileStore()
-          navigation.navigate('EditPersonalInfoStacks', {
+          navigation.navigate('EditUserInfoStacks', {
             screen: 'JobInfoScreen',
           })
         }}

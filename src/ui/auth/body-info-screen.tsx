@@ -110,11 +110,11 @@ export const BodyInfoScreen = observer(() => {
         />
       )}
       <BottomButton
-        text={!data?.user.has_account ? '수정하기' : '다음으로'}
+        text={data?.user.has_account ? '수정하기' : '다음으로'}
         disabled={!userProfileStore.getBodyForm}
         onPress={() => {
           userProfileStore.setHeight(height)
-          if (!data?.user.has_account) {
+          if (data?.user.has_account) {
             navigation.goBack()
           } else {
             navigation.navigate('JobInfoScreen')
