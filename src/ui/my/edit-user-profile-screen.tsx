@@ -140,18 +140,31 @@ export const EditUserProfileScreen = observer(() => {
         onPress={async () => {
           setLoading(true)
           try {
-            await editUserInfo(
-              userProfileStore.username,
-              userProfileStore.gender!,
-              userProfileStore.birthdate!,
-              profilePhotos.mainPhoto,
-              profilePhotos.sub1Photo,
-              profilePhotos.sub2Photo,
-              userProfileStore.height,
-              userProfileStore.maleBodyForm,
-              userProfileStore.femaleBodyForm,
-              data.user.job_title,
-            )
+            profilePhotos.mainPhoto !== data.user_profile_images[0].image ||
+              profilePhotos.sub1Photo !== data.user_profile_images[1]?.image ||
+              profilePhotos.sub2Photo !== data.user_profile_images[2]?.image
+
+            await editUserInfo({
+              username: userProfileStore.username,
+              gender: userProfileStore.gender!,
+              birthdate: userProfileStore.birthdate!,
+              mainProfileImage:
+                profilePhotos.mainPhoto !== data.user_profile_images[0].image
+                  ? userProfileStore.photos.mainPhoto
+                  : undefined,
+              otherProfileImage1:
+                profilePhotos.sub1Photo !== data.user_profile_images[1]?.image
+                  ? userProfileStore.photos.sub1Photo
+                  : undefined,
+              otherProfileImage2:
+                profilePhotos.sub2Photo !== data.user_profile_images[2]?.image
+                  ? userProfileStore.photos.sub2Photo
+                  : undefined,
+              heightCm: userProfileStore.height,
+              maleBodyForm: userProfileStore.maleBodyForm,
+              femaleBodyForm: userProfileStore.femaleBodyForm,
+              jobTitle: userProfileStore.jobTitle,
+            })
             await mutate('/users/my/')
             // TODO: 프로필 인증 대기 화면으로 가야함.
             navigation.goBack()

@@ -246,40 +246,52 @@ export const deleteChat = async (chatId: string) => {
   if (res.code !== 200) throw new ApiError(res)
 }
 
-export const editUserInfo = async (
-  username: string,
-  gender: Gender,
-  birthdate: string,
-  main_profile_image: string,
-  other_profile_image1?: string,
-  other_profile_image2?: string,
-  height_cm?: number | null,
-  male_body_form?: MaleBodyForm | null,
-  female_body_form?: FemaleBodyForm | null,
-  job_title?: JobTitle | null,
-) => {
+export const editUserInfo = async ({
+  username,
+  gender,
+  birthdate,
+  mainProfileImage,
+  otherProfileImage1,
+  otherProfileImage2,
+  heightCm,
+  maleBodyForm,
+  femaleBodyForm,
+  jobTitle,
+}: {
+  username?: string
+  gender?: Gender
+  birthdate?: string
+  mainProfileImage?: string
+  otherProfileImage1?: string
+  otherProfileImage2?: string
+  heightCm?: number | null
+  maleBodyForm?: MaleBodyForm | null
+  femaleBodyForm?: FemaleBodyForm | null
+  jobTitle?: JobTitle | null
+}) => {
   const form = new FormData()
-  form.append('username', username)
-  form.append('gender', gender)
-  form.append('birthdate', birthdate)
-  height_cm && form.append('height_cm', height_cm)
-  male_body_form && form.append('male_body_form', male_body_form)
-  female_body_form && form.append('female_body_form', female_body_form)
-  job_title && form.append('job_title', job_title)
-  form.append('main_profile_image', {
-    uri: main_profile_image,
-    type: 'image/jpeg',
-    name: 'main_photo.jpg',
-  })
-  other_profile_image1 &&
+  username && form.append('username', username)
+  gender && form.append('gender', gender)
+  birthdate && form.append('birthdate', birthdate)
+  heightCm && form.append('height_cm', heightCm)
+  maleBodyForm && form.append('male_body_form', maleBodyForm)
+  femaleBodyForm && form.append('female_body_form', femaleBodyForm)
+  jobTitle && form.append('job_title', jobTitle)
+  mainProfileImage &&
+    form.append('main_profile_image', {
+      uri: mainProfileImage,
+      type: 'image/jpeg',
+      name: 'main_photo.jpg',
+    })
+  otherProfileImage1 &&
     form.append('other_profile_image_1', {
-      uri: other_profile_image1,
+      uri: otherProfileImage1,
       type: 'image/jpeg',
       name: 'sub_photo1.jpg',
     })
-  other_profile_image2 &&
+  otherProfileImage2 &&
     form.append('other_profile_image_2', {
-      uri: other_profile_image2,
+      uri: otherProfileImage2,
       type: 'image/jpeg',
       name: 'sub_photo2.jpg',
     })

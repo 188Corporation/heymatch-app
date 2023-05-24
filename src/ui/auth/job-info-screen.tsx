@@ -94,18 +94,18 @@ export const JobInfoScreen = observer(() => {
                 setLoading(true)
                 userProfileStore.setJobTitle('etc')
                 try {
-                  await editUserInfo(
-                    userProfileStore.username,
-                    userProfileStore.gender!,
-                    userProfileStore.birthdate!,
-                    userProfileStore.photos.mainPhoto,
-                    userProfileStore.photos.sub1Photo,
-                    userProfileStore.photos.sub2Photo,
-                    userProfileStore.height,
-                    userProfileStore.maleBodyForm,
-                    userProfileStore.femaleBodyForm,
-                    userProfileStore.jobTitle,
-                  )
+                  await editUserInfo({
+                    username: userProfileStore.username,
+                    gender: userProfileStore.gender!,
+                    birthdate: userProfileStore.birthdate!,
+                    mainProfileImage: userProfileStore.photos.mainPhoto,
+                    otherProfileImage1: userProfileStore.photos.sub1Photo,
+                    otherProfileImage2: userProfileStore.photos.sub2Photo,
+                    heightCm: userProfileStore.height,
+                    maleBodyForm: userProfileStore.maleBodyForm,
+                    femaleBodyForm: userProfileStore.femaleBodyForm,
+                    jobTitle: userProfileStore.jobTitle,
+                  })
                   await mutate('/users/my/')
                   // TODO: profile-photo-examination 혹은 메인화면
                   navigation.navigate('ProfilePhotoVerificationScreen', {
@@ -133,18 +133,18 @@ export const JobInfoScreen = observer(() => {
           } else {
             setLoading(true)
             try {
-              await editUserInfo(
-                userProfileStore.username,
-                userProfileStore.gender!,
-                userProfileStore.birthdate!,
-                userProfileStore.photos.mainPhoto,
-                userProfileStore.photos.sub1Photo,
-                userProfileStore.photos.sub2Photo,
-                userProfileStore.height,
-                userProfileStore.maleBodyForm,
-                userProfileStore.femaleBodyForm,
-                userProfileStore.jobTitle,
-              )
+              await editUserInfo({
+                username: userProfileStore.username,
+                gender: userProfileStore.gender!,
+                birthdate: userProfileStore.birthdate!,
+                mainProfileImage: userProfileStore.photos.mainPhoto,
+                otherProfileImage1: userProfileStore.photos.sub1Photo,
+                otherProfileImage2: userProfileStore.photos.sub2Photo,
+                heightCm: userProfileStore.height,
+                maleBodyForm: userProfileStore.maleBodyForm,
+                femaleBodyForm: userProfileStore.femaleBodyForm,
+                jobTitle: userProfileStore.jobTitle,
+              })
               await mutate('/users/my/')
               if (data?.user.has_account) {
                 navigation.navigate('MyScreen')
