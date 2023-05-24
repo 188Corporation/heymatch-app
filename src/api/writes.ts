@@ -299,3 +299,10 @@ export const editUserInfo = async ({
   if (res.code !== 200) throw new ApiError(res)
   return res.data
 }
+
+export const checkUsername = async (username: string) => {
+  const res: ResponseEnvelope<{}> = await postRequest('/users/check-username', {
+    username,
+  })
+  if (res.code !== 200) throw new ApiError(res)
+}

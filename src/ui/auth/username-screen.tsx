@@ -1,23 +1,27 @@
 import { useMy } from 'api/reads'
+import { checkUsername } from 'api/writes'
+import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Input } from 'ui/common/input'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Caption, DescBody2, H1 } from 'ui/common/text'
+import { Body2, Caption, DescBody2, H1 } from 'ui/common/text'
 
 export const UsernameScreen = observer(() => {
   const { data } = useMy()
   const { userProfileStore } = useStores()
-  const isUnique = false
+  const [isUnique, setIsUnique] = useState<boolean | null>(null)
   const isEditing = !!data?.user.has_account
+
   return (
     <KeyboardAvoidingView>
       {data?.user.has_account ? (
@@ -39,10 +43,31 @@ export const UsernameScreen = observer(() => {
               value={userProfileStore.username}
               onValueChange={(v) => {
                 userProfileStore.setUsername(v)
+                setIsUnique(null)
               }}
               letterCase='lower'
             />
-            <SubButton onPress={() => {}}>
+            {isUnique === false && (
+              <Body2 style={{ marginTop: 4, color: Colors.primary.red }}>
+                이미 존재하는 닉네임이에요!
+              </Body2>
+            )}
+            {isUnique === true && (
+              <Body2 style={{ marginTop: 4, color: Colors.primary.blue }}>
+                사용 가능한 닉네임이에요!
+              </Body2>
+            )}
+            <SubButton
+              onPress={async () => {
+                try {
+                  await checkUsername(userProfileStore.username)
+                  await mutate('/users/my/')
+                  setIsUnique(true)
+                } catch (e) {
+                  setIsUnique(false)
+                }
+              }}
+            >
               <Caption>중복 확인</Caption>
             </SubButton>
           </Container>
@@ -50,7 +75,7 @@ export const UsernameScreen = observer(() => {
       </View>
       <BottomButton
         text={isEditing ? '수정하기' : '다음으로'}
-        disabled={!userProfileStore.username && isUnique}
+        disabled={!userProfileStore.username || !isUnique}
         onPress={() => {
           if (isEditing) {
             navigation.goBack()
