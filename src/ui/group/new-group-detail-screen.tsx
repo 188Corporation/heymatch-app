@@ -1,7 +1,8 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
 import { useGroup, useMy } from 'api/reads'
 import { deleteGroup, sendMatchRequest } from 'api/writes'
-import { SendSvg, VerifiedSvg } from 'image'
+import { ClipboardSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 import { convertJobtitle } from 'infra/util'
@@ -40,6 +41,10 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
   const leader = groupData.group_members[0]
 
   const isEditing = id === myData.joined_groups?.[0].group.id
+
+  const copyToClipboard = () => {
+    Clipboard.setString(groupData.meetup_place_title)
+  }
 
   return (
     <>
@@ -167,9 +172,14 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
           </View>
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
-            <Body style={{ color: Colors.gray.v500 }}>
-              {groupData.meetup_place_title}
-            </Body>
+            <Row>
+              <Body style={{ color: Colors.gray.v500 }}>
+                {groupData.meetup_place_title}
+              </Body>
+              <TouchableOpacity onPress={copyToClipboard}>
+                <ClipboardSvg />
+              </TouchableOpacity>
+            </Row>
           </View>
           <View style={{ height: 150, marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>소개</H3>

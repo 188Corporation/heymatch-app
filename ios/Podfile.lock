@@ -355,7 +355,7 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-cameraroll (5.4.0):
+  - react-native-cameraroll (5.5.0):
     - React-Core
   - react-native-cookies (6.2.1):
     - React-Core
@@ -382,7 +382,7 @@ PODS:
   - react-native-pure-jwt (3.0.1):
     - JWT (= 3.0.0-beta.12)
     - React
-  - react-native-safe-area-context (4.5.2):
+  - react-native-safe-area-context (4.5.3):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -458,6 +458,8 @@ PODS:
     - React-perflogger (= 0.70.6)
   - RNCAsyncStorage (1.18.1):
     - React-Core
+  - RNCClipboard (1.11.2):
+    - React-Core
   - RNCMaskedView (0.2.9):
     - React-Core
   - RNCPicker (2.4.10):
@@ -478,7 +480,7 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.10.0):
+  - RNGestureHandler (2.10.1):
     - React-Core
   - RNIap (12.10.5):
     - React-Core
@@ -618,6 +620,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
@@ -787,6 +790,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
   RNCPicker:
@@ -883,7 +888,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-cameraroll: 8ffb0af7a5e5de225fd667610e2979fc1f0c2151
+  react-native-cameraroll: 900722c56fde9bc5cf3bc8447acdcfeb290ab853
   react-native-cookies: f54fcded06bb0cda05c11d86788020b43528a26c
   react-native-date-picker: 04e866ba4e7857f83abd504ad42e787f0f02ae00
   react-native-document-picker: 69ca2094d8780cfc1e7e613894d15290fdc54bba
@@ -895,7 +900,7 @@ SPEC CHECKSUMS:
   react-native-onesignal: 7bd44dbd031d8d57110c0203836ffc37ddead526
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-pure-jwt: 94a3662655c6d677acb7b16048ed69b88b93073d
-  react-native-safe-area-context: 1d596539b05a78f2b346e954e7c577f6f9be7544
+  react-native-safe-area-context: b8979f5eda6ed5903d4dbc885be3846ea3daa753
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
@@ -910,6 +915,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
   RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
+  RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNCMaskedView: 949696f25ec596bfc697fc88e6f95cf0c79669b6
   RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
   RNDateTimePicker: 65e1d202799460b286ff5e741d8baf54695e8abd
@@ -917,7 +923,7 @@ SPEC CHECKSUMS:
   RNFBApp: d3d3ef4419e1696dd643d2596d314a5445180e21
   RNFBMessaging: 9c2ec6c0644e8b8d6b33f2bf653d0eebe81f8f5a
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: e145476da655f3dbc48ef2f0a08cf7a34338c02b
+  RNGestureHandler: 42ec7c28dd02d540ed6c9159c57a98ff016492dc
   RNIap: c397f49db45af3b10dca64b2325f21bb8078ad21
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda
   RNImageTools: 6bebbd918f5e6e99fff7cc1f9186738ee36f42cb
