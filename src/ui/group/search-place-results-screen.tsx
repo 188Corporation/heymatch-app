@@ -20,6 +20,10 @@ export const SearchPlaceResultsScreen = observer(() => {
     useGeocoding(address)
 
   useEffect(() => {
+    groupListStore.setSearchPlaceKeyword('')
+  }, [groupListStore])
+
+  useEffect(() => {
     if (isLoadingGeocoding) return
     if (
       !geocoding ||
