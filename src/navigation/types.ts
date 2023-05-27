@@ -42,8 +42,6 @@ export type RootStackParamList = {
   EditUserInfoStacks: {}
   NewGroupDetailScreen: { id: number }
   UserProfileScreen: { user: GroupMember['user'] }
-  // TODO: 서버 작동하면 삭제하기
-  GroupListScreen: {}
   SearchPlaceResultsScreen: {}
 }
 

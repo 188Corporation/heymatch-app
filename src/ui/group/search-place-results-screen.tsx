@@ -20,7 +20,13 @@ export const SearchPlaceResultsScreen = observer(() => {
 
   useEffect(() => {
     if (isLoadingGeocoding) return
-    if (!geocoding || !groupListStore.searchPlaceKeyword || !address) return
+    if (
+      !geocoding ||
+      !groupListStore.searchPlaceKeyword ||
+      !address ||
+      !geocoding.addresses.length
+    )
+      return
     const { x: longitude, y: latitude } = geocoding.addresses[0]
 
     locationStore._onLocationChange({

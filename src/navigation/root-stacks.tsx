@@ -97,7 +97,6 @@ export const RootStacks = observer(() => {
       ) : (
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />
-          {/* <Stack.Screen name='GroupCreateStack' component={GroupCreateStacks} /> */}
           <Stack.Screen
             name='NewGroupCreateStacks'
             component={NewGroupCreateStacks}
