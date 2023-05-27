@@ -11,6 +11,7 @@ import {
   PurchaseItem,
   ResponseEnvelope,
   SearchPlaceList,
+  TopRankedAddress,
 } from 'infra/types'
 import qs from 'query-string'
 import { PublicConfiguration } from 'swr/dist/types'
@@ -83,6 +84,9 @@ export const useMatchRequests = () =>
   }>('/match-requests/', undefined, {
     revalidateOnFocus: false,
   })
+
+export const useTopRankedAddress = () =>
+  useCustomSWR<TopRankedAddress>('/groups/top-ranked-address/')
 
 export const useChats = () => useCustomSWR<Chat[]>('/chats/')
 

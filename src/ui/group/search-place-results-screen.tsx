@@ -1,4 +1,4 @@
-import { useGeocoding, useSearchPlace } from 'api/reads'
+import { useGeocoding, useSearchPlace, useTopRankedAddress } from 'api/reads'
 import { CancelSvg, PinSvg, SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
@@ -6,6 +6,7 @@ import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TextInput, TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
+import { LoadingIndicator } from 'stream-chat-react-native'
 import styled from 'styled-components'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, DescBody2, H3 } from 'ui/common/text'
@@ -57,7 +58,7 @@ export const SearchPlaceResultsScreen = observer(() => {
       )
     } else {
       if (groupListStore.searchPlaceKeyword === '') {
-        return <HotPlaces />
+        return <HotPlaces setAddress={setAddress} />
       }
 
       if (
@@ -71,6 +72,7 @@ export const SearchPlaceResultsScreen = observer(() => {
           </>
         )
       }
+
       return (
         <>
           {searchPlaceList &&
@@ -164,6 +166,7 @@ const SearchInput = ({
         value={text}
         onChangeText={(v) => setText(v)}
         onEndEditing={() => {
+          if (!text) return
           handleEndEditing(text)
         }}
         placeholder='장소를 검색해볼까요?'
@@ -186,90 +189,62 @@ const SearchInput = ({
   )
 }
 
-export const HotPlaces = () => {
-  return (
-    <SearchPlacesContainer>
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}
-      >
-        <PinSvg fill={Colors.primary.red} />
-        <H3 style={{ color: Colors.primary.red }}>지금 뜨는 핫플</H3>
-      </View>
-      <View style={{ marginLeft: 4 }}>
+export const HotPlaces = observer(
+  ({
+    setAddress,
+  }: {
+    setAddress: React.Dispatch<React.SetStateAction<string>>
+  }) => {
+    const { data, isLoading } = useTopRankedAddress()
+    const { groupListStore } = useStores()
+
+    if (!data || isLoading) return <LoadingIndicator />
+
+    return (
+      <SearchPlacesContainer>
         <View
           style={{
-            marginBottom: 16,
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            marginBottom: 20,
           }}
         >
-          <View style={{ width: 30 }}>
-            <Body style={{ color: Colors.gray.v300 }}>1</Body>
-          </View>
-          <Body>압구정 로데오</Body>
+          <PinSvg fill={Colors.primary.red} />
+          <H3 style={{ color: Colors.primary.red }}>지금 뜨는 핫플</H3>
         </View>
-        <View
-          style={{
-            marginBottom: 16,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View style={{ width: 30 }}>
-            <Body style={{ color: Colors.gray.v300 }}>2</Body>
-          </View>
-          <Body>홍대 입구</Body>
+        <View style={{ marginLeft: 4 }}>
+          {Object.keys(data.result).map((x, index) => {
+            return (
+              <TouchableOpacity
+                key={`${index}-${x}`}
+                onPress={() => {
+                  groupListStore.setSearchPlaceKeyword(x)
+                  setAddress(x)
+                  if (!groupListStore.distanceFilter) {
+                    groupListStore.setDistanceFilter(10000)
+                  }
+                  navigation.goBack()
+                }}
+                style={{
+                  marginBottom: 16,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={{ width: 30 }}>
+                  <Body style={{ color: Colors.gray.v300 }}>{index + 1}</Body>
+                </View>
+                <Body>{x}</Body>
+              </TouchableOpacity>
+            )
+          })}
         </View>
-        <View
-          style={{
-            marginBottom: 16,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View style={{ width: 30 }}>
-            <Body style={{ color: Colors.gray.v300 }}>3</Body>
-          </View>
-          <Body>대구 반월당로</Body>
-        </View>
-        <View
-          style={{
-            marginBottom: 16,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View style={{ width: 30 }}>
-            <Body style={{ color: Colors.gray.v300 }}>4</Body>
-          </View>
-          <Body>합정</Body>
-        </View>
-        <View
-          style={{
-            marginBottom: 16,
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <View style={{ width: 30 }}>
-            <Body style={{ color: Colors.gray.v300 }}>5</Body>
-          </View>
-          <Body>문래동</Body>
-        </View>
-      </View>
-    </SearchPlacesContainer>
-  )
-}
+      </SearchPlacesContainer>
+    )
+  },
+)
 
 const SearchPlacesContainer = styled(View)`
   margin-top: 20px;

@@ -148,18 +148,19 @@ export const EditUserProfileScreen = observer(() => {
               username: userProfileStore.username,
               gender: userProfileStore.gender!,
               birthdate: userProfileStore.birthdate!,
-              mainProfileImage:
-                profilePhotos.mainPhoto !== data.user_profile_images[0].image
-                  ? userProfileStore.photos.mainPhoto
-                  : undefined,
-              otherProfileImage1:
-                profilePhotos.sub1Photo !== data.user_profile_images[1]?.image
-                  ? userProfileStore.photos.sub1Photo
-                  : undefined,
-              otherProfileImage2:
-                profilePhotos.sub2Photo !== data.user_profile_images[2]?.image
-                  ? userProfileStore.photos.sub2Photo
-                  : undefined,
+              mainProfileImage: profilePhotos.mainPhoto,
+
+              // !== data.user_profile_images[0].image
+              //   ? profilePhotos.mainPhoto
+              //   : undefined,
+              otherProfileImage1: profilePhotos.sub1Photo,
+              // !== data.user_profile_images[1]?.image
+              //   ? profilePhotos.sub1Photo
+              //   : undefined,
+              otherProfileImage2: profilePhotos.sub2Photo,
+              //  !== data.user_profile_images[2]?.image
+              //   ? profilePhotos.sub2Photo
+              //   : undefined,
               heightCm: userProfileStore.height,
               maleBodyForm: userProfileStore.maleBodyForm,
               femaleBodyForm: userProfileStore.femaleBodyForm,

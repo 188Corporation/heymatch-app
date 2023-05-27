@@ -333,3 +333,8 @@ export interface Geocoding {
   meta: { count: number; page: number; totalCount: number }
   status: string
 }
+
+export type TopRankedAddress = {
+  result: Map<string, number>
+  aggregated_at: string
+}
