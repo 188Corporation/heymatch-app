@@ -1,6 +1,6 @@
 import { useMatchRequests } from 'api/reads'
 import { SentMatchesPlaceholderSvg } from 'image'
-import { GroupDetail_regacy, MatchRequest, MatchRequestType } from 'infra/types'
+import { GroupDetail, MatchRequest, MatchRequestType } from 'infra/types'
 import React from 'react'
 import { FlatList } from 'react-native'
 import { ScreenPlaceholder } from 'ui/common/screen-placeholder'
@@ -24,7 +24,7 @@ export const SentMatchesScreen = () => {
           matchRequestId={x.id}
           status={x.status}
           type={MatchRequestType.SENT}
-          group={x.receiver_group as GroupDetail_regacy}
+          group={x.receiver_group as GroupDetail}
         />
       )}
       ListEmptyComponent={

@@ -31,7 +31,7 @@ const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
   props,
 ) => {
-  const { id } = props.route.params
+  const { id, matchRequest } = props.route.params
   const { data: groupData } = useGroup(id)
   const { data: myData } = useMy()
   const { alertStore } = useStores()
@@ -193,7 +193,11 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
         {!isEditing && (
           <>
             <ButtonContainer>
-              <ButtonContent data={groupData} setLoading={setLoading} />
+              <ButtonContent
+                data={groupData}
+                setLoading={setLoading}
+                matchRequest={matchRequest}
+              />
             </ButtonContainer>
             <BottomInsetSpace />
           </>

@@ -239,8 +239,8 @@ export interface MatchRequest {
   id: number
   status: MatchRequestStatus
   created_at: string
-  sender_group: number | GroupDetail_regacy
-  receiver_group: number | GroupDetail_regacy
+  sender_group: number | GroupDetail
+  receiver_group: number | GroupDetail
 }
 
 // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters

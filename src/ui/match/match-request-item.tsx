@@ -6,19 +6,14 @@ import {
 } from 'image'
 import { Colors } from 'infra/colors'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import {
-  GroupDetail_regacy,
-  MatchRequestStatus,
-  MatchRequestType,
-} from 'infra/types'
-import { geoinfoToGpsLocation } from 'infra/util'
+import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { accept, reject } from 'store/common-actions'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { GroupDesc } from 'ui/common/group-desc'
+import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { Column, Row } from 'ui/common/layout'
 import { Caption, H3 } from 'ui/common/text'
@@ -31,12 +26,17 @@ export const MatchRequestItem: React.FC<{
   matchRequestId: number
   status: MatchRequestStatus
   type: MatchRequestType
-  group: GroupDetail_regacy
+  group: GroupDetail
 }> = ({ matchRequestId, status, type, group }) => {
-  const { locationStore, alertStore, chatStore } = useStores()
+  const { alertStore, chatStore } = useStores()
   return (
     <Container width={CARD_WIDTH}>
-      <GroupImage source={{ uri: group.group_profile_images[0].image }} />
+      <GroupImage
+        source={{
+          uri: group.group_members[0].user.user_profile_images[0]
+            .thumbnail_blurred,
+        }}
+      />
       {status === MatchRequestStatus.REJECTED ? (
         <CardOverlayRejectedSvg />
       ) : (
@@ -45,8 +45,8 @@ export const MatchRequestItem: React.FC<{
       <ContentContainer>
         <UpperContainer
           onPress={() =>
-            navigation.navigate('GroupDetailScreen', {
-              data: group,
+            navigation.navigate('NewGroupDetailScreen', {
+              id: group.id,
               matchRequest: { id: matchRequestId, status, type },
             })
           }
@@ -54,9 +54,10 @@ export const MatchRequestItem: React.FC<{
           {status === MatchRequestStatus.WAITING &&
           type === MatchRequestType.RECEIVED ? (
             <Distance>
-              {locationStore.getDistance(
+              {/* TODO */}
+              {/* {locationStore.getDistance(
                 geoinfoToGpsLocation(group.gps_geoinfo),
-              )}
+              )} */}
             </Distance>
           ) : (
             <MatchRequestStatusLabel status={status} type={type} />
@@ -67,7 +68,11 @@ export const MatchRequestItem: React.FC<{
             }}
           >
             <GroupTitle>{group.title}</GroupTitle>
-            <GroupDesc data={group} color={Colors.gray.v200} />
+            <GroupDesc_v2
+              memberNumber={group.member_number}
+              memberAvgAge={group.member_avg_age}
+              color={Colors.gray.v200}
+            />
           </Column>
           <Row style={{ height: 24 }} />
         </UpperContainer>

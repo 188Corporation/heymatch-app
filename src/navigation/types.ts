@@ -40,7 +40,10 @@ export type RootStackParamList = {
   ConfirmCompanyScreen: {}
   EditUserProfileScreen: {}
   EditUserInfoStacks: {}
-  NewGroupDetailScreen: { id: number }
+  NewGroupDetailScreen: {
+    id: number
+    matchRequest?: MatchRequestTarget
+  }
   UserProfileScreen: { user: GroupMember['user'] }
   SearchPlaceResultsScreen: {}
 }
