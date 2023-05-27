@@ -138,9 +138,6 @@ export const SearchPlaceResultsScreen = observer(() => {
       <TopInsetSpace />
       <SearchInput
         handleEndEditing={(v) => groupListStore.setSearchPlaceKeyword(v)}
-        handleCancel={() => {
-          navigation.goBack()
-        }}
       />
       {renderSearchList()}
     </Container>
@@ -153,10 +150,8 @@ const Container = styled(View)`
 
 const SearchInput = ({
   handleEndEditing,
-  handleCancel,
 }: {
   handleEndEditing: (v: string) => void
-  handleCancel: () => void
 }) => {
   const [text, setText] = useState('')
 
@@ -184,7 +179,7 @@ const SearchInput = ({
         }}
       />
       <TouchableOpacity
-        onPress={handleCancel}
+        onPress={() => setText('')}
         style={{ position: 'absolute', right: 0, top: 10 }}
       >
         <CancelSvg />
