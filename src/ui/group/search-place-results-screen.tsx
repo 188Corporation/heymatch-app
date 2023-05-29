@@ -165,6 +165,7 @@ const SearchInput = ({
         value={text}
         onChangeText={(v) => setText(v)}
         onEndEditing={() => {
+          // blur 이벤트가 발생할 때 onEndEditing 콜백함수가 자동으로 실행됨.
           if (!text) return
           handleEndEditing(text)
         }}

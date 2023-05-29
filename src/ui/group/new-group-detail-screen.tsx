@@ -299,7 +299,6 @@ const ButtonContent: React.FC<{
 
   return (
     <Button
-      //TODO: 내 그룹이 없다면 alert
       text='매칭하기'
       onPress={() => {
         // check is my group
@@ -307,6 +306,18 @@ const ButtonContent: React.FC<{
           alertStore.open({
             title: '내 그룹과는 매칭할 수 없어요',
             body: '[핫플 탭] 에서 관심 가는 그룹을 찾아보세요 :)',
+          })
+          return
+        }
+        if (!myData?.joined_groups?.[0].group.id) {
+          alertStore.open({
+            title: '아직 속한 그룹이 없어요!',
+            body: '먼저 그룹을 생성해주세요!',
+            mainButton: '그룹 생성하기',
+            subButton: '나중에 하기',
+            onMainPress: () => {
+              navigation.navigate('NewGroupCreateStacks')
+            },
           })
           return
         }
@@ -320,7 +331,10 @@ const ButtonContent: React.FC<{
             if (myData.user.point_balance >= 1) {
               setLoading(true)
               try {
-                await sendMatchRequest(data.id)
+                await sendMatchRequest(
+                  myData?.joined_groups?.[0].group.id!,
+                  data.id,
+                )
                 alertStore.open({
                   title: `${data.title} 그룹과 매칭했어요!`,
                   body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',

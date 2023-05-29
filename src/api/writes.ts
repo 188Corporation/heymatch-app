@@ -194,9 +194,13 @@ export const sendReceipt = async (receipt: string) => {
   if (res.code !== 200) throw new ApiError(res)
 }
 
-export const sendMatchRequest = async (groupId: number) => {
+export const sendMatchRequest = async (
+  fromGroupId: number,
+  toGroupId: number,
+) => {
   const res: ResponseEnvelope<{}> = await postRequest('/match-requests/', {
-    group_id: groupId,
+    from_group_id: fromGroupId,
+    to_group_id: toGroupId,
   })
   if (res.code !== 200) throw new ApiError(res)
 }
