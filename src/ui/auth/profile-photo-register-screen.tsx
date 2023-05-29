@@ -77,7 +77,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               stage: 'BEFORE',
             })
           } catch (e) {
-            alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+            alertStore.error(e, '회원정보 등록에 실패했어요!')
           } finally {
             setLoading(false)
           }
