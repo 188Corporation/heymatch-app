@@ -7,6 +7,7 @@ import {
   putRequest,
 } from 'api/fetcher'
 import {
+  AuthorizeUser,
   FemaleBodyForm,
   Gender,
   GpsLocation,
@@ -15,7 +16,6 @@ import {
   MaleBodyForm,
   OrganizationType,
   ResponseEnvelope,
-  User,
 } from 'infra/types'
 import { gpsLocationToGeoinfo } from 'infra/util'
 import { Platform } from 'react-native'
@@ -37,7 +37,7 @@ export const authorizePhoneNumber = async (
   const res: ResponseEnvelope<{
     // valid for 6 months
     access_token: string
-    user: User
+    user: AuthorizeUser
     // not used for now
     refresh_token: string
   }> = await postRequest('/auth/phone/authorize/', {

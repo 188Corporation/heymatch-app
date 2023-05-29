@@ -60,7 +60,7 @@ export const RootStacks = observer(() => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : !authStore.isLoggedIn ? (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
-      ) : !authStore.isAgreementChecked ? (
+      ) : !authStore.hasAccount ? (
         <>
           <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
           <Stack.Screen name='UsernameScreen' component={UsernameScreen} />

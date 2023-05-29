@@ -65,6 +65,16 @@ export type User = {
   free_pass_active_until: string | null
 }
 
+export type AuthorizeUser = {
+  id: string
+  stream_token: string
+  has_account: boolean
+  is_main_profile_photo_under_verification: boolean
+  username: string
+  phone_number: string
+  schedule_delete_canceled: boolean
+}
+
 export interface MyInfo {
   user: User
   user_purchases: UserPurchase[]

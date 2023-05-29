@@ -1,18 +1,17 @@
 import { tokenManager } from 'api/fetcher'
 import { emitter, EventType } from 'infra/events'
 import { storage } from 'infra/storage'
-import { User } from 'infra/types'
+import { AuthorizeUser } from 'infra/types'
 import { makeAutoObservable } from 'mobx'
 import OneSignal from 'react-native-onesignal'
 import { decode } from 'react-native-pure-jwt'
 
 const TOKEN_KEY = 'auth:access-token'
-const AGREEMENT_KEY = 'auth:agreement'
-
+const HAS_ACCOUNT_KEY = 'auth:has-account'
 export class AuthStore {
   isInitializing: boolean = true
   isLoggedIn: boolean = false
-  isAgreementChecked: boolean = false
+  hasAccount: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -40,8 +39,8 @@ export class AuthStore {
       }
     })
     // read agreement from storage
-    storage.getItem<boolean>(AGREEMENT_KEY).then((isChecked) => {
-      this.setIsAgreementChecked(isChecked === true)
+    storage.getItem<boolean>(HAS_ACCOUNT_KEY).then((isChecked) => {
+      this.setHasAccount(isChecked === true)
     })
   }
 
@@ -49,11 +48,7 @@ export class AuthStore {
     this.isInitializing = v
   }
 
-  setIsAgreementChecked(v: boolean) {
-    this.isAgreementChecked = v
-  }
-
-  login(token: string, user: User) {
+  login(token: string, user: AuthorizeUser) {
     this._login(token)
     OneSignal.setExternalUserId(user.id)
     OneSignal.setSMSNumber(user.phone_number)
@@ -67,16 +62,19 @@ export class AuthStore {
 
   logout() {
     storage.removeItem(TOKEN_KEY)
-    storage.removeItem(AGREEMENT_KEY)
+    storage.removeItem(HAS_ACCOUNT_KEY)
     tokenManager.setToken('')
     this.isLoggedIn = false
-    this.isAgreementChecked = false
     OneSignal.removeExternalUserId()
     OneSignal.logoutSMSNumber()
   }
 
-  checkAgreement() {
-    storage.setItem(AGREEMENT_KEY, true)
-    this.isAgreementChecked = true
+  setHasAccount(v: boolean) {
+    this.hasAccount = v
+  }
+
+  checkHasAccount() {
+    this.setHasAccount(true)
+    storage.setItem(HAS_ACCOUNT_KEY, true)
   }
 }

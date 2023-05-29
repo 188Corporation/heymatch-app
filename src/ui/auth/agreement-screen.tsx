@@ -5,7 +5,6 @@ import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -14,7 +13,6 @@ import { Body, DescBody2, H1, H3 } from 'ui/common/text'
 
 export const AgreementScreen = observer(() => {
   const { data } = useMy()
-  const { authStore } = useStores()
 
   const [isServiceChecked, setIsServiceChecked] = useState(false)
   const [isUserInfoChecked, setIsUserInfoChecked] = useState(false)
@@ -177,7 +175,6 @@ export const AgreementScreen = observer(() => {
         text='시작할게요!'
         disabled={!isAllChecked}
         onPress={() => {
-          authStore.setIsAgreementChecked(true)
           navigation.navigate('UsernameScreen')
         }}
       />
