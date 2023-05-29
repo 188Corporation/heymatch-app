@@ -235,12 +235,14 @@ export enum MatchRequestType {
   RECEIVED = 'RECEIVED',
 }
 
+export type MatchGroupDetail = GroupDetail & { gps_point: string }
+
 export interface MatchRequest {
   id: number
   status: MatchRequestStatus
   created_at: string
-  sender_group: number | GroupDetail
-  receiver_group: number | GroupDetail
+  sender_group: number | MatchGroupDetail
+  receiver_group: number | MatchGroupDetail
 }
 
 // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters

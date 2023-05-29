@@ -6,7 +6,11 @@ import {
 } from 'image'
 import { Colors } from 'infra/colors'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import {
+  MatchGroupDetail,
+  MatchRequestStatus,
+  MatchRequestType,
+} from 'infra/types'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -16,19 +20,19 @@ import styled from 'styled-components'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { Column, Row } from 'ui/common/layout'
-import { Caption, H3 } from 'ui/common/text'
+import { H3 } from 'ui/common/text'
 import { MatchRequestStatusLabel } from 'ui/match/match-request-status-label'
 
 const CARD_DISTANCE = 14
 const CARD_WIDTH = (WINDOW_DIMENSIONS.width - 20 * 2 - CARD_DISTANCE) / 2
-
 export const MatchRequestItem: React.FC<{
   matchRequestId: number
   status: MatchRequestStatus
   type: MatchRequestType
-  group: GroupDetail
+  group: MatchGroupDetail
 }> = ({ matchRequestId, status, type, group }) => {
   const { alertStore, chatStore } = useStores()
+
   return (
     <Container width={CARD_WIDTH}>
       <GroupImage
@@ -51,17 +55,7 @@ export const MatchRequestItem: React.FC<{
             })
           }
         >
-          {status === MatchRequestStatus.WAITING &&
-          type === MatchRequestType.RECEIVED ? (
-            <Distance>
-              {/* TODO */}
-              {/* {locationStore.getDistance(
-                geoinfoToGpsLocation(group.gps_geoinfo),
-              )} */}
-            </Distance>
-          ) : (
-            <MatchRequestStatusLabel status={status} type={type} />
-          )}
+          <MatchRequestStatusLabel status={status} type={type} />
           <Column
             style={{
               opacity: status === MatchRequestStatus.REJECTED ? 0.7 : 1,
@@ -155,10 +149,6 @@ const UpperContainer = styled(TouchableOpacity)`
 const ButtonRow = styled(Row)`
   justify-content: center;
   padding: 8px 20px 20px 20px;
-`
-
-const Distance = styled(Caption)`
-  color: ${Colors.primary.red};
 `
 
 const GroupTitle = styled(H3).attrs({
