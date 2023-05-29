@@ -465,6 +465,21 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
     )
   }
 
+  const getRemainingDays = (targetDate: string): string => {
+    const currentDate = new Date()
+    const target = new Date(targetDate)
+    const timeDiff = target.getTime() - currentDate.getTime()
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+
+    if (daysDiff > 0) {
+      return `만남 날짜 D-${daysDiff}`
+    } else if (daysDiff < 0) {
+      return `만남 날짜 D+${Math.abs(daysDiff)}`
+    } else {
+      return '만남 날짜 D-day'
+    }
+  }
+
   return (
     <GroupItemContainer
       onPress={() => {
@@ -472,7 +487,7 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
       }}
     >
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
-        {toMonthDayString(group.meetup_date)}
+        {getRemainingDays(group.meetup_date)}
       </Caption>
       <H3 style={{ marginBottom: 16 }}>{group.title}</H3>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -710,11 +725,3 @@ const FilterTypography = styled(Body2)<{ filter: boolean }>`
   color: ${(p) => (p.filter ? Colors.primary.blueD1 : Colors.black)};
   font-weight: ${(p) => (p.filter ? '600' : '400')};
 `
-
-function toMonthDayString(meetUpDate: string) {
-  const weekdays = ['일', '월', '화', '수', '목', '금', '토']
-  const month = new Date(meetUpDate).getMonth() + 1
-  const date = new Date(meetUpDate).getDate()
-  const dayOfWeek = weekdays[new Date(meetUpDate).getDay()]
-  return `${month}월 ${date}일 (${dayOfWeek})`
-}
