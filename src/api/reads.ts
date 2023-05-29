@@ -1,6 +1,12 @@
 import useSWRNative from '@nandorojo/swr-react-native'
 import { chainJsonParser, getRequest } from 'api/fetcher'
 import {
+  GEOCODING_CLIENT_ID,
+  GEOCODING_CLIENT_SECRET,
+  NAVER_OPEN_API_CLIENT_ID,
+  NAVER_OPEN_API_CLIENT_SECRET,
+} from 'infra/constants'
+import {
   Chat,
   Geocoding,
   GroupDetail,
@@ -94,11 +100,9 @@ export const useSearchPlace = (query: string) => {
   const { data: res, error } = useSWRNative<SearchPlaceList>(
     `https://openapi.naver.com/v1/search/local.json?query=${query}&display=5`,
     (url: string) => {
-      const CLIENT_ID = 'yTGgiqz_swvAiOWZN74G'
-      const CLIENT_SECRET = 'eldIpeJeBI'
       const headers = new Headers()
-      headers.append('X-Naver-Client-Id', CLIENT_ID)
-      headers.append('X-Naver-Client-Secret', CLIENT_SECRET)
+      headers.append('X-Naver-Client-Id', NAVER_OPEN_API_CLIENT_ID)
+      headers.append('X-Naver-Client-Secret', NAVER_OPEN_API_CLIENT_SECRET)
       const options = {
         method: 'GET',
         headers: headers,
@@ -117,11 +121,9 @@ export const useGeocoding = (query: string) => {
   const { data: res, error } = useSWRNative<Geocoding>(
     `https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${query}`,
     (url: string) => {
-      const CLIENT_ID = 'iuvp8u5i1b'
-      const CLIENT_SECRET = 'hametJJlKEj8tCulH4TfStljsEF4IKyUJ4dqetMm'
       const headers = new Headers()
-      headers.append('X-NCP-APIGW-API-KEY-ID', CLIENT_ID)
-      headers.append('X-NCP-APIGW-API-KEY', CLIENT_SECRET)
+      headers.append('X-NCP-APIGW-API-KEY-ID', GEOCODING_CLIENT_ID)
+      headers.append('X-NCP-APIGW-API-KEY', GEOCODING_CLIENT_SECRET)
       const options = {
         method: 'GET',
         headers: headers,
