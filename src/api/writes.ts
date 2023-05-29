@@ -310,3 +310,25 @@ export const checkUsername = async (username: string) => {
   })
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const deleteProfilePhoto = async ({
+  sub1,
+  sub2,
+}: {
+  sub1?: boolean
+  sub2?: boolean
+}) => {
+  const deletePhotoList = []
+  if (sub1) {
+    deletePhotoList.push('other_profile_image_1')
+  }
+  if (sub2) {
+    deletePhotoList.push('other_profile_image_2')
+  }
+
+  const res: ResponseEnvelope<{}> = await deleteRequest(
+    '/users/my/profile/photo/',
+    { to_delete: deletePhotoList.toString() },
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}

@@ -38,9 +38,13 @@ export const MyScreen = () => {
     userProfileStore.setPhotos(data.user_profile_images[0].image, 'main')
     if (data.user_profile_images[1]) {
       userProfileStore.setPhotos(data.user_profile_images[1].image, 'sub1')
+    } else {
+      userProfileStore.setPhotos('', 'sub1')
     }
     if (data.user_profile_images[2]) {
       userProfileStore.setPhotos(data.user_profile_images[2].image, 'sub2')
+    } else {
+      userProfileStore.setPhotos('', 'sub2')
     }
     if (data.user.male_body_form) {
       userProfileStore.setBodyForm(data.user.gender!, data.user.male_body_form)

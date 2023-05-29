@@ -1,5 +1,5 @@
 import { useMy } from 'api/reads'
-import { editUserInfo } from 'api/writes'
+import { deleteProfilePhoto, editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { femaleBodyForm, maleBodyForm } from 'infra/constants'
@@ -23,7 +23,9 @@ export const EditUserProfileScreen = observer(() => {
   const [loading, setLoading] = useState(false)
 
   if (!data) return <LoadingOverlay />
-
+  const isProfilePhotosDeleted =
+    data.user_profile_images.length >
+    Object.values(userProfileStore.photos).filter((x) => x).length
   const getBodyForm = () => {
     if (!data) return
     if (data.user.gender === 'm') {
@@ -140,32 +142,33 @@ export const EditUserProfileScreen = observer(() => {
         onPress={async () => {
           setLoading(true)
           try {
-            profilePhotos.mainPhoto !== data.user_profile_images[0].image ||
-              profilePhotos.sub1Photo !== data.user_profile_images[1]?.image ||
-              profilePhotos.sub2Photo !== data.user_profile_images[2]?.image
-
             await editUserInfo({
               username: userProfileStore.username,
               gender: userProfileStore.gender!,
               birthdate: userProfileStore.birthdate!,
               mainProfileImage: profilePhotos.mainPhoto,
-
-              // !== data.user_profile_images[0].image
-              //   ? profilePhotos.mainPhoto
-              //   : undefined,
+              // 어차피 빈 필드면 edit 생략됨
               otherProfileImage1: profilePhotos.sub1Photo,
-              // !== data.user_profile_images[1]?.image
-              //   ? profilePhotos.sub1Photo
-              //   : undefined,
               otherProfileImage2: profilePhotos.sub2Photo,
-              //  !== data.user_profile_images[2]?.image
-              //   ? profilePhotos.sub2Photo
-              //   : undefined,
               heightCm: userProfileStore.height,
               maleBodyForm: userProfileStore.maleBodyForm,
               femaleBodyForm: userProfileStore.femaleBodyForm,
               jobTitle: userProfileStore.jobTitle,
             })
+            // sub1, sub2가 비어있다면 delete쏘기
+            if (isProfilePhotosDeleted) {
+              await deleteProfilePhoto({
+                sub1:
+                  profilePhotos.sub1Photo !==
+                    data.user_profile_images[1]?.image &&
+                  profilePhotos.sub1Photo === '',
+                sub2:
+                  profilePhotos.sub2Photo !==
+                    data.user_profile_images[2]?.image &&
+                  profilePhotos.sub2Photo === '',
+              })
+            }
+
             await mutate('/users/my/')
             // TODO: 프로필 인증 대기 화면으로 가야함.
             navigation.goBack()
