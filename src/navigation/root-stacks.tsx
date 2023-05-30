@@ -34,7 +34,7 @@ import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
 import { EditUserInfoStacks } from './edit-user-info-stacks'
-import { NewGroupCreateStacks } from './new-group-create-stacks'
+import { GroupCreateStacks } from './group-create-stacks'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -97,8 +97,8 @@ export const RootStacks = observer(() => {
         <>
           <Stack.Screen name='MainTabs' component={MainTabs} />
           <Stack.Screen
-            name='NewGroupCreateStacks'
-            component={NewGroupCreateStacks}
+            name='GroupCreateStacks'
+            component={GroupCreateStacks}
           />
           <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
           <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />

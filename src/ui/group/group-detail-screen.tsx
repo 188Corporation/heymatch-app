@@ -211,7 +211,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         <BottomButton
           text={isEditing ? '수정하기' : '매칭하기'}
           onPress={() => {
-            navigation.navigate('NewGroupCreateStacks')
+            navigation.navigate('GroupCreateStacks')
           }}
         />
       )}
@@ -314,7 +314,7 @@ const ButtonContent: React.FC<{
             mainButton: '그룹 생성하기',
             subButton: '나중에 하기',
             onMainPress: () => {
-              navigation.navigate('NewGroupCreateStacks')
+              navigation.navigate('GroupCreateStacks')
             },
           })
           return

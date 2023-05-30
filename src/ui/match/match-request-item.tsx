@@ -47,7 +47,7 @@ export const MatchRequestItem: React.FC<{
       <ContentContainer>
         <UpperContainer
           onPress={() =>
-            navigation.navigate('NewGroupDetailScreen', {
+            navigation.navigate('GroupDetailScreen', {
               id: group.id,
               matchRequest: { id: matchRequestId, status, type },
             })

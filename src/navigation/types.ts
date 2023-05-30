@@ -6,8 +6,7 @@ export type RootStackParamList = {
   LoadingScreen: {}
   AuthScreen: {}
   MainTabs: {}
-  GroupCreateStack: {}
-  NewGroupCreateStacks: {}
+  GroupCreateStacks: {}
   GroupEditScreen: {}
   PurchaseScreen: {}
   ChatDetailScreen: {}

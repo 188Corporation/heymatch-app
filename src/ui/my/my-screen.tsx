@@ -98,12 +98,12 @@ export const MyScreen = () => {
                   mainButton: '그룹 생성하기',
                   subButton: '나중에 하기',
                   onMainPress: () => {
-                    navigation.navigate('NewGroupCreateStacks')
+                    navigation.navigate('GroupCreateStacks')
                   },
                 })
                 return
               }
-              navigation.navigate('NewGroupDetailScreen', {
+              navigation.navigate('GroupDetailScreen', {
                 id: data.joined_groups[0].group.id,
               })
             }}
