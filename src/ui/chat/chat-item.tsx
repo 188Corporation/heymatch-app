@@ -1,13 +1,13 @@
+import { Colors } from 'infra/colors'
+import { formatRelative } from 'infra/datetime'
+import { START_CHAT_MESSAGE } from 'infra/messages'
+import { Chat } from 'infra/types'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Body2, CaptionS, H3 } from 'ui/common/text'
-import { Chat } from 'infra/types'
-import { Avatar as _Avatar } from 'ui/common/avatar'
 import styled from 'styled-components'
+import { Avatar as _Avatar } from 'ui/common/avatar'
 import { Column, Row } from 'ui/common/layout'
-import { Colors } from 'infra/colors'
-import { START_CHAT_MESSAGE } from 'infra/messages'
-import { formatRelative } from 'infra/datetime'
+import { Body2, CaptionS, H3 } from 'ui/common/text'
 
 export const ChatItem: React.FC<{
   data: Chat
@@ -20,7 +20,10 @@ export const ChatItem: React.FC<{
       <Column>
         <Avatar
           side={64}
-          source={{ uri: data.group.group_profile_images[0].thumbnail }}
+          source={{
+            uri: data.group.group_members[0].user.user_profile_images[0]
+              .thumbnail,
+          }}
         />
       </Column>
       <Right>

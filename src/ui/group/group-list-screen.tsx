@@ -495,8 +495,7 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
           <Image
             style={{ width: '100%', height: '100%', borderRadius: 20 }}
             source={{
-              uri: group.group_members[0].user.user_profile_images[0]
-                .thumbnail_blurred,
+              uri: group.group_members[0].user.user_profile_images[0].thumbnail,
             }}
           />
         </ProfilePhotoContainer>

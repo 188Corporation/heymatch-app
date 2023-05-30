@@ -39,9 +39,7 @@ export type UserProfileImages = {
   is_main: boolean
   status: UserProfileImageStatus
   image: string
-  image_blurred: string
   thumbnail: string
-  thumbnail_blurred: string
   order: number
   is_active: boolean
 }
@@ -267,7 +265,7 @@ export interface Channel {
 
 export interface Chat {
   channel: Channel
-  group: GroupDetail_regacy
+  group: GroupDetail
 }
 
 export interface TabBarLabel {

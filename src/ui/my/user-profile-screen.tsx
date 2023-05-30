@@ -69,12 +69,17 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = (props) => {
               justifyContent: 'center',
             }}
           >
-            <H2>키 {user.height_cm}CM에</H2>
             <H2>
-              {convertBodyform(
-                user.gender,
-                user.male_body_form ?? user.female_body_form,
-              )}{' '}
+              키 <H2 style={{ color: Colors.primary.red }}>{user.height_cm}</H2>
+              CM에
+            </H2>
+            <H2>
+              <H2 style={{ color: Colors.primary.red }}>
+                {convertBodyform(
+                  user.gender,
+                  user.male_body_form ?? user.female_body_form,
+                )}
+              </H2>{' '}
               몸매를 소유했어요
             </H2>
           </View>
@@ -115,7 +120,7 @@ const ProfileImagesCarousel = ({ images }: { images: UserProfileImages[] }) => {
   return (
     <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Carousel
-        data={images.map((image) => image.thumbnail_blurred)}
+        data={images.map((image) => image.image)}
         loop={false}
         width={240}
         height={240}
@@ -136,7 +141,7 @@ const ProfileImagesCarousel = ({ images }: { images: UserProfileImages[] }) => {
               <Image
                 style={{ width: 240, height: 240, borderRadius: 20 }}
                 source={{
-                  uri: images[index].thumbnail_blurred,
+                  uri: images[index].image,
                 }}
               />
             </>

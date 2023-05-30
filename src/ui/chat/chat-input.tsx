@@ -1,19 +1,22 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
-import { Row } from 'ui/common/layout'
-import { Colors } from 'infra/colors'
-import { TextInput, TouchableOpacity } from 'react-native'
-import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 import { ChatSendSvg } from 'image'
-import { useStores } from 'store/globals'
+import { Colors } from 'infra/colors'
 import { makeAutoObservable } from 'mobx'
 import { observer } from 'mobx-react'
+import React, { useRef } from 'react'
+import { TextInput, TouchableOpacity } from 'react-native'
+import { useStores } from 'store/globals'
 import { Channel as ChannelType } from 'stream-chat'
+import styled from 'styled-components'
+import { Row } from 'ui/common/layout'
+import { DEFAULT_FONT_FAMILY } from 'ui/common/text'
 
 class InputStore {
   text: string = ''
   constructor() {
     makeAutoObservable(this)
+  }
+  getText() {
+    return this.text
   }
   send(channel?: ChannelType) {
     if (!channel) return
@@ -31,6 +34,7 @@ export const ChatInput = observer(() => {
   } = useStores()
   const store = useRef(new InputStore()).current
   const send = () => store.send(channel)
+  const text = store.getText()
   return (
     <TopWrapper>
       <InputContainer>
@@ -44,7 +48,7 @@ export const ChatInput = observer(() => {
           returnKeyType='send'
           blurOnSubmit={false}
         />
-        <ChatSendButton onPress={send}>
+        <ChatSendButton onPress={send} disabled={!text}>
           <ChatSendSvg />
         </ChatSendButton>
       </InputContainer>

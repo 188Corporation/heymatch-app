@@ -32,13 +32,11 @@ export const MatchRequestItem: React.FC<{
   group: MatchGroupDetail
 }> = ({ matchRequestId, status, type, group }) => {
   const { alertStore, chatStore } = useStores()
-
   return (
     <Container width={CARD_WIDTH}>
       <GroupImage
         source={{
-          uri: group.group_members[0].user.user_profile_images[0]
-            .thumbnail_blurred,
+          uri: group.group_members[0].user.user_profile_images[0].image,
         }}
       />
       {status === MatchRequestStatus.REJECTED ? (

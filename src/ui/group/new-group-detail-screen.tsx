@@ -100,7 +100,7 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
                 marginRight: 20,
               }}
               source={{
-                uri: leader.user.user_profile_images[0].image,
+                uri: leader.user.user_profile_images[0].thumbnail,
               }}
             />
             <View>

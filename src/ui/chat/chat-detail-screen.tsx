@@ -1,21 +1,21 @@
-import React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Channel, MessageList } from 'stream-chat-react-native'
-import { observer } from 'mobx-react'
-import { useStores } from 'store/globals'
-import { navigation } from 'navigation/global'
-import styled from 'styled-components'
-import { Column, Row } from 'ui/common/layout'
 import { BackArrowBlackSvg } from 'image'
-import { Avatar } from 'ui/common/avatar'
-import { Caption, CaptionS, H3 } from 'ui/common/text'
-import { ChatInput } from 'ui/chat/chat-input'
 import { myMessageStyle } from 'infra/chat'
 import { Colors } from 'infra/colors'
 import { formatDate } from 'infra/datetime'
 import { START_CHAT_MESSAGE } from 'infra/messages'
-import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { observer } from 'mobx-react'
+import { navigation } from 'navigation/global'
+import React from 'react'
+import { TouchableOpacity } from 'react-native'
+import { useStores } from 'store/globals'
+import { Channel, MessageList } from 'stream-chat-react-native'
+import styled from 'styled-components'
+import { ChatInput } from 'ui/chat/chat-input'
+import { Avatar } from 'ui/common/avatar'
 import { BottomInsetSpace, TopInsetSpace } from 'ui/common/inset-space'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { Column, Row } from 'ui/common/layout'
+import { Caption, CaptionS, H3 } from 'ui/common/text'
 
 export const ChatDetailScreen = observer(() => {
   const {
@@ -28,7 +28,9 @@ export const ChatDetailScreen = observer(() => {
   const MessageAvatar = () => (
     <Avatar
       side={32}
-      source={{ uri: group.group_profile_images[0].thumbnail }}
+      source={{
+        uri: group.group_members[0].user.user_profile_images[0].thumbnail,
+      }}
       style={{ marginRight: 8 }}
     />
   )

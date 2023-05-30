@@ -81,7 +81,7 @@ export const MyScreen = () => {
               <Avatar
                 side={60}
                 source={{
-                  uri: data?.user_profile_images[0].image,
+                  uri: data?.user_profile_images[0].thumbnail,
                 }}
               />
             </AvatarRing>

@@ -1,6 +1,6 @@
-import React from 'react'
-import { MatchRequestStatus, MatchRequestType } from 'infra/types'
 import { Colors } from 'infra/colors'
+import { MatchRequestStatus, MatchRequestType } from 'infra/types'
+import React from 'react'
 import styled from 'styled-components'
 import { Row } from 'ui/common/layout'
 import { CaptionS } from 'ui/common/text'
@@ -14,7 +14,7 @@ const statusToColor = {
 
 const statusTypeToText = {
   [MatchRequestStatus.WAITING]: {
-    [MatchRequestType.RECEIVED]: '',
+    [MatchRequestType.RECEIVED]: '대기중',
     [MatchRequestType.SENT]: '대기중',
   },
   [MatchRequestStatus.ACCEPTED]: {
