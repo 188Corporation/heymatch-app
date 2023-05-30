@@ -1,10 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import {
-  GroupDetail_regacy,
-  GroupMember,
-  MatchRequestStatus,
-  MatchRequestType,
-} from 'infra/types'
+import { GroupMember, MatchRequestStatus, MatchRequestType } from 'infra/types'
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
@@ -14,11 +9,6 @@ export type RootStackParamList = {
   GroupCreateStack: {}
   NewGroupCreateStacks: {}
   GroupEditScreen: {}
-  GroupDetailScreen: {
-    data: GroupDetail_regacy
-    matchRequest?: MatchRequestTarget
-    hideButton?: boolean
-  }
   PurchaseScreen: {}
   ChatDetailScreen: {}
   WebViewScreen: { title: string; uri: string }
@@ -40,7 +30,7 @@ export type RootStackParamList = {
   ConfirmCompanyScreen: {}
   EditUserProfileScreen: {}
   EditUserInfoStacks: {}
-  NewGroupDetailScreen: {
+  GroupDetailScreen: {
     id: number
     matchRequest?: MatchRequestTarget
   }
@@ -54,11 +44,6 @@ export interface MatchRequestTarget {
   type: MatchRequestType
 }
 
-export type GroupDetailScreenProps = StackScreenProps<
-  RootStackParamList,
-  'GroupDetailScreen'
->
-
 export type WebViewScreenProps = StackScreenProps<
   RootStackParamList,
   'WebViewScreen'
@@ -69,9 +54,9 @@ export type ProfilePhotoVerificationScreenProps = StackScreenProps<
   'ProfilePhotoVerificationScreen'
 >
 
-export type NewGroupDetailScreenProps = StackScreenProps<
+export type GroupDetailScreenProps = StackScreenProps<
   RootStackParamList,
-  'NewGroupDetailScreen'
+  'GroupDetailScreen'
 >
 
 export type UserProfileScreenProps = StackScreenProps<

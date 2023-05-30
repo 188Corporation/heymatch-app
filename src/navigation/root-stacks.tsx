@@ -24,7 +24,6 @@ import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
-import { NewGroupDetailScreen } from 'ui/group/new-group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { EditUserProfileScreen } from 'ui/my/edit-user-profile-screen'
@@ -102,10 +101,6 @@ export const RootStacks = observer(() => {
             component={NewGroupCreateStacks}
           />
           <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
-          <Stack.Screen
-            name='GroupDetailScreen'
-            component={GroupDetailScreen}
-          />
           <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
           <Stack.Screen name='ChatDetailScreen' component={ChatDetailScreen} />
           <Stack.Screen
@@ -133,8 +128,8 @@ export const RootStacks = observer(() => {
             component={EditUserInfoStacks}
           />
           <Stack.Screen
-            name='NewGroupDetailScreen'
-            component={NewGroupDetailScreen}
+            name='GroupDetailScreen'
+            component={GroupDetailScreen}
           />
           <Stack.Screen
             name='UserProfileScreen'

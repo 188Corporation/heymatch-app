@@ -1,15 +1,11 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
-import { useMy } from 'api/reads'
-import { reportAbuse, sendMatchRequest } from 'api/writes'
-import { SendSvg } from 'image'
+import { useGroup, useMy } from 'api/reads'
+import { deleteGroup, sendMatchRequest } from 'api/writes'
+import { ClipboardSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { WINDOW_DIMENSIONS } from 'infra/constants'
-import {
-  GroupDetail_regacy,
-  MatchRequestStatus,
-  MatchRequestType,
-} from 'infra/types'
-import { geoinfoToGpsLocation } from 'infra/util'
+import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import { convertJobtitle } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
 import React, { useState } from 'react'
@@ -19,113 +15,240 @@ import { accept, reject } from 'store/common-actions'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
+import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { CurrentCandy } from 'ui/common/current-candy'
-import { GroupDesc } from 'ui/common/group-desc'
+import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { BottomInsetSpace } from 'ui/common/inset-space'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Caption, H1, H3 } from 'ui/common/text'
+import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
 
-const CARD_BORDER_RADIUS = 32
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
-  const { data, matchRequest, hideButton } = props.route.params
-  const { locationStore, alertStore } = useStores()
+  const { id, matchRequest } = props.route.params
+  const { data: groupData } = useGroup(id)
+  const { data: myData } = useMy()
+  const { alertStore } = useStores()
   const [loading, setLoading] = useState(false)
-  if (!data) return null
-  const width = WINDOW_DIMENSIONS.width
-  const height = (width / 3) * 4
+
+  if (!groupData || !myData) return <LoadingOverlay />
+  const leader = groupData.group_members[0]
+
+  const hasOwnGroup =
+    myData.joined_groups &&
+    myData.joined_groups[0] &&
+    myData.joined_groups[0].group
+
+  const isEditing = hasOwnGroup && id === myData.joined_groups?.[0].group.id
+
+  const copyToClipboard = () => {
+    Clipboard.setString(groupData.meetup_place_title)
+  }
+
   return (
-    <Container>
-      <View style={{ position: 'absolute', zIndex: 1, width: '100%' }}>
-        <NavigationHeader
-          rightChildren={
+    <>
+      <NavigationHeader
+        backButtonStyle='black'
+        rightChildren={
+          isEditing && (
             <TouchableOpacity
               style={{ marginRight: 24 }}
               onPress={() => {
                 alertStore.open({
-                  title: '정말 이 사용자를 신고 및 차단할까요?',
-                  body: '부적절한 컨텐츠(음란성, 폭력성 등)의\n경우 적극 신고해주세요! 해당 사용자는\n자동으로 차단되고 지도, 매칭, 채팅\n화면에서 사라져요. 관리자가 24시간 이내\n확인 후 컨텐츠 삭제 및 사용자 영구 제재\n조치를 취해요. 건전하고 안전한 그룹 매칭\n문화를 선도하기 위해 헤이매치가 노력할게요!',
-                  mainButton: '신고 및 차단할래요!',
-                  subButton: '다음에',
-                  onMainPress: () => {
-                    reportAbuse(data.id)
-                      .then(() =>
-                        Promise.all([
-                          mutate('/groups/'),
-                          mutate('/match-requests/'),
-                          mutate('/chats/'),
-                        ]),
-                      )
-                      .then(() => {
-                        navigation.setRootWithStack('MainTabs', 'GroupScreen')
-                        alertStore.open({
-                          title: '신고를 완료했어요',
-                          body: '신고해주셔서 감사해요.\n관리자가 최대한 빨리 조치를 취할게요!',
-                        })
-                      })
-                      .catch((e) => alertStore.errorUnexpected(e))
+                  title: '그룹을 삭제할까요?',
+                  body: '그룹을 삭제하면 다시 복구가 어려워요!',
+                  mainButton: '네 삭제할게요!',
+                  subButton: '다음에 하기',
+                  onMainPress: async () => {
+                    setLoading(true)
+                    if (!groupData) return
+                    setLoading(true)
+                    try {
+                      await deleteGroup(groupData.id)
+                      await mutate('/users/my/')
+                      navigation.goBack()
+                    } catch (e) {
+                      alertStore.error(e, '그룹 삭제에 실패했어요!')
+                    } finally {
+                      setLoading(false)
+                    }
                   },
                 })
               }}
             >
-              <Body style={{ color: Colors.white }}>신고 및 차단하기</Body>
+              <Body style={{ color: Colors.gray.v400 }}>그룹 삭제</Body>
             </TouchableOpacity>
-          }
-        />
-      </View>
-      <PhotoContainer
-        style={{ width, height }}
-        source={{ uri: data.group_profile_images[0].image }}
+          )
+        }
       />
-      <ScrollView
-        contentContainerStyle={{ paddingTop: height - CARD_BORDER_RADIUS }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-      >
-        <ContentCard>
-          <Caption style={{ color: Colors.gray.v400 }}>
-            {locationStore.getDistance(geoinfoToGpsLocation(data.gps_geoinfo))}
-          </Caption>
-          <H1 style={{ marginBottom: 8 }}>{data.title}</H1>
-          <GroupDesc
-            data={data}
-            size={24}
-            fontSize={16}
-            color={Colors.primary.blue}
-          />
-          <Row style={{ height: 28 }} />
-          <H3 style={{ marginBottom: 8 }}>소개</H3>
-          <Body style={{ color: Colors.gray.v400 }}>{data.introduction}</Body>
-        </ContentCard>
-      </ScrollView>
-      {!hideButton && (
-        <ButtonContainer>
-          <ButtonContent
-            data={data}
-            matchRequest={matchRequest}
-            setLoading={setLoading}
-          />
-        </ButtonContainer>
+      <View style={{ flexGrow: 1 }}>
+        <Container>
+          <H1 style={{ marginBottom: 24 }}>{groupData?.title}</H1>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              marginBottom: 40,
+            }}
+          >
+            <Image
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 32,
+                marginRight: 20,
+              }}
+              source={{
+                uri: leader.user.user_profile_images[0].thumbnail,
+              }}
+            />
+            <View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 8,
+                }}
+              >
+                <VerifiedSvg
+                  style={{ marginRight: 4 }}
+                  fill={
+                    leader.user.verified_company_name ||
+                    leader.user.verified_school_name
+                      ? Colors.primary.blue
+                      : Colors.gray.v400
+                  }
+                />
+                <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
+                  {leader.user.verified_company_name ??
+                    leader.user.verified_school_name ??
+                    convertJobtitle(leader.user.job_title)}
+                </Caption>
+              </View>
+              <View
+                style={{
+                  marginBottom: 8,
+                }}
+              >
+                <GroupDesc_v2
+                  memberNumber={groupData.member_number}
+                  memberAvgAge={groupData.member_avg_age}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('UserProfileScreen', {
+                    user: leader.user,
+                  })
+                }}
+              >
+                <CaptionS
+                  style={{ fontWeight: '600', color: Colors.primary.blue }}
+                >
+                  방장 프로필 보기 &gt;
+                </CaptionS>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Container>
+
+        <View
+          style={{
+            paddingTop: 40,
+            flexGrow: 1,
+            backgroundColor: '#F6F7FF',
+            paddingHorizontal: 28,
+            borderTopLeftRadius: 40,
+            borderTopRightRadius: 40,
+          }}
+        >
+          <View style={{ marginBottom: 40 }}>
+            <H3 style={{ marginBottom: 8 }}>만나는 날짜</H3>
+            <Body style={{ color: Colors.gray.v500 }}>
+              {formatDate(groupData.meetup_date)}
+            </Body>
+          </View>
+          <View style={{ marginBottom: 40 }}>
+            <H3 style={{ marginBottom: 8 }}>장소</H3>
+            <Row>
+              <Body style={{ color: Colors.gray.v500 }}>
+                {groupData.meetup_place_title}
+              </Body>
+              <TouchableOpacity onPress={copyToClipboard}>
+                <ClipboardSvg />
+              </TouchableOpacity>
+            </Row>
+          </View>
+          <View style={{ height: 150, marginBottom: 40 }}>
+            <H3 style={{ marginBottom: 8 }}>소개</H3>
+            <ScrollView>
+              <Body style={{ color: Colors.gray.v500 }}>
+                {groupData.introduction}
+              </Body>
+            </ScrollView>
+          </View>
+        </View>
+        {!isEditing && (
+          <>
+            <ButtonContainer>
+              <ButtonContent
+                data={groupData}
+                setLoading={setLoading}
+                matchRequest={matchRequest}
+                hasOwnGroup={!!hasOwnGroup}
+              />
+            </ButtonContainer>
+            <BottomInsetSpace />
+          </>
+        )}
+      </View>
+      {isEditing && (
+        <BottomButton
+          text={isEditing ? '수정하기' : '매칭하기'}
+          onPress={() => {
+            navigation.navigate('NewGroupCreateStacks')
+          }}
+        />
       )}
-      <BottomInsetSpace />
       {loading && <LoadingOverlay />}
-    </Container>
+    </>
   )
 }
 
+const Container = styled(View)`
+  padding: 12px 28px 0px 28px;
+`
+
+function formatDate(_date: string) {
+  const date = new Date(_date)
+
+  const year = date.getFullYear()
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const day = date.getDate().toString().padStart(2, '0')
+  const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][date.getDay()]
+
+  return `${year}년 ${month}월 ${day}일 (${dayOfWeek})`
+}
+
+const ButtonContainer = styled(Column)`
+  padding: 8px 28px 16px 28px;
+`
+
 const ButtonContent: React.FC<{
-  data: GroupDetail_regacy
+  data: GroupDetail
   setLoading: (v: boolean) => void
   matchRequest?: MatchRequestTarget
-}> = ({ data, setLoading, matchRequest }) => {
+  hasOwnGroup: boolean
+}> = ({ data, setLoading, matchRequest, hasOwnGroup }) => {
   const { status, type } = matchRequest || {}
   const { alertStore, chatStore } = useStores()
   const { data: myData } = useMy()
+
   // render based on conditions
   if (status === MatchRequestStatus.REJECTED) {
     return <Button text='거절된 매칭이에요' disabled />
@@ -184,10 +307,15 @@ const ButtonContent: React.FC<{
       text='매칭하기'
       onPress={() => {
         // check is my group
-        if (data.id === myData?.joined_groups?.id) {
+        if (!hasOwnGroup) {
           alertStore.open({
-            title: '내 그룹과는 매칭할 수 없어요',
-            body: '[핫플 탭] 에서 관심 가는 그룹을 찾아보세요 :)',
+            title: '아직 속한 그룹이 없어요!',
+            body: '먼저 그룹을 생성해주세요!',
+            mainButton: '그룹 생성하기',
+            subButton: '나중에 하기',
+            onMainPress: () => {
+              navigation.navigate('NewGroupCreateStacks')
+            },
           })
           return
         }
@@ -201,7 +329,10 @@ const ButtonContent: React.FC<{
             if (myData.user.point_balance >= 1) {
               setLoading(true)
               try {
-                await sendMatchRequest(data.id)
+                await sendMatchRequest(
+                  myData.joined_groups![0].group.id,
+                  data.id,
+                )
                 alertStore.open({
                   title: `${data.title} 그룹과 매칭했어요!`,
                   body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
@@ -244,25 +375,6 @@ const ButtonContent: React.FC<{
     />
   )
 }
-
-const Container = styled(Column)`
-  flex: 1;
-`
-
-const PhotoContainer = styled(Image)`
-  position: absolute;
-`
-
-const ContentCard = styled(Column)`
-  background-color: white;
-  border-top-left-radius: ${CARD_BORDER_RADIUS}px;
-  border-top-right-radius: ${CARD_BORDER_RADIUS}px;
-  padding: 32px 28px 16px 28px;
-`
-
-const ButtonContainer = styled(Column)`
-  padding: 8px 28px 16px 28px;
-`
 
 const CandyContainer = styled(Row)`
   position: absolute;
