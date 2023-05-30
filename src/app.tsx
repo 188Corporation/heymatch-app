@@ -11,9 +11,19 @@ import Toast from 'react-native-toast-message'
 import { StoresProvider } from 'store/globals'
 import { AlertModal } from 'ui/common/alert-modal'
 
+/* 시뮬레이터 환경에서 reactron 사용 설정 */
 if (__DEV__) {
   import('../ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
+
+/* 디바이스 환경에서 reactron 사용 설정 */
+// let scriptHostname
+// if (__DEV__) {
+//   import('../ReactotronConfig').then(() => console.log('Reactotron Configured'))
+//   const scriptURL = NativeModules.SourceCode.scriptURL
+//   scriptHostname = scriptURL.split('://')[1].split(':')[0]
+// }
+// Reactotron.configure({ host: scriptHostname }).connect()
 
 export const App = () => {
   // NOTE(gogo): all init code should go under root stack
