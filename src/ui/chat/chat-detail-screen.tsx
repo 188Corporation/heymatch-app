@@ -45,7 +45,7 @@ export const ChatDetailScreen = observer(() => {
           style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
           onPress={() =>
             navigation.navigate('GroupDetailScreen', {
-              data: group,
+              id: group.id,
               hideButton: true,
             })
           }

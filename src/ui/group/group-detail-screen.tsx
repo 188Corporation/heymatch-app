@@ -15,7 +15,6 @@ import { accept, reject } from 'store/common-actions'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
-import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
@@ -29,7 +28,7 @@ import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
-  const { id, matchRequest } = props.route.params
+  const { id, matchRequest, hideButton } = props.route.params
   const { data: groupData } = useGroup(id)
   const { data: myData } = useMy()
   const { alertStore } = useStores()
@@ -193,28 +192,30 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             </ScrollView>
           </View>
         </View>
-        {!isEditing && (
+        {!hideButton && (
           <>
             <ButtonContainer>
-              <ButtonContent
-                data={groupData}
-                setLoading={setLoading}
-                matchRequest={matchRequest}
-                hasOwnGroup={!!hasOwnGroup}
-              />
+              {!isEditing ? (
+                <ButtonContent
+                  data={groupData}
+                  setLoading={setLoading}
+                  matchRequest={matchRequest}
+                  hasOwnGroup={!!hasOwnGroup}
+                />
+              ) : (
+                <Button
+                  text='수정하기'
+                  color={Colors.primary.blue}
+                  onPress={() => {
+                    navigation.navigate('GroupCreateStacks')
+                  }}
+                />
+              )}
             </ButtonContainer>
             <BottomInsetSpace />
           </>
         )}
       </View>
-      {isEditing && (
-        <BottomButton
-          text={isEditing ? '수정하기' : '매칭하기'}
-          onPress={() => {
-            navigation.navigate('GroupCreateStacks')
-          }}
-        />
-      )}
       {loading && <LoadingOverlay />}
     </>
   )

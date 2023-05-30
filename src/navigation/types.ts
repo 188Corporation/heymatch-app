@@ -32,6 +32,7 @@ export type RootStackParamList = {
   GroupDetailScreen: {
     id: number
     matchRequest?: MatchRequestTarget
+    hideButton?: boolean
   }
   UserProfileScreen: { user: GroupMember['user'] }
   SearchPlaceResultsScreen: {}
