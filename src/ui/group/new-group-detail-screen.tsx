@@ -40,7 +40,12 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
   if (!groupData || !myData) return <LoadingOverlay />
   const leader = groupData.group_members[0]
 
-  const isEditing = id === myData.joined_groups?.[0].group.id
+  const hasOwnGroup =
+    myData.joined_groups &&
+    myData.joined_groups[0] &&
+    myData.joined_groups[0].group
+
+  const isEditing = hasOwnGroup && id === myData.joined_groups?.[0].group.id
 
   const copyToClipboard = () => {
     Clipboard.setString(groupData.meetup_place_title)
@@ -197,6 +202,7 @@ export const NewGroupDetailScreen: React.FC<NewGroupDetailScreenProps> = (
                 data={groupData}
                 setLoading={setLoading}
                 matchRequest={matchRequest}
+                hasOwnGroup={!!hasOwnGroup}
               />
             </ButtonContainer>
             <BottomInsetSpace />
@@ -239,7 +245,8 @@ const ButtonContent: React.FC<{
   data: GroupDetail
   setLoading: (v: boolean) => void
   matchRequest?: MatchRequestTarget
-}> = ({ data, setLoading, matchRequest }) => {
+  hasOwnGroup: boolean
+}> = ({ data, setLoading, matchRequest, hasOwnGroup }) => {
   const { status, type } = matchRequest || {}
   const { alertStore, chatStore } = useStores()
   const { data: myData } = useMy()
@@ -302,14 +309,7 @@ const ButtonContent: React.FC<{
       text='매칭하기'
       onPress={() => {
         // check is my group
-        if (data.id === myData?.joined_groups?.[0].group.id) {
-          alertStore.open({
-            title: '내 그룹과는 매칭할 수 없어요',
-            body: '[핫플 탭] 에서 관심 가는 그룹을 찾아보세요 :)',
-          })
-          return
-        }
-        if (!myData?.joined_groups?.[0].group.id) {
+        if (!hasOwnGroup) {
           alertStore.open({
             title: '아직 속한 그룹이 없어요!',
             body: '먼저 그룹을 생성해주세요!',
@@ -332,7 +332,7 @@ const ButtonContent: React.FC<{
               setLoading(true)
               try {
                 await sendMatchRequest(
-                  myData?.joined_groups?.[0].group.id!,
+                  myData.joined_groups![0].group.id,
                   data.id,
                 )
                 alertStore.open({

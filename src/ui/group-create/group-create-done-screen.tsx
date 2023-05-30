@@ -1,17 +1,16 @@
-import { useMy } from 'api/reads'
 import { BackGroundPatternSvg, GroupCardsSvg } from 'image'
+import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { View } from 'react-native'
+import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Column } from 'ui/common/layout'
+import { H1 } from 'ui/common/text'
 import { BlueContainer } from 'ui/group-create/blue-container'
-import { GroupCreateH1 } from 'ui/group-create/group-create-h1'
 
 export const GroupCreateDoneScreen = () => {
-  const { data } = useMy()
-  if (!data) return null
   return (
     <>
       <BlueContainer>
@@ -33,3 +32,10 @@ export const GroupCreateDoneScreen = () => {
     </>
   )
 }
+
+const GroupCreateH1 = styled(H1)`
+  text-align: center;
+  color: ${Colors.white};
+  margin-top: 36px;
+  margin-bottom: 16px;
+`
