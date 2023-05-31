@@ -2,9 +2,7 @@ import { GpsLocation } from 'infra/types'
 import { Dimensions, Platform } from 'react-native'
 
 export const IS_DEV = __DEV__
-export const SERVER_BASE_URL = !IS_DEV
-  ? 'https://prod.hey-match.com/api'
-  : 'https://dev.hey-match.com/api'
+export const SERVER_BASE_URL = 'https://dev.hey-match.com/api'
 export enum OS {
   ANDROID = 'android',
   IOS = 'ios',
