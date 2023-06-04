@@ -348,3 +348,8 @@ export type TopRankedAddress = {
   result: Map<string, number>
   aggregated_at: string
 }
+
+export type PushNotificationType = {
+  PASSED_PROFILE: 'PASSED_PROFILE'
+  REJECTED_PROFILE: 'REJECTED_PROFILE'
+}
