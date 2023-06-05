@@ -96,9 +96,6 @@ export const AuthScreen = () => {
                   authorizePhoneNumber(phone, v, sessionToken)
                     .then((res) => {
                       setCodeError(undefined)
-                      if (res.user.has_account) {
-                        authStore.checkHasAccount()
-                      }
                       if (res.user.schedule_delete_canceled) {
                         alertStore.open({
                           title: '계정이 복구되었어요!',

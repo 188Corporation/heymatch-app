@@ -11,7 +11,6 @@ const HAS_ACCOUNT_KEY = 'auth:has-account'
 export class AuthStore {
   isInitializing: boolean = true
   isLoggedIn: boolean = false
-  hasAccount: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -39,9 +38,9 @@ export class AuthStore {
       }
     })
     // read agreement from storage
-    storage.getItem<boolean>(HAS_ACCOUNT_KEY).then((isChecked) => {
-      this.setHasAccount(isChecked === true)
-    })
+    // storage.getItem<boolean>(HAS_ACCOUNT_KEY).then((isChecked) => {
+    //   this.setHasAccount(isChecked === true)
+    // })
   }
 
   setIsInitializing(v: boolean) {
@@ -67,14 +66,5 @@ export class AuthStore {
     this.isLoggedIn = false
     OneSignal.removeExternalUserId()
     OneSignal.logoutSMSNumber()
-  }
-
-  setHasAccount(v: boolean) {
-    this.hasAccount = v
-  }
-
-  checkHasAccount() {
-    this.setHasAccount(true)
-    storage.setItem(HAS_ACCOUNT_KEY, true)
   }
 }

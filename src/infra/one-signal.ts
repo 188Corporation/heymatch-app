@@ -3,7 +3,7 @@ import OneSignal from 'react-native-onesignal'
 import { PushNotificationType } from './types'
 
 export const oneSignal = {
-  init: ({ checkHasAccount }: { checkHasAccount: () => void }) => {
+  init: () => {
     OneSignal.setAppId(ONESIGNAL_APP_ID)
     // TODO: modify
     // promptForPushNotificationsWithUserResponse will show the native iOS or Android notification permission prompt.
@@ -20,11 +20,6 @@ export const oneSignal = {
         console.log('notification: ', notification)
         const data = notification.additionalData as PushNotificationType
         console.log('additionalData: ', data)
-
-        if (data.PASSED_PROFILE) {
-          checkHasAccount()
-        }
-
         // Complete with null means don't show a notification.
         notificationReceivedEvent.complete(notification)
       },

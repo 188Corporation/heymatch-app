@@ -44,15 +44,12 @@ export const RootStacks = observer(() => {
     keyboardStore.sub()
     permissionStore.checkAll()
     paymentManager.initialize()
-    oneSignal.init({
-      checkHasAccount: () => authStore.checkHasAccount(),
-    })
+    oneSignal.init()
     return () => {
       paymentManager.terminate()
       keyboardStore.unsub()
     }
-  }, [authStore, authStore.checkHasAccount, keyboardStore, permissionStore])
-
+  }, [keyboardStore, permissionStore])
   // authStore.logout()
 
   return (
