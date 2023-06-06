@@ -3,7 +3,6 @@ import { CloseSvg, PlusSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { CURRENT_OS, OS } from 'infra/constants'
 import { observer } from 'mobx-react'
-import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { launchImageLibrary } from 'react-native-image-picker'
@@ -73,9 +72,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               jobTitle: userProfileStore.jobTitle,
             })
             await mutate('/users/my/')
-            navigation.navigate('ProfilePhotoVerificationScreen', {
-              stage: 'BEFORE',
-            })
+            await mutate('/users/my/onboarding/')
           } catch (e) {
             alertStore.error(e, '회원정보 등록에 실패했어요!')
           } finally {

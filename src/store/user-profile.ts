@@ -26,10 +26,10 @@ export class UserProfileStore {
     return this.photos
   }
 
-  get getBodyForm() {
-    if (this.gender === 'm') {
+  getBodyForm(gender: Gender) {
+    if (gender === 'm') {
       return this.maleBodyForm
-    } else if (this.gender === 'f') {
+    } else if (gender === 'f') {
       return this.femaleBodyForm
     } else {
       return null

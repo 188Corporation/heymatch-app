@@ -57,8 +57,6 @@ export type User = {
   verified_school_name?: string
   verified_company_name?: string
   point_balance: number
-  has_account: boolean
-  is_main_profile_photo_under_verification: boolean
   free_pass: boolean
   free_pass_active_until: string | null
 }
@@ -66,7 +64,6 @@ export type User = {
 export type AuthorizeUser = {
   id: string
   stream_token: string
-  has_account: boolean
   is_main_profile_photo_under_verification: boolean
   username: string
   phone_number: string
@@ -352,4 +349,14 @@ export type TopRankedAddress = {
 export type PushNotificationType = {
   PASSED_PROFILE: 'PASSED_PROFILE'
   REJECTED_PROFILE: 'REJECTED_PROFILE'
+}
+
+export type OnboardingStatus = {
+  status:
+    | 'onboarding_completed'
+    | 'onboarding_basic_info_incomplete'
+    | 'onboarding_profile_under_verification_extra_info_incomplete'
+    | 'onboarding_profile_under_verification_extra_info_completed'
+    | 'onboarding_profile_rejected'
+    | 'onboarding_extra_info_in_progress'
 }

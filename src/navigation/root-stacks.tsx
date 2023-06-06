@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
+import { useOnboardingStatus } from 'api/reads'
 import { oneSignal } from 'infra/one-signal'
 import { paymentManager } from 'infra/payments'
 import { observer } from 'mobx-react'
@@ -22,6 +23,7 @@ import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verificati
 import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
@@ -58,85 +60,134 @@ export const RootStacks = observer(() => {
         <Stack.Screen name='LoadingScreen' component={LoadingScreen} />
       ) : !authStore.isLoggedIn ? (
         <Stack.Screen name='AuthScreen' component={AuthScreen} />
-      ) : !authStore.hasAccount ? (
-        <>
-          <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
-          <Stack.Screen name='UsernameScreen' component={UsernameScreen} />
-          <Stack.Screen name='GenderScreen' component={GenderScreen} />
-          <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
-          <Stack.Screen
-            name='ProfilePhotoRegisterScreen'
-            component={ProfilePhotoRegisterScreen}
-          />
-          <Stack.Screen
-            name='ProfilePhotoVerificationScreen'
-            component={ProfilePhotoVerificationScreen}
-          />
-          <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
-          <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
-          <Stack.Screen name='EmailInputScreen' component={EmailInputScreen} />
-          <Stack.Screen
-            name='SelectSubsidiaryScreen'
-            component={SelectSubsidiaryScreen}
-          />
-          <Stack.Screen
-            name='EmailVerificationCodeInputScreen'
-            component={EmailVerificationCodeInputScreen}
-          />
-          <Stack.Screen
-            name='ConfirmCompanyScreen'
-            component={ConfirmCompanyScreen}
-          />
-          <Stack.Screen
-            name='ProfilePhotoRejectedScreen'
-            component={ProfilePhotoRejectedScreen}
-          />
-        </>
       ) : (
-        <>
-          <Stack.Screen name='MainTabs' component={MainTabs} />
-          <Stack.Screen
-            name='GroupCreateStacks'
-            component={GroupCreateStacks}
-          />
-          <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
-          <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
-          <Stack.Screen name='ChatDetailScreen' component={ChatDetailScreen} />
-          <Stack.Screen
-            name='PurchaseHistoryScreen'
-            component={PurchaseHistoryScreen}
-          />
-          <Stack.Screen
-            name='UserManagementScreen'
-            component={UserManagementScreen}
-          />
-          <Stack.Screen
-            name='UserWithdrawalScreen'
-            component={UserWithdrawalScreen}
-          />
-          <Stack.Screen
-            name='SearchPlaceResultsScreen'
-            component={SearchPlaceResultsScreen}
-          />
-          <Stack.Screen
-            name='EditUserProfileScreen'
-            component={EditUserProfileScreen}
-          />
-          <Stack.Screen
-            name='EditUserInfoStacks'
-            component={EditUserInfoStacks}
-          />
-          <Stack.Screen
-            name='GroupDetailScreen'
-            component={GroupDetailScreen}
-          />
-          <Stack.Screen
-            name='UserProfileScreen'
-            component={UserProfileScreen}
-          />
-        </>
+        <Stack.Screen name='StacksAfterLogin' component={StacksAfterLogin} />
       )}
       <Stack.Screen name='WebViewScreen' component={WebViewScreen} />
     </Stack.Navigator>
   )
 })
+
+const StacksAfterLogin = () => {
+  const { data } = useOnboardingStatus()
+  if (!data) {
+    return <LoadingOverlay />
+  }
+  const renderStack = () => {
+    switch (data.status) {
+      case 'onboarding_basic_info_incomplete':
+        return (
+          <>
+            <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
+            <Stack.Screen name='UsernameScreen' component={UsernameScreen} />
+            <Stack.Screen name='GenderScreen' component={GenderScreen} />
+            <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
+            <Stack.Screen
+              name='ProfilePhotoRegisterScreen'
+              component={ProfilePhotoRegisterScreen}
+            />
+          </>
+        )
+      case 'onboarding_extra_info_in_progress':
+        return (
+          <>
+            <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
+            <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
+            <Stack.Screen
+              name='EmailInputScreen'
+              component={EmailInputScreen}
+            />
+            <Stack.Screen
+              name='SelectSubsidiaryScreen'
+              component={SelectSubsidiaryScreen}
+            />
+            <Stack.Screen
+              name='EmailVerificationCodeInputScreen'
+              component={EmailVerificationCodeInputScreen}
+            />
+            <Stack.Screen
+              name='ConfirmCompanyScreen'
+              component={ConfirmCompanyScreen}
+            />
+          </>
+        )
+
+      case 'onboarding_profile_under_verification_extra_info_incomplete':
+      case 'onboarding_profile_under_verification_extra_info_completed':
+        return (
+          <Stack.Screen
+            name='ProfilePhotoVerificationScreen'
+            component={ProfilePhotoVerificationScreen}
+          />
+        )
+      case 'onboarding_profile_rejected':
+        return (
+          <>
+            <Stack.Screen
+              name='ProfilePhotoRejectedScreen'
+              component={ProfilePhotoRejectedScreen}
+            />
+            <Stack.Screen
+              name='ProfilePhotoRegisterScreen'
+              component={ProfilePhotoRegisterScreen}
+            />
+          </>
+        )
+      case 'onboarding_completed':
+        return (
+          <>
+            <Stack.Screen name='MainTabs' component={MainTabs} />
+            <Stack.Screen
+              name='GroupCreateStacks'
+              component={GroupCreateStacks}
+            />
+            <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
+            <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
+            <Stack.Screen
+              name='ChatDetailScreen'
+              component={ChatDetailScreen}
+            />
+            <Stack.Screen
+              name='PurchaseHistoryScreen'
+              component={PurchaseHistoryScreen}
+            />
+            <Stack.Screen
+              name='UserManagementScreen'
+              component={UserManagementScreen}
+            />
+            <Stack.Screen
+              name='UserWithdrawalScreen'
+              component={UserWithdrawalScreen}
+            />
+            <Stack.Screen
+              name='SearchPlaceResultsScreen'
+              component={SearchPlaceResultsScreen}
+            />
+            <Stack.Screen
+              name='EditUserProfileScreen'
+              component={EditUserProfileScreen}
+            />
+            <Stack.Screen
+              name='EditUserInfoStacks'
+              component={EditUserInfoStacks}
+            />
+            <Stack.Screen
+              name='GroupDetailScreen'
+              component={GroupDetailScreen}
+            />
+            <Stack.Screen
+              name='UserProfileScreen'
+              component={UserProfileScreen}
+            />
+          </>
+        )
+      default:
+        throw new Error('Invalid onboarding status')
+    }
+  }
+  return (
+    <Stack.Navigator screenOptions={COMMON_STACK_SCREEN_OPTIONS}>
+      {renderStack()}
+    </Stack.Navigator>
+  )
+}

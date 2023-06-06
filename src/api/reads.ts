@@ -14,6 +14,7 @@ import {
   HotPlace,
   MatchRequest,
   MyInfo,
+  OnboardingStatus,
   PurchaseItem,
   ResponseEnvelope,
   SearchPlaceList,
@@ -45,6 +46,9 @@ export const useCustomSWR = <T>(
 
 export const useMy = (isLoggedIn: boolean = true) =>
   useCustomSWR<MyInfo>(isLoggedIn ? '/users/my/' : null)
+
+export const useOnboardingStatus = () =>
+  useCustomSWR<OnboardingStatus>('/users/my/onboarding/')
 
 export const useHotPlaceList = () => useCustomSWR<HotPlace[]>('/hotplaces/')
 

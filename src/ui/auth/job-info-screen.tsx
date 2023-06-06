@@ -1,5 +1,5 @@
-import { useMy } from 'api/reads'
-import { editUserInfo } from 'api/writes'
+import { useOnboardingStatus } from 'api/reads'
+import { completeInputExtraInfo, editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -21,7 +21,7 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
   const { userProfileStore, alertStore } = useStores()
   const [loading, setLoading] = useState(false)
 
@@ -79,7 +79,7 @@ export const JobInfoScreen = observer(() => {
           </RadioForm>
         </Container>
       </FlexScrollView>
-      {!data?.user.has_account && (
+      {data?.status === 'onboarding_completed' && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -107,10 +107,7 @@ export const JobInfoScreen = observer(() => {
                     jobTitle: userProfileStore.jobTitle,
                   })
                   await mutate('/users/my/')
-                  // TODO: profile-photo-examination 혹은 메인화면
-                  navigation.navigate('ProfilePhotoVerificationScreen', {
-                    stage: 'AFTER',
-                  })
+                  await mutate('/users/my/onboarding/')
                 } catch (e) {
                   alertStore.error(e, '회원정보 등록에 실패했어요!')
                 } finally {
@@ -146,16 +143,14 @@ export const JobInfoScreen = observer(() => {
                 jobTitle: userProfileStore.jobTitle,
               })
               await mutate('/users/my/')
-              if (data?.user.has_account) {
-                navigation.navigate('MyScreen')
+              if (data?.status === 'onboarding_completed') {
+                navigation.goBack()
               } else {
-                // TODO: profile-photo-examination 혹은 메인화면
-                navigation.navigate('ProfilePhotoVerificationScreen', {
-                  stage: 'AFTER',
-                })
+                await completeInputExtraInfo()
+                await mutate('/users/my/onboarding/')
               }
             } catch (e) {
-              alertStore.error(e, '프로필 사진 등록에 실패했어요!')
+              alertStore.error(e, '회원정보 등록에 실패했어요!')
             } finally {
               setLoading(false)
             }

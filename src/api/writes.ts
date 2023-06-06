@@ -335,3 +335,17 @@ export const deleteProfilePhoto = async ({
   )
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const completeInputExtraInfo = async () => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    '/users/my/onboarding/complete/extra-info/',
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}
+
+export const inprogressInputExtraInfo = async () => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    '/users/my/onboarding/in-progress/extra-info/',
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}

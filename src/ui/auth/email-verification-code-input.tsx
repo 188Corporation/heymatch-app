@@ -1,5 +1,10 @@
-import { useMy } from 'api/reads'
-import { authorizeEmail, editUserInfo, getCodeByEmail } from 'api/writes'
+import { useOnboardingStatus } from 'api/reads'
+import {
+  authorizeEmail,
+  completeInputExtraInfo,
+  editUserInfo,
+  getCodeByEmail,
+} from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -21,7 +26,7 @@ const VALID_TIME = 180
 const CAN_RESEND_TIME = 120
 
 export const EmailVerificationCodeInputScreen = observer(() => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
   const { alertStore, userProfileStore } = useStores()
 
   const emailVerificationCodeInputRef = useRef<TextInput | null>(null)
@@ -88,7 +93,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
           </Container>
         </FlexScrollView>
       </View>
-      {!data?.user.has_account && (
+      {data?.status !== 'onboarding_completed' && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -115,10 +120,8 @@ export const EmailVerificationCodeInputScreen = observer(() => {
                     jobTitle: userProfileStore.jobTitle,
                   })
                   await mutate('/users/my/')
-
-                  navigation.navigate('ProfilePhotoVerificationScreen', {
-                    stage: 'AFTER',
-                  })
+                  await completeInputExtraInfo()
+                  await mutate('/users/my/onboarding/')
                 } catch (e) {
                   alertStore.error(e, '회원정보 등록에 실패했어요!')
                 } finally {

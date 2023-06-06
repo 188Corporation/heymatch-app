@@ -19,7 +19,7 @@ export type RootStackParamList = {
   GenderScreen: {}
   BirthdayScreen: {}
   ProfilePhotoRegisterScreen: {}
-  ProfilePhotoVerificationScreen: { stage: 'BEFORE' | 'AFTER' }
+  ProfilePhotoVerificationScreen: {}
   ProfilePhotoRejectedScreen: {}
   BodyInfoScreen: {}
   JobInfoScreen: {}
@@ -36,6 +36,7 @@ export type RootStackParamList = {
   }
   UserProfileScreen: { user: GroupMember['user'] }
   SearchPlaceResultsScreen: {}
+  StacksAfterLogin: {}
 }
 
 export interface MatchRequestTarget {
@@ -47,11 +48,6 @@ export interface MatchRequestTarget {
 export type WebViewScreenProps = StackScreenProps<
   RootStackParamList,
   'WebViewScreen'
->
-
-export type ProfilePhotoVerificationScreenProps = StackScreenProps<
-  RootStackParamList,
-  'ProfilePhotoVerificationScreen'
 >
 
 export type GroupDetailScreenProps = StackScreenProps<

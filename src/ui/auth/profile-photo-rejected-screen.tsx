@@ -44,8 +44,6 @@ export const ProfilePhotoRejectedScreen = () => {
       </FlexScrollView>
       <BottomButton
         text='프로필 사진 수정하기'
-        // 서버로부터 심사 불통과에 대한 event emitter를 받게 된다면
-        // ProfilePhotoRegisterScreen에서 사진을 등록한 뒤 바로 ProfilePhotoVerificationScreen AFTER로 이동
         onPress={() => navigation.navigate('ProfilePhotoRegisterScreen')}
       />
     </>

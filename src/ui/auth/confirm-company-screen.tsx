@@ -1,16 +1,19 @@
-import { useMy } from 'api/reads'
+import { useOnboardingStatus } from 'api/reads'
+import { completeInputExtraInfo } from 'api/writes'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const ConfirmCompanyScreen = () => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
+
   const { userProfileStore } = useStores()
   return (
     <>
@@ -35,13 +38,12 @@ export const ConfirmCompanyScreen = () => {
       </View>
       <BottomButton
         text='다음으로'
-        onPress={() => {
-          if (!data?.user.has_account) {
-            navigation.navigate('ProfilePhotoVerificationScreen', {
-              stage: 'AFTER',
-            })
-          } else {
+        onPress={async () => {
+          if (data?.status === 'onboarding_completed') {
             navigation.navigate('MyScreen')
+          } else {
+            await completeInputExtraInfo()
+            await mutate('/users/my/onboarding/')
           }
         }}
       />

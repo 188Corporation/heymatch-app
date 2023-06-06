@@ -7,7 +7,6 @@ import OneSignal from 'react-native-onesignal'
 import { decode } from 'react-native-pure-jwt'
 
 const TOKEN_KEY = 'auth:access-token'
-const HAS_ACCOUNT_KEY = 'auth:has-account'
 export class AuthStore {
   isInitializing: boolean = true
   isLoggedIn: boolean = false
@@ -61,7 +60,6 @@ export class AuthStore {
 
   logout() {
     storage.removeItem(TOKEN_KEY)
-    storage.removeItem(HAS_ACCOUNT_KEY)
     tokenManager.setToken('')
     this.isLoggedIn = false
     OneSignal.removeExternalUserId()

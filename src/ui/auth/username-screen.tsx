@@ -1,4 +1,4 @@
-import { useMy } from 'api/reads'
+import { useOnboardingStatus } from 'api/reads'
 import { checkUsername } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
@@ -17,14 +17,14 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body2, Caption, DescBody2, H1 } from 'ui/common/text'
 
 export const UsernameScreen = observer(() => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
   const { userProfileStore } = useStores()
   const [isUnique, setIsUnique] = useState<boolean | null>(null)
-  const isEditing = !!data?.user.has_account
+  const isEditing = data?.status === 'onboarding_completed'
 
   return (
     <KeyboardAvoidingView>
-      {data?.user.has_account ? (
+      {isEditing ? (
         <NavigationHeader backButtonStyle='black' title='' />
       ) : (
         <TopInsetSpace />

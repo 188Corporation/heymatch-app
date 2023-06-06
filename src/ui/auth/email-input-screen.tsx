@@ -1,5 +1,9 @@
-import { useMy } from 'api/reads'
-import { editUserInfo, getCodeByEmail } from 'api/writes'
+import { useOnboardingStatus } from 'api/reads'
+import {
+  completeInputExtraInfo,
+  editUserInfo,
+  getCodeByEmail,
+} from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -18,7 +22,7 @@ import { NavigationHeader } from 'ui/common/navigation-header'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const EmailInputScreen = observer(() => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
   const { userProfileStore, alertStore } = useStores()
   const emailInputRef = useRef<TextInput | null>(null)
   const [loading, setLoading] = useState(false)
@@ -56,7 +60,7 @@ export const EmailInputScreen = observer(() => {
           </Container>
         </FlexScrollView>
       </View>
-      {!data?.user.has_account && (
+      {data?.status !== 'onboarding_completed' && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -83,10 +87,8 @@ export const EmailInputScreen = observer(() => {
                     jobTitle: userProfileStore.jobTitle,
                   })
                   await mutate('/users/my/')
-                  // TODO: profile-photo-examination 혹은 메인화면
-                  navigation.navigate('ProfilePhotoVerificationScreen', {
-                    stage: 'AFTER',
-                  })
+                  await completeInputExtraInfo()
+                  await mutate('/users/my/onboarding/')
                 } catch (e) {
                   alertStore.error(e, '회원정보 등록에 실패했어요!')
                 } finally {

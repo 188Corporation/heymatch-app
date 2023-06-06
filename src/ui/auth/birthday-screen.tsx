@@ -1,4 +1,4 @@
-import { useMy } from 'api/reads'
+import { useOnboardingStatus } from 'api/reads'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1 } from 'ui/common/text'
 
 export const BirthdayScreen = observer(() => {
-  const { data } = useMy()
+  const { data } = useOnboardingStatus()
   const { userProfileStore } = useStores()
   const [birthday, setBirthday] = useState<Date>(new Date('2003-12-31'))
 
@@ -55,9 +55,9 @@ export const BirthdayScreen = observer(() => {
         </Container>
       </FlexScrollView>
       <BottomButton
-        text={data?.user.has_account ? '수정하기' : '다음으로'}
+        text={data?.status === 'onboarding_completed' ? '수정하기' : '다음으로'}
         onPress={() => {
-          if (data?.user.has_account) {
+          if (data?.status === 'onboarding_completed') {
             navigation.goBack()
           } else {
             navigation.navigate('ProfilePhotoRegisterScreen')
