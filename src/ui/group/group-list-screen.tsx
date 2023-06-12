@@ -10,6 +10,7 @@ import React, { ReactNode, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   FlatList,
+  RefreshControl,
   ScrollView,
   TouchableOpacity,
   View,
@@ -41,7 +42,13 @@ export const GroupListScreen = observer(() => {
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
     useState(false)
 
-  const { data: groupLists, size, setSize } = useGroupList(filterParams)
+  const {
+    data: groupLists,
+    size,
+    setSize,
+    mutate: refetchGroupList,
+    isLoading,
+  } = useGroupList(filterParams)
 
   useEffect(() => {
     locationStore.getLocation(true)
@@ -108,6 +115,12 @@ export const GroupListScreen = observer(() => {
                   )
                 }}
                 onEndReached={() => setSize(size + 1)}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isLoading}
+                    onRefresh={async () => await refetchGroupList()}
+                  />
+                }
                 ListFooterComponent={
                   <>
                     {groupLists[groupLists?.length - 1].data.next && (

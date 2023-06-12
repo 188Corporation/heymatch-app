@@ -41,7 +41,6 @@ export type UserProfileImages = {
   image: string
   thumbnail: string
   order: number
-  is_active: boolean
 }
 export type User = {
   id: string
@@ -64,7 +63,6 @@ export type User = {
 export type AuthorizeUser = {
   id: string
   stream_token: string
-  is_main_profile_photo_under_verification: boolean
   username: string
   phone_number: string
   schedule_delete_canceled: boolean

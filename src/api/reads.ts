@@ -61,6 +61,7 @@ export const useGroupList = (filter?: string) => {
     error,
     size,
     setSize,
+    mutate,
   } = useSWRInfinite<GroupsList>(
     (pageIndex: number, previousPageData: GroupsList) => {
       if (previousPageData && previousPageData.data.next === null) {
@@ -75,6 +76,8 @@ export const useGroupList = (filter?: string) => {
     isError: error,
     size,
     setSize,
+    mutate,
+    isLoading: !error && !res,
   }
 }
 
