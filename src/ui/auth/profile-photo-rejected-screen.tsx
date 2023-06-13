@@ -1,8 +1,8 @@
 import { Colors } from 'infra/colors'
+import { storage } from 'infra/storage'
 import { navigation } from 'navigation/global'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
-import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
@@ -11,7 +11,16 @@ import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body2, H2 } from 'ui/common/text'
 
 export const ProfilePhotoRejectedScreen = () => {
-  const { userProfileStore } = useStores()
+  const [mainPhoto, setMainPhoto] = useState('')
+
+  useEffect(() => {
+    ;(async () => {
+      storage
+        .getItem<string>('main-profile-photo')
+        .then((x) => setMainPhoto(x ?? ''))
+    })()
+  }, [mainPhoto])
+
   return (
     <>
       <FlexScrollView>
@@ -19,7 +28,7 @@ export const ProfilePhotoRejectedScreen = () => {
         <Container style={{ height: '100%', justifyContent: 'center' }}>
           <View style={{ width: '100%', alignItems: 'center' }}>
             <Image
-              source={{ uri: userProfileStore.photos.mainPhoto }}
+              source={{ uri: mainPhoto }}
               style={{
                 width: 128,
                 height: 128,

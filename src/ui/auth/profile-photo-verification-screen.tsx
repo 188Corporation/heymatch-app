@@ -1,9 +1,9 @@
 import { useOnboardingStatus } from 'api/reads'
 import { completeInputExtraInfo, inprogressInputExtraInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
-import React, { useEffect, useRef } from 'react'
+import { storage } from 'infra/storage'
+import React, { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
@@ -15,8 +15,17 @@ import { Body2, H2 } from 'ui/common/text'
 
 export const ProfilePhotoVerificationScreen = () => {
   const { data } = useOnboardingStatus()
-  const { userProfileStore } = useStores()
   const intervalRef = useRef<NodeJS.Timer | null>(null)
+  const [mainPhoto, setMainPhoto] = useState('')
+
+  useEffect(() => {
+    ;(async () => {
+      storage
+        .getItem<string>('main-profile-photo')
+        .then((x) => setMainPhoto(x ?? ''))
+    })()
+  }, [mainPhoto])
+
   useEffect(() => {
     if (
       data?.status !==
@@ -47,7 +56,7 @@ export const ProfilePhotoVerificationScreen = () => {
         <Container style={{ height: '100%', justifyContent: 'center' }}>
           <View style={{ width: '100%', alignItems: 'center' }}>
             <Image
-              source={{ uri: userProfileStore.photos.mainPhoto }}
+              source={{ uri: mainPhoto }}
               style={{
                 width: 128,
                 height: 128,
