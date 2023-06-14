@@ -493,6 +493,15 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
     }
   }
 
+  if (
+    !group.group_members[0] ||
+    !group.group_members[0].user ||
+    !group.group_members[0].user.user_profile_images[0] ||
+    !group.group_members[0].user.user_profile_images[0].thumbnail
+  ) {
+    return <></>
+  }
+
   return (
     <GroupItemContainer
       onPress={() => {
