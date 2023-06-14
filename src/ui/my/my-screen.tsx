@@ -69,7 +69,7 @@ export const MyScreen = () => {
       ])
     }
   }
-  if (!data) return <LoadingOverlay />
+  if (!data || !data.user_profile_images[0]) return <LoadingOverlay />
 
   return (
     <ScrollView>
@@ -81,7 +81,7 @@ export const MyScreen = () => {
               <Avatar
                 side={60}
                 source={{
-                  uri: data?.user_profile_images[0].thumbnail,
+                  uri: data.user_profile_images[0].thumbnail,
                 }}
               />
             </AvatarRing>
