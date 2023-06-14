@@ -22,8 +22,8 @@ export const BodyInfoScreen = observer(() => {
   const { data: myData } = useMy()
   const { data: onboardingStatusData } = useOnboardingStatus()
   const { userProfileStore, alertStore } = useStores()
-  const [height, setHeight] = useState(160)
-  const heightItems = Array.from({ length: 61 }, (_, i) => i + 160).map((x) => {
+  const [height, setHeight] = useState(170)
+  const heightItems = Array.from({ length: 91 }, (_, i) => i + 120).map((x) => {
     return {
       value: x,
       label: `${x}cm`,
