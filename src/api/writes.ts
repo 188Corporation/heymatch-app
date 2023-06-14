@@ -349,3 +349,10 @@ export const inprogressInputExtraInfo = async () => {
   )
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const purchaseProfilePhotos = async (groupId: number) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/groups/${groupId}/purchase/photo/`,
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}

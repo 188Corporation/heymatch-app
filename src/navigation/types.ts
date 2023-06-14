@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { GroupMember, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import { MatchRequestStatus, MatchRequestType } from 'infra/types'
 
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
@@ -34,7 +34,7 @@ export type RootStackParamList = {
     matchRequest?: MatchRequestTarget
     hideButton?: boolean
   }
-  UserProfileScreen: { user: GroupMember['user'] }
+  UserProfileScreen: { groupId: number }
   SearchPlaceResultsScreen: {}
   StacksAfterLogin: {}
 }

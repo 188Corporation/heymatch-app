@@ -198,14 +198,13 @@ export type GroupInfo = {
   group_members: GroupMember[]
 }
 
-export type GroupDetail = GroupInfo
+export type GroupDetail = GroupInfo & { profile_photo_purchased: boolean }
 
 export type GroupsListItem = Omit<
   GroupInfo,
   'mode' | 'introduction' | 'meetup_address'
 >
 
-// TODO: HotPlaceWithGroups 대체 타입. 이름 바꿔야함
 export type GroupsList = {
   status: string
   code: number

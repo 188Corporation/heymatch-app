@@ -63,7 +63,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                   mainButton: '네 삭제할게요!',
                   subButton: '다음에 하기',
                   onMainPress: async () => {
-                    setLoading(true)
                     if (!groupData) return
                     setLoading(true)
                     try {
@@ -142,7 +141,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('UserProfileScreen', {
-                    user: leader.user,
+                    groupId: groupData.id,
                   })
                 }}
               >
