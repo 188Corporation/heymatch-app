@@ -208,7 +208,9 @@ export const ProfilePhotoEditor = observer(
           </SubTouchable>
           <SubTouchable
             style={{ marginTop: 14 }}
-            onPress={() => openPhotoGallery('sub2')}
+            onPress={() => {
+              openPhotoGallery(!photos.sub1Photo ? 'sub1' : 'sub2')
+            }}
           >
             {photos.sub2Photo ? (
               <>
