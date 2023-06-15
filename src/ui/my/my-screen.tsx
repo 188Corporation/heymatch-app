@@ -146,7 +146,7 @@ export const MyScreen = () => {
             disabled={profileUnderVerification}
           >
             <Caption>
-              {profileUnderVerification ? '심사 중..' : '프로필 편집'}
+              {profileUnderVerification ? '심사 중...' : '프로필 편집'}
             </Caption>
           </MyButton>
         </Row>

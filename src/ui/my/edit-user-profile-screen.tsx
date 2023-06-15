@@ -165,8 +165,12 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 username: userProfileStore.username,
                 gender: userProfileStore.gender!,
                 birthdate: userProfileStore.birthdate!,
-                mainProfileImage: profilePhotos.mainPhoto,
                 // 어차피 빈 필드면 edit 생략됨
+                mainProfileImage:
+                  profilePhotos.mainPhoto &&
+                  profilePhotos.mainPhoto === getSortedProfilePhotos().main
+                    ? ''
+                    : profilePhotos.mainPhoto,
                 otherProfileImage1: profilePhotos.sub1Photo,
                 otherProfileImage2: profilePhotos.sub2Photo,
                 heightCm: userProfileStore.height,
