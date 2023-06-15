@@ -1,6 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { MatchRequestStatus, MatchRequestType } from 'infra/types'
-
+import { MatchRequestStatus, MatchRequestType, MyInfo } from 'infra/types'
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
   LoadingScreen: {}
@@ -27,7 +26,7 @@ export type RootStackParamList = {
   EmailVerificationCodeInputScreen: {}
   SelectSubsidiaryScreen: {}
   ConfirmCompanyScreen: {}
-  EditUserProfileScreen: {}
+  EditUserProfileScreen: { data: MyInfo }
   EditUserInfoStacks: {}
   GroupDetailScreen: {
     id: number
@@ -58,4 +57,9 @@ export type GroupDetailScreenProps = StackScreenProps<
 export type UserProfileScreenProps = StackScreenProps<
   RootStackParamList,
   'UserProfileScreen'
+>
+
+export type EditUserProfileScreenProps = StackScreenProps<
+  RootStackParamList,
+  'EditUserProfileScreen'
 >

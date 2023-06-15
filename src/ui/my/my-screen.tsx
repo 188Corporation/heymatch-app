@@ -108,7 +108,7 @@ export const MyScreen = () => {
               <Avatar
                 side={60}
                 source={{
-                  uri: getSortedProfilePhotos().main.image,
+                  uri: getSortedProfilePhotos().main.thumbnail,
                 }}
               />
             </AvatarRing>
@@ -141,7 +141,7 @@ export const MyScreen = () => {
           <MyButton
             onPress={() => {
               initializeUserProfileStore()
-              navigation.navigate('EditUserProfileScreen')
+              navigation.navigate('EditUserProfileScreen', { data: myData })
             }}
             disabled={profileUnderVerification}
           >
