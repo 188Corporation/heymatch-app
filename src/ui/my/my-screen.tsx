@@ -1,4 +1,4 @@
-import { useMy } from 'api/reads'
+import { useMy, useOnboardingStatus } from 'api/reads'
 import {
   CandyIconPng,
   MyCandyGradientSvg as _MyCandyGradientSvg,
@@ -27,13 +27,19 @@ import { Body, Caption, H2, H3 } from 'ui/common/text'
 import { Menu, WebViewMenu } from 'ui/my/menu'
 
 export const MyScreen = () => {
-  const { data } = useMy()
+  const { data: myData } = useMy()
+  const { data: onboardingData } = useOnboardingStatus()
   const { alertStore, userProfileStore } = useStores()
 
-  if (!data || !data.user_profile_images[0]) return <LoadingOverlay />
+  if (!myData || !onboardingData) return <LoadingOverlay />
+
+  const profileUnderVerification =
+    Boolean(onboardingData.extra) &&
+    onboardingData.extra === 'profile_under_verification' &&
+    onboardingData.status === 'onboarding_completed'
 
   const getSortedProfilePhotos = () => {
-    const subPhotos = data.user_profile_images
+    const subPhotos = myData.user_profile_images
       .filter((_) => !_.is_main)
       .sort((a, b) => {
         if (a.order < b.order) {
@@ -44,16 +50,16 @@ export const MyScreen = () => {
       })
 
     return {
-      main: data.user_profile_images.find((_) => _.is_main)!,
+      main: myData.user_profile_images.find((_) => _.is_main)!,
       sub1: subPhotos[0] ?? undefined,
       sub2: subPhotos[1] ?? undefined,
     }
   }
 
   const initializeUserProfileStore = () => {
-    userProfileStore.setUsername(data.user.username)
-    userProfileStore.setBirthdate(data.user.birthdate!)
-    userProfileStore.setGender(data.user.gender!)
+    userProfileStore.setUsername(myData.user.username)
+    userProfileStore.setBirthdate(myData.user.birthdate!)
+    userProfileStore.setGender(myData.user.gender!)
     userProfileStore.setPhotos(getSortedProfilePhotos().main.image, 'main')
     if (getSortedProfilePhotos().sub1) {
       userProfileStore.setPhotos(getSortedProfilePhotos().sub1?.image, 'sub1')
@@ -65,25 +71,28 @@ export const MyScreen = () => {
     } else {
       userProfileStore.setPhotos('', 'sub2')
     }
-    if (data.user.male_body_form) {
-      userProfileStore.setBodyForm(data.user.gender!, data.user.male_body_form)
-    }
-    if (data.user.female_body_form) {
+    if (myData.user.male_body_form) {
       userProfileStore.setBodyForm(
-        data.user.gender!,
-        data.user.female_body_form,
+        myData.user.gender!,
+        myData.user.male_body_form,
       )
     }
-    if (data.user.height_cm) {
-      userProfileStore.setHeight(data.user.height_cm)
+    if (myData.user.female_body_form) {
+      userProfileStore.setBodyForm(
+        myData.user.gender!,
+        myData.user.female_body_form,
+      )
     }
-    if (data.user.job_title) {
-      userProfileStore.setJobTitle(data.user.job_title)
+    if (myData.user.height_cm) {
+      userProfileStore.setHeight(myData.user.height_cm)
     }
-    if (data.user.verified_company_name || data.user.verified_school_name) {
+    if (myData.user.job_title) {
+      userProfileStore.setJobTitle(myData.user.job_title)
+    }
+    if (myData.user.verified_company_name || myData.user.verified_school_name) {
       userProfileStore.setVerifiedOrganizationNames([
-        data.user.verified_company_name ??
-          data.user.verified_school_name ??
+        myData.user.verified_company_name ??
+          myData.user.verified_school_name ??
           '기타',
       ])
     }
@@ -105,11 +114,11 @@ export const MyScreen = () => {
             </AvatarRing>
           </TouchableOpacity>
         </Row>
-        <H2 style={{ marginBottom: 8 }}>{data.user.username}</H2>
+        <H2 style={{ marginBottom: 8 }}>{myData.user.username}</H2>
         <Row>
           <MyButton
             onPress={() => {
-              if (!data?.joined_groups?.[0]) {
+              if (!myData?.joined_groups?.[0]) {
                 alertStore.open({
                   title: '아직 속한 그룹이 없어요!',
                   body: '먼저 그룹을 생성해주세요!',
@@ -122,7 +131,7 @@ export const MyScreen = () => {
                 return
               }
               navigation.navigate('GroupDetailScreen', {
-                id: data.joined_groups[0].group.id,
+                id: myData.joined_groups[0].group.id,
               })
             }}
             style={{ marginRight: 12 }}
@@ -134,8 +143,11 @@ export const MyScreen = () => {
               initializeUserProfileStore()
               navigation.navigate('EditUserProfileScreen')
             }}
+            disabled={profileUnderVerification}
           >
-            <Caption>프로필 편집</Caption>
+            <Caption>
+              {profileUnderVerification ? '심사 중..' : '프로필 편집'}
+            </Caption>
           </MyButton>
         </Row>
       </GroupSection>
@@ -143,7 +155,7 @@ export const MyScreen = () => {
         <MyCandyGradientSvg preserveAspectRatio='none' width='120%' />
         <Body style={{ color: Colors.white }}>내 캔디</Body>
         <H3 style={{ color: Colors.white }}>
-          {data?.user?.point_balance || 0}
+          {myData?.user?.point_balance || 0}
         </H3>
       </CandySection>
       <VerticalSpace />
@@ -186,7 +198,10 @@ export const MyScreen = () => {
         </View>
       </Menu>
       <VerticalSpace />
-      <WebViewMenu title='고객문의 ∙ 건의사항' uri={data?.app_info?.faq_url!} />
+      <WebViewMenu
+        title='고객문의 ∙ 건의사항'
+        uri={myData?.app_info?.faq_url!}
+      />
       <VerticalSpace />
       <Menu onPress={() => navigation.navigate('UserManagementScreen')}>
         <Body>회원정보 관리</Body>
@@ -200,22 +215,22 @@ export const MyScreen = () => {
       <VerticalSpace />
       <WebViewMenu
         title='이용약관'
-        uri={data?.app_info?.terms_of_service_url!}
+        uri={myData?.app_info?.terms_of_service_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='개인정보처리방침'
-        uri={data?.app_info?.privacy_policy_url!}
+        uri={myData?.app_info?.privacy_policy_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='위치기반서비스 이용약관'
-        uri={data?.app_info?.terms_of_location_service_url!}
+        uri={myData?.app_info?.terms_of_location_service_url!}
       />
       <VerticalSpace />
       <WebViewMenu
         title='사업자 정보'
-        uri={data?.app_info?.business_registration_url!}
+        uri={myData?.app_info?.business_registration_url!}
       />
       <VerticalSpace />
       <VerticalSpace />

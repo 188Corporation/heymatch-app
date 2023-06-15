@@ -356,4 +356,7 @@ export type OnboardingStatus = {
     | 'onboarding_profile_under_verification_extra_info_completed'
     | 'onboarding_profile_rejected'
     | 'onboarding_extra_info_in_progress'
+
+  // extra에 오는 값은 profile_under_verification뿐임.
+  extra?: string
 }
