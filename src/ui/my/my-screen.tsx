@@ -30,19 +30,38 @@ export const MyScreen = () => {
   const { data } = useMy()
   const { alertStore, userProfileStore } = useStores()
 
+  if (!data || !data.user_profile_images[0]) return <LoadingOverlay />
+
+  const getSortedProfilePhotos = () => {
+    const subPhotos = data.user_profile_images
+      .filter((_) => !_.is_main)
+      .sort((a, b) => {
+        if (a.order < b.order) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+
+    return {
+      main: data.user_profile_images.find((_) => _.is_main)!,
+      sub1: subPhotos[0] ?? undefined,
+      sub2: subPhotos[1] ?? undefined,
+    }
+  }
+
   const initializeUserProfileStore = () => {
-    if (!data) return
     userProfileStore.setUsername(data.user.username)
     userProfileStore.setBirthdate(data.user.birthdate!)
     userProfileStore.setGender(data.user.gender!)
-    userProfileStore.setPhotos(data.user_profile_images[0].image, 'main')
-    if (data.user_profile_images[1]) {
-      userProfileStore.setPhotos(data.user_profile_images[1].image, 'sub1')
+    userProfileStore.setPhotos(getSortedProfilePhotos().main.image, 'main')
+    if (getSortedProfilePhotos().sub1) {
+      userProfileStore.setPhotos(getSortedProfilePhotos().sub1?.image, 'sub1')
     } else {
       userProfileStore.setPhotos('', 'sub1')
     }
-    if (data.user_profile_images[2]) {
-      userProfileStore.setPhotos(data.user_profile_images[2].image, 'sub2')
+    if (getSortedProfilePhotos().sub2) {
+      userProfileStore.setPhotos(getSortedProfilePhotos().sub2?.image, 'sub2')
     } else {
       userProfileStore.setPhotos('', 'sub2')
     }
@@ -69,7 +88,6 @@ export const MyScreen = () => {
       ])
     }
   }
-  if (!data || !data.user_profile_images[0]) return <LoadingOverlay />
 
   return (
     <ScrollView>
@@ -81,7 +99,7 @@ export const MyScreen = () => {
               <Avatar
                 side={60}
                 source={{
-                  uri: data.user_profile_images[0].thumbnail,
+                  uri: getSortedProfilePhotos().main.image,
                 }}
               />
             </AvatarRing>
