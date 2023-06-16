@@ -42,7 +42,7 @@ export const MyScreen = () => {
     const subPhotos = myData.user_profile_images
       .filter((_) => !_.is_main)
       .sort((a, b) => {
-        if (a.order < b.order) {
+        if (a.order > b.order) {
           return 1
         } else {
           return -1
