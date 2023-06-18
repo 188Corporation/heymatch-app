@@ -112,14 +112,13 @@ export const EmailInputScreen = observer(() => {
               userProfileStore.setVerifiedOrganizationNames(res.names)
             })
             await mutate('/auth/email/get-code/')
-
             if (userProfileStore.verifiedOrganizationNames?.length === 1) {
               navigation.navigate('EmailVerificationCodeInputScreen')
             } else {
               navigation.navigate('SelectSubsidiaryScreen')
             }
           } catch (e) {
-            alertStore.error(e, '이메일을 다시 확인해주세요!')
+            navigation.navigate('UnregisteredDomainScreen')
           } finally {
             setLoading(false)
           }

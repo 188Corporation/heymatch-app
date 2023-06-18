@@ -37,6 +37,7 @@ export type RootStackParamList = {
   SearchPlaceResultsScreen: {}
   StacksAfterLogin: {}
   RecommandationCodeScreen: {}
+  UnregisteredDomainScreen: {}
 }
 
 export interface MatchRequestTarget {

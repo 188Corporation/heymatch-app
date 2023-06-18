@@ -18,6 +18,7 @@ export { default as GroupCardsSvg } from './group-cards.svg'
 export { default as GroupCreateIntroSvg } from './group-create-intro.svg'
 export { default as GroupEditSvg } from './group-edit.svg'
 export { default as GroupsPlaceHolderSvg } from './groups-placeholder.svg'
+export { default as LockedSvg } from './locked.svg'
 export { default as MaleSvg } from './male.svg'
 export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
 export { default as PenSvg } from './pen.svg'
@@ -29,10 +30,10 @@ export { default as RightArrowSvg } from './right-arrow.svg'
 export { default as SearchSvg } from './search.svg'
 export { default as SendSvg } from './send.svg'
 export { default as SentMatchesPlaceholderSvg } from './sent-matches-placeholder.svg'
+export { default as UnregisteredDomainSvg } from './unregistered-domain.svg'
 export { default as UserProfileBgSVG } from './user-profile-bg.svg'
 export { default as UsersFillSvg } from './users-fill.svg'
 export { default as VerifiedSvg } from './verified.svg'
-
 export const LocationMarkerPng = require('./location-marker.png')
 export const CandyIconPng = require('./candy-icon.png')
 export const GroupMarkerBg = {

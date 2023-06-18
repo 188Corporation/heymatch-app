@@ -21,6 +21,7 @@ import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-scree
 import { ProfilePhotoRejectedScreen } from 'ui/auth/profile-photo-rejected-screen'
 import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
 import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
+import { UnregisteredDomainScreen } from 'ui/auth/unregistered-domain-screen'
 import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
@@ -109,6 +110,10 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='ConfirmCompanyScreen'
               component={ConfirmCompanyScreen}
+            />
+            <Stack.Screen
+              name='UnregisteredDomainScreen'
+              component={UnregisteredDomainScreen}
             />
           </>
         )
