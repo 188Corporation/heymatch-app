@@ -58,6 +58,7 @@ export type User = {
   point_balance: number
   free_pass: boolean
   free_pass_active_until: string | null
+  invitation_code: string
 }
 
 export type AuthorizeUser = {

@@ -1,16 +1,24 @@
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useMy } from 'api/reads'
+import { invitationCode } from 'api/writes'
 import { ClipboardSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
+import { useStores } from 'store/globals'
 import styled from 'styled-components'
+import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Input } from 'ui/common/input'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, DescBody2, H1, H3 } from 'ui/common/text'
 
 export const RecommandationCodeScreen = () => {
+  const { alertStore } = useStores()
+  const { data: myData } = useMy()
   const [code, setCode] = useState('')
 
   const copyToClipboard = () => {
@@ -20,6 +28,8 @@ export const RecommandationCodeScreen = () => {
       text1: '클립보드에 복사했어요!',
     })
   }
+
+  if (!myData) return <LoadingOverlay />
 
   return (
     <>
@@ -40,7 +50,7 @@ export const RecommandationCodeScreen = () => {
           />
           <H3 style={{ marginTop: 56, marginBottom: 16 }}>내 코드 복사하기</H3>
           <ProfileInfoContainer>
-            <Body>SSDDAA</Body>
+            <Body>{myData.user.invitation_code}</Body>
             <TouchableOpacity
               onPress={copyToClipboard}
               style={{ marginLeft: 'auto' }}
@@ -53,7 +63,15 @@ export const RecommandationCodeScreen = () => {
       <BottomButton
         text={'입력하기'}
         disabled={Boolean(!code)}
-        onPress={() => {}}
+        onPress={async () => {
+          try {
+            await invitationCode(code)
+            await mutate('/users/my/')
+            navigation.goBack()
+          } catch (e) {
+            alertStore.error(e, `${e}`)
+          }
+        }}
       />
     </>
   )

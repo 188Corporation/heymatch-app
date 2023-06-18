@@ -356,3 +356,10 @@ export const purchaseProfilePhotos = async (groupId: number) => {
   )
   if (res.code !== 200) throw new ApiError(res)
 }
+
+export const invitationCode = async (code: string) => {
+  const res: ResponseEnvelope<{}> = await postRequest(
+    `/invitation/${code}/accept/`,
+  )
+  if (res.code !== 200) throw new ApiError(res)
+}
