@@ -36,6 +36,7 @@ export type RootStackParamList = {
   UserProfileScreen: { groupId: number }
   SearchPlaceResultsScreen: {}
   StacksAfterLogin: {}
+  RecommandationCodeScreen: {}
 }
 
 export interface MatchRequestTarget {

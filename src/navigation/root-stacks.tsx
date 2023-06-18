@@ -30,6 +30,7 @@ import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
 import { EditUserProfileScreen } from 'ui/my/edit-user-profile-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
+import { RecommandationCodeScreen } from 'ui/my/recommandation-code-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
 import { UserProfileScreen } from 'ui/my/user-profile-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
@@ -178,6 +179,10 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='UserProfileScreen'
               component={UserProfileScreen}
+            />
+            <Stack.Screen
+              name='RecommandationCodeScreen'
+              component={RecommandationCodeScreen}
             />
           </>
         )

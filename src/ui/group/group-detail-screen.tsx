@@ -10,6 +10,7 @@ import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
 import React, { useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
+import Toast from 'react-native-toast-message'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { accept, reject } from 'store/common-actions'
 import { useStores } from 'store/globals'
@@ -46,6 +47,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(groupData.meetup_place_title)
+    Toast.show({
+      type: 'success',
+      text1: '클립보드에 복사했어요!',
+    })
   }
 
   return (

@@ -170,6 +170,10 @@ export const MyScreen = () => {
         </Row>
       </Menu>
       <VerticalSpace />
+      <Menu onPress={() => navigation.navigate('RecommandationCodeScreen')}>
+        <Body>추천인 코드</Body>
+      </Menu>
+      <VerticalSpace />
       <Menu onPress={() => navigation.navigate('PurchaseHistoryScreen')}>
         <Body>결제내역</Body>
       </Menu>
