@@ -359,4 +359,5 @@ export type OnboardingStatus = {
 
   // extra에 오는 값은 profile_under_verification뿐임.
   extra?: string
+  rejected_reason?: 'no_face_found' | 'more_than_one_face' | 'unknown'
 }
