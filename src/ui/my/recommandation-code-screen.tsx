@@ -21,8 +21,8 @@ export const RecommandationCodeScreen = () => {
   const { data: myData } = useMy()
   const [code, setCode] = useState('')
 
-  const copyToClipboard = () => {
-    Clipboard.setString(code)
+  const copyToClipboard = (_code: string) => {
+    Clipboard.setString(_code)
     Toast.show({
       type: 'success',
       text1: '클립보드에 복사했어요!',
@@ -39,7 +39,7 @@ export const RecommandationCodeScreen = () => {
           <View style={{ marginBottom: 60 }}>
             <H1 style={{ marginBottom: 12 }}>추천인 코드 입력하기</H1>
             <DescBody2>
-              추천인과 코드를 입력한 분 모두에게 캔디 20개를 드려요!
+              추천인과 코드를 입력한 분 모두에게 캔디 5개를 드려요!
             </DescBody2>
           </View>
           <Input
@@ -49,14 +49,13 @@ export const RecommandationCodeScreen = () => {
             onValueChange={setCode}
           />
           <H3 style={{ marginTop: 56, marginBottom: 16 }}>내 코드 복사하기</H3>
-          <ProfileInfoContainer>
-            <Body>{myData.user.invitation_code}</Body>
-            <TouchableOpacity
-              onPress={copyToClipboard}
-              style={{ marginLeft: 'auto' }}
-            >
-              <ClipboardSvg />
-            </TouchableOpacity>
+          <ProfileInfoContainer
+            onPress={() => copyToClipboard(myData.user.invitation_code)}
+          >
+            <Body style={{ marginRight: 'auto' }}>
+              {myData.user.invitation_code}
+            </Body>
+            <ClipboardSvg />
           </ProfileInfoContainer>
         </Container>
       </View>

@@ -1,6 +1,6 @@
 import { useGroup } from 'api/reads'
 import { purchaseProfilePhotos } from 'api/writes'
-import { UserProfileBgSVG, VerifiedSvg } from 'image'
+import { LockedSvg, UserProfileBgSVG, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { UserProfileImages } from 'infra/types'
 import { convertBodyform, getAge, getOrganization } from 'infra/util'
@@ -43,51 +43,66 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = observer(
             <UserProfileBgSVG />
           </View>
           <Container>
-            <TouchableOpacity
-              style={{
-                position: 'relative',
-                width: 116,
-                marginBottom: 16,
-                marginTop: 47,
-              }}
-              onPress={() => {
-                if (!group?.profile_photo_purchased) {
-                  alertStore.open({
-                    title: '캔디 1개를 사용해서 사진을 볼까요?',
-                    mainButton: '캔디 1개 사용하기',
-                    subButton: '다음에 사용하기',
-                    onMainPress: async () => {
-                      try {
-                        await purchaseProfilePhotos(group.id)
-                        await mutate(`/groups/${group.id}/`)
-                      } catch (e) {
-                        alertStore.error(e, '결제에 실패했어요!')
-                      }
-                    },
-                    children: () => (
-                      <CandyContainer>
-                        <TouchableOpacity
-                          onPress={() => navigation.navigate('PurchaseScreen')}
-                        >
-                          <CurrentCandy />
-                        </TouchableOpacity>
-                      </CandyContainer>
-                    ),
-                  })
-                } else {
-                  setIsModalVisible(true)
-                }
-              }}
-            >
-              <AvatarRing>
-                <Avatar
-                  side={102}
-                  source={{
-                    uri: user.user_profile_images[0].image,
+            <View>
+              <TouchableOpacity
+                style={{
+                  position: 'relative',
+                  width: 116,
+                  marginBottom: 16,
+                  marginTop: 47,
+                }}
+                onPress={() => {
+                  if (!group?.profile_photo_purchased) {
+                    alertStore.open({
+                      title: '캔디 1개를 사용해서 사진을 볼까요?',
+                      mainButton: '캔디 1개 사용하기',
+                      subButton: '다음에 사용하기',
+                      onMainPress: async () => {
+                        try {
+                          await purchaseProfilePhotos(group.id)
+                          await mutate(`/groups/${group.id}/`)
+                        } catch (e) {
+                          alertStore.error(e, '결제에 실패했어요!')
+                        }
+                      },
+                      children: () => (
+                        <CandyContainer>
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.navigate('PurchaseScreen')
+                            }
+                          >
+                            <CurrentCandy />
+                          </TouchableOpacity>
+                        </CandyContainer>
+                      ),
+                    })
+                  } else {
+                    setIsModalVisible(true)
+                  }
+                }}
+              >
+                <AvatarRing>
+                  <Avatar
+                    side={102}
+                    source={{
+                      uri: user.user_profile_images[0].image,
+                    }}
+                  />
+                </AvatarRing>
+              </TouchableOpacity>
+              {!group.profile_photo_purchased && (
+                <LockedSvg
+                  width={40}
+                  height={40}
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: 8,
                   }}
                 />
-              </AvatarRing>
-            </TouchableOpacity>
+              )}
+            </View>
             <H2>
               {user.username}, 만 {getAge(user.birthdate)}세
             </H2>

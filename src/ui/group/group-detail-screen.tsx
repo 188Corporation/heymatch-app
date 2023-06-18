@@ -2,7 +2,7 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
 import { useGroup, useMy } from 'api/reads'
 import { deleteGroup, sendMatchRequest } from 'api/writes'
-import { ClipboardSvg, SendSvg, VerifiedSvg } from 'image'
+import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
 import { convertJobtitle } from 'infra/util'
@@ -98,17 +98,24 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               marginBottom: 40,
             }}
           >
-            <Image
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 32,
-                marginRight: 20,
-              }}
-              source={{
-                uri: leader.user.user_profile_images[0].thumbnail,
-              }}
-            />
+            <View>
+              <Image
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 32,
+                  marginRight: 20,
+                }}
+                source={{
+                  uri: leader.user.user_profile_images[0].thumbnail,
+                }}
+              />
+              {!groupData.profile_photo_purchased && (
+                <LockedSvg
+                  style={{ position: 'absolute', right: 8, bottom: -8 }}
+                />
+              )}
+            </View>
             <View>
               <View
                 style={{
@@ -178,14 +185,14 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           </View>
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
-            <Row>
-              <Body style={{ color: Colors.gray.v500 }}>
-                {groupData.meetup_place_title}
-              </Body>
-              <TouchableOpacity onPress={copyToClipboard}>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <Row>
+                <Body style={{ color: Colors.gray.v500 }}>
+                  {groupData.meetup_place_title}
+                </Body>
                 <ClipboardSvg />
-              </TouchableOpacity>
-            </Row>
+              </Row>
+            </TouchableOpacity>
           </View>
           <View style={{ height: 150, marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>소개</H3>

@@ -197,9 +197,10 @@ export type GroupInfo = {
   member_avg_age: number
   created_at: string
   group_members: GroupMember[]
+  profile_photo_purchased: boolean
 }
 
-export type GroupDetail = GroupInfo & { profile_photo_purchased: boolean }
+export type GroupDetail = GroupInfo
 
 export type GroupsListItem = Omit<
   GroupInfo,

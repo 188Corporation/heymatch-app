@@ -1,6 +1,12 @@
 import { useGroupList } from 'api/reads'
 import dayjs from 'dayjs'
-import { CloseSvg, GroupsPlaceHolderSvg, SearchSvg, VerifiedSvg } from 'image'
+import {
+  CloseSvg,
+  GroupsPlaceHolderSvg,
+  LockedSvg,
+  SearchSvg,
+  VerifiedSvg,
+} from 'image'
 import { Colors } from 'infra/colors'
 import { GroupsListItem } from 'infra/types'
 import { getOrganization } from 'infra/util'
@@ -525,6 +531,11 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
               uri: group.group_members[0].user.user_profile_images[0].thumbnail,
             }}
           />
+          {!group.profile_photo_purchased && (
+            <LockedSvg
+              style={{ position: 'absolute', right: -8, bottom: -8 }}
+            />
+          )}
         </ProfilePhotoContainer>
         <ProfilePhotoContainer
           style={{
