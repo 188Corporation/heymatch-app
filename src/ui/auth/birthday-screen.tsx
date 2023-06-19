@@ -50,6 +50,7 @@ export const BirthdayScreen = observer(() => {
               mode='date'
               locale='ko'
               androidVariant='nativeAndroid'
+              theme='light'
             />
           </View>
         </Container>
