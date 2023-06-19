@@ -546,7 +546,7 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
           }}
         >
           <Caption style={{ color: Colors.gray.v400 }}>
-            +{group.member_number}
+            +{group.member_number - 1}
           </Caption>
         </ProfilePhotoContainer>
         <View

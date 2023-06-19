@@ -1,6 +1,7 @@
 import { useOnboardingStatus } from 'api/reads'
 import { completeInputExtraInfo, editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
+import { jobTitleForm } from 'infra/constants'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
@@ -79,7 +80,7 @@ export const JobInfoScreen = observer(() => {
           </RadioForm>
         </Container>
       </FlexScrollView>
-      {data?.status === 'onboarding_completed' && (
+      {data?.status !== 'onboarding_completed' && (
         <Button
           text='건너뛰기'
           color={Colors.white}
@@ -131,15 +132,6 @@ export const JobInfoScreen = observer(() => {
             setLoading(true)
             try {
               await editUserInfo({
-                username: userProfileStore.username,
-                gender: userProfileStore.gender!,
-                birthdate: userProfileStore.birthdate!,
-                mainProfileImage: userProfileStore.photos.mainPhoto,
-                otherProfileImage1: userProfileStore.photos.sub1Photo,
-                otherProfileImage2: userProfileStore.photos.sub2Photo,
-                heightCm: userProfileStore.height,
-                maleBodyForm: userProfileStore.maleBodyForm,
-                femaleBodyForm: userProfileStore.femaleBodyForm,
                 jobTitle: userProfileStore.jobTitle,
               })
               await mutate('/users/my/')
@@ -165,30 +157,3 @@ export const JobInfoScreen = observer(() => {
 const Container = styled(View)`
   padding: 12px 28px 0px 28px;
 `
-
-const jobTitleForm = [
-  {
-    label: '대학(원)생',
-    value: 'college_student',
-  },
-  {
-    label: '직장인',
-    value: 'employee',
-  },
-  {
-    label: '자영업',
-    value: 'self_employed',
-  },
-  {
-    label: '아르바이트',
-    value: 'part_time',
-  },
-  {
-    label: '사업가',
-    value: 'businessman',
-  },
-  {
-    label: '기타',
-    value: 'etc',
-  },
-]

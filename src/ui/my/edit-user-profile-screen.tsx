@@ -1,7 +1,7 @@
 import { deleteProfilePhoto, editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { femaleBodyForm, maleBodyForm } from 'infra/constants'
+import { femaleBodyForm, jobTitleForm, maleBodyForm } from 'infra/constants'
 import { getAge } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -146,6 +146,10 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                     <Body>
                       {userProfileStore.verifiedOrganizationNames
                         ? userProfileStore.verifiedOrganizationNames[0]
+                        : userProfileStore.jobTitle
+                        ? jobTitleForm.find(
+                            (_) => _.value === userProfileStore.jobTitle,
+                          )?.label
                         : '-'}
                     </Body>
                   </View>
