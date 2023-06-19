@@ -103,3 +103,30 @@ export const femaleBodyForm = [
     value: 'bulky',
   },
 ]
+
+export const jobTitleForm = [
+  {
+    label: '대학(원)생',
+    value: 'college_student',
+  },
+  {
+    label: '직장인',
+    value: 'employee',
+  },
+  {
+    label: '자영업',
+    value: 'self_employed',
+  },
+  {
+    label: '아르바이트',
+    value: 'part_time',
+  },
+  {
+    label: '사업가',
+    value: 'businessman',
+  },
+  {
+    label: '기타',
+    value: 'etc',
+  },
+]

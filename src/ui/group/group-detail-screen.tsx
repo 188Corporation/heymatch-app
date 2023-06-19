@@ -110,7 +110,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                   uri: leader.user.user_profile_images[0].thumbnail,
                 }}
               />
-              {!groupData.profile_photo_purchased && (
+              {!groupData.profile_photo_purchased && !isEditing && (
                 <LockedSvg
                   style={{ position: 'absolute', right: 8, bottom: -8 }}
                 />
