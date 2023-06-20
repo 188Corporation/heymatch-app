@@ -54,7 +54,7 @@ export const UsernameScreen = observer(() => {
 
   const getInvalidUsernameReason = () => {
     if (invalidUsername === 'INVALID_LENGTH') {
-      return '닉네임은 2글자 이상으로 입력해주세요'
+      return '닉네임은 2글자 이상, 10글자 이하로 입력해주세요'
     } else if (invalidUsername === 'INVALID_INPUT') {
       return '한글, 영어, 숫자만 입력할 수 있어요. (자음, 모음만 있는 한글은 처리하지 않습니다.)'
     }
@@ -122,7 +122,9 @@ export const UsernameScreen = observer(() => {
       </View>
       <BottomButton
         text={isEditing ? '수정하기' : '다음으로'}
-        disabled={!userProfileStore.username || !isUnique}
+        disabled={
+          !userProfileStore.username || !isUnique || Boolean(invalidUsername)
+        }
         onPress={() => {
           if (isEditing) {
             navigation.goBack()

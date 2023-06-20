@@ -143,7 +143,7 @@ export const GroupCreateInfoScreen = observer(() => {
                   value={groupCreateStore.introduce}
                   placeholder='간단한 소개글을 적어주세요 :)
 좋아하는 음식이나 취미, 직업은 어떤지 구체적으로
-적어주면 매칭 확률이 올라가요!'
+적어주면 매칭 확률이 올라가요! (최소 20자 이상)'
                   onChangeText={(text) => groupCreateStore.setIntroduce(text)}
                   placeholderTextColor={Colors.gray.v500}
                   style={{ height: '100%', paddingTop: 0 }}
@@ -172,7 +172,8 @@ export const GroupCreateInfoScreen = observer(() => {
           !groupCreateStore.address ||
           !groupCreateStore.introduce ||
           !groupCreateStore.memberNumber ||
-          !groupCreateStore.memberAverageAge
+          !groupCreateStore.memberAverageAge ||
+          groupCreateStore.introduce.length < 20
         }
         onPress={async () => {
           setIsLoading(true)
