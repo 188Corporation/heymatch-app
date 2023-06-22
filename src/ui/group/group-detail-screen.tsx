@@ -116,30 +116,40 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                 />
               )}
             </View>
-            <View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginBottom: 8,
-                }}
-              >
-                <VerifiedSvg
-                  style={{ marginRight: 4 }}
-                  fill={
-                    leader.user.verified_company_name ||
-                    leader.user.verified_school_name
-                      ? Colors.primary.blue
-                      : Colors.gray.v400
-                  }
-                />
-                <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
-                  {leader.user.verified_company_name ??
-                    leader.user.verified_school_name ??
-                    convertJobtitle(leader.user.job_title)}
-                </Caption>
-              </View>
+            <View
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {leader.user.job_title && (
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 8,
+                  }}
+                >
+                  <VerifiedSvg
+                    style={{ marginRight: 4 }}
+                    fill={
+                      leader.user.verified_company_name ||
+                      leader.user.verified_school_name
+                        ? Colors.primary.blue
+                        : Colors.gray.v400
+                    }
+                  />
+                  <Caption
+                    style={{ color: Colors.gray.v400 }}
+                    numberOfLines={1}
+                  >
+                    {leader.user.verified_company_name ??
+                      leader.user.verified_school_name ??
+                      convertJobtitle(leader.user.job_title)}
+                  </Caption>
+                </View>
+              )}
               <View
                 style={{
                   marginBottom: 8,

@@ -1,4 +1,4 @@
-import { useGroup } from 'api/reads'
+import { useGroup, useMy } from 'api/reads'
 import { purchaseProfilePhotos } from 'api/writes'
 import { LockedSvg, UserProfileBgSVG, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
@@ -25,15 +25,16 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = observer(
   (props) => {
     const { groupId } = props.route.params
     const { data: group } = useGroup(groupId)
+    const { data: myData } = useMy()
+    const { alertStore } = useStores()
+    const [isModalVisible, setIsModalVisible] = useState(false)
 
-    if (!group) {
+    if (!group || !myData) {
       return <LoadingOverlay />
     }
     const user = group.group_members[0].user
-
     const isVerified = user.verified_company_name || user.verified_school_name
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const { alertStore } = useStores()
+    const isMyProfile = user.id === myData.user.id
 
     return (
       <>
@@ -91,7 +92,7 @@ export const UserProfileScreen: React.FC<UserProfileScreenProps> = observer(
                   />
                 </AvatarRing>
               </TouchableOpacity>
-              {!group.profile_photo_purchased && (
+              {!group.profile_photo_purchased && !isMyProfile && (
                 <LockedSvg
                   width={40}
                   height={40}

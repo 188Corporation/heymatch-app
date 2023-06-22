@@ -556,32 +556,37 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
             paddingVertical: 7,
           }}
         >
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 8,
-            }}
-          >
-            <VerifiedSvg
-              style={{ marginRight: 4 }}
-              fill={
-                isVerifiedGroup(group) ? Colors.primary.blue : Colors.gray.v400
-              }
-            />
-            <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
-              {group.group_members
-                .map((groupMember) =>
-                  getOrganization(
-                    groupMember.user.verified_company_name,
-                    groupMember.user.verified_school_name,
-                    groupMember.user.job_title,
-                  ),
-                )
-                .join('/')}
-            </Caption>
-          </View>
+          {group.group_members[0].user.job_title && (
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 8,
+              }}
+            >
+              <VerifiedSvg
+                style={{ marginRight: 4 }}
+                fill={
+                  isVerifiedGroup(group)
+                    ? Colors.primary.blue
+                    : Colors.gray.v400
+                }
+              />
+              <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
+                {group.group_members
+                  .map((groupMember) =>
+                    getOrganization(
+                      groupMember.user.verified_company_name,
+                      groupMember.user.verified_school_name,
+                      groupMember.user.job_title,
+                    ),
+                  )
+                  .join('/')}
+              </Caption>
+            </View>
+          )}
+
           <GroupDesc_v2
             memberNumber={group.member_number}
             memberAvgAge={group.member_avg_age}

@@ -27,6 +27,7 @@ export type FemaleBodyForm =
 export type JobTitle =
   | 'college_student'
   | 'employee'
+  | 'practitioner'
   | 'self_employed'
   | 'part_time'
   | 'businessman'

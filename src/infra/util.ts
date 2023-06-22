@@ -108,6 +108,8 @@ export const convertJobtitle = (jobTitle: JobTitle) => {
       return '직장인'
     case 'college_student':
       return '대학(원)생'
+    case 'practitioner':
+      return '특수직/전문직'
     case 'businessman':
       return '사업가'
     case 'part_time':

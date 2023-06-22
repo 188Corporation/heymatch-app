@@ -363,7 +363,15 @@ export const purchaseProfilePhotos = async (groupId: number) => {
 
 export const invitationCode = async (code: string) => {
   const res: ResponseEnvelope<{}> = await postRequest(
-    `/invitation/${code}/accept/`,
+    `/users/invitation/${code}/accept/`,
   )
+
+  if (res.code === 455)
+    throw new ApiError({
+      ...res,
+      message: '이미 보상을 받은 추천인 코드입니다!',
+    })
+  if (res.code === 456)
+    throw new ApiError({ ...res, message: '존재하지 않는 추천인 코드입니다!' })
   if (res.code !== 200) throw new ApiError(res)
 }

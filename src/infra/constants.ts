@@ -117,6 +117,10 @@ export const jobTitleForm = [
     value: 'employee',
   },
   {
+    label: '특수직/전문직',
+    value: 'practitioner',
+  },
+  {
     label: '자영업',
     value: 'self_employed',
   },

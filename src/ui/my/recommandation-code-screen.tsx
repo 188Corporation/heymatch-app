@@ -68,7 +68,7 @@ export const RecommandationCodeScreen = () => {
             await mutate('/users/my/')
             navigation.goBack()
           } catch (e) {
-            alertStore.error(e, `${e}`)
+            alertStore.error(e)
           }
         }}
       />
