@@ -1,7 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
+import * as Sentry from '@sentry/react-native'
 import { ChatProvider } from 'infra/chat'
 import { Colors } from 'infra/colors'
-import { CURRENT_OS, OS } from 'infra/constants'
+import { CURRENT_OS, OS, SENTRY_DSN_KEY } from 'infra/constants'
 import { toastConfig } from 'infra/toast-config'
 import { _navigationRef } from 'navigation/global'
 import { RootStacks } from 'navigation/root-stacks'
@@ -11,6 +12,14 @@ import Toast from 'react-native-toast-message'
 import { StoresProvider } from 'store/globals'
 import { AlertModal } from 'ui/common/alert-modal'
 
+Sentry.init({
+  dsn: SENTRY_DSN_KEY,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+})
 /* 시뮬레이터 환경에서 reactron 사용 설정 */
 if (__DEV__) {
   import('../ReactotronConfig').then(() => console.log('Reactotron Configured'))
