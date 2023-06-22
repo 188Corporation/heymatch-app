@@ -532,9 +532,9 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - RNSentry (5.6.0):
+  - RNSentry (4.15.2):
     - React-Core
-    - Sentry/HybridSDK (= 8.7.3)
+    - Sentry/HybridSDK (= 7.31.5)
   - RNShare (8.2.2):
     - React-Core
   - RNSVG (13.9.0):
@@ -547,9 +547,7 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - Sentry/HybridSDK (8.7.3):
-    - SentryPrivate (= 8.7.3)
-  - SentryPrivate (8.7.3)
+  - Sentry/HybridSDK (7.31.5)
   - SSZipArchive (2.2.3)
   - TOCropViewController (2.6.1)
   - VisionCamera (2.15.4):
@@ -670,7 +668,6 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
-    - SentryPrivate
     - SSZipArchive
     - TOCropViewController
 
@@ -934,14 +931,13 @@ SPEC CHECKSUMS:
   RNPermissions: 215c54462104b3925b412b0fb3c9c497b21c358b
   RNReanimated: bec7736122a268883bdede07f1bf9cf4b40158db
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  RNSentry: 9f0447b3ce13806f544903748de423259ead8552
+  RNSentry: 4ea90ea061624364637e8077d965bf2e50478066
   RNShare: d82e10f6b7677f4b0048c23709bd04098d5aee6c
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  Sentry: c7a86f43510a7d5678d4de28d78c28ab351d295b
-  SentryPrivate: 2eaabf598a46d4b9b8822aef766df2a84caf2e6f
+  Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   VisionCamera: e9a95af10e00aaebe99d648ff4519fd336e16ffe
