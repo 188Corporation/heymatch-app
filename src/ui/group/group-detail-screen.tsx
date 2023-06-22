@@ -64,7 +64,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               onPress={() => {
                 alertStore.open({
                   title: '그룹을 삭제할까요?',
-                  body: '그룹을 삭제하면 다시 복구가 어려워요!',
+                  body: '그룹을 삭제하면 지금까지 [받은 매칭], [보낸 요청]은 모두 사라져요. 하지만 채팅창은 그대로 남아 있으니 계속 매칭된 그룹과 채팅이 가능해요!',
                   mainButton: '네 삭제할게요!',
                   subButton: '다음에 하기',
                   onMainPress: async () => {

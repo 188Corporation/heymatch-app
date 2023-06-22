@@ -172,10 +172,16 @@ export const GroupCreateInfoScreen = observer(() => {
           !groupCreateStore.address ||
           !groupCreateStore.introduce ||
           !groupCreateStore.memberNumber ||
-          !groupCreateStore.memberAverageAge ||
-          groupCreateStore.introduce.length < 20
+          !groupCreateStore.memberAverageAge
         }
         onPress={async () => {
+          if (groupCreateStore.introduce.length < 20) {
+            alertStore.open({
+              title: '그룹을 생성할 수 없어요!',
+              body: '그룹 소개를 최소 20자 이상 적어주세요',
+            })
+            return
+          }
           setIsLoading(true)
 
           try {
