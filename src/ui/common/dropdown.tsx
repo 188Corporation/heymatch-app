@@ -18,11 +18,11 @@ export const Dropdown = ({
     <ElementDropdown
       data={items}
       value={value}
-      autoScroll={false}
+      autoScroll={true}
       labelField='label'
       valueField='value'
       onChange={(item) => setValue(item.value)}
-      placeholder='160cm'
+      placeholder='170cm'
       style={{
         borderColor: 'transparent',
         backgroundColor: Colors.gray.v100,

@@ -19,7 +19,7 @@ import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { DescBody2, H1 } from 'ui/common/text'
+import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
   const { data } = useOnboardingStatus()
@@ -44,7 +44,12 @@ export const JobInfoScreen = observer(() => {
           <RadioForm>
             {jobTitleForm.map((x, idx) => {
               return (
-                <View key={x.value} style={{ marginBottom: 15 }}>
+                <View
+                  key={x.value}
+                  style={{
+                    marginBottom: 15,
+                  }}
+                >
                   <RadioButton key={x.value}>
                     <RadioButtonInput
                       obj={x}
@@ -73,6 +78,12 @@ export const JobInfoScreen = observer(() => {
                       onPress={handleOnPress}
                       labelStyle={{ fontSize: 16 }}
                     />
+                    {x.verify && (
+                      <Body style={{ color: Colors.primary.blueD1 }}>
+                        {' '}
+                        (인증 가능)
+                      </Body>
+                    )}
                   </RadioButton>
                 </View>
               )
