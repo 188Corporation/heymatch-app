@@ -108,6 +108,7 @@ export const JobInfoScreen = observer(() => {
                     jobTitle: userProfileStore.jobTitle,
                   })
                   await mutate('/users/my/')
+                  await completeInputExtraInfo()
                   await mutate('/users/my/onboarding/')
                 } catch (e) {
                   alertStore.error(e, '회원정보 등록에 실패했어요!')
