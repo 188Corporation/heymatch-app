@@ -78,7 +78,7 @@ export const MatchRequestItem: React.FC<{
               <SendButton
                 onPress={() => accept(matchRequestId, alertStore, chatStore)}
               >
-                <CheckSvg />
+                <CheckSvg fill={'#fff'} />
               </SendButton>
             </ButtonRow>
           )}
