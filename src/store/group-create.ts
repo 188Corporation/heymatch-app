@@ -48,4 +48,18 @@ export class GroupCreateStore {
   setMemberAverageAge(v: string) {
     this.memberAverageAge = v
   }
+
+  initialize() {
+    this.id = ''
+    this.title = ''
+    this.meetupDate = null
+    this.address = {
+      title: '',
+      address: '',
+    }
+    this.gpsPoint = ''
+    this.introduce = ''
+    this.memberNumber = ''
+    this.memberAverageAge = ''
+  }
 }

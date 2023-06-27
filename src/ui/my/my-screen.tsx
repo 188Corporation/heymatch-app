@@ -29,7 +29,7 @@ import { Menu, WebViewMenu } from 'ui/my/menu'
 export const MyScreen = () => {
   const { data: myData } = useMy()
   const { data: onboardingData } = useOnboardingStatus()
-  const { alertStore, userProfileStore } = useStores()
+  const { alertStore, userProfileStore, groupCreateStore } = useStores()
 
   if (!myData || !onboardingData) return <LoadingOverlay />
 
@@ -126,6 +126,7 @@ export const MyScreen = () => {
                   subButton: '나중에 하기',
                   onMainPress: () => {
                     navigation.navigate('GroupCreateStacks')
+                    groupCreateStore.initialize()
                   },
                 })
                 return

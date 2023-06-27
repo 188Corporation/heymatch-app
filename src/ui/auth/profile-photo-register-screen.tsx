@@ -17,7 +17,7 @@ import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { CaptionS, DescBody2, H1 } from 'ui/common/text'
+import { Body2, CaptionS, DescBody2, H1 } from 'ui/common/text'
 
 export const ProfilePhotoRegisterScreen = observer(() => {
   const { permissionStore, alertStore, userProfileStore } = useStores()
@@ -52,6 +52,11 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               sub2Photo: userProfileStore.getPhotos.sub2Photo,
             }}
           />
+          <Warning style={{ marginTop: 12 }}>
+            • 본인 얼굴 하나만 나온 사진이여야 해요!
+          </Warning>
+          <Warning>• 얼굴이 최대한 정면으로 나온 사진을 올려주세요!</Warning>
+          <Warning>• 얼굴이 너무 작게 나온 사진은 안되요!</Warning>
         </Container>
       </FlexScrollView>
       <BottomButton
@@ -89,6 +94,10 @@ export const ProfilePhotoRegisterScreen = observer(() => {
     </>
   )
 })
+
+const Warning = styled(Body2)`
+  color: ${Colors.primary.blueD1};
+`
 
 const Container = styled(View)`
   padding: 72px 28px 0px 28px;
