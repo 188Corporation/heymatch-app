@@ -157,7 +157,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <View
               style={{
                 display: 'flex',
-                alignItems: 'center',
               }}
             >
               {leader.user.job_title && (
