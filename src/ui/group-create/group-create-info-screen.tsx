@@ -30,7 +30,6 @@ export const GroupCreateInfoScreen = observer(() => {
   const { data: geocoding, isLoading: isLoadingGeocoding } = useGeocoding(
     groupCreateStore.address.address,
   )
-
   const isEditingGroupInfo = data && data.joined_groups && data.joined_groups[0]
 
   useEffect(() => {
@@ -48,111 +47,109 @@ export const GroupCreateInfoScreen = observer(() => {
   return (
     <KeyboardAvoidingView>
       <NavigationHeader backButtonStyle='black' title='' />
-      <View style={{ flexGrow: 1 }}>
-        <FlexScrollView>
-          <Container>
-            <View style={{ marginBottom: 20 }}>
-              <H3 style={{ marginBottom: 12 }}>몇 명인가요?</H3>
+      <FlexScrollView>
+        <Container>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 12 }}>몇 명인가요?</H3>
+            <TextInput
+              value={groupCreateStore.memberNumber}
+              onChangeText={(text) => groupCreateStore.setMemberNumber(text)}
+              keyboardType='number-pad'
+              placeholder='인원 수를 기입해주세요'
+              placeholderTextColor={Colors.gray.v500}
+              style={{
+                paddingLeft: 20,
+                borderRadius: 12,
+                backgroundColor: Colors.gray.v100,
+                height: 56,
+                fontSize: 16,
+                fontWeight: '400',
+              }}
+            />
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 12 }}>몇 살인가요?</H3>
+            <TextInput
+              value={groupCreateStore.memberAverageAge}
+              onChangeText={(text) =>
+                groupCreateStore.setMemberAverageAge(text)
+              }
+              keyboardType='number-pad'
+              placeholder='평균 나이를 기입해주세요'
+              placeholderTextColor={Colors.gray.v500}
+              style={{
+                paddingLeft: 20,
+                borderRadius: 12,
+                backgroundColor: Colors.gray.v100,
+                height: 56,
+                fontSize: 16,
+                fontWeight: '400',
+              }}
+            />
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 12 }}>언제 만날까요?</H3>
+            <ModalTrigger
+              value={
+                groupCreateStore.meetupDate ? (
+                  <Body style={{ color: Colors.black }}>
+                    {toMonthDayString(groupCreateStore.meetupDate)}
+                  </Body>
+                ) : (
+                  <Body style={{ color: Colors.gray.v500 }}>
+                    날짜를 선택해주세요
+                  </Body>
+                )
+              }
+              onPress={() => {
+                setIsVisibleCalenderModal(true)
+              }}
+            />
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 12 }}>어디서 만날까요?</H3>
+            <ModalTrigger
+              value={
+                groupCreateStore.address.title ? (
+                  <Body style={{ color: Colors.black }}>
+                    {groupCreateStore.address.title}
+                  </Body>
+                ) : (
+                  <Body style={{ color: Colors.gray.v500 }}>
+                    장소를 선택해주세요
+                  </Body>
+                )
+              }
+              onPress={() => {
+                setIsVisiblePlaceModal(true)
+              }}
+            />
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 12 }}>그룹을 소개해볼까요?</H3>
+            <View
+              style={{
+                borderRadius: 16,
+                backgroundColor: Colors.gray.v100,
+                height: 120,
+                paddingHorizontal: 20,
+                paddingVertical: 24,
+              }}
+            >
               <TextInput
-                value={groupCreateStore.memberNumber}
-                onChangeText={(text) => groupCreateStore.setMemberNumber(text)}
-                keyboardType='number-pad'
-                placeholder='인원 수를 기입해주세요'
-                placeholderTextColor={Colors.gray.v500}
-                style={{
-                  paddingLeft: 20,
-                  borderRadius: 12,
-                  backgroundColor: Colors.gray.v100,
-                  height: 56,
-                  fontSize: 16,
-                  fontWeight: '400',
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 20 }}>
-              <H3 style={{ marginBottom: 12 }}>몇 살인가요?</H3>
-              <TextInput
-                value={groupCreateStore.memberAverageAge}
-                onChangeText={(text) =>
-                  groupCreateStore.setMemberAverageAge(text)
-                }
-                keyboardType='number-pad'
-                placeholder='평균 나이를 기입해주세요'
-                placeholderTextColor={Colors.gray.v500}
-                style={{
-                  paddingLeft: 20,
-                  borderRadius: 12,
-                  backgroundColor: Colors.gray.v100,
-                  height: 56,
-                  fontSize: 16,
-                  fontWeight: '400',
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 20 }}>
-              <H3 style={{ marginBottom: 12 }}>언제 만날까요?</H3>
-              <ModalTrigger
-                value={
-                  groupCreateStore.meetupDate ? (
-                    <Body style={{ color: Colors.black }}>
-                      {toMonthDayString(groupCreateStore.meetupDate)}
-                    </Body>
-                  ) : (
-                    <Body style={{ color: Colors.gray.v500 }}>
-                      날짜를 선택해주세요
-                    </Body>
-                  )
-                }
-                onPress={() => {
-                  setIsVisibleCalenderModal(true)
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 20 }}>
-              <H3 style={{ marginBottom: 12 }}>어디서 만날까요?</H3>
-              <ModalTrigger
-                value={
-                  groupCreateStore.address.title ? (
-                    <Body style={{ color: Colors.black }}>
-                      {groupCreateStore.address.title}
-                    </Body>
-                  ) : (
-                    <Body style={{ color: Colors.gray.v500 }}>
-                      장소를 선택해주세요
-                    </Body>
-                  )
-                }
-                onPress={() => {
-                  setIsVisiblePlaceModal(true)
-                }}
-              />
-            </View>
-            <View style={{ marginBottom: 20 }}>
-              <H3 style={{ marginBottom: 12 }}>그룹을 소개해볼까요?</H3>
-              <View
-                style={{
-                  borderRadius: 16,
-                  backgroundColor: Colors.gray.v100,
-                  height: 120,
-                  paddingHorizontal: 20,
-                  paddingVertical: 24,
-                }}
-              >
-                <TextInput
-                  multiline
-                  value={groupCreateStore.introduce}
-                  placeholder='간단한 소개글을 적어주세요 :)
+                multiline
+                value={groupCreateStore.introduce}
+                placeholder='간단한 소개글을 적어주세요 :)
 좋아하는 음식이나 취미, 직업은 어떤지 구체적으로
 적어주면 매칭 확률이 올라가요! (최소 20자 이상)'
-                  onChangeText={(text) => groupCreateStore.setIntroduce(text)}
-                  placeholderTextColor={Colors.gray.v500}
-                  style={{ height: '100%', paddingTop: 0 }}
-                />
-              </View>
+                onChangeText={(text) => groupCreateStore.setIntroduce(text)}
+                placeholderTextColor={Colors.gray.v500}
+                style={{ height: '100%', paddingTop: 0 }}
+              />
             </View>
-          </Container>
-        </FlexScrollView>
-      </View>
+          </View>
+        </Container>
+      </FlexScrollView>
       <MyModal
         isVisible={isVisibleCalenderModal}
         onClose={() => setIsVisibleCalenderModal(false)}

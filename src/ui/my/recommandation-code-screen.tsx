@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { Input } from 'ui/common/input'
+import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, DescBody2, H1, H3 } from 'ui/common/text'
@@ -32,7 +33,7 @@ export const RecommandationCodeScreen = () => {
   if (!myData) return <LoadingOverlay />
 
   return (
-    <>
+    <KeyboardAvoidingView>
       <NavigationHeader backButtonStyle='black' title='' />
       <View style={{ flexGrow: 1 }}>
         <Container>
@@ -72,7 +73,7 @@ export const RecommandationCodeScreen = () => {
           }
         }}
       />
-    </>
+    </KeyboardAvoidingView>
   )
 }
 const Container = styled(View)`
