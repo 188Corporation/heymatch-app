@@ -1,7 +1,11 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
 import { useGroup, useMy } from 'api/reads'
-import { deleteGroup, sendMatchRequest } from 'api/writes'
+import {
+  deleteGroup,
+  purchaseProfilePhotos,
+  sendMatchRequest,
+} from 'api/writes'
 import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
@@ -25,18 +29,20 @@ import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
+import { CarouselModal, ProfileImagesCarousel } from 'ui/my/user-profile-screen'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { id, matchRequest, hideButton } = props.route.params
-  const { data: groupData } = useGroup(id)
+  const { data: group } = useGroup(id)
   const { data: myData } = useMy()
   const { alertStore } = useStores()
   const [loading, setLoading] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
-  if (!groupData || !myData) return <LoadingOverlay />
-  const leader = groupData.group_members[0]
+  if (!group || !myData) return <LoadingOverlay />
+  const leader = group.group_members[0]
 
   const hasOwnGroup =
     myData.joined_groups &&
@@ -46,11 +52,40 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const isEditing = hasOwnGroup && id === myData.joined_groups?.[0].group.id
 
   const copyToClipboard = () => {
-    Clipboard.setString(groupData.meetup_place_title)
+    Clipboard.setString(group.meetup_place_title)
     Toast.show({
       type: 'success',
       text1: '클립보드에 복사했어요!',
     })
+  }
+
+  const handlePressProfilePhoto = () => {
+    if (!group?.profile_photo_purchased) {
+      alertStore.open({
+        title: '캔디 1개를 사용해서 사진을 볼까요?',
+        mainButton: '캔디 1개 사용하기',
+        subButton: '다음에 사용하기',
+        onMainPress: async () => {
+          try {
+            await purchaseProfilePhotos(group.id)
+            await mutate(`/groups/${group.id}/`)
+          } catch (e) {
+            alertStore.error(e, '결제에 실패했어요!')
+          }
+        },
+        children: () => (
+          <CandyContainer>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('PurchaseScreen')}
+            >
+              <CurrentCandy />
+            </TouchableOpacity>
+          </CandyContainer>
+        ),
+      })
+    } else {
+      setIsModalVisible(true)
+    }
   }
 
   return (
@@ -68,10 +103,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                   mainButton: '네 삭제할게요!',
                   subButton: '다음에 하기',
                   onMainPress: async () => {
-                    if (!groupData) return
+                    if (!group) return
                     setLoading(true)
                     try {
-                      await deleteGroup(groupData.id)
+                      await deleteGroup(group.id)
                       await mutate('/users/my/')
                       navigation.goBack()
                     } catch (e) {
@@ -90,7 +125,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       />
       <View style={{ flexGrow: 1 }}>
         <Container>
-          <H1 style={{ marginBottom: 24 }}>{groupData?.title}</H1>
+          <H1 style={{ marginBottom: 24 }}>{group?.title}</H1>
           <View
             style={{
               display: 'flex',
@@ -99,22 +134,25 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             }}
           >
             <View>
-              <Image
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 32,
-                  marginRight: 20,
-                }}
-                source={{
-                  uri: leader.user.user_profile_images[0].thumbnail,
-                }}
-              />
-              {!groupData.profile_photo_purchased && !isEditing && (
-                <LockedSvg
-                  style={{ position: 'absolute', right: 8, bottom: -8 }}
+              <TouchableOpacity onPress={handlePressProfilePhoto}>
+                <Image
+                  style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: 32,
+                    marginRight: 20,
+                  }}
+                  source={{
+                    uri: leader.user.user_profile_images.find((_) => _.is_main)!
+                      .thumbnail,
+                  }}
                 />
-              )}
+                {!group.profile_photo_purchased && !isEditing && (
+                  <LockedSvg
+                    style={{ position: 'absolute', right: 8, bottom: -8 }}
+                  />
+                )}
+              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -156,14 +194,14 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                 }}
               >
                 <GroupDesc_v2
-                  memberNumber={groupData.member_number}
-                  memberAvgAge={groupData.member_avg_age}
+                  memberNumber={group.member_number}
+                  memberAvgAge={group.member_avg_age}
                 />
               </View>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('UserProfileScreen', {
-                    groupId: groupData.id,
+                    groupId: group.id,
                   })
                 }}
               >
@@ -190,7 +228,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>만나는 날짜</H3>
             <Body style={{ color: Colors.gray.v500 }}>
-              {formatDate(groupData.meetup_date)}
+              {formatDate(group.meetup_date)}
             </Body>
           </View>
           <View style={{ marginBottom: 40 }}>
@@ -198,7 +236,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <TouchableOpacity onPress={copyToClipboard}>
               <Row>
                 <Body style={{ color: Colors.gray.v500 }}>
-                  {groupData.meetup_place_title}
+                  {group.meetup_place_title}
                 </Body>
                 <ClipboardSvg />
               </Row>
@@ -208,7 +246,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <H3 style={{ marginBottom: 8 }}>소개</H3>
             <ScrollView>
               <Body style={{ color: Colors.gray.v500 }}>
-                {groupData.introduction}
+                {group.introduction}
               </Body>
             </ScrollView>
           </View>
@@ -218,7 +256,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <ButtonContainer>
               {!isEditing ? (
                 <ButtonContent
-                  data={groupData}
+                  data={group}
                   setLoading={setLoading}
                   matchRequest={matchRequest}
                   hasOwnGroup={!!hasOwnGroup}
@@ -237,6 +275,12 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           </>
         )}
       </View>
+      <CarouselModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      >
+        <ProfileImagesCarousel images={leader.user.user_profile_images} />
+      </CarouselModal>
       {loading && <LoadingOverlay />}
     </>
   )

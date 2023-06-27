@@ -160,7 +160,7 @@ const Container = styled(View)`
   align-items: center;
 `
 
-const CarouselModal = ({
+export const CarouselModal = ({
   isVisible,
   onClose,
   children,
@@ -176,7 +176,11 @@ const CarouselModal = ({
   )
 }
 
-const ProfileImagesCarousel = ({ images }: { images: UserProfileImages[] }) => {
+export const ProfileImagesCarousel = ({
+  images,
+}: {
+  images: UserProfileImages[]
+}) => {
   return (
     <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Carousel
