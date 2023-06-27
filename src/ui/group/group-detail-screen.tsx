@@ -20,11 +20,11 @@ import { accept, reject } from 'store/common-actions'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
+import { BottomButton } from 'ui/common/bottom-button'
 import { Button } from 'ui/common/button'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
-import { BottomInsetSpace } from 'ui/common/inset-space'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
@@ -250,30 +250,27 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             </ScrollView>
           </View>
         </View>
-        {!hideButton && (
-          <>
-            <ButtonContainer>
-              {!isEditing ? (
-                <ButtonContent
-                  data={group}
-                  setLoading={setLoading}
-                  matchRequest={matchRequest}
-                  hasOwnGroup={!!hasOwnGroup}
-                />
-              ) : (
-                <Button
-                  text='수정하기'
-                  color={Colors.primary.blue}
-                  onPress={() => {
-                    navigation.navigate('GroupCreateStacks')
-                  }}
-                />
-              )}
-            </ButtonContainer>
-            <BottomInsetSpace />
-          </>
-        )}
       </View>
+      {!hideButton && (
+        <>
+          {!isEditing ? (
+            <ButtonContent
+              data={group}
+              setLoading={setLoading}
+              matchRequest={matchRequest}
+              hasOwnGroup={!!hasOwnGroup}
+            />
+          ) : (
+            <Button
+              text='수정하기'
+              color={Colors.primary.blue}
+              onPress={() => {
+                navigation.navigate('GroupCreateStacks')
+              }}
+            />
+          )}
+        </>
+      )}
       <CarouselModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
@@ -300,10 +297,6 @@ function formatDate(_date: string) {
   return `${year}년 ${month}월 ${day}일 (${dayOfWeek})`
 }
 
-const ButtonContainer = styled(Column)`
-  padding: 8px 28px 16px 28px;
-`
-
 const ButtonContent: React.FC<{
   data: GroupDetail
   setLoading: (v: boolean) => void
@@ -316,11 +309,11 @@ const ButtonContent: React.FC<{
 
   // render based on conditions
   if (status === MatchRequestStatus.REJECTED) {
-    return <Button text='거절된 매칭이에요' disabled />
+    return <BottomButton text='거절된 매칭이에요' disabled />
   }
   if (status === MatchRequestStatus.ACCEPTED) {
     return (
-      <Button
+      <BottomButton
         text='채팅하기'
         onPress={() => navigation.navigate('ChatScreen')}
         leftChildren={
@@ -335,7 +328,7 @@ const ButtonContent: React.FC<{
     )
   }
   if (status === MatchRequestStatus.WAITING && type === MatchRequestType.SENT) {
-    return <Button text='수락 대기중' disabled />
+    return <BottomButton text='수락 대기중' disabled />
   }
   if (
     status === MatchRequestStatus.WAITING &&
@@ -343,8 +336,8 @@ const ButtonContent: React.FC<{
   ) {
     return (
       <Row>
-        <Column style={{ flex: 2, marginRight: 8 }}>
-          <Button
+        <Column style={{ flex: 1 }}>
+          <BottomButton
             text='수락하기'
             onPress={() => {
               if (!matchRequest) return
@@ -353,14 +346,13 @@ const ButtonContent: React.FC<{
           />
         </Column>
         <Column style={{ flex: 1 }}>
-          <Button
+          <BottomButton
             text='거절하기'
             onPress={() => {
               if (!matchRequest) return
               reject(matchRequest.id, alertStore)
             }}
-            color={Colors.white}
-            textColor={Colors.gray.v400}
+            inverted
           />
         </Column>
       </Row>
@@ -368,7 +360,7 @@ const ButtonContent: React.FC<{
   }
 
   return (
-    <Button
+    <BottomButton
       text='매칭하기'
       onPress={() => {
         // check is my group

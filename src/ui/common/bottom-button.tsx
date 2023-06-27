@@ -10,24 +10,30 @@ import { ButtonText } from 'ui/common/text'
 
 export const BottomButton: React.FC<{
   text: string
-  onPress: () => void
+  onPress?: () => void
   disabled?: boolean
   inverted?: boolean
-}> = observer(({ text, onPress, disabled = false, inverted = false }) => {
-  const { keyboardStore } = useStores()
-  return (
-    <BottomButtonTouchable
-      disabled={disabled}
-      inverted={inverted}
-      onPress={onPress}
-    >
-      <BottomButtonTextContainer>
-        <BottomButtonText inverted={inverted}>{text}</BottomButtonText>
-      </BottomButtonTextContainer>
-      {!keyboardStore.isVisible && <BottomInsetSpace />}
-    </BottomButtonTouchable>
-  )
-})
+  leftChildren?: ReactNode
+}> = observer(
+  ({ text, onPress, disabled = false, inverted = false, leftChildren }) => {
+    const { keyboardStore } = useStores()
+    return (
+      <BottomButtonTouchable
+        disabled={disabled}
+        inverted={inverted}
+        onPress={onPress}
+      >
+        <BottomButtonTextContainer>
+          <Row style={{ alignItems: 'center' }}>
+            {leftChildren}
+            <BottomButtonText inverted={inverted}>{text}</BottomButtonText>
+          </Row>
+        </BottomButtonTextContainer>
+        {!keyboardStore.isVisible && <BottomInsetSpace />}
+      </BottomButtonTouchable>
+    )
+  },
+)
 
 const BottomButtonTouchable = styled(TouchableOpacity)<{
   inverted: boolean
