@@ -17,6 +17,7 @@ export class UserProfileStore {
   email: string | null = null
   verifiedOrganizationNames: string[] | null = null
   emailVerificationCode: string = ''
+  blockMySchoolOrCompanyUsers: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -87,5 +88,9 @@ export class UserProfileStore {
 
   setEmailVerificationCode(code: string) {
     this.emailVerificationCode = code
+  }
+
+  setBlockMySchoolOrCompanyUsers(v: boolean) {
+    this.blockMySchoolOrCompanyUsers = v
   }
 }

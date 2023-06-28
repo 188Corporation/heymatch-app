@@ -7,12 +7,13 @@ import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import { EditUserProfileScreenProps } from 'navigation/types'
 import React, { ReactNode, useState } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Switch, TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { ProfilePhotoEditor } from 'ui/auth/profile-photo-register-screen'
 import { BottomButton } from 'ui/common/bottom-button'
+import { Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H3 } from 'ui/common/text'
@@ -83,6 +84,12 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
       ) {
         return false
       }
+      if (
+        userProfileStore.blockMySchoolOrCompanyUsers !==
+        data.user.block_my_school_or_company_users
+      ) {
+        return false
+      }
       return true
     }
 
@@ -95,6 +102,16 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
             <ProfilePhotoEditor photos={profilePhotos} />
             <View style={{ height: 20 }} />
             <ScrollView style={{ height: 350 }}>
+              <Row style={{ alignItems: 'center', height: 40 }}>
+                <H3 style={{ marginBottom: 12 }}>같은 직장 동료 피하기</H3>
+                <Switch
+                  style={{ marginLeft: 'auto' }}
+                  value={userProfileStore.blockMySchoolOrCompanyUsers}
+                  onValueChange={(v) => {
+                    userProfileStore.setBlockMySchoolOrCompanyUsers(v)
+                  }}
+                />
+              </Row>
               <H3 style={{ marginBottom: 12 }}>나이</H3>
               <ProfileInfo
                 value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
@@ -181,6 +198,8 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 maleBodyForm: userProfileStore.maleBodyForm,
                 femaleBodyForm: userProfileStore.femaleBodyForm,
                 jobTitle: userProfileStore.jobTitle,
+                blockMySchoolOrCompanyUsers:
+                  userProfileStore.blockMySchoolOrCompanyUsers,
               })
               // sub1, sub2가 비어있다면 delete쏘기
               if (isProfilePhotosDeleted) {

@@ -61,6 +61,9 @@ export const MyScreen = () => {
     userProfileStore.setBirthdate(myData.user.birthdate!)
     userProfileStore.setGender(myData.user.gender!)
     userProfileStore.setPhotos(getSortedProfilePhotos().main.image, 'main')
+    userProfileStore.setBlockMySchoolOrCompanyUsers(
+      myData.user.block_my_school_or_company_users,
+    )
     if (getSortedProfilePhotos().sub1) {
       userProfileStore.setPhotos(getSortedProfilePhotos().sub1?.image, 'sub1')
     } else {
