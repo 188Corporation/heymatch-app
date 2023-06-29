@@ -5,7 +5,8 @@ import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { Dimensions, Platform, ScrollView, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -22,6 +23,7 @@ export const BodyInfoScreen = observer(() => {
   const { data: myData } = useMy()
   const { data: onboardingStatusData } = useOnboardingStatus()
   const { userProfileStore, alertStore } = useStores()
+  const insets = useSafeAreaInsets()
   const [height, setHeight] = useState(170)
   const heightItems = Array.from({ length: 91 }, (_, i) => i + 120).map((x) => {
     return {
@@ -51,52 +53,62 @@ export const BodyInfoScreen = observer(() => {
           </View>
           <View>
             <H2 style={{ marginBottom: 20 }}>체형</H2>
-            <RadioForm>
-              {(myData?.user.gender === 'm'
-                ? maleBodyForm
-                : femaleBodyForm
-              ).map((x, idx) => {
-                return (
-                  <View key={x.value} style={{ marginBottom: 15 }}>
-                    <RadioButton key={x.value}>
-                      <RadioButtonInput
-                        obj={x}
-                        index={idx}
-                        isSelected={
-                          userProfileStore.getBodyForm(myData?.user.gender!) ===
-                          x.value
-                        }
-                        onPress={handleOnPress}
-                        buttonOuterSize={24}
-                        buttonSize={12}
-                        buttonInnerColor={Colors.white}
-                        buttonOuterColor={
-                          userProfileStore.getBodyForm(myData?.user.gender!) ===
-                          x.value
-                            ? Colors.primary.blue
-                            : Colors.gray.v200
-                        }
-                        buttonStyle={{
-                          backgroundColor:
+            <ScrollView
+              style={{
+                height:
+                  Dimensions.get('window').height -
+                  (392 + insets.bottom + insets.top + 78),
+              }}
+            >
+              <RadioForm>
+                {(myData?.user.gender === 'm'
+                  ? maleBodyForm
+                  : femaleBodyForm
+                ).map((x, idx) => {
+                  return (
+                    <View key={x.value} style={{ marginBottom: 15 }}>
+                      <RadioButton key={x.value}>
+                        <RadioButtonInput
+                          obj={x}
+                          index={idx}
+                          isSelected={
+                            userProfileStore.getBodyForm(
+                              myData?.user.gender!,
+                            ) === x.value
+                          }
+                          onPress={handleOnPress}
+                          buttonOuterSize={24}
+                          buttonSize={12}
+                          buttonInnerColor={Colors.white}
+                          buttonOuterColor={
                             userProfileStore.getBodyForm(
                               myData?.user.gender!,
                             ) === x.value
                               ? Colors.primary.blue
-                              : Colors.gray.v200,
-                        }}
-                      />
-                      <RadioButtonLabel
-                        obj={x}
-                        index={idx}
-                        labelHorizontal={true}
-                        onPress={handleOnPress}
-                        labelStyle={{ fontSize: 16 }}
-                      />
-                    </RadioButton>
-                  </View>
-                )
-              })}
-            </RadioForm>
+                              : Colors.gray.v200
+                          }
+                          buttonStyle={{
+                            backgroundColor:
+                              userProfileStore.getBodyForm(
+                                myData?.user.gender!,
+                              ) === x.value
+                                ? Colors.primary.blue
+                                : Colors.gray.v200,
+                          }}
+                        />
+                        <RadioButtonLabel
+                          obj={x}
+                          index={idx}
+                          labelHorizontal={true}
+                          onPress={handleOnPress}
+                          labelStyle={{ fontSize: 16 }}
+                        />
+                      </RadioButton>
+                    </View>
+                  )
+                })}
+              </RadioForm>
+            </ScrollView>
           </View>
         </Container>
       </View>

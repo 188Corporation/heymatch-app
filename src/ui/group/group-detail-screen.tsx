@@ -21,7 +21,6 @@ import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
-import { Button } from 'ui/common/button'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
@@ -261,9 +260,8 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               hasOwnGroup={!!hasOwnGroup}
             />
           ) : (
-            <Button
+            <BottomButton
               text='수정하기'
-              color={Colors.primary.blue}
               onPress={() => {
                 navigation.navigate('GroupCreateStacks')
               }}

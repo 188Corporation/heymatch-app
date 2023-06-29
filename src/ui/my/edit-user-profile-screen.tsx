@@ -2,12 +2,18 @@ import { deleteProfilePhoto, editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { femaleBodyForm, jobTitleForm, maleBodyForm } from 'infra/constants'
-import { getAge } from 'infra/util'
+import { getAge, useSafeAreaInsets } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import { EditUserProfileScreenProps } from 'navigation/types'
 import React, { ReactNode, useState } from 'react'
-import { ScrollView, Switch, TouchableOpacity, View } from 'react-native'
+import {
+  Dimensions,
+  ScrollView,
+  Switch,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
@@ -23,7 +29,8 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
     const { data } = props.route.params
     const { userProfileStore, alertStore } = useStores()
     const [loading, setLoading] = useState(false)
-
+    const insets = useSafeAreaInsets()
+    const BOTTOM_BUTTON_HEIGTH = 78
     const getSortedProfilePhotos = () => {
       const subPhotos = data.user_profile_images
         .filter((_) => !_.is_main)
@@ -101,78 +108,88 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
             <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
             <ProfilePhotoEditor photos={profilePhotos} />
             <View style={{ height: 20 }} />
-            <ScrollView style={{ height: 350 }}>
-              <Row style={{ alignItems: 'center', height: 40 }}>
-                <H3 style={{ marginBottom: 12 }}>같은 직장 동료 피하기</H3>
-                <Switch
-                  style={{ marginLeft: 'auto' }}
-                  value={userProfileStore.blockMySchoolOrCompanyUsers}
-                  onValueChange={(v) => {
-                    userProfileStore.setBlockMySchoolOrCompanyUsers(v)
+            <View
+              style={{
+                height:
+                  Dimensions.get('window').height -
+                  (392 + insets.bottom + BOTTOM_BUTTON_HEIGTH),
+              }}
+            >
+              <ScrollView>
+                <Row style={{ alignItems: 'center', height: 40 }}>
+                  <H3 style={{ marginBottom: 12 }}>같은 직장 동료 피하기</H3>
+                  <Switch
+                    style={{ marginLeft: 'auto' }}
+                    value={userProfileStore.blockMySchoolOrCompanyUsers}
+                    onValueChange={(v) => {
+                      userProfileStore.setBlockMySchoolOrCompanyUsers(v)
+                    }}
+                  />
+                </Row>
+                <H3 style={{ marginBottom: 12 }}>나이</H3>
+                <ProfileInfo
+                  value={
+                    <Body>만 {getAge(userProfileStore.birthdate!)}세</Body>
+                  }
+                  onPress={() => {
+                    navigation.navigate('EditUserInfoStacks', {
+                      screen: 'BirthdayScreen',
+                    })
                   }}
                 />
-              </Row>
-              <H3 style={{ marginBottom: 12 }}>나이</H3>
-              <ProfileInfo
-                value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
-                onPress={() => {
-                  navigation.navigate('EditUserInfoStacks', {
-                    screen: 'BirthdayScreen',
-                  })
-                }}
-              />
-              <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
-              <ProfileInfo
-                value={<Body>{userProfileStore.username}</Body>}
-                onPress={() => {
-                  navigation.navigate('EditUserInfoStacks', {
-                    screen: 'UsernameScreen',
-                  })
-                }}
-              />
-              <H3 style={{ marginTop: 20, marginBottom: 12 }}>체형</H3>
-              <ProfileInfo
-                value={
-                  <Body>
-                    {userProfileStore.height}cm / {getBodyForm()}
-                  </Body>
-                }
-                onPress={() => {
-                  navigation.navigate('EditUserInfoStacks', {
-                    screen: 'BodyInfoScreen',
-                  })
-                }}
-              />
-              <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
-              <ProfileInfo
-                editable={false}
-                value={
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {(data.user.verified_company_name ||
-                      data.user.verified_school_name) && (
-                      <View style={{ marginRight: 4 }}>
-                        <VerifiedSvg fill={Colors.primary.blue} />
-                      </View>
-                    )}
+                <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
+                <ProfileInfo
+                  value={<Body>{userProfileStore.username}</Body>}
+                  onPress={() => {
+                    navigation.navigate('EditUserInfoStacks', {
+                      screen: 'UsernameScreen',
+                    })
+                  }}
+                />
+                <H3 style={{ marginTop: 20, marginBottom: 12 }}>체형</H3>
+                <ProfileInfo
+                  value={
                     <Body>
-                      {userProfileStore.verifiedOrganizationNames
-                        ? userProfileStore.verifiedOrganizationNames[0]
-                        : userProfileStore.jobTitle
-                        ? jobTitleForm.find(
-                            (_) => _.value === userProfileStore.jobTitle,
-                          )?.label
-                        : '-'}
+                      {userProfileStore.height}cm / {getBodyForm()}
                     </Body>
-                  </View>
-                }
-              />
-            </ScrollView>
+                  }
+                  onPress={() => {
+                    navigation.navigate('EditUserInfoStacks', {
+                      screen: 'BodyInfoScreen',
+                    })
+                  }}
+                />
+                <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
+                <ProfileInfo
+                  editable={false}
+                  value={
+                    <View
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {(data.user.verified_company_name ||
+                        data.user.verified_school_name) && (
+                        <View style={{ marginRight: 4 }}>
+                          <VerifiedSvg fill={Colors.primary.blue} />
+                        </View>
+                      )}
+                      <Body>
+                        {userProfileStore.verifiedOrganizationNames
+                          ? userProfileStore.verifiedOrganizationNames[0]
+                          : userProfileStore.jobTitle
+                          ? jobTitleForm.find(
+                              (_) => _.value === userProfileStore.jobTitle,
+                            )?.label
+                          : '-'}
+                      </Body>
+                    </View>
+                  }
+                />
+              </ScrollView>
+            </View>
           </Container>
         </View>
         <BottomButton

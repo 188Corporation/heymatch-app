@@ -111,29 +111,36 @@ export const jobTitleForm = [
   {
     label: '대학(원)생',
     value: 'college_student',
+    verify: true,
   },
   {
     label: '직장인',
     value: 'employee',
+    verify: true,
   },
   {
     label: '특수직/전문직',
     value: 'practitioner',
+    verify: true,
   },
   {
     label: '자영업',
     value: 'self_employed',
+    verify: false,
   },
   {
     label: '아르바이트',
     value: 'part_time',
+    verify: false,
   },
   {
     label: '사업가',
     value: 'businessman',
+    verify: false,
   },
   {
     label: '기타',
     value: 'etc',
+    verify: false,
   },
 ]

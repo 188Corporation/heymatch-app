@@ -5,15 +5,21 @@ import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { ReactNode, useEffect, useState } from 'react'
-import { TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  Dimensions,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { DateData } from 'react-native-calendars'
 import Modal from 'react-native-modal'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { CalendarModal } from 'ui/common/CalenderModal'
-import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
@@ -26,6 +32,7 @@ export const GroupCreateInfoScreen = observer(() => {
   const [isVisibleCalenderModal, setIsVisibleCalenderModal] = useState(false)
   const [isVisiblePlaceModal, setIsVisiblePlaceModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const insets = useSafeAreaInsets()
 
   const { data: geocoding, isLoading: isLoadingGeocoding } = useGeocoding(
     groupCreateStore.address.address,
@@ -47,7 +54,13 @@ export const GroupCreateInfoScreen = observer(() => {
   return (
     <KeyboardAvoidingView>
       <NavigationHeader backButtonStyle='black' title='' />
-      <FlexScrollView>
+      <ScrollView
+        style={{
+          height:
+            Dimensions.get('window').height -
+            (insets.top + insets.bottom + 78 + 60),
+        }}
+      >
         <Container>
           <View style={{ marginBottom: 20 }}>
             <H3 style={{ marginBottom: 12 }}>몇 명인가요?</H3>
@@ -149,7 +162,7 @@ export const GroupCreateInfoScreen = observer(() => {
             </View>
           </View>
         </Container>
-      </FlexScrollView>
+      </ScrollView>
       <MyModal
         isVisible={isVisibleCalenderModal}
         onClose={() => setIsVisibleCalenderModal(false)}

@@ -7,6 +7,7 @@ import {
   LatLngDelta,
   MaleBodyForm,
 } from 'infra/types'
+import { Platform } from 'react-native'
 import CodePush from 'react-native-code-push'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -53,7 +54,7 @@ export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 export const useSafeAreaInsets = () => {
   const insets = _useSafeAreaInsets()
   // bottom inset is too much
-  return { ...insets, bottom: insets.bottom - 12 }
+  return { ...insets, bottom: insets.bottom - (Platform.OS === 'ios' ? 12 : 0) }
 }
 
 export const syncCodePush = () => {
