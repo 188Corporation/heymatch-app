@@ -41,7 +41,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   if (!group || !myData) return <LoadingOverlay />
-  const leader = group.group_members[0]
+  const leader = group.group_members.find((_) => _.is_user_leader)!
 
   const hasOwnGroup =
     myData.joined_groups &&

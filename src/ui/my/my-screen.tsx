@@ -202,7 +202,9 @@ export const MyScreen = () => {
           }}
         >
           <VerifiedSvg fill={Colors.primary.blue} />
-          <Body style={{ marginLeft: 4 }}>회사/학교 인증하기</Body>
+          <Body style={{ marginLeft: 4 }}>
+            회사 및 학교 인증하기 / 직업 수정하기
+          </Body>
         </View>
       </Menu>
       <VerticalSpace />

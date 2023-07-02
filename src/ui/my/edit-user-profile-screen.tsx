@@ -97,6 +97,9 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
       ) {
         return false
       }
+      if (userProfileStore.username !== data.user.username) {
+        return false
+      }
       return true
     }
 
@@ -117,7 +120,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
             >
               <ScrollView>
                 <Row style={{ alignItems: 'center', height: 40 }}>
-                  <H3 style={{ marginBottom: 12 }}>같은 직장 동료 피하기</H3>
+                  <H3 style={{ marginBottom: 12 }}>같은 학교/회사 피하기</H3>
                   <Switch
                     style={{ marginLeft: 'auto' }}
                     value={userProfileStore.blockMySchoolOrCompanyUsers}
