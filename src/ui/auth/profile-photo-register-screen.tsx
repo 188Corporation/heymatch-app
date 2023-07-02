@@ -56,7 +56,7 @@ export const ProfilePhotoRegisterScreen = observer(() => {
             • 본인 얼굴 하나만 나온 사진이여야 해요!
           </Warning>
           <Warning>• 얼굴이 최대한 정면으로 나온 사진을 올려주세요!</Warning>
-          <Warning>• 얼굴이 너무 작게 나온 사진은 안되요!</Warning>
+          <Warning>• 얼굴이 너무 작게 나온 사진은 안 돼요!</Warning>
         </Container>
       </FlexScrollView>
       <BottomButton

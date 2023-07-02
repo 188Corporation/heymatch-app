@@ -494,13 +494,18 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
     const target = new Date(targetDate)
     const timeDiff = target.getTime() - currentDate.getTime()
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+    const month = new Date(targetDate).getMonth() + 1
+    const day = new Date(targetDate).getDate()
+
+    // 월과 일을 문자열로 조합합니다.
+    const formattedDate = month + '월' + ' ' + day + '일'
 
     if (daysDiff > 0) {
-      return `만남 날짜 D-${daysDiff}`
+      return `${formattedDate} (만남 날짜 D-${daysDiff})`
     } else if (daysDiff < 0) {
-      return `만남 날짜 D+${Math.abs(daysDiff)}`
+      return `${formattedDate} (만남 날짜 D+${Math.abs(daysDiff)})`
     } else {
-      return '만남 날짜 D-day'
+      return `${formattedDate} (만남 날짜 D-day)`
     }
   }
 

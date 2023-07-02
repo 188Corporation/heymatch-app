@@ -140,7 +140,7 @@ export const AgreementScreen = observer(() => {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{
                 alignItems: 'center',
                 flexDirection: 'row',
@@ -167,7 +167,7 @@ export const AgreementScreen = observer(() => {
                 text='위치기반 서비스 이용약관'
                 uri={data?.app_info?.terms_of_location_service_url!}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </Container>
       </FlexScrollView>
