@@ -23,9 +23,7 @@ import {
 } from 'react-native'
 import { DateData } from 'react-native-calendars'
 import Modal from 'react-native-modal'
-import { openSettings } from 'react-native-permissions'
 import { useStores } from 'store/globals'
-import { PermissionType } from 'store/permission'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { Button } from 'ui/common/button'
@@ -37,8 +35,7 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 
 export const GroupListScreen = observer(() => {
-  const { locationStore, permissionStore, alertStore, groupListStore } =
-    useStores()
+  const { locationStore, groupListStore } = useStores()
 
   const [filterParams, setFilterParams] = useState('')
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
@@ -84,20 +81,20 @@ export const GroupListScreen = observer(() => {
     locationStore._location,
   ])
 
-  useEffect(() => {
-    if (permissionStore.location === 'blocked') {
-      alertStore.open({
-        title: '헤이매치 필수 권한',
-        body: '헤이매치를 시작하려면 위치 권한이 필요해요.',
-        mainButton: '권한 설정하러 가기',
-        onMainPress: () => openSettings(),
-      })
-    } else {
-      permissionStore
-        .request(PermissionType.location)
-        .then(() => locationStore.getLocation(true))
-    }
-  }, [permissionStore, locationStore, alertStore])
+  // useEffect(() => {
+  //   if (permissionStore.location === 'blocked') {
+  //     alertStore.open({
+  //       title: '헤이매치 필수 권한',
+  //       body: '헤이매치를 시작하려면 위치 권한이 필요해요.',
+  //       mainButton: '권한 설정하러 가기',
+  //       onMainPress: () => openSettings(),
+  //     })
+  //   } else {
+  //     permissionStore
+  //       .request(PermissionType.location)
+  //       .then(() => locationStore.getLocation(true))
+  //   }
+  // }, [permissionStore, locationStore, alertStore])
 
   return (
     <KeyboardAvoidingView>
@@ -293,7 +290,7 @@ const FilterGroup = observer(
       React.SetStateAction<boolean>
     >
   }) => {
-    const { groupListStore } = useStores()
+    const { groupListStore, alertStore } = useStores()
 
     const getDisplayedMembersFilter = () => {
       return groupListStore.membersFilter
@@ -355,7 +352,18 @@ const FilterGroup = observer(
 
             <FilterTouchable
               selected={!!groupListStore.distanceFilter}
-              onPress={() => setIsVisibleDistanceFilterModal(true)}
+              onPress={() => {
+                if (!groupListStore.searchPlaceKeyword) {
+                  alertStore.open({
+                    title: '장소를 지정해주세요!',
+                    body: '검색된 장소를 기준으로 결과가 노출됩니다.',
+                    onMainPress: () =>
+                      navigation.navigate('SearchPlaceResultsScreen'),
+                  })
+                  return
+                }
+                setIsVisibleDistanceFilterModal(true)
+              }}
             >
               <FilterTypography filter={!!groupListStore.distanceFilter}>
                 {getDisplayedDistanceFilter()}
