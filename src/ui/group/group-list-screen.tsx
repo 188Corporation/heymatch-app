@@ -501,11 +501,11 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
     const formattedDate = month + '월' + ' ' + day + '일'
 
     if (daysDiff > 0) {
-      return `${formattedDate} (만남 날짜 D-${daysDiff})`
+      return `만남 날짜 ${formattedDate} (D-${daysDiff})`
     } else if (daysDiff < 0) {
-      return `${formattedDate} (만남 날짜 D+${Math.abs(daysDiff)})`
+      return `만남 날짜 ${formattedDate} (D+${Math.abs(daysDiff)})`
     } else {
-      return `${formattedDate} (만남 날짜 D-day)`
+      return `만남 날짜 ${formattedDate} (D-day)`
     }
   }
 

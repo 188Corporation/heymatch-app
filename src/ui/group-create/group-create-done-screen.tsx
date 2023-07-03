@@ -1,4 +1,9 @@
-import { BackGroundPatternSvg, GroupCardsSvg } from 'image'
+import { useMy } from 'api/reads'
+import {
+  BackGroundPatternSvg,
+  FemaleGroupCardSvg,
+  MaleGroupCardSvg,
+} from 'image'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import React from 'react'
@@ -11,6 +16,7 @@ import { H1 } from 'ui/common/text'
 import { BlueContainer } from 'ui/group-create/blue-container'
 
 export const GroupCreateDoneScreen = () => {
+  const { data } = useMy()
   return (
     <>
       <BlueContainer>
@@ -19,7 +25,11 @@ export const GroupCreateDoneScreen = () => {
         <GroupCreateH1 style={{ marginBottom: 60 }}>
           {'그룹을 완성했어요!\n바로 매칭할 그룹을 찾아보세요 👀'}
         </GroupCreateH1>
-        <GroupCardsSvg />
+        {data?.user.gender === 'f' ? (
+          <MaleGroupCardSvg />
+        ) : (
+          <FemaleGroupCardSvg />
+        )}
         <View style={{ position: 'absolute', bottom: 0 }}>
           <BackGroundPatternSvg />
         </View>
