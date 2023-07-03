@@ -50,7 +50,7 @@ export const UnregisteredDomainScreen = () => {
                   onPress={() =>
                     navigation.navigate('WebViewScreen', {
                       title: '회사(학교) 등록 요청',
-                      uri: 'https://www.hey-match.com/agreement',
+                      uri: 'https://docs.google.com/forms/d/e/1FAIpQLSdDuQq4Mzkr5x4CIo2FJg1G9Umawd_33yJscna7_I5lNTe5fg/viewform',
                     })
                   }
                 >
