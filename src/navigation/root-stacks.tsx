@@ -9,6 +9,7 @@ import { RootStackParamList } from 'navigation/types'
 import React, { useEffect } from 'react'
 import { useStores } from 'store/globals'
 import { AgreementScreen } from 'ui/auth/agreement-screen'
+import { AuthPractitionerScreen } from 'ui/auth/auth-practitioner-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
 import { BodyInfoScreen } from 'ui/auth/body-info-screen'
@@ -115,6 +116,10 @@ const StacksAfterLogin = () => {
               name='UnregisteredDomainScreen'
               component={UnregisteredDomainScreen}
             />
+            <Stack.Screen
+              name='AuthPractitionerScreen'
+              component={AuthPractitionerScreen}
+            />
           </>
         )
 
@@ -192,6 +197,10 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='UnregisteredDomainScreen'
               component={UnregisteredDomainScreen}
+            />
+            <Stack.Screen
+              name='AuthPractitionerScreen'
+              component={AuthPractitionerScreen}
             />
           </>
         )

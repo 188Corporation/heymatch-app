@@ -140,6 +140,8 @@ export const JobInfoScreen = observer(() => {
             userProfileStore.jobTitle === 'employee'
           ) {
             navigation.navigate('EmailInputScreen')
+          } else if (userProfileStore.jobTitle === 'practitioner') {
+            navigation.navigate('AuthPractitionerScreen')
           } else {
             setLoading(true)
             try {

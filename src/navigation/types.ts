@@ -38,6 +38,7 @@ export type RootStackParamList = {
   StacksAfterLogin: {}
   RecommandationCodeScreen: {}
   UnregisteredDomainScreen: {}
+  AuthPractitionerScreen: {}
 }
 
 export interface MatchRequestTarget {

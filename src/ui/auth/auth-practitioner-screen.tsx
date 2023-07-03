@@ -1,6 +1,6 @@
 import { useOnboardingStatus } from 'api/reads'
 import { completeInputExtraInfo, editUserInfo } from 'api/writes'
-import { UnregisteredDomainSvg } from 'image'
+import { SpecializedjobSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
@@ -15,23 +15,13 @@ import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body2, H2 } from 'ui/common/text'
 
-export const UnregisteredDomainScreen = () => {
+export const AuthPractitionerScreen = () => {
   const { userProfileStore, alertStore } = useStores()
   const { data } = useOnboardingStatus()
 
   const [loading, setLoading] = useState(false)
   const isEditing = data?.status === 'onboarding_completed'
 
-  const schoolOrCompany = () => {
-    if (userProfileStore.jobTitle === 'employee') return '회사'
-    else if (userProfileStore.jobTitle === 'college_student') return '학교'
-  }
-
-  const studentOrEmployee = () => {
-    if (userProfileStore.jobTitle === 'employee') return '직장인'
-    else if (userProfileStore.jobTitle === 'college_student')
-      return '대학(원)생'
-  }
   return (
     <>
       <NavigationHeader backButtonStyle='black' title='' />
@@ -39,7 +29,7 @@ export const UnregisteredDomainScreen = () => {
         <FlexScrollView>
           <Container style={{ height: '100%', justifyContent: 'center' }}>
             <View style={{ width: '100%', alignItems: 'center' }}>
-              <UnregisteredDomainSvg />
+              <SpecializedjobSvg />
               <H2
                 style={{
                   marginBottom: 8,
@@ -47,28 +37,25 @@ export const UnregisteredDomainScreen = () => {
                   marginTop: 16,
                 }}
               >
-                {schoolOrCompany()}를 찾을 수 없어요 😥
+                특수직/전문직 인증하기
               </H2>
               <Row>
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('WebViewScreen', {
-                      title: '회사(학교) 등록 요청',
-                      uri: 'https://docs.google.com/forms/d/e/1FAIpQLSdDuQq4Mzkr5x4CIo2FJg1G9Umawd_33yJscna7_I5lNTe5fg/viewform',
+                      title: '특수직/전문직 인증 요청',
+                      uri: 'https://docs.google.com/forms/d/e/1FAIpQLSfODtArEBCC5sph_bC5Szjp46d6A36pNsEMbZN-H0hXVMacfQ/viewform',
                     })
                   }
                 >
                   <Body2 style={{ color: Colors.primary.blue }}>구글폼</Body2>
                 </TouchableOpacity>
                 <Body2 style={{ color: Colors.gray.v400 }}>
-                  을 작성해주시면 빠른 시일 내로 도메인을 추가할게요!
+                  을 통해 특수직/전문직 인증을 요청해주세요
                 </Body2>
               </Row>
               <Body2 style={{ color: Colors.gray.v400 }}>
-                가입 후 마이페이지에서 재인증이 가능하며, 인증 전까지는
-              </Body2>
-              <Body2 style={{ color: Colors.gray.v400 }}>
-                {studentOrEmployee()}으로 표시돼요
+                영업일 기준 2-3일내 헤이매치 팀에서 응답드리겠습니다.
               </Body2>
             </View>
           </Container>
