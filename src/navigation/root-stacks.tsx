@@ -189,6 +189,10 @@ const StacksAfterLogin = () => {
               name='RecommandationCodeScreen'
               component={RecommandationCodeScreen}
             />
+            <Stack.Screen
+              name='UnregisteredDomainScreen'
+              component={UnregisteredDomainScreen}
+            />
           </>
         )
       default:

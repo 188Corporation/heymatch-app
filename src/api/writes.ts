@@ -11,6 +11,7 @@ import {
   FemaleBodyForm,
   Gender,
   GpsLocation,
+  GroupDetail,
   GroupDetail_regacy,
   JobTitle,
   MaleBodyForm,
@@ -211,7 +212,7 @@ export const acceptMatchRequest = async (matchRequestId: number) => {
   )
   if (res.code !== 200) throw new ApiError(res)
   return res.data as {
-    sender_group: GroupDetail_regacy
+    sender_group: GroupDetail
     stream_channel_cid: string
   }
 }

@@ -1,3 +1,4 @@
+import { useGroup } from 'api/reads'
 import { BackArrowBlackSvg } from 'image'
 import { myMessageStyle } from 'infra/chat'
 import { Colors } from 'infra/colors'
@@ -20,11 +21,14 @@ import { Caption, CaptionS, H3 } from 'ui/common/text'
 export const ChatDetailScreen = observer(() => {
   const {
     chatStore: { channel, group, isMessage },
+    alertStore,
   } = useStores()
   if (!channel || !group) {
     navigation.goBack()
     return null
   }
+  const { data } = useGroup(group.id)
+
   const MessageAvatar = () => (
     <Avatar
       side={32}
@@ -34,6 +38,20 @@ export const ChatDetailScreen = observer(() => {
       style={{ marginRight: 8 }}
     />
   )
+
+  const handlePressAvatar = () => {
+    if (!data) {
+      alertStore.open({
+        title: '삭제된 그룹입니다!',
+        body: '상대방과의 대화는 계속 할 수 있어요.',
+      })
+      return
+    }
+    navigation.navigate('GroupDetailScreen', {
+      id: group.id,
+      hideButton: true,
+    })
+  }
   return (
     <KeyboardAvoidingView>
       <TopInsetSpace />
@@ -43,12 +61,7 @@ export const ChatDetailScreen = observer(() => {
         </BackButton>
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}
-          onPress={() =>
-            navigation.navigate('GroupDetailScreen', {
-              id: group.id,
-              hideButton: true,
-            })
-          }
+          onPress={handlePressAvatar}
         >
           <MessageAvatar />
           <TitleText>{group.title}</TitleText>
