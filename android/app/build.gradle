@@ -235,7 +235,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            resValue "string", "app_name", "헤이매치"
+            resValue "string", "app_name", "바이매치"
             versionNameSuffix "-DEBUG"
             applicationIdSuffix ".debug"
             resValue "string", "CodePushDeploymentKey", '""'
