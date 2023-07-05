@@ -1,11 +1,9 @@
 import { useOnboardingStatus } from 'api/reads'
-import { completeInputExtraInfo } from 'api/writes'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
@@ -42,8 +40,7 @@ export const ConfirmCompanyScreen = () => {
           if (data?.status === 'onboarding_completed') {
             navigation.navigate('MyScreen')
           } else {
-            await completeInputExtraInfo()
-            await mutate('/users/my/onboarding/')
+            navigation.navigate('ProfilePhotoRegisterScreen')
           }
         }}
       />

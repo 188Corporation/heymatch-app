@@ -1,11 +1,11 @@
-import { useMy, useOnboardingStatus } from 'api/reads'
+import { useOnboardingStatus } from 'api/reads'
 import { Colors } from 'infra/colors'
 import { femaleBodyForm, maleBodyForm } from 'infra/constants'
 import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React, { useState } from 'react'
-import { Dimensions, Platform, ScrollView, View } from 'react-native'
+import { Dimensions, ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import RadioForm, {
   RadioButton,
@@ -15,16 +15,17 @@ import RadioForm, {
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
-import { Button } from 'ui/common/button'
 import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
+
 export const BodyInfoScreen = observer(() => {
-  const { data: myData } = useMy()
   const { data: onboardingStatusData } = useOnboardingStatus()
-  const { userProfileStore, alertStore } = useStores()
+  const { userProfileStore } = useStores()
   const insets = useSafeAreaInsets()
   const [height, setHeight] = useState(170)
+  const gender = userProfileStore.gender!
+
   const heightItems = Array.from({ length: 91 }, (_, i) => i + 120).map((x) => {
     return {
       value: x,
@@ -33,7 +34,7 @@ export const BodyInfoScreen = observer(() => {
   })
 
   const handleOnPress = (v: MaleBodyForm | FemaleBodyForm) => {
-    userProfileStore.setBodyForm(myData?.user.gender!, v)
+    userProfileStore.setBodyForm(gender, v)
   }
 
   return (
@@ -61,80 +62,58 @@ export const BodyInfoScreen = observer(() => {
               }}
             >
               <RadioForm>
-                {(myData?.user.gender === 'm'
-                  ? maleBodyForm
-                  : femaleBodyForm
-                ).map((x, idx) => {
-                  return (
-                    <View key={x.value} style={{ marginBottom: 15 }}>
-                      <RadioButton key={x.value}>
-                        <RadioButtonInput
-                          obj={x}
-                          index={idx}
-                          isSelected={
-                            userProfileStore.getBodyForm(
-                              myData?.user.gender!,
-                            ) === x.value
-                          }
-                          onPress={handleOnPress}
-                          buttonOuterSize={24}
-                          buttonSize={12}
-                          buttonInnerColor={Colors.white}
-                          buttonOuterColor={
-                            userProfileStore.getBodyForm(
-                              myData?.user.gender!,
-                            ) === x.value
-                              ? Colors.primary.blue
-                              : Colors.gray.v200
-                          }
-                          buttonStyle={{
-                            backgroundColor:
-                              userProfileStore.getBodyForm(
-                                myData?.user.gender!,
-                              ) === x.value
+                {(gender === 'm' ? maleBodyForm : femaleBodyForm).map(
+                  (x, idx) => {
+                    return (
+                      <View key={x.value} style={{ marginBottom: 15 }}>
+                        <RadioButton key={x.value}>
+                          <RadioButtonInput
+                            obj={x}
+                            index={idx}
+                            isSelected={
+                              userProfileStore.getBodyForm(gender!) === x.value
+                            }
+                            onPress={handleOnPress}
+                            buttonOuterSize={24}
+                            buttonSize={12}
+                            buttonInnerColor={Colors.white}
+                            buttonOuterColor={
+                              userProfileStore.getBodyForm(gender!) === x.value
                                 ? Colors.primary.blue
-                                : Colors.gray.v200,
-                          }}
-                        />
-                        <RadioButtonLabel
-                          obj={x}
-                          index={idx}
-                          labelHorizontal={true}
-                          onPress={handleOnPress}
-                          labelStyle={{ fontSize: 16 }}
-                        />
-                      </RadioButton>
-                    </View>
-                  )
-                })}
+                                : Colors.gray.v200
+                            }
+                            buttonStyle={{
+                              backgroundColor:
+                                userProfileStore.getBodyForm(gender!) ===
+                                x.value
+                                  ? Colors.primary.blue
+                                  : Colors.gray.v200,
+                            }}
+                          />
+                          <RadioButtonLabel
+                            obj={x}
+                            index={idx}
+                            labelHorizontal={true}
+                            onPress={handleOnPress}
+                            labelStyle={{ fontSize: 16 }}
+                          />
+                        </RadioButton>
+                      </View>
+                    )
+                  },
+                )}
               </RadioForm>
             </ScrollView>
           </View>
         </Container>
       </View>
-      {onboardingStatusData?.status !== 'onboarding_completed' && (
-        <Button
-          text='건너뛰기'
-          color={Colors.white}
-          textColor={Colors.gray.v400}
-          onPress={() => {
-            alertStore.open({
-              title: '추가 정보 입력을 건너뛸까요?',
-              body: '지금까지 작성해주신 정보만 저장돼요!',
-              mainButton: '계속 이어서 할게요!',
-              subButton: '네 건너뛸게요',
-              onSubPress: () => navigation.navigate('JobInfoScreen'),
-            })
-          }}
-        />
-      )}
       <BottomButton
         text={
           onboardingStatusData?.status === 'onboarding_completed'
             ? '수정하기'
             : '다음으로'
         }
-        disabled={!userProfileStore.getBodyForm(myData?.user.gender!)}
+        disabled={!userProfileStore.getBodyForm(gender!)}
         onPress={() => {
           userProfileStore.setHeight(height)
           if (onboardingStatusData?.status === 'onboarding_completed') {

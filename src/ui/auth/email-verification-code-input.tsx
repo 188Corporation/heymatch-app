@@ -1,10 +1,5 @@
 import { useOnboardingStatus } from 'api/reads'
-import {
-  authorizeEmail,
-  completeInputExtraInfo,
-  editUserInfo,
-  getCodeByEmail,
-} from 'api/writes'
+import { authorizeEmail, getCodeByEmail } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -99,36 +94,7 @@ export const EmailVerificationCodeInputScreen = observer(() => {
           color={Colors.white}
           textColor={Colors.gray.v400}
           onPress={() => {
-            alertStore.open({
-              title: '추가 정보 입력을 건너뛸까요?',
-              body: '지금까지 작성해주신 정보만 저장돼요!',
-              mainButton: '계속 이어서 할게요!',
-              subButton: '네 건너뛸게요',
-              onSubPress: async () => {
-                setLoading(true)
-                try {
-                  await editUserInfo({
-                    username: userProfileStore.username,
-                    gender: userProfileStore.gender!,
-                    birthdate: userProfileStore.birthdate!,
-                    mainProfileImage: userProfileStore.photos.mainPhoto,
-                    otherProfileImage1: userProfileStore.photos.sub1Photo,
-                    otherProfileImage2: userProfileStore.photos.sub2Photo,
-                    heightCm: userProfileStore.height,
-                    maleBodyForm: userProfileStore.maleBodyForm,
-                    femaleBodyForm: userProfileStore.femaleBodyForm,
-                    jobTitle: userProfileStore.jobTitle,
-                  })
-                  await mutate('/users/my/')
-                  await completeInputExtraInfo()
-                  await mutate('/users/my/onboarding/')
-                } catch (e) {
-                  alertStore.error(e, '회원정보 등록에 실패했어요!')
-                } finally {
-                  setLoading(false)
-                }
-              },
-            })
+            navigation.navigate('ProfilePhotoRegisterScreen')
           }}
         />
       )}

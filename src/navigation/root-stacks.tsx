@@ -78,22 +78,14 @@ const StacksAfterLogin = () => {
   }
   const renderStack = () => {
     switch (data.status) {
-      case 'onboarding_basic_info_incomplete':
+      case 'onboarding_incomplete':
         return (
           <>
             <Stack.Screen name='AgreementScreen' component={AgreementScreen} />
             <Stack.Screen name='UsernameScreen' component={UsernameScreen} />
             <Stack.Screen name='GenderScreen' component={GenderScreen} />
             <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
-            <Stack.Screen
-              name='ProfilePhotoRegisterScreen'
-              component={ProfilePhotoRegisterScreen}
-            />
-          </>
-        )
-      case 'onboarding_extra_info_in_progress':
-        return (
-          <>
+
             <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
             <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
             <Stack.Screen
@@ -120,11 +112,13 @@ const StacksAfterLogin = () => {
               name='AuthPractitionerScreen'
               component={AuthPractitionerScreen}
             />
+            <Stack.Screen
+              name='ProfilePhotoRegisterScreen'
+              component={ProfilePhotoRegisterScreen}
+            />
           </>
         )
-
-      case 'onboarding_profile_under_verification_extra_info_incomplete':
-      case 'onboarding_profile_under_verification_extra_info_completed':
+      case 'onboarding_profile_under_verification':
         return (
           <Stack.Screen
             name='ProfilePhotoVerificationScreen'

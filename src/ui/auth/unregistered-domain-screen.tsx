@@ -1,25 +1,21 @@
 import { useOnboardingStatus } from 'api/reads'
-import { completeInputExtraInfo, editUserInfo } from 'api/writes'
 import { UnregisteredDomainSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { Row } from 'ui/common/layout'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body2, H2 } from 'ui/common/text'
 
 export const UnregisteredDomainScreen = () => {
-  const { userProfileStore, alertStore } = useStores()
+  const { userProfileStore } = useStores()
   const { data } = useOnboardingStatus()
 
-  const [loading, setLoading] = useState(false)
   const isEditing = data?.status === 'onboarding_completed'
 
   const schoolOrCompany = () => {
@@ -76,36 +72,10 @@ export const UnregisteredDomainScreen = () => {
       </View>
       <BottomButton
         text={isEditing ? '완료하기' : '다음으로'}
-        onPress={async () => {
-          if (isEditing) {
-            navigation.setRootWithStack('MainTabs', 'MyScreen')
-            return
-          }
-          setLoading(true)
-          try {
-            await editUserInfo({
-              username: userProfileStore.username,
-              gender: userProfileStore.gender!,
-              birthdate: userProfileStore.birthdate!,
-              mainProfileImage: userProfileStore.photos.mainPhoto,
-              otherProfileImage1: userProfileStore.photos.sub1Photo,
-              otherProfileImage2: userProfileStore.photos.sub2Photo,
-              heightCm: userProfileStore.height,
-              maleBodyForm: userProfileStore.maleBodyForm,
-              femaleBodyForm: userProfileStore.femaleBodyForm,
-              jobTitle: userProfileStore.jobTitle,
-            })
-            await mutate('/users/my/')
-            await completeInputExtraInfo()
-            await mutate('/users/my/onboarding/')
-          } catch (e) {
-            alertStore.error(e, '회원정보 등록에 실패했어요!')
-          } finally {
-            setLoading(false)
-          }
+        onPress={() => {
+          navigation.navigate('ProfilePhotoRegisterScreen')
         }}
       />
-      {loading && <LoadingOverlay />}
     </>
   )
 }

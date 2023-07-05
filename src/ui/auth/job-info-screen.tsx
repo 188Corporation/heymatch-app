@@ -1,10 +1,8 @@
-import { useOnboardingStatus } from 'api/reads'
-import { completeInputExtraInfo, editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { jobTitleForm } from 'infra/constants'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import RadioForm, {
   RadioButton,
@@ -13,18 +11,13 @@ import RadioForm, {
 } from 'react-native-simple-radio-button'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
-import { Button } from 'ui/common/button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
-  const { data } = useOnboardingStatus()
-  const { userProfileStore, alertStore } = useStores()
-  const [loading, setLoading] = useState(false)
+  const { userProfileStore } = useStores()
 
   const handleOnPress = (v: any) => {
     userProfileStore.setJobTitle(v)
@@ -91,46 +84,6 @@ export const JobInfoScreen = observer(() => {
           </RadioForm>
         </Container>
       </FlexScrollView>
-      {data?.status !== 'onboarding_completed' && (
-        <Button
-          text='건너뛰기'
-          color={Colors.white}
-          textColor={Colors.gray.v400}
-          onPress={() => {
-            alertStore.open({
-              title: '추가 정보 입력을 건너뛸까요?',
-              body: '지금까지 작성해주신 정보만 저장돼요!',
-              mainButton: '계속 이어서 할게요!',
-              subButton: '네 건너뛸게요',
-              onSubPress: async () => {
-                setLoading(true)
-                userProfileStore.setJobTitle('etc')
-                try {
-                  await editUserInfo({
-                    username: userProfileStore.username,
-                    gender: userProfileStore.gender!,
-                    birthdate: userProfileStore.birthdate!,
-                    mainProfileImage: userProfileStore.photos.mainPhoto,
-                    otherProfileImage1: userProfileStore.photos.sub1Photo,
-                    otherProfileImage2: userProfileStore.photos.sub2Photo,
-                    heightCm: userProfileStore.height,
-                    maleBodyForm: userProfileStore.maleBodyForm,
-                    femaleBodyForm: userProfileStore.femaleBodyForm,
-                    jobTitle: userProfileStore.jobTitle,
-                  })
-                  await mutate('/users/my/')
-                  await completeInputExtraInfo()
-                  await mutate('/users/my/onboarding/')
-                } catch (e) {
-                  alertStore.error(e, '회원정보 등록에 실패했어요!')
-                } finally {
-                  setLoading(false)
-                }
-              },
-            })
-          }}
-        />
-      )}
       <BottomButton
         text='다음으로'
         disabled={!userProfileStore.jobTitle}
@@ -143,27 +96,10 @@ export const JobInfoScreen = observer(() => {
           } else if (userProfileStore.jobTitle === 'practitioner') {
             navigation.navigate('AuthPractitionerScreen')
           } else {
-            setLoading(true)
-            try {
-              await editUserInfo({
-                jobTitle: userProfileStore.jobTitle,
-              })
-              await mutate('/users/my/')
-              if (data?.status === 'onboarding_completed') {
-                navigation.goBack()
-              } else {
-                await completeInputExtraInfo()
-                await mutate('/users/my/onboarding/')
-              }
-            } catch (e) {
-              alertStore.error(e, '회원정보 등록에 실패했어요!')
-            } finally {
-              setLoading(false)
-            }
+            navigation.navigate('ProfilePhotoRegisterScreen')
           }
         }}
       />
-      {loading && <LoadingOverlay />}
     </>
   )
 })

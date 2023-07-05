@@ -355,13 +355,11 @@ export type PushNotificationType = {
 export type OnboardingStatus = {
   status:
     | 'onboarding_completed'
-    | 'onboarding_basic_info_incomplete'
-    | 'onboarding_profile_under_verification_extra_info_incomplete'
-    | 'onboarding_profile_under_verification_extra_info_completed'
     | 'onboarding_profile_rejected'
-    | 'onboarding_extra_info_in_progress'
+    | 'onboarding_profile_under_verification'
+    | 'onboarding_incomplete'
 
   // extra에 오는 값은 profile_under_verification뿐임.
   extra?: string
-  rejected_reason?: 'no_face_found' | 'more_than_one_face' | 'unknown'
+  rejected_reason?: string
 }

@@ -2,7 +2,6 @@ import { editUserInfo } from 'api/writes'
 import { CloseSvg, PlusSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { CURRENT_OS, OS } from 'infra/constants'
-import { storage } from 'infra/storage'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -79,10 +78,6 @@ export const ProfilePhotoRegisterScreen = observer(() => {
             })
             await mutate('/users/my/')
             await mutate('/users/my/onboarding/')
-            await storage.setItem(
-              'main-profile-photo',
-              userProfileStore.getPhotos.mainPhoto,
-            )
           } catch (e) {
             alertStore.error(e, '회원정보 등록에 실패했어요!')
           } finally {
