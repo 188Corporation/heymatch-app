@@ -1,6 +1,10 @@
 import { useOnboardingStatus } from 'api/reads'
 import { Colors } from 'infra/colors'
-import { femaleBodyForm, maleBodyForm } from 'infra/constants'
+import {
+  BOTTOM_BUTTON_HEIGTH,
+  femaleBodyForm,
+  maleBodyForm,
+} from 'infra/constants'
 import { FemaleBodyForm, MaleBodyForm } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -18,6 +22,8 @@ import { BottomButton } from 'ui/common/bottom-button'
 import { Dropdown } from 'ui/common/dropdown'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { DescBody2, H1, H2 } from 'ui/common/text'
+
+const OTHER_SPACE_HEIGHT = 200
 
 export const BodyInfoScreen = observer(() => {
   const { data: onboardingStatusData } = useOnboardingStatus()
@@ -48,19 +54,27 @@ export const BodyInfoScreen = observer(() => {
               정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
             </DescBody2>
           </View>
-          <View style={{ marginBottom: 40, zIndex: 100 }}>
-            <H2 style={{ marginBottom: 10 }}>키</H2>
-            <Dropdown items={heightItems} value={height} setValue={setHeight} />
-          </View>
-          <View>
-            <H2 style={{ marginBottom: 20 }}>체형</H2>
-            <ScrollView
-              style={{
-                height:
-                  Dimensions.get('window').height -
-                  (392 + insets.bottom + insets.top + 78),
-              }}
-            >
+          <ScrollView
+            style={{
+              height:
+                Dimensions.get('window').height -
+                (insets.bottom +
+                  insets.top +
+                  BOTTOM_BUTTON_HEIGTH +
+                  OTHER_SPACE_HEIGHT),
+            }}
+          >
+            <View style={{ marginBottom: 40, zIndex: 100 }}>
+              <H2 style={{ marginBottom: 10 }}>키</H2>
+              <Dropdown
+                items={heightItems}
+                value={height}
+                setValue={setHeight}
+              />
+            </View>
+            <View>
+              <H2 style={{ marginBottom: 20 }}>체형</H2>
+
               <RadioForm>
                 {(gender === 'm' ? maleBodyForm : femaleBodyForm).map(
                   (x, idx) => {
@@ -103,8 +117,8 @@ export const BodyInfoScreen = observer(() => {
                   },
                 )}
               </RadioForm>
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
         </Container>
       </View>
       <BottomButton

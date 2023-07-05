@@ -1,7 +1,13 @@
 import { deleteProfilePhoto, editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { femaleBodyForm, jobTitleForm, maleBodyForm } from 'infra/constants'
+import {
+  BOTTOM_BUTTON_HEIGTH,
+  femaleBodyForm,
+  jobTitleForm,
+  maleBodyForm,
+  NAVIGATION_HEADER_HEIGHT,
+} from 'infra/constants'
 import { getAge, useSafeAreaInsets } from 'infra/util'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
@@ -19,6 +25,7 @@ import styled from 'styled-components'
 import { mutate } from 'swr'
 import { ProfilePhotoEditor } from 'ui/auth/profile-photo-register-screen'
 import { BottomButton } from 'ui/common/bottom-button'
+import { BottomInsetSpace } from 'ui/common/inset-space'
 import { Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
@@ -30,7 +37,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
     const { userProfileStore, alertStore } = useStores()
     const [loading, setLoading] = useState(false)
     const insets = useSafeAreaInsets()
-    const BOTTOM_BUTTON_HEIGTH = 78
+
     const getSortedProfilePhotos = () => {
       const subPhotos = data.user_profile_images
         .filter((_) => !_.is_main)
@@ -102,97 +109,89 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
       }
       return true
     }
-
     return (
       <>
         <NavigationHeader backButtonStyle='black' title='' />
         <View style={{ flexGrow: 1 }}>
-          <Container>
+          <Container
+            style={{
+              height:
+                Dimensions.get('window').height -
+                (BOTTOM_BUTTON_HEIGTH + NAVIGATION_HEADER_HEIGHT + insets.top),
+            }}
+          >
             <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
             <ProfilePhotoEditor photos={profilePhotos} />
-            <View style={{ height: 20 }} />
-            <View
-              style={{
-                height:
-                  Dimensions.get('window').height -
-                  (392 + insets.bottom + BOTTOM_BUTTON_HEIGTH),
+            <Row style={{ alignItems: 'center', height: 40, marginTop: 12 }}>
+              <H3 style={{ marginBottom: 12 }}>같은 학교/회사 피하기</H3>
+              <Switch
+                style={{ marginLeft: 'auto' }}
+                value={userProfileStore.blockMySchoolOrCompanyUsers}
+                onValueChange={(v) => {
+                  userProfileStore.setBlockMySchoolOrCompanyUsers(v)
+                }}
+              />
+            </Row>
+            <H3 style={{ marginBottom: 12 }}>나이</H3>
+            <ProfileInfo
+              value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
+              onPress={() => {
+                navigation.navigate('EditUserInfoStacks', {
+                  screen: 'BirthdayScreen',
+                })
               }}
-            >
-              <ScrollView>
-                <Row style={{ alignItems: 'center', height: 40 }}>
-                  <H3 style={{ marginBottom: 12 }}>같은 학교/회사 피하기</H3>
-                  <Switch
-                    style={{ marginLeft: 'auto' }}
-                    value={userProfileStore.blockMySchoolOrCompanyUsers}
-                    onValueChange={(v) => {
-                      userProfileStore.setBlockMySchoolOrCompanyUsers(v)
-                    }}
-                  />
-                </Row>
-                <H3 style={{ marginBottom: 12 }}>나이</H3>
-                <ProfileInfo
-                  value={
-                    <Body>만 {getAge(userProfileStore.birthdate!)}세</Body>
-                  }
-                  onPress={() => {
-                    navigation.navigate('EditUserInfoStacks', {
-                      screen: 'BirthdayScreen',
-                    })
+            />
+            <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
+            <ProfileInfo
+              value={<Body>{userProfileStore.username}</Body>}
+              onPress={() => {
+                navigation.navigate('EditUserInfoStacks', {
+                  screen: 'UsernameScreen',
+                })
+              }}
+            />
+            <H3 style={{ marginTop: 20, marginBottom: 12 }}>체형</H3>
+            <ProfileInfo
+              value={
+                <Body>
+                  {userProfileStore.height}cm / {getBodyForm()}
+                </Body>
+              }
+              onPress={() => {
+                navigation.navigate('EditUserInfoStacks', {
+                  screen: 'BodyInfoScreen',
+                })
+              }}
+            />
+            <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
+            <ProfileInfo
+              editable={false}
+              value={
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}
-                />
-                <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
-                <ProfileInfo
-                  value={<Body>{userProfileStore.username}</Body>}
-                  onPress={() => {
-                    navigation.navigate('EditUserInfoStacks', {
-                      screen: 'UsernameScreen',
-                    })
-                  }}
-                />
-                <H3 style={{ marginTop: 20, marginBottom: 12 }}>체형</H3>
-                <ProfileInfo
-                  value={
-                    <Body>
-                      {userProfileStore.height}cm / {getBodyForm()}
-                    </Body>
-                  }
-                  onPress={() => {
-                    navigation.navigate('EditUserInfoStacks', {
-                      screen: 'BodyInfoScreen',
-                    })
-                  }}
-                />
-                <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
-                <ProfileInfo
-                  editable={false}
-                  value={
-                    <View
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}
-                    >
-                      {(data.user.verified_company_name ||
-                        data.user.verified_school_name) && (
-                        <View style={{ marginRight: 4 }}>
-                          <VerifiedSvg fill={Colors.primary.blue} />
-                        </View>
-                      )}
-                      <Body>
-                        {userProfileStore.verifiedOrganizationNames
-                          ? userProfileStore.verifiedOrganizationNames[0]
-                          : userProfileStore.jobTitle
-                          ? jobTitleForm.find(
-                              (_) => _.value === userProfileStore.jobTitle,
-                            )?.label
-                          : '-'}
-                      </Body>
+                >
+                  {(data.user.verified_company_name ||
+                    data.user.verified_school_name) && (
+                    <View style={{ marginRight: 4 }}>
+                      <VerifiedSvg fill={Colors.primary.blue} />
                     </View>
-                  }
-                />
-              </ScrollView>
-            </View>
+                  )}
+                  <Body>
+                    {userProfileStore.verifiedOrganizationNames
+                      ? userProfileStore.verifiedOrganizationNames[0]
+                      : userProfileStore.jobTitle
+                      ? jobTitleForm.find(
+                          (_) => _.value === userProfileStore.jobTitle,
+                        )?.label
+                      : '-'}
+                  </Body>
+                </View>
+              }
+            />
           </Container>
         </View>
         <BottomButton
@@ -236,7 +235,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
               }
 
               await mutate('/users/my/')
-              // TODO: 프로필 인증 대기 화면으로 가야함.
               navigation.goBack()
             } catch (e) {
               alertStore.error(e, '정보 수정에 실패했어요!')
@@ -245,13 +243,14 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
             }
           }}
         />
+        <BottomInsetSpace />
         {loading && <LoadingOverlay />}
       </>
     )
   })
 
-const Container = styled(View)`
-  padding: 12px 28px 12px 28px;
+const Container = styled(ScrollView)`
+  padding: 0px 28px 12px 28px;
 `
 
 const ProfileInfo = ({
