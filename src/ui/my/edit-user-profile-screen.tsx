@@ -216,7 +216,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 heightCm: userProfileStore.height,
                 maleBodyForm: userProfileStore.maleBodyForm,
                 femaleBodyForm: userProfileStore.femaleBodyForm,
-                jobTitle: userProfileStore.jobTitle,
                 blockMySchoolOrCompanyUsers:
                   userProfileStore.blockMySchoolOrCompanyUsers,
               })
