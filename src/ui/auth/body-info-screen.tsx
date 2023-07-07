@@ -32,7 +32,7 @@ export const BodyInfoScreen = observer(() => {
   const [height, setHeight] = useState(170)
   const gender = userProfileStore.gender!
 
-  const heightItems = Array.from({ length: 91 }, (_, i) => i + 120).map((x) => {
+  const heightItems = Array.from({ length: 91 }, (_, i) => i + 140).map((x) => {
     return {
       value: x,
       label: `${x}cm`,

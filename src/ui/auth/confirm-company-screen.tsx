@@ -38,7 +38,7 @@ export const ConfirmCompanyScreen = () => {
         text='다음으로'
         onPress={async () => {
           if (data?.status === 'onboarding_completed') {
-            navigation.navigate('MyScreen')
+            navigation.setRootWithStack('MainTabs', 'GroupScreen')
           } else {
             navigation.navigate('ProfilePhotoRegisterScreen')
           }

@@ -87,10 +87,13 @@ export const EmailInputScreen = observer(() => {
               userProfileStore.setVerifiedOrganizationNames(res.names)
             })
             await mutate('/auth/email/get-code/')
-            if (userProfileStore.verifiedOrganizationNames?.length === 1) {
+
+            if (userProfileStore.verifiedOrganizationNames!.length === 1) {
               navigation.navigate('EmailVerificationCodeInputScreen')
-            } else {
+            } else if (userProfileStore.verifiedOrganizationNames!.length > 1) {
               navigation.navigate('SelectSubsidiaryScreen')
+            } else {
+              navigation.navigate('UnregisteredDomainScreen')
             }
           } catch (e) {
             navigation.navigate('UnregisteredDomainScreen')

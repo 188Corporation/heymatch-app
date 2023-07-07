@@ -233,10 +233,6 @@ export const MyScreen = () => {
         uri={myData?.app_info?.privacy_policy_url!}
       />
       <VerticalSpace />
-      <WebViewMenu
-        title='위치기반서비스 이용약관'
-        uri={myData?.app_info?.terms_of_location_service_url!}
-      />
       <VerticalSpace />
       <WebViewMenu
         title='사업자 정보'

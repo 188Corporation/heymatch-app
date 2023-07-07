@@ -1,3 +1,4 @@
+import { useOnboardingStatus } from 'api/reads'
 import { Colors } from 'infra/colors'
 import { jobTitleForm } from 'infra/constants'
 import { observer } from 'mobx-react'
@@ -18,6 +19,8 @@ import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
   const { userProfileStore } = useStores()
+  const { data } = useOnboardingStatus()
+  const isEditing = data?.status === 'onboarding_completed'
 
   const handleOnPress = (v: any) => {
     userProfileStore.setJobTitle(v)
@@ -96,7 +99,11 @@ export const JobInfoScreen = observer(() => {
           } else if (userProfileStore.jobTitle === 'practitioner') {
             navigation.navigate('AuthPractitionerScreen')
           } else {
-            navigation.navigate('ProfilePhotoRegisterScreen')
+            if (isEditing) {
+              navigation.setRootWithStack('MainTabs', 'GroupScreen')
+            } else {
+              navigation.navigate('ProfilePhotoRegisterScreen')
+            }
           }
         }}
       />

@@ -124,7 +124,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       />
       <View style={{ flexGrow: 1 }}>
         <Container>
-          <H1 style={{ marginBottom: 24 }}>{group?.title}</H1>
+          <H1 style={{ marginBottom: 24 }} numberOfLines={1}>
+            {group?.title}
+          </H1>
           <View
             style={{
               display: 'flex',
@@ -375,9 +377,9 @@ const ButtonContent: React.FC<{
           return
         }
         alertStore.open({
-          title: '캔디 1개를 사용해서 매칭할까요?',
+          title: '캔디 3개를 사용해서 매칭할까요?',
           body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요 :)',
-          mainButton: '캔디 1개 사용하기',
+          mainButton: '캔디 3개 사용하기',
           subButton: '다음에 매칭하기',
           onMainPress: async () => {
             if (!myData) return

@@ -1,9 +1,4 @@
-import {
-  CardOverlayRejectedSvg as _CardOverlayRejectedSvg,
-  CardOverlaySvg as _CardOverlaySvg,
-  CheckSvg,
-  CloseSvg,
-} from 'image'
+import { CardOverlaySvg as _CardOverlaySvg, CheckSvg, CloseSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { WINDOW_DIMENSIONS } from 'infra/constants'
 import {
@@ -99,10 +94,12 @@ const CardOverlaySvg = styled(_CardOverlaySvg)`
   height: 100%;
 `
 
-const CardOverlayRejectedSvg = styled(_CardOverlayRejectedSvg)`
-  position: absolute;
-  width: 100%;
-  height: 100%;
+const CardOverlayRejectedSvg = styled(View)`
+position: absolute
+backgroundColor: black
+opacity: 0.7
+width: 100%
+height: 100%
 `
 
 const Container = styled(Column)<{
@@ -140,7 +137,7 @@ const RoundButtonDistance = styled(View)`
 
 const UpperContainer = styled(TouchableOpacity)`
   flex-direction: column;
-  padding: 20px 20px 0 20px;
+  padding: 20px 20px 0px 20px;
   flex: 1;
 `
 

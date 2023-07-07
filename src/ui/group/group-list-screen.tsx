@@ -535,7 +535,9 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>
         {getRemainingDays(group.meetup_date)}
       </Caption>
-      <H3 style={{ marginBottom: 16 }}>{group.title}</H3>
+      <H3 style={{ marginBottom: 16 }} numberOfLines={1}>
+        {group.title}
+      </H3>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
         <ProfilePhotoContainer style={{ marginRight: 6 }}>
           <Image

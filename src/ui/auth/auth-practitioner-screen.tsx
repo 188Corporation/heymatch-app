@@ -58,7 +58,11 @@ export const AuthPractitionerScreen = () => {
       <BottomButton
         text={isEditing ? '완료하기' : '다음으로'}
         onPress={() => {
-          navigation.navigate('ProfilePhotoRegisterScreen')
+          if (isEditing) {
+            navigation.setRootWithStack('MainTabs', 'GroupScreen')
+          } else {
+            navigation.navigate('ProfilePhotoRegisterScreen')
+          }
         }}
       />
     </>
