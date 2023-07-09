@@ -144,3 +144,6 @@ export const jobTitleForm = [
     verify: false,
   },
 ]
+
+export const BOTTOM_BUTTON_HEIGTH = 78
+export const NAVIGATION_HEADER_HEIGHT = 60

@@ -1,4 +1,5 @@
 import { useOnboardingStatus } from 'api/reads'
+import { editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { jobTitleForm } from 'infra/constants'
 import { observer } from 'mobx-react'
@@ -100,6 +101,7 @@ export const JobInfoScreen = observer(() => {
             navigation.navigate('AuthPractitionerScreen')
           } else {
             if (isEditing) {
+              await editUserInfo({ jobTitle: userProfileStore.jobTitle })
               navigation.setRootWithStack('MainTabs', 'GroupScreen')
             } else {
               navigation.navigate('ProfilePhotoRegisterScreen')
