@@ -33,7 +33,6 @@ export type RootStackParamList = {
     matchRequest?: MatchRequestTarget
     hideButton?: boolean
   }
-  UserProfileScreen: { groupId: number }
   SearchPlaceResultsScreen: {}
   StacksAfterLogin: {}
   RecommandationCodeScreen: {}
@@ -55,11 +54,6 @@ export type WebViewScreenProps = StackScreenProps<
 export type GroupDetailScreenProps = StackScreenProps<
   RootStackParamList,
   'GroupDetailScreen'
->
-
-export type UserProfileScreenProps = StackScreenProps<
-  RootStackParamList,
-  'UserProfileScreen'
 >
 
 export type EditUserProfileScreenProps = StackScreenProps<

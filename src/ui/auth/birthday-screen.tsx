@@ -61,7 +61,7 @@ export const BirthdayScreen = observer(() => {
           if (data?.status === 'onboarding_completed') {
             navigation.goBack()
           } else {
-            navigation.navigate('BodyInfoScreen')
+            navigation.navigate('JobInfoScreen')
           }
         }}
       />

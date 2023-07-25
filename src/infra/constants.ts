@@ -50,92 +50,45 @@ export const LOCATION_FOR_TEST: GpsLocation = {
   lng: 127.0395281,
 }
 
-export const maleBodyForm = [
-  {
-    label: '마른',
-    value: 'thin',
-  },
-  {
-    label: '날씬한',
-    value: 'slender',
-  },
-  {
-    label: '보통',
-    value: 'normal',
-  },
-  {
-    label: '통통한',
-    value: 'chubby',
-  },
-  {
-    label: '탄탄한',
-    value: 'muscular',
-  },
-  {
-    label: '근육질',
-    value: 'bulky',
-  },
-]
-
-export const femaleBodyForm = [
-  {
-    label: '마른',
-    value: 'thin',
-  },
-  {
-    label: '날씬한',
-    value: 'slender',
-  },
-  {
-    label: '보통',
-    value: 'normal',
-  },
-  {
-    label: '통통한',
-    value: 'chubby',
-  },
-  {
-    label: '글래머러스한',
-    value: 'glamourous',
-  },
-  {
-    label: '근육질',
-    value: 'bulky',
-  },
-]
-
 export const jobTitleForm = [
   {
+    id: 'college_student',
     label: '대학(원)생',
     value: 'college_student',
     verify: true,
   },
   {
+    id: 'employee',
     label: '직장인',
     value: 'employee',
     verify: true,
   },
   {
+    id: 'practitioner',
     label: '특수직/전문직',
     value: 'practitioner',
     verify: true,
   },
   {
+    id: 'self_employed',
     label: '자영업',
     value: 'self_employed',
     verify: false,
   },
   {
+    id: 'part_time',
     label: '아르바이트',
     value: 'part_time',
     verify: false,
   },
   {
+    id: 'businessman',
     label: '사업가',
     value: 'businessman',
     verify: false,
   },
   {
+    id: 'etc',
     label: '기타',
     value: 'etc',
     verify: false,

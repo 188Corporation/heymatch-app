@@ -1,4 +1,4 @@
-import { FemaleBodyForm, Gender, JobTitle, MaleBodyForm } from 'infra/types'
+import { Gender, JobTitle } from 'infra/types'
 import { makeAutoObservable } from 'mobx'
 
 export class UserProfileStore {
@@ -10,9 +10,6 @@ export class UserProfileStore {
     sub1Photo: '',
     sub2Photo: '',
   }
-  height: number | null = null
-  maleBodyForm: MaleBodyForm | null = null
-  femaleBodyForm: FemaleBodyForm | null = null
   jobTitle: JobTitle | null = null
   email: string | null = null
   verifiedOrganizationNames: string[] | null = null
@@ -25,16 +22,6 @@ export class UserProfileStore {
 
   get getPhotos() {
     return this.photos
-  }
-
-  getBodyForm(gender: Gender) {
-    if (gender === 'm') {
-      return this.maleBodyForm
-    } else if (gender === 'f') {
-      return this.femaleBodyForm
-    } else {
-      return null
-    }
   }
 
   setUsername(v: string) {
@@ -59,18 +46,6 @@ export class UserProfileStore {
         break
       case 'sub2':
         this.photos.sub2Photo = photo
-    }
-  }
-
-  setHeight(height: number) {
-    this.height = height
-  }
-
-  setBodyForm(gender: Gender, bodyForm: MaleBodyForm | FemaleBodyForm) {
-    if (gender === 'm') {
-      this.maleBodyForm = bodyForm as MaleBodyForm
-    } else {
-      this.femaleBodyForm = bodyForm as FemaleBodyForm
     }
   }
 

@@ -1,18 +1,9 @@
-import {
-  FemaleBodyForm,
-  Gender,
-  GpsLocation,
-  Group_regacy,
-  JobTitle,
-  LatLngDelta,
-  MaleBodyForm,
-} from 'infra/types'
+import { GpsLocation, Group_regacy, JobTitle, LatLngDelta } from 'infra/types'
 import { Platform } from 'react-native'
 import CodePush from 'react-native-code-push'
 import { Coord } from 'react-native-nmap'
 import { useSafeAreaInsets as _useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { femaleBodyForm, maleBodyForm } from './constants'
 
 export const gpsLocationToNmapCoord = ({ lat, lng }: GpsLocation): Coord => ({
   latitude: lat,
@@ -135,16 +126,5 @@ export const getOrganization = (
   }
   if (verifiedSchoolName) {
     return verifiedSchoolName
-  }
-}
-
-export const convertBodyform = (
-  gender: Gender,
-  bodyform: MaleBodyForm | FemaleBodyForm,
-) => {
-  if (gender === 'm') {
-    return maleBodyForm.find((x) => x.value === bodyform)?.label
-  } else {
-    return femaleBodyForm.find((x) => x.value === bodyform)?.label
   }
 }

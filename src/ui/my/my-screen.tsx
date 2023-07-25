@@ -74,21 +74,6 @@ export const MyScreen = () => {
     } else {
       userProfileStore.setPhotos('', 'sub2')
     }
-    if (myData.user.male_body_form) {
-      userProfileStore.setBodyForm(
-        myData.user.gender!,
-        myData.user.male_body_form,
-      )
-    }
-    if (myData.user.female_body_form) {
-      userProfileStore.setBodyForm(
-        myData.user.gender!,
-        myData.user.female_body_form,
-      )
-    }
-    if (myData.user.height_cm) {
-      userProfileStore.setHeight(myData.user.height_cm)
-    }
     if (myData.user.job_title) {
       userProfileStore.setJobTitle(myData.user.job_title)
     }

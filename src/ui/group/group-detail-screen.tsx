@@ -8,12 +8,19 @@ import {
 } from 'api/writes'
 import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { GroupDetail, MatchRequestStatus, MatchRequestType } from 'infra/types'
+import {
+  GroupDetail,
+  MatchRequestStatus,
+  MatchRequestType,
+  UserProfileImages,
+} from 'infra/types'
 import { convertJobtitle } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
+import Modal from 'react-native-modal'
+import Carousel from 'react-native-reanimated-carousel'
 import Toast from 'react-native-toast-message'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { accept, reject } from 'store/common-actions'
@@ -28,7 +35,6 @@ import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
-import { CarouselModal, ProfileImagesCarousel } from 'ui/my/user-profile-screen'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
@@ -198,19 +204,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                   memberAvgAge={group.member_avg_age}
                 />
               </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('UserProfileScreen', {
-                    groupId: group.id,
-                  })
-                }}
-              >
-                <CaptionS
-                  style={{ fontWeight: '600', color: Colors.primary.blue }}
-                >
-                  방장 프로필 보기 &gt;
-                </CaptionS>
-              </TouchableOpacity>
             </View>
           </View>
         </Container>
@@ -433,6 +426,74 @@ const ButtonContent: React.FC<{
   )
 }
 
+export const CarouselModal = ({
+  isVisible,
+  onClose,
+  children,
+}: {
+  isVisible: boolean
+  onClose: () => void
+  children: ReactNode
+}) => {
+  return (
+    <Modal isVisible={isVisible} onBackdropPress={onClose}>
+      {isVisible && <>{children}</>}
+    </Modal>
+  )
+}
+
+export const ProfileImagesCarousel = ({
+  images,
+}: {
+  images: UserProfileImages[]
+}) => {
+  return (
+    <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Carousel
+        data={images.map((image) => image.image)}
+        loop={false}
+        width={240}
+        height={240}
+        mode='parallax'
+        modeConfig={{
+          parallaxScrollingScale: 0.9,
+          parallaxScrollingOffset: 50,
+        }}
+        scrollAnimationDuration={1000}
+        renderItem={({ index }) => {
+          return (
+            <>
+              {index === 0 && (
+                <Chip>
+                  <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
+                </Chip>
+              )}
+              <Image
+                style={{ width: 240, height: 240, borderRadius: 20 }}
+                source={{
+                  uri: images[index].image,
+                }}
+              />
+            </>
+          )
+        }}
+      />
+    </Row>
+  )
+}
+
+const Chip = styled(View)`
+  width: 33px;
+  height: 23px;
+  border-radius: 8px;
+  background-color: ${Colors.primary.blue};
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 24px;
+  left: 26px;
+  z-index: 100;
+`
 const CandyContainer = styled(Row)`
   position: absolute;
   right: 12px;

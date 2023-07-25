@@ -3,9 +3,7 @@ import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
 import {
   BOTTOM_BUTTON_HEIGTH,
-  femaleBodyForm,
   jobTitleForm,
-  maleBodyForm,
   NAVIGATION_HEADER_HEIGHT,
 } from 'infra/constants'
 import { getAge, useSafeAreaInsets } from 'infra/util'
@@ -60,18 +58,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
       data.user_profile_images.length >
       Object.values(userProfileStore.photos).filter((x) => x).length
 
-    const getBodyForm = () => {
-      if (data.user.gender === 'm') {
-        return maleBodyForm.find(
-          (v) => v.value === userProfileStore.maleBodyForm,
-        )?.label
-      } else {
-        return femaleBodyForm.find(
-          (v) => v.value === userProfileStore.femaleBodyForm,
-        )?.label
-      }
-    }
-
     const profilePhotos = {
       mainPhoto: userProfileStore.photos.mainPhoto,
       sub1Photo: userProfileStore.photos.sub1Photo,
@@ -87,15 +73,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
         return false
       }
       if (userProfileStore.birthdate !== data.user.birthdate) {
-        return false
-      }
-      if (userProfileStore.height !== data.user.height_cm) {
-        return false
-      }
-      if (
-        userProfileStore.maleBodyForm !== data.user.male_body_form ||
-        userProfileStore.femaleBodyForm !== data.user.female_body_form
-      ) {
         return false
       }
       if (
@@ -150,19 +127,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 })
               }}
             />
-            <H3 style={{ marginTop: 20, marginBottom: 12 }}>체형</H3>
-            <ProfileInfo
-              value={
-                <Body>
-                  {userProfileStore.height}cm / {getBodyForm()}
-                </Body>
-              }
-              onPress={() => {
-                navigation.navigate('EditUserInfoStacks', {
-                  screen: 'BodyInfoScreen',
-                })
-              }}
-            />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>직업</H3>
             <ProfileInfo
               editable={false}
@@ -213,9 +177,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                     : profilePhotos.mainPhoto,
                 otherProfileImage1: profilePhotos.sub1Photo,
                 otherProfileImage2: profilePhotos.sub2Photo,
-                heightCm: userProfileStore.height,
-                maleBodyForm: userProfileStore.maleBodyForm,
-                femaleBodyForm: userProfileStore.femaleBodyForm,
                 blockMySchoolOrCompanyUsers:
                   userProfileStore.blockMySchoolOrCompanyUsers,
               })

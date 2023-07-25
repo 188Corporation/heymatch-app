@@ -12,7 +12,6 @@ import { AgreementScreen } from 'ui/auth/agreement-screen'
 import { AuthPractitionerScreen } from 'ui/auth/auth-practitioner-screen'
 import { AuthScreen } from 'ui/auth/auth-screen'
 import { BirthdayScreen } from 'ui/auth/birthday-screen'
-import { BodyInfoScreen } from 'ui/auth/body-info-screen'
 import { ConfirmCompanyScreen } from 'ui/auth/confirm-company-screen'
 import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
@@ -34,7 +33,6 @@ import { EditUserProfileScreen } from 'ui/my/edit-user-profile-screen'
 import { PurchaseHistoryScreen } from 'ui/my/purchase-history-screen'
 import { RecommandationCodeScreen } from 'ui/my/recommandation-code-screen'
 import { UserManagementScreen } from 'ui/my/user-management-screen'
-import { UserProfileScreen } from 'ui/my/user-profile-screen'
 import { UserWithdrawalScreen } from 'ui/my/user-withdrawal-screen'
 import { PurchaseScreen } from 'ui/purchase/purchase-screen'
 import { WebViewScreen } from 'ui/web-view/web-view-screen'
@@ -85,8 +83,6 @@ const StacksAfterLogin = () => {
             <Stack.Screen name='UsernameScreen' component={UsernameScreen} />
             <Stack.Screen name='GenderScreen' component={GenderScreen} />
             <Stack.Screen name='BirthdayScreen' component={BirthdayScreen} />
-
-            <Stack.Screen name='BodyInfoScreen' component={BodyInfoScreen} />
             <Stack.Screen name='JobInfoScreen' component={JobInfoScreen} />
             <Stack.Screen
               name='EmailInputScreen'
@@ -179,10 +175,6 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='GroupDetailScreen'
               component={GroupDetailScreen}
-            />
-            <Stack.Screen
-              name='UserProfileScreen'
-              component={UserProfileScreen}
             />
             <Stack.Screen
               name='RecommandationCodeScreen'
