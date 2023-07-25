@@ -2,20 +2,17 @@ import { useOnboardingStatus } from 'api/reads'
 import { editUserInfo } from 'api/writes'
 import { Colors } from 'infra/colors'
 import { jobTitleForm } from 'infra/constants'
+import { JobTitle } from 'infra/types'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React from 'react'
 import { View } from 'react-native'
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { NavigationHeader } from 'ui/common/navigation-header'
+import { RadioButton } from 'ui/common/RadioButton'
 import { Body, DescBody2, H1 } from 'ui/common/text'
 
 export const JobInfoScreen = observer(() => {
@@ -23,8 +20,8 @@ export const JobInfoScreen = observer(() => {
   const { data } = useOnboardingStatus()
   const isEditing = data?.status === 'onboarding_completed'
 
-  const handleOnPress = (v: any) => {
-    userProfileStore.setJobTitle(v)
+  const handleOnPress = (v: string) => {
+    userProfileStore.setJobTitle(v as JobTitle)
   }
 
   return (
@@ -38,54 +35,29 @@ export const JobInfoScreen = observer(() => {
               정보를 더 알려주시면 빠른 매칭에 도움이 돼요 :)
             </DescBody2>
           </View>
-          <RadioForm>
-            {jobTitleForm.map((x, idx) => {
-              return (
-                <View
-                  key={x.value}
-                  style={{
-                    marginBottom: 15,
-                  }}
-                >
-                  <RadioButton key={x.value}>
-                    <RadioButtonInput
-                      obj={x}
-                      index={idx}
-                      isSelected={userProfileStore.jobTitle === x.value}
-                      onPress={handleOnPress}
-                      buttonOuterSize={24}
-                      buttonSize={12}
-                      buttonInnerColor={Colors.white}
-                      buttonOuterColor={
-                        userProfileStore.jobTitle === x.value
-                          ? Colors.primary.blue
-                          : Colors.gray.v200
-                      }
-                      buttonStyle={{
-                        backgroundColor:
-                          userProfileStore.jobTitle === x.value
-                            ? Colors.primary.blue
-                            : Colors.gray.v200,
-                      }}
-                    />
-                    <RadioButtonLabel
-                      obj={x}
-                      index={idx}
-                      labelHorizontal={true}
-                      onPress={handleOnPress}
-                      labelStyle={{ fontSize: 16 }}
-                    />
-                    {x.verify && (
-                      <Body style={{ color: Colors.primary.blueD1 }}>
-                        {' '}
-                        (인증 가능)
-                      </Body>
-                    )}
-                  </RadioButton>
-                </View>
-              )
-            })}
-          </RadioForm>
+          {jobTitleForm.map((x) => {
+            return (
+              <View
+                key={x.value}
+                style={{
+                  marginBottom: 15,
+                  flexDirection: 'row',
+                }}
+              >
+                <RadioButton
+                  obj={x}
+                  isSelected={userProfileStore.jobTitle === x.value}
+                  onPress={handleOnPress}
+                />
+                {x.verify && (
+                  <Body style={{ color: Colors.primary.blueD1 }}>
+                    {' '}
+                    (인증 가능)
+                  </Body>
+                )}
+              </View>
+            )
+          })}
         </Container>
       </FlexScrollView>
       <BottomButton
