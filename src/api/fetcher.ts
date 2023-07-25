@@ -27,7 +27,9 @@ export const getRequest = async (path: string) => {
   return fetch(`${SERVER_BASE_URL}${path}`, {
     method: 'GET',
     headers: { ...tokenManager.authHeader },
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
 
 export const postRequest = async (path: string, payload?: object) => {
@@ -35,7 +37,9 @@ export const postRequest = async (path: string, payload?: object) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...tokenManager.authHeader },
     body: JSON.stringify(payload),
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
 
 export const postFormRequest = async (path: string, body: FormData) => {
@@ -46,7 +50,9 @@ export const postFormRequest = async (path: string, body: FormData) => {
       ...tokenManager.authHeader,
     },
     body,
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
 
 export const putRequest = async (path: string, payload: object) => {
@@ -54,7 +60,9 @@ export const putRequest = async (path: string, payload: object) => {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...tokenManager.authHeader },
     body: JSON.stringify(payload),
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
 
 export const putFormRequest = async (path: string, body: FormData) => {
@@ -65,7 +73,9 @@ export const putFormRequest = async (path: string, body: FormData) => {
       ...tokenManager.authHeader,
     },
     body,
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
 
 export const deleteRequest = async (path: string, payload?: object) => {
@@ -73,5 +83,7 @@ export const deleteRequest = async (path: string, payload?: object) => {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json', ...tokenManager.authHeader },
     body: JSON.stringify(payload),
-  }).then(chainJsonParser)
+  })
+    .then(chainJsonParser)
+    .catch((e) => console.error(e))
 }
