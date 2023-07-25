@@ -93,6 +93,25 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     }
   }
 
+  const getSortedProfilePhotos = (): UserProfileImages[] => {
+    let images: UserProfileImages[] = []
+    const subPhotos = leader.user.user_profile_images
+      .filter((_) => !_.is_main)
+      .sort((a, b) => {
+        if (a.order < b.order) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+
+    images.push(leader.user.user_profile_images.find((_) => _.is_main)!)
+    if (subPhotos[0]) images.push(subPhotos[0])
+    if (subPhotos[1]) images.push(subPhotos[1])
+
+    return images
+  }
+
   return (
     <>
       <NavigationHeader
@@ -150,8 +169,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                     marginRight: 20,
                   }}
                   source={{
-                    uri: leader.user.user_profile_images.find((_) => _.is_main)!
-                      .thumbnail,
+                    uri: getSortedProfilePhotos()[0].image,
                   }}
                 />
                 {!group.profile_photo_purchased && !isEditing && (
@@ -268,7 +286,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
       >
-        <ProfileImagesCarousel images={leader.user.user_profile_images} />
+        <ProfileImagesCarousel images={getSortedProfilePhotos()} />
       </CarouselModal>
       {loading && <LoadingOverlay />}
     </>
@@ -447,6 +465,7 @@ export const ProfileImagesCarousel = ({
 }: {
   images: UserProfileImages[]
 }) => {
+  console.log(images)
   return (
     <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
       <Carousel
