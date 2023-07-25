@@ -17,43 +17,15 @@ import { DescBody2, H1 } from 'ui/common/text'
 export const GroupCreateNameScreen = observer(() => {
   const { data } = useMy()
   const { groupCreateStore } = useStores()
-  // const [invalidGroupname, setInvalidGroupname] =
-  //   useState<InvalidReason | null>(null)
 
   useEffect(() => {
     if (!data) return
     if (!data.joined_groups) return
     if (!data.joined_groups[0]) return
+    if (groupCreateStore.title) return
     groupCreateStore.setTitle(data.joined_groups[0].group.title)
   }, [data, groupCreateStore])
 
-  // const validateGroupname = (groupname: string) => {
-  //   if (groupname.length < 2 || groupname.length > 10) {
-  //     setInvalidGroupname('INVALID_LENGTH')
-  //     return false
-  //   }
-  //   const regex = /^[가-힣a-zA-Z0-9]+$/
-  //   if (regex.test(groupname)) {
-  //     if (/^[가-힣]+$/.test(groupname)) {
-  //       setInvalidGroupname(null)
-  //       return true
-  //     } else {
-  //       setInvalidGroupname('INVALID_INPUT')
-  //       return false
-  //     }
-  //   } else {
-  //     setInvalidGroupname('INVALID_INPUT')
-  //     return false
-  //   }
-  // }
-
-  // const getInvalidUsernameReason = () => {
-  //   if (invalidGroupname === 'INVALID_LENGTH') {
-  //     return '그룹명은 2글자 이상, 10글자 이하로 입력해주세요'
-  //   } else if (invalidGroupname === 'INVALID_INPUT') {
-  //     return '한글, 영어, 숫자만 입력할 수 있어요.'
-  //   }
-  // }
   return (
     <>
       <KeyboardAvoidingView>
@@ -73,16 +45,10 @@ export const GroupCreateNameScreen = observer(() => {
                 keyboardType='default'
                 value={groupCreateStore.title}
                 onValueChange={(v) => {
-                  // validateGroupname(v)
                   groupCreateStore.setTitle(v)
                 }}
                 letterCase='lower'
               />
-              {/* {invalidGroupname && (
-                <Body2 style={{ marginTop: 4, color: Colors.primary.red }}>
-                  {getInvalidUsernameReason()}
-                </Body2>
-              )} */}
             </Container>
           </FlexScrollView>
         </View>
