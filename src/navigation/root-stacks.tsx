@@ -25,7 +25,6 @@ import { UnregisteredDomainScreen } from 'ui/auth/unregistered-domain-screen'
 import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
-import { GroupEditScreen } from 'ui/group-create/group-edit-screen'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
 import { LoadingScreen } from 'ui/loading/loading-screen'
@@ -142,7 +141,6 @@ const StacksAfterLogin = () => {
               name='GroupCreateStacks'
               component={GroupCreateStacks}
             />
-            <Stack.Screen name='GroupEditScreen' component={GroupEditScreen} />
             <Stack.Screen name='PurchaseScreen' component={PurchaseScreen} />
             <Stack.Screen
               name='ChatDetailScreen'

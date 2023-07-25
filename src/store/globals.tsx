@@ -2,7 +2,6 @@ import React, { createContext } from 'react'
 import { AlertStore } from 'store/alert'
 import { AuthStore } from 'store/auth'
 import { ChatStore } from 'store/chat'
-import { GroupCreateStoreRegacy } from 'store/group-create-regacy'
 import { GroupListStore } from 'store/group-list'
 import { KeyboardStore } from 'store/keyboard'
 import { LocationStore } from 'store/location'
@@ -19,7 +18,6 @@ const stores = {
   mapStore: new MapStore(),
   alertStore: new AlertStore(),
   authStore: new AuthStore(),
-  groupCreateStoreRegacy: new GroupCreateStoreRegacy(),
   groupCreateStore: new GroupCreateStore(),
   chatStore: new ChatStore(),
   userProfileStore: new UserProfileStore(),
