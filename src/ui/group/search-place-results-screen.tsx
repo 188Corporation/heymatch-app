@@ -169,7 +169,7 @@ const SearchInput = ({
           if (!text) return
           handleEndEditing(text)
         }}
-        placeholder='장소를 검색해볼까요?'
+        placeholder='미팅 장소를 검색해볼까요?'
         placeholderTextColor={Colors.gray.v300}
         style={{
           width: '100%',

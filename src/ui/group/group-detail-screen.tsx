@@ -59,7 +59,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const isEditing = hasOwnGroup && id === myData.joined_groups?.[0].group.id
 
   const copyToClipboard = () => {
-    Clipboard.setString(group.meetup_place_title)
+    Clipboard.setString(
+      `${group.meetup_place_address} ${group.meetup_place_title}`,
+    )
     Toast.show({
       type: 'success',
       text1: '클립보드에 복사했어요!',
@@ -247,12 +249,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
             <TouchableOpacity onPress={copyToClipboard}>
-              <Row>
-                <Body style={{ color: Colors.gray.v500 }}>
-                  {group.meetup_place_title}
-                </Body>
+              <Body style={{ color: Colors.gray.v500 }}>
+                {group.meetup_place_address} {group.meetup_place_title}
                 <ClipboardSvg />
-              </Row>
+              </Body>
             </TouchableOpacity>
           </View>
           <View style={{ height: 150, marginBottom: 40 }}>
