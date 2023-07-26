@@ -8,18 +8,23 @@ import {
 } from 'api/writes'
 import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
-import { CURRENT_OS, OS } from 'infra/constants'
+import {
+  BOTTOM_BUTTON_HEIGTH,
+  CURRENT_OS,
+  NAVIGATION_HEADER_HEIGHT,
+  OS,
+} from 'infra/constants'
 import {
   GroupDetail,
   MatchRequestStatus,
   MatchRequestType,
   UserProfileImages,
 } from 'infra/types'
-import { convertJobtitle } from 'infra/util'
+import { convertJobtitle, useSafeAreaInsets } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
 import React, { ReactNode, useState } from 'react'
-import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import Modal from 'react-native-modal'
 import Carousel from 'react-native-reanimated-carousel'
@@ -47,6 +52,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { alertStore } = useStores()
   const [loading, setLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const insets = useSafeAreaInsets()
 
   if (!group || !myData) return <LoadingOverlay />
   const leader = group.group_members.find((_) => _.is_user_leader)!
@@ -151,8 +157,14 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           )
         }
       />
-      <View style={{ flexGrow: 1 }}>
-        <Container>
+      <Container
+        style={{
+          height:
+            Dimensions.get('window').height -
+            (BOTTOM_BUTTON_HEIGTH + NAVIGATION_HEADER_HEIGHT + insets.top),
+        }}
+      >
+        <View style={{ paddingHorizontal: 28 }}>
           <H1 style={{ marginBottom: 24 }} numberOfLines={1}>
             {group?.title}
           </H1>
@@ -228,8 +240,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               </View>
             </View>
           </View>
-        </Container>
-
+        </View>
         <View
           style={{
             paddingTop: 40,
@@ -255,7 +266,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               </Body>
             </TouchableOpacity>
           </View>
-          <View style={{ height: 150, marginBottom: 40 }}>
+          <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>소개</H3>
             <ScrollView>
               <Body style={{ color: Colors.gray.v500 }}>
@@ -264,7 +275,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             </ScrollView>
           </View>
         </View>
-      </View>
+      </Container>
       {!hideButton && (
         <>
           {!isEditing ? (
@@ -299,8 +310,8 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   )
 }
 
-const Container = styled(View)`
-  padding: 12px 28px 0px 28px;
+const Container = styled(ScrollView)`
+  padding: 12px 0px 0px 0px;
 `
 
 function formatDate(_date: string) {
