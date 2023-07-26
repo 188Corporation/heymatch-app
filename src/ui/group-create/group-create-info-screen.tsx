@@ -179,7 +179,8 @@ export const GroupCreateInfoScreen = observer(() => {
         text={isEditingGroupInfo ? '수정하기' : '그룹 만들기'}
         disabled={
           !groupCreateStore.meetupDate ||
-          !groupCreateStore.address ||
+          !groupCreateStore.address.title ||
+          !groupCreateStore.address.address ||
           !groupCreateStore.introduce ||
           !groupCreateStore.memberNumber ||
           !groupCreateStore.memberAverageAge

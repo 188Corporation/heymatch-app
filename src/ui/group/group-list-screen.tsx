@@ -330,7 +330,7 @@ const FilterGroup = observer(
                 onPress={() => groupListStore.setDateFilter(null)}
               >
                 {!!groupListStore.dateFilter && (
-                  <CloseSvg width={16} height={16} />
+                  <CloseSvg width={20} height={20} />
                 )}
               </TouchableOpacity>
             </FilterTouchable>
@@ -345,7 +345,7 @@ const FilterGroup = observer(
                 onPress={() => groupListStore.setMembersFilter(null)}
               >
                 {!!groupListStore.membersFilter && (
-                  <CloseSvg width={16} height={16} />
+                  <CloseSvg width={20} height={20} />
                 )}
               </TouchableOpacity>
             </FilterTouchable>
@@ -375,7 +375,7 @@ const FilterGroup = observer(
                 }}
               >
                 {!!groupListStore.distanceFilter && (
-                  <CloseSvg width={16} height={16} />
+                  <CloseSvg width={20} height={20} />
                 )}
               </TouchableOpacity>
             </FilterTouchable>
