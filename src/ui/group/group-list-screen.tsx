@@ -667,6 +667,7 @@ const FilterModal = ({
     <Modal
       isVisible={isVisible}
       onBackdropPress={onClose}
+      onBackButtonPress={onClose}
       style={{
         margin: 0,
         borderTopLeftRadius: 40,

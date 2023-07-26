@@ -19,6 +19,10 @@ export const AlertModal: React.FC = observer(() => {
         if (content?.preventBackdropClose) return
         store.close()
       }}
+      onBackButtonPress={() => {
+        if (content?.preventBackdropClose) return
+        store.close()
+      }}
       // prevent blink in each platform
       useNativeDriver={CURRENT_OS === OS.ANDROID}
     >

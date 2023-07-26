@@ -8,6 +8,7 @@ import {
 } from 'api/writes'
 import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
+import { CURRENT_OS, OS } from 'infra/constants'
 import {
   GroupDetail,
   MatchRequestStatus,
@@ -19,6 +20,7 @@ import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
 import React, { ReactNode, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import Modal from 'react-native-modal'
 import Carousel from 'react-native-reanimated-carousel'
 import Toast from 'react-native-toast-message'
@@ -286,7 +288,11 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
       >
-        <ProfileImagesCarousel images={getSortedProfilePhotos()} />
+        {CURRENT_OS === OS.IOS ? (
+          <IosProfileImagesCarousel images={getSortedProfilePhotos()} />
+        ) : (
+          <AndroidProfileImagesCarousel images={getSortedProfilePhotos()} />
+        )}
       </CarouselModal>
       {loading && <LoadingOverlay />}
     </>
@@ -444,7 +450,7 @@ const ButtonContent: React.FC<{
   )
 }
 
-export const CarouselModal = ({
+const CarouselModal = ({
   isVisible,
   onClose,
   children,
@@ -454,20 +460,72 @@ export const CarouselModal = ({
   children: ReactNode
 }) => {
   return (
-    <Modal isVisible={isVisible} onBackdropPress={onClose}>
+    <Modal
+      isVisible={isVisible}
+      onBackdropPress={onClose}
+      onBackButtonPress={onClose}
+    >
       {isVisible && <>{children}</>}
     </Modal>
   )
 }
 
-export const ProfileImagesCarousel = ({
+const AndroidProfileImagesCarousel = gestureHandlerRootHOC(
+  ({ images }: { images: UserProfileImages[] }) => {
+    return (
+      <Row
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+        }}
+      >
+        <Carousel
+          data={images.map((image) => image.image)}
+          loop={false}
+          width={240}
+          height={240}
+          mode='parallax'
+          modeConfig={{
+            parallaxScrollingScale: 0.9,
+            parallaxScrollingOffset: 50,
+          }}
+          scrollAnimationDuration={1000}
+          renderItem={({ index }) => {
+            return (
+              <>
+                {index === 0 && (
+                  <Chip>
+                    <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
+                  </Chip>
+                )}
+                <Image
+                  style={{ width: 240, height: 240, borderRadius: 20 }}
+                  source={{
+                    uri: images[index].image,
+                  }}
+                />
+              </>
+            )
+          }}
+        />
+      </Row>
+    )
+  },
+)
+
+const IosProfileImagesCarousel = ({
   images,
 }: {
   images: UserProfileImages[]
 }) => {
-  console.log(images)
   return (
-    <Row style={{ alignItems: 'center', justifyContent: 'center' }}>
+    <Row
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <Carousel
         data={images.map((image) => image.image)}
         loop={false}
