@@ -71,9 +71,6 @@ export const ProfilePhotoRegisterScreen = observer(() => {
               mainProfileImage: userProfileStore.photos.mainPhoto,
               otherProfileImage1: userProfileStore.photos.sub1Photo,
               otherProfileImage2: userProfileStore.photos.sub2Photo,
-              heightCm: userProfileStore.height,
-              maleBodyForm: userProfileStore.maleBodyForm,
-              femaleBodyForm: userProfileStore.femaleBodyForm,
               jobTitle: userProfileStore.jobTitle,
             })
             await mutate('/users/my/')

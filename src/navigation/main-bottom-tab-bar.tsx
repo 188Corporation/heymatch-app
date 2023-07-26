@@ -14,7 +14,7 @@ const ScreenToIconText: { [key: string]: { icon: string; text: string } } = {
   GroupList: { icon: 'whatshot', text: '메인' },
   MatchTabs: { icon: 'send', text: '매칭' },
   ChatScreen: { icon: 'question-answer', text: '채팅' },
-  MyScreen: { icon: 'person', text: '마이' },
+  MyScreen: { icon: 'person', text: 'MY' },
 }
 
 export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({

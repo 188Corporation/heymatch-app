@@ -18,6 +18,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
@@ -155,6 +156,12 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                   </Body>
                 </View>
               }
+              onPress={() => {
+                Toast.show({
+                  type: 'success',
+                  text1: '직업 수정은 MY 탭에서 해주세요!',
+                })
+              }}
             />
           </Container>
         </View>
