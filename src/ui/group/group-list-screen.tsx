@@ -43,8 +43,9 @@ export const GroupListScreen = observer(() => {
     useState(false)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
     useState(false)
-
   const [isVisibleDistanceFilterModal, setIsVisibleDistanceFilterModal] =
+    useState(false)
+  const [isVisibleSortFilterModal, setIsVisibleSortFilterModal] =
     useState(false)
 
   const {
@@ -74,6 +75,10 @@ export const GroupListScreen = observer(() => {
     if (groupListStore.membersFilter) {
       params = `${params}&member_num=${groupListStore.membersFilter}`
     }
+    // TODO: sortFilter
+    // if (groupListStore.sortFilter) {
+    //   params = `${params}&sort=${groupListStore.sortFilter}`
+    // }
     setFilterParams(params)
   }, [
     groupListStore.dateFilter,
@@ -107,6 +112,7 @@ export const GroupListScreen = observer(() => {
             setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
             setIsVisibleMembersFilterModal={setIsVisibleMembersFilterModal}
             setIsVisibleDistanceFilterModal={setIsVisibleDistanceFilterModal}
+            setIsVisibleSortFilterModal={setIsVisibleSortFilterModal}
           />
           {groupLists && groupLists[0].data.count ? (
             <>
@@ -159,9 +165,11 @@ export const GroupListScreen = observer(() => {
           isVisibleMembersFilterModal={isVisibleMembersFilterModal}
           isVisibleDistanceFilterModal={isVisibleDistanceFilterModal}
           isVisibleDateFilterModal={isVisibleDateFilterModal}
+          isVisibleSortFilterModal={isVisibleSortFilterModal}
           setIsVisibleMembersFilterModal={setIsVisibleMembersFilterModal}
           setIsVisibleDistanceFilterModal={setIsVisibleDistanceFilterModal}
           setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
+          setIsVisibleSortFilterModal={setIsVisibleSortFilterModal}
         />
       </Container>
       {myData?.joined_groups?.length === 0 && (
@@ -183,16 +191,20 @@ const FilterModals = ({
   isVisibleMembersFilterModal,
   isVisibleDistanceFilterModal,
   isVisibleDateFilterModal,
+  isVisibleSortFilterModal,
   setIsVisibleMembersFilterModal,
   setIsVisibleDistanceFilterModal,
   setIsVisibleDateFilterModal,
+  setIsVisibleSortFilterModal,
 }: {
   isVisibleMembersFilterModal: boolean
   isVisibleDistanceFilterModal: boolean
   isVisibleDateFilterModal: boolean
+  isVisibleSortFilterModal: boolean
   setIsVisibleMembersFilterModal: React.Dispatch<React.SetStateAction<boolean>>
   setIsVisibleDistanceFilterModal: React.Dispatch<React.SetStateAction<boolean>>
   setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVisibleSortFilterModal: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const { groupListStore } = useStores()
   return (
@@ -254,6 +266,20 @@ const FilterModals = ({
           setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
         />
       </FilterModal>
+      <FilterModal
+        isVisible={isVisibleSortFilterModal}
+        onClose={() => setIsVisibleSortFilterModal(false)}
+      >
+        <ModalContent
+          title='생성순'
+          onClose={() => setIsVisibleSortFilterModal(false)}
+          formList={[
+            { label: '생성순(기본)', value: '생성순' },
+            { label: '가까운 날짜순', value: '가까운 날짜순' },
+          ]}
+          setValue={(v) => groupListStore.setSortFilter(v)}
+        />
+      </FilterModal>
     </>
   )
 }
@@ -293,6 +319,7 @@ const FilterGroup = observer(
     setIsVisibleDateFilterModal,
     setIsVisibleMembersFilterModal,
     setIsVisibleDistanceFilterModal,
+    setIsVisibleSortFilterModal,
   }: {
     setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
     setIsVisibleMembersFilterModal: React.Dispatch<
@@ -301,6 +328,7 @@ const FilterGroup = observer(
     setIsVisibleDistanceFilterModal: React.Dispatch<
       React.SetStateAction<boolean>
     >
+    setIsVisibleSortFilterModal: React.Dispatch<React.SetStateAction<boolean>>
   }) => {
     const { groupListStore, alertStore } = useStores()
 
@@ -325,6 +353,16 @@ const FilterGroup = observer(
       return `${dayjs(groupListStore.dateFilter.startDate).format(
         'M월D일',
       )}-${dayjs(groupListStore.dateFilter.endDate).format('M월D일')}`
+    }
+
+    const getDisplyedSortFilter = () => {
+      switch (groupListStore.sortFilter) {
+        case '가까운 날짜순':
+          return '가까운 날짜순'
+        case '생성순':
+        default:
+          return '생성순'
+      }
     }
 
     return (
@@ -390,6 +428,16 @@ const FilterGroup = observer(
                   <CloseSvg width={20} height={20} />
                 )}
               </TouchableOpacity>
+            </FilterTouchable>
+            <FilterTouchable
+              selected={!!groupListStore.sortFilter}
+              onPress={() => {
+                setIsVisibleSortFilterModal(true)
+              }}
+            >
+              <FilterTypography filter={!!groupListStore.sortFilter}>
+                {getDisplyedSortFilter()}
+              </FilterTypography>
             </FilterTouchable>
           </FilterButtonContainer>
         </ScrollView>
@@ -711,7 +759,7 @@ const ModalContent = ({
     label: string
   }>(defalutIndex ? formList[defalutIndex] : formList[0])
   return (
-    <FilterModalContainer isOpen={isOpenDropdown}>
+    <FilterModalContainer isOpen={isOpenDropdown} length={formList.length}>
       <H2 style={{ marginLeft: 8, marginBottom: 10 }}>{title}</H2>
       {!isOpenDropdown ? (
         <FilterModalDropdownItem onPress={() => setIsOpenDropdown(true)}>
@@ -759,10 +807,10 @@ const ModalContent = ({
   )
 }
 
-const FilterModalContainer = styled(View)<{ isOpen: boolean }>`
+const FilterModalContainer = styled(View)<{ isOpen: boolean; length: number }>`
   padding: 40px 20px 44px 20px;
   width: 100%;
-  height: ${(p) => (p.isOpen ? '490px' : '270px')};
+  height: ${(p) => (p.isOpen ? `${270 + p.length * 44}px` : '270px')};
   background-color: #fff;
   margin-top: auto;
   border-radius: 40px;
