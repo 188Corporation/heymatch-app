@@ -1,7 +1,8 @@
-import { useGroupList } from 'api/reads'
+import { useGroupList, useMy } from 'api/reads'
 import dayjs from 'dayjs'
 import {
   CloseSvg,
+  GroupCreateButton,
   GroupsPlaceHolderSvg,
   LockedSvg,
   SearchSvg,
@@ -35,8 +36,8 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 
 export const GroupListScreen = observer(() => {
-  const { locationStore, groupListStore } = useStores()
-
+  const { locationStore, groupListStore, groupCreateStore } = useStores()
+  const { data: myData } = useMy()
   const [filterParams, setFilterParams] = useState('')
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
     useState(false)
@@ -110,7 +111,7 @@ export const GroupListScreen = observer(() => {
           {groupLists && groupLists[0].data.count ? (
             <>
               <FlatList
-                contentContainerStyle={{ flexGrow: 1, paddingBottom: 500 }}
+                contentContainerStyle={{ flexGrow: 1 }}
                 data={groupLists
                   .map((groupList) => groupList.data.results)
                   .flat()}
@@ -163,6 +164,17 @@ export const GroupListScreen = observer(() => {
           setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
         />
       </Container>
+      {myData?.joined_groups?.length === 0 && (
+        <TouchableOpacity
+          onPress={() => {
+            groupCreateStore.initialize()
+            navigation.navigate('GroupCreateStacks')
+          }}
+          style={{ position: 'absolute', bottom: 20, right: 20 }}
+        >
+          <GroupCreateButton />
+        </TouchableOpacity>
+      )}
     </KeyboardAvoidingView>
   )
 })
