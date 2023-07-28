@@ -117,7 +117,7 @@ export const GroupListScreen = observer(() => {
           {groupLists && groupLists[0].data.count ? (
             <>
               <FlatList
-                contentContainerStyle={{ flexGrow: 1 }}
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: 200 }}
                 data={groupLists
                   .map((groupList) => groupList.data.results)
                   .flat()}

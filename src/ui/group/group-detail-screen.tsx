@@ -249,6 +249,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             paddingHorizontal: 28,
             borderTopLeftRadius: 40,
             borderTopRightRadius: 40,
+            height: '100%',
           }}
         >
           <View style={{ marginBottom: 40 }}>
@@ -406,7 +407,7 @@ const ButtonContent: React.FC<{
         }
         alertStore.open({
           title: '캔디 3개를 사용해서 매칭할까요?',
-          body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요 :)',
+          body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요. 매칭 시 사진의 블러는 자동으로 풀려요 :)',
           mainButton: '캔디 3개 사용하기',
           subButton: '다음에 매칭하기',
           onMainPress: async () => {
