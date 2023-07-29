@@ -589,7 +589,9 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
   return (
     <GroupItemContainer
       onPress={() => {
-        navigation.navigate('GroupDetailScreen', { id: group.id })
+        navigation.navigate('GroupDetailScreen', {
+          id: group.id,
+        })
       }}
     >
       <Caption style={{ color: Colors.primary.red, marginBottom: 2 }}>

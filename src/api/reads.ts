@@ -13,6 +13,7 @@ import {
   GroupsList,
   HotPlace,
   MatchRequest,
+  MatchRequestTarget,
   MyInfo,
   OnboardingStatus,
   PurchaseItem,
@@ -97,6 +98,9 @@ export const useMatchRequests = () =>
   }>('/match-requests/', undefined, {
     revalidateOnFocus: false,
   })
+
+export const useMatchRequestWithGroup = (groupId: number) =>
+  useCustomSWR<MatchRequestTarget>(`/groups/${groupId}/match-request/`)
 
 export const useTopRankedAddress = () =>
   useCustomSWR<TopRankedAddress>('/groups/top-ranked-address/')

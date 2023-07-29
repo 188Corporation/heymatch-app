@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
-import { useGroup, useMy } from 'api/reads'
+import { useGroup, useMatchRequestWithGroup, useMy } from 'api/reads'
 import {
   deleteGroup,
   purchaseProfilePhotos,
@@ -17,12 +17,13 @@ import {
 import {
   GroupDetail,
   MatchRequestStatus,
+  MatchRequestTarget,
   MatchRequestType,
   UserProfileImages,
 } from 'infra/types'
 import { convertJobtitle, useSafeAreaInsets } from 'infra/util'
 import { navigation } from 'navigation/global'
-import { GroupDetailScreenProps, MatchRequestTarget } from 'navigation/types'
+import { GroupDetailScreenProps } from 'navigation/types'
 import React, { ReactNode, useState } from 'react'
 import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
@@ -46,9 +47,10 @@ import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
-  const { id, matchRequest, hideButton } = props.route.params
+  const { id, hideButton } = props.route.params
   const { data: group } = useGroup(id)
   const { data: myData } = useMy()
+  const { data: matchRequest } = useMatchRequestWithGroup(id)
   const { alertStore } = useStores()
   const [loading, setLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -423,6 +425,7 @@ const ButtonContent: React.FC<{
                   title: `${data.title} 그룹과 매칭했어요!`,
                   body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
                 })
+                await mutate(`/groups/${data.id}/match-request/`)
               } catch (e) {
                 if (e instanceof ApiError && e.res.code === 470) {
                   alertStore.open({

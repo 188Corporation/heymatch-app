@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import { MatchRequestStatus, MatchRequestType, MyInfo } from 'infra/types'
+import { MyInfo } from 'infra/types'
 // https://reactnavigation.org/docs/typescript/#type-checking-screens
 export type RootStackParamList = {
   LoadingScreen: {}
@@ -30,7 +30,6 @@ export type RootStackParamList = {
   EditUserInfoStacks: {}
   GroupDetailScreen: {
     id: number
-    matchRequest?: MatchRequestTarget
     hideButton?: boolean
   }
   SearchPlaceResultsScreen: {}
@@ -38,12 +37,6 @@ export type RootStackParamList = {
   RecommandationCodeScreen: {}
   UnregisteredDomainScreen: {}
   AuthPractitionerScreen: {}
-}
-
-export interface MatchRequestTarget {
-  id: number
-  status: MatchRequestStatus
-  type: MatchRequestType
 }
 
 export type WebViewScreenProps = StackScreenProps<

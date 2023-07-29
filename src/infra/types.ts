@@ -251,6 +251,12 @@ export interface MatchRequest {
   receiver_group: number | MatchGroupDetail
 }
 
+export interface MatchRequestTarget {
+  id: number
+  status: MatchRequestStatus
+  type: MatchRequestType
+}
+
 // https://getstream.io/chat/docs/javascript/query_channels/?language=javascript#query-parameters
 export interface Channel {
   cid: string
