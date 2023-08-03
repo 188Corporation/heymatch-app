@@ -21,8 +21,9 @@ export const ChatItem: React.FC<{
         <Avatar
           side={64}
           source={{
-            uri: data.group.group_members[0].user.user_profile_images[0]
-              .thumbnail,
+            uri: data.group.group_members[0].user.user_profile_images.find(
+              (x) => x.is_main,
+            )?.image,
           }}
         />
       </Column>

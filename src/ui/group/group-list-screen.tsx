@@ -26,7 +26,6 @@ import { DateData } from 'react-native-calendars'
 import Modal from 'react-native-modal'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { mutate } from 'swr'
 import { Button } from 'ui/common/button'
 import { CalendarModal } from 'ui/common/CalenderModal'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
@@ -59,10 +58,6 @@ export const GroupListScreen = observer(() => {
   useEffect(() => {
     locationStore.getLocation(true)
   }, [locationStore])
-
-  useEffect(() => {
-    mutate('/users/my/')
-  }, [])
 
   useEffect(() => {
     let params = ''

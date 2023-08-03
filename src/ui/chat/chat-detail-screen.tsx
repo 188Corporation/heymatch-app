@@ -33,7 +33,9 @@ export const ChatDetailScreen = observer(() => {
     <Avatar
       side={32}
       source={{
-        uri: group.group_members[0].user.user_profile_images[0].thumbnail,
+        uri: group.group_members[0].user.user_profile_images.find(
+          (x) => x.is_main,
+        )?.image,
       }}
       style={{ marginRight: 8 }}
     />
