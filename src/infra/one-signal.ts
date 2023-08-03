@@ -1,4 +1,5 @@
 import { ONESIGNAL_APP_ID } from 'infra/constants'
+import { navigation } from 'navigation/global'
 import OneSignal from 'react-native-onesignal'
 import { PushNotificationType } from './types'
 
@@ -27,6 +28,26 @@ export const oneSignal = {
     // Method for handling notifications opened
     OneSignal.setNotificationOpenedHandler((notification) => {
       console.log('OneSignal: notification opened:', notification)
+
+      if (
+        // @ts-ignore
+        notification.notification.additionalData!.route_to ===
+        'GroupDetailScreen'
+      ) {
+        navigation.navigate('GroupDetailScreen', {
+          // @ts-ignore
+          id: notification.notification.additionalData!.data.group_id,
+        })
+      } else if (
+        // @ts-ignore
+        notification.notification.additionalData!.route_to ===
+        'ChatDetailScreen'
+      ) {
+        navigation.navigate('ChatReadyDetailScreen', {
+          // @ts-ignore
+          cid: notification.notification.additionalData!.data.cid,
+        })
+      }
     })
   },
 }

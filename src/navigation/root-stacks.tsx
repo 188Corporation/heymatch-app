@@ -24,6 +24,7 @@ import { SelectSubsidiaryScreen } from 'ui/auth/select-subsidiary-screen'
 import { UnregisteredDomainScreen } from 'ui/auth/unregistered-domain-screen'
 import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
+import { ChatReadyDetailScreen } from 'ui/chat/chat-ready-detail-screen'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
@@ -46,7 +47,6 @@ export const RootStacks = observer(() => {
     keyboardStore.sub()
     permissionStore.checkAll()
     paymentManager.initialize()
-    oneSignal.init()
     return () => {
       paymentManager.terminate()
       keyboardStore.unsub()
@@ -70,6 +70,10 @@ export const RootStacks = observer(() => {
 
 const StacksAfterLogin = () => {
   const { data } = useOnboardingStatus()
+  useEffect(() => {
+    oneSignal.init()
+  }, [])
+
   if (!data) {
     return <LoadingOverlay />
   }
@@ -145,6 +149,10 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='ChatDetailScreen'
               component={ChatDetailScreen}
+            />
+            <Stack.Screen
+              name='ChatReadyDetailScreen'
+              component={ChatReadyDetailScreen}
             />
             <Stack.Screen
               name='PurchaseHistoryScreen'

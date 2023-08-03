@@ -37,11 +37,19 @@ export type RootStackParamList = {
   RecommandationCodeScreen: {}
   UnregisteredDomainScreen: {}
   AuthPractitionerScreen: {}
+  ChatReadyDetailScreen: {
+    cid?: string
+  }
 }
 
 export type WebViewScreenProps = StackScreenProps<
   RootStackParamList,
   'WebViewScreen'
+>
+
+export type ChatReadyDetailScreenProps = StackScreenProps<
+  RootStackParamList,
+  'ChatReadyDetailScreen'
 >
 
 export type GroupDetailScreenProps = StackScreenProps<
