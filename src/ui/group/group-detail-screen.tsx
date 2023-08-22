@@ -1,9 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
-import { useGroup, useMatchRequestWithGroup, useMy } from 'api/reads'
+import { useChats, useGroup, useMatchRequestWithGroup, useMy } from 'api/reads'
 import {
   deleteGroup,
   purchaseProfilePhotos,
+  reportAbuse,
   sendMatchRequest,
 } from 'api/writes'
 import { ClipboardSvg, LockedSvg, SendSvg, VerifiedSvg } from 'image'
@@ -36,13 +37,14 @@ import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
+import { Button } from 'ui/common/button'
 import { CurrentCandy } from 'ui/common/current-candy'
 import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Caption, CaptionS, H1, H3 } from 'ui/common/text'
+import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
@@ -53,7 +55,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { data: matchRequest } = useMatchRequestWithGroup(id)
   const { alertStore } = useStores()
   const [loading, setLoading] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isCarouselModalVisible, setIsCarouselModalVisible] = useState(false)
+  const [isUserReportModalVisible, setIsUserReportModalVisible] =
+    useState(false)
   const insets = useSafeAreaInsets()
 
   if (!group || !myData) return <LoadingOverlay />
@@ -101,7 +105,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         ),
       })
     } else {
-      setIsModalVisible(true)
+      setIsCarouselModalVisible(true)
     }
   }
 
@@ -129,7 +133,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       <NavigationHeader
         backButtonStyle='black'
         rightChildren={
-          isEditing && (
+          isEditing ? (
             <TouchableOpacity
               style={{ marginRight: 24 }}
               onPress={() => {
@@ -155,6 +159,15 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               }}
             >
               <Body style={{ color: Colors.gray.v400 }}>그룹 삭제</Body>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={{ marginRight: 24 }}
+              onPress={() => {
+                setIsUserReportModalVisible(true)
+              }}
+            >
+              <Body style={{ color: Colors.gray.v400 }}>그룹 신고</Body>
             </TouchableOpacity>
           )
         }
@@ -299,8 +312,8 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         </>
       )}
       <CarouselModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
+        isVisible={isCarouselModalVisible}
+        onClose={() => setIsCarouselModalVisible(false)}
       >
         {CURRENT_OS === OS.IOS ? (
           <IosProfileImagesCarousel images={getSortedProfilePhotos()} />
@@ -309,12 +322,32 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
         )}
       </CarouselModal>
       {loading && <LoadingOverlay />}
+      <UserReportModal
+        isVisible={isUserReportModalVisible}
+        onClose={() => {
+          setIsUserReportModalVisible(false)
+        }}
+      >
+        <UserReportModalContent
+          groupId={group.id}
+          onClose={() => {
+            setIsUserReportModalVisible(false)
+          }}
+        />
+      </UserReportModal>
     </>
   )
 }
 
 const Container = styled(ScrollView)`
   padding: 12px 0px 0px 0px;
+`
+
+const ReportItem = styled(TouchableOpacity)`
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
 `
 
 function formatDate(_date: string) {
@@ -337,6 +370,7 @@ const ButtonContent: React.FC<{
   const { status, type } = matchRequest || {}
   const { alertStore, chatStore } = useStores()
   const { data: myData } = useMy()
+  const { data: chatData } = useChats()
 
   // render based on conditions
   if (status === MatchRequestStatus.REJECTED) {
@@ -346,7 +380,15 @@ const ButtonContent: React.FC<{
     return (
       <BottomButton
         text='채팅하기'
-        onPress={() => navigation.navigate('ChatScreen')}
+        onPress={() => {
+          const chat = chatData?.find((_) => _.group.id === data.id)
+          if (!chat) {
+            navigation.navigate('ChatScreen')
+            return
+          }
+          chatStore.setChat(chat)
+          navigation.navigate('ChatDetailScreen')
+        }}
         leftChildren={
           <Icon
             name='question-answer'
@@ -574,6 +616,135 @@ const IosProfileImagesCarousel = ({
   )
 }
 
+const UserReportModal = ({
+  isVisible,
+  onClose,
+  children,
+}: {
+  isVisible: boolean
+  onClose: () => void
+  children: ReactNode
+}) => {
+  return (
+    <Modal
+      isVisible={isVisible}
+      onBackdropPress={onClose}
+      onBackButtonPress={onClose}
+    >
+      {isVisible && <>{children}</>}
+    </Modal>
+  )
+}
+
+type ReportReason = '사진도용' | '불건전프로필' | '비매너채팅' | '개인연락처'
+
+const UserReportModalContent = ({
+  groupId,
+  onClose,
+}: {
+  groupId: number
+  onClose: () => void
+}) => {
+  const [reportReason, setReportReason] = useState<ReportReason | null>(null)
+  return (
+    <UserReportContainer>
+      <H2 style={{ marginBottom: 16 }}>그룹을 신고할까요?</H2>
+      <View
+        style={{
+          borderRadius: 12,
+          backgroundColor: Colors.gray.v100,
+          width: '100%',
+          marginBottom: 16,
+        }}
+      >
+        <ReportItem
+          onPress={() => {
+            setReportReason('사진도용')
+          }}
+        >
+          <Body
+            style={{
+              color:
+                reportReason === '사진도용' ? Colors.primary.red : undefined,
+            }}
+          >
+            다른 사람의 사진을 도용
+          </Body>
+        </ReportItem>
+        <ReportItem
+          onPress={() => {
+            setReportReason('불건전프로필')
+          }}
+        >
+          <Body
+            style={{
+              color:
+                reportReason === '불건전프로필'
+                  ? Colors.primary.red
+                  : undefined,
+            }}
+          >
+            불건전한 프로필 내용
+          </Body>
+        </ReportItem>
+        <ReportItem
+          onPress={() => {
+            setReportReason('비매너채팅')
+          }}
+        >
+          <Body
+            style={{
+              color:
+                reportReason === '비매너채팅' ? Colors.primary.red : undefined,
+            }}
+          >
+            매너 없는 채팅
+          </Body>
+        </ReportItem>
+        <ReportItem
+          onPress={() => {
+            setReportReason('개인연락처')
+          }}
+        >
+          <Body
+            style={{
+              color:
+                reportReason === '개인연락처' ? Colors.primary.red : undefined,
+            }}
+          >
+            프로필에 개인 연락처를 기입
+          </Body>
+        </ReportItem>
+      </View>
+      <Button
+        text={'신고하기'}
+        onPress={async () => {
+          if (!reportReason) return
+          await reportAbuse(groupId, reportReason)
+          onClose()
+          Toast.show({
+            type: 'success',
+            text1: '신고가 접수되었어요',
+            text2: '접수된 사항은 검토 후 반영될 예정입니다 :)',
+          })
+        }}
+        textColor={Colors.white}
+        disabled={!reportReason}
+      />
+      <Row style={{ marginTop: 8 }}>
+        <Button
+          text={'취소하기'}
+          onPress={() => {
+            onClose()
+          }}
+          color={Colors.white}
+          textColor={Colors.gray.v400}
+        />
+      </Row>
+    </UserReportContainer>
+  )
+}
+
 const Chip = styled(View)`
   width: 33px;
   height: 23px;
@@ -593,4 +764,12 @@ const CandyContainer = styled(Row)`
   background-color: ${Colors.white};
   padding: 8px 16px;
   border-radius: 16px;
+`
+
+const UserReportContainer = styled(Column)`
+  background-color: ${Colors.white};
+  border-radius: 24px;
+  padding: 28px 16px 16px 16px;
+  align-items: center;
+  position: relative;
 `

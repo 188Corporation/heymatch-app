@@ -32,7 +32,9 @@ export const AlertModal: React.FC = observer(() => {
             <Title>{content.title}</Title>
             {content.body && <Body>{content.body.trim()}</Body>}
             {content.bodyChildren && (
-              <Column style={{ marginTop: 8 }}>{content.bodyChildren()}</Column>
+              <Column style={{ marginTop: 8, width: '100%' }}>
+                {content.bodyChildren()}
+              </Column>
             )}
             <Row style={{ height: 24 }} />
             <Button
