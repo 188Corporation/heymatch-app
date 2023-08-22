@@ -70,15 +70,15 @@ export const GroupListScreen = observer(() => {
     if (groupListStore.membersFilter) {
       params = `${params}&member_num=${groupListStore.membersFilter}`
     }
-    // TODO: sortFilter
-    // if (groupListStore.sortFilter) {
-    //   params = `${params}&sort=${groupListStore.sortFilter}`
-    // }
+    if (groupListStore.orderFilter) {
+      params = `${params}&order_by=${groupListStore.orderFilter}`
+    }
     setFilterParams(params)
   }, [
     groupListStore.dateFilter,
     groupListStore.distanceFilter,
     groupListStore.membersFilter,
+    groupListStore.orderFilter,
     locationStore._location,
   ])
 
@@ -182,102 +182,108 @@ export const GroupListScreen = observer(() => {
   )
 })
 
-const FilterModals = ({
-  isVisibleMembersFilterModal,
-  isVisibleDistanceFilterModal,
-  isVisibleDateFilterModal,
-  isVisibleSortFilterModal,
-  setIsVisibleMembersFilterModal,
-  setIsVisibleDistanceFilterModal,
-  setIsVisibleDateFilterModal,
-  setIsVisibleSortFilterModal,
-}: {
-  isVisibleMembersFilterModal: boolean
-  isVisibleDistanceFilterModal: boolean
-  isVisibleDateFilterModal: boolean
-  isVisibleSortFilterModal: boolean
-  setIsVisibleMembersFilterModal: React.Dispatch<React.SetStateAction<boolean>>
-  setIsVisibleDistanceFilterModal: React.Dispatch<React.SetStateAction<boolean>>
-  setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
-  setIsVisibleSortFilterModal: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
-  const { groupListStore } = useStores()
-  return (
-    <>
-      <FilterModal
-        isVisible={isVisibleMembersFilterModal}
-        onClose={() => setIsVisibleMembersFilterModal(false)}
-      >
-        <ModalContent
-          title='멤버수'
+const FilterModals = observer(
+  ({
+    isVisibleMembersFilterModal,
+    isVisibleDistanceFilterModal,
+    isVisibleDateFilterModal,
+    isVisibleSortFilterModal,
+    setIsVisibleMembersFilterModal,
+    setIsVisibleDistanceFilterModal,
+    setIsVisibleDateFilterModal,
+    setIsVisibleSortFilterModal,
+  }: {
+    isVisibleMembersFilterModal: boolean
+    isVisibleDistanceFilterModal: boolean
+    isVisibleDateFilterModal: boolean
+    isVisibleSortFilterModal: boolean
+    setIsVisibleMembersFilterModal: React.Dispatch<
+      React.SetStateAction<boolean>
+    >
+    setIsVisibleDistanceFilterModal: React.Dispatch<
+      React.SetStateAction<boolean>
+    >
+    setIsVisibleDateFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+    setIsVisibleSortFilterModal: React.Dispatch<React.SetStateAction<boolean>>
+  }) => {
+    const { groupListStore } = useStores()
+    return (
+      <>
+        <FilterModal
+          isVisible={isVisibleMembersFilterModal}
           onClose={() => setIsVisibleMembersFilterModal(false)}
-          formList={[
-            { label: '1명', value: 1 },
-            { label: '2명', value: 2 },
-            { label: '3명', value: 3 },
-            { label: '4명', value: 4 },
-            { label: '5명 이상', value: 5 },
-          ]}
-          setValue={(v) => groupListStore.setMembersFilter(v)}
-        />
-      </FilterModal>
-      <FilterModal
-        isVisible={isVisibleDistanceFilterModal}
-        onClose={() => setIsVisibleDistanceFilterModal(false)}
-      >
-        <ModalContent
-          title='거리'
+        >
+          <ModalContent
+            title='멤버수'
+            onClose={() => setIsVisibleMembersFilterModal(false)}
+            formList={[
+              { label: '1명', value: 1 },
+              { label: '2명', value: 2 },
+              { label: '3명', value: 3 },
+              { label: '4명', value: 4 },
+              { label: '5명 이상', value: 5 },
+            ]}
+            setValue={(v) => groupListStore.setMembersFilter(v)}
+          />
+        </FilterModal>
+        <FilterModal
+          isVisible={isVisibleDistanceFilterModal}
           onClose={() => setIsVisibleDistanceFilterModal(false)}
-          formList={[
-            {
-              label: '1km 이내',
-              value: 1000,
-            },
-            {
-              label: '5km 이내',
-              value: 5000,
-            },
-            {
-              label: '10km 이내',
-              value: 10000,
-            },
-            {
-              label: '20km 이내',
-              value: 20000,
-            },
-            {
-              label: '50km 이내',
-              value: 50000,
-            },
-          ]}
-          setValue={(v) => groupListStore.setDistanceFilter(v)}
-        />
-      </FilterModal>
-      <FilterModal
-        isVisible={isVisibleDateFilterModal}
-        onClose={() => setIsVisibleDateFilterModal(false)}
-      >
-        <PeriodCalenderModal
-          setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
-        />
-      </FilterModal>
-      <FilterModal
-        isVisible={isVisibleSortFilterModal}
-        onClose={() => setIsVisibleSortFilterModal(false)}
-      >
-        <ModalContent
-          title='생성순'
+        >
+          <ModalContent
+            title='거리'
+            onClose={() => setIsVisibleDistanceFilterModal(false)}
+            formList={[
+              {
+                label: '1km 이내',
+                value: 1000,
+              },
+              {
+                label: '5km 이내',
+                value: 5000,
+              },
+              {
+                label: '10km 이내',
+                value: 10000,
+              },
+              {
+                label: '20km 이내',
+                value: 20000,
+              },
+              {
+                label: '50km 이내',
+                value: 50000,
+              },
+            ]}
+            setValue={(v) => groupListStore.setDistanceFilter(v)}
+          />
+        </FilterModal>
+        <FilterModal
+          isVisible={isVisibleDateFilterModal}
+          onClose={() => setIsVisibleDateFilterModal(false)}
+        >
+          <PeriodCalenderModal
+            setIsVisibleDateFilterModal={setIsVisibleDateFilterModal}
+          />
+        </FilterModal>
+        <FilterModal
+          isVisible={isVisibleSortFilterModal}
           onClose={() => setIsVisibleSortFilterModal(false)}
-          formList={[
-            { label: '생성순(기본)', value: '생성순' },
-            { label: '가까운 날짜순', value: '가까운 날짜순' },
-          ]}
-          setValue={(v) => groupListStore.setSortFilter(v)}
-        />
-      </FilterModal>
-    </>
-  )
-}
+        >
+          <ModalContent
+            title='생성순'
+            onClose={() => setIsVisibleSortFilterModal(false)}
+            formList={[
+              { label: '생성순(기본)', value: 'created_at' },
+              { label: '가까운 날짜순', value: 'meetup_date' },
+            ]}
+            setValue={(v) => groupListStore.setOrderFilter(v)}
+          />
+        </FilterModal>
+      </>
+    )
+  },
+)
 
 const SearchButton = observer(() => {
   const { groupListStore } = useStores()
@@ -351,10 +357,10 @@ const FilterGroup = observer(
     }
 
     const getDisplyedSortFilter = () => {
-      switch (groupListStore.sortFilter) {
-        case '가까운 날짜순':
+      switch (groupListStore.orderFilter) {
+        case 'meetup_date':
           return '가까운 날짜순'
-        case '생성순':
+        case 'created_at':
         default:
           return '생성순'
       }
@@ -425,12 +431,12 @@ const FilterGroup = observer(
               </TouchableOpacity>
             </FilterTouchable>
             <FilterTouchable
-              selected={!!groupListStore.sortFilter}
+              selected={!!groupListStore.orderFilter}
               onPress={() => {
                 setIsVisibleSortFilterModal(true)
               }}
             >
-              <FilterTypography filter={!!groupListStore.sortFilter}>
+              <FilterTypography filter={!!groupListStore.orderFilter}>
                 {getDisplyedSortFilter()}
               </FilterTypography>
             </FilterTouchable>

@@ -1,13 +1,13 @@
 import { makeAutoObservable } from 'mobx'
 
-type SortType = '생성순' | '가까운 날짜순'
+type OrderFilterType = 'created_at' | 'meetup_date'
 
 export class GroupListStore {
   searchPlaceKeyword: string = ''
   dateFilter: { startDate?: string; endDate?: string } | null = null
   membersFilter: number | null = null
   distanceFilter: number | null = null
-  sortFilter: SortType = '생성순'
+  orderFilter: OrderFilterType = 'created_at'
 
   constructor() {
     makeAutoObservable(this)
@@ -29,7 +29,7 @@ export class GroupListStore {
     this.distanceFilter = v
   }
 
-  setSortFilter(v: SortType) {
-    this.sortFilter = v
+  setOrderFilter(v: OrderFilterType) {
+    this.orderFilter = v
   }
 }
