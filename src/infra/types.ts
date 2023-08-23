@@ -200,6 +200,8 @@ export type GroupInfo = {
   created_at: string
   group_members: GroupMember[]
   profile_photo_purchased: boolean
+  about_our_group_tags: Tag[]
+  meeting_we_want_tags: Tag[]
 }
 
 export type GroupDetail = GroupInfo

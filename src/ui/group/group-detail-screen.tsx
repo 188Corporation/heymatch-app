@@ -44,7 +44,7 @@ import { Image } from 'ui/common/image'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
+import { Body, Body2, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
@@ -267,13 +267,13 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             height: '100%',
           }}
         >
-          <View style={{ marginBottom: 40 }}>
+          <View style={{ marginBottom: 20 }}>
             <H3 style={{ marginBottom: 8 }}>만나는 날짜</H3>
             <Body style={{ color: Colors.gray.v500 }}>
               {formatDate(group.meetup_date)}
             </Body>
           </View>
-          <View style={{ marginBottom: 40 }}>
+          <View style={{ marginBottom: 20 }}>
             <H3 style={{ marginBottom: 8 }}>장소</H3>
             <TouchableOpacity onPress={copyToClipboard}>
               <Body style={{ color: Colors.gray.v500 }}>
@@ -281,6 +281,34 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
                 <ClipboardSvg />
               </Body>
             </TouchableOpacity>
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 8 }}>우리는 이런 그룹이에요</H3>
+            <WrapBox>
+              {group.about_our_group_tags.map((tag) => {
+                return (
+                  <Tag
+                    style={{ backgroundColor: `#${tag.color}`, opacity: 0.5 }}
+                  >
+                    <Body2 style={{ opacity: 1 }}>{tag.label}</Body2>
+                  </Tag>
+                )
+              })}
+            </WrapBox>
+          </View>
+          <View style={{ marginBottom: 20 }}>
+            <H3 style={{ marginBottom: 8 }}>이런 미팅을 원해요</H3>
+            <WrapBox>
+              {group.meeting_we_want_tags.map((tag) => {
+                return (
+                  <Tag
+                    style={{ backgroundColor: `#${tag.color}`, opacity: 0.5 }}
+                  >
+                    <Body2 style={{ opacity: 1 }}>{tag.label}</Body2>
+                  </Tag>
+                )
+              })}
+            </WrapBox>
           </View>
           <View style={{ marginBottom: 40 }}>
             <H3 style={{ marginBottom: 8 }}>소개</H3>
@@ -772,4 +800,20 @@ const UserReportContainer = styled(Column)`
   padding: 28px 16px 16px 16px;
   align-items: center;
   position: relative;
+`
+
+const Tag = styled(View)`
+  height: 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 12px;
+  padding-horizontal: 6px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+`
+const WrapBox = styled(View)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 `
