@@ -19,6 +19,7 @@ import {
   PurchaseItem,
   ResponseEnvelope,
   SearchPlaceList,
+  Tags,
   TopRankedAddress,
 } from 'infra/types'
 import qs from 'query-string'
@@ -148,3 +149,5 @@ export const useGeocoding = (query: string) => {
     isError: error,
   }
 }
+
+export const useTags = () => useCustomSWR<Tags>('/groups/tags/')

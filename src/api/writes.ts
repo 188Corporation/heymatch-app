@@ -130,6 +130,8 @@ export const createGroup = async (
   member_avg_age: number,
   meetup_place_title: string,
   meetup_place_address: string,
+  about_our_group_tags: string[],
+  meeting_we_want_tags: string[],
 ) => {
   const res: ResponseEnvelope<{}> = await postRequest('/groups/', {
     title,
@@ -140,6 +142,8 @@ export const createGroup = async (
     member_avg_age,
     meetup_place_title,
     meetup_place_address,
+    about_our_group_tags,
+    meeting_we_want_tags,
   })
   if (res.code !== 201) throw new ApiError(res)
 }
@@ -154,6 +158,8 @@ export const editGroup = async (
   member_avg_age: number,
   meetup_place_title: string,
   meetup_place_address: string,
+  about_our_group_tags: string[],
+  meeting_we_want_tags: string[],
 ) => {
   const res: ResponseEnvelope<{}> = await putRequest(`/groups/${id}/`, {
     title,
@@ -164,6 +170,8 @@ export const editGroup = async (
     member_avg_age,
     meetup_place_title,
     meetup_place_address,
+    about_our_group_tags,
+    meeting_we_want_tags,
   })
   if (res.code !== 200) throw new ApiError(res)
 }

@@ -369,3 +369,10 @@ export type OnboardingStatus = {
   extra?: string
   rejected_reason?: string
 }
+
+export type Tag = { value: string; label: string; color: string }
+
+export type Tags = {
+  about_group_tags: Tag[]
+  desired_meeting_tags: Tag[]
+}

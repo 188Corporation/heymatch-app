@@ -12,6 +12,8 @@ export class GroupCreateStore {
   introduce: string = ''
   memberNumber: string = ''
   memberAverageAge: string = ''
+  aboutOurGroupTags: string[] = []
+  meetingWeWantTags: string[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -49,6 +51,24 @@ export class GroupCreateStore {
     this.memberAverageAge = v
   }
 
+  updateAboutOurGroupTags(v: string) {
+    if (this.aboutOurGroupTags.some((tag) => tag === v)) {
+      this.aboutOurGroupTags = this.aboutOurGroupTags.filter((tag) => tag !== v)
+    } else {
+      if (this.aboutOurGroupTags.length === 5) return
+      this.aboutOurGroupTags = [...this.aboutOurGroupTags, v]
+    }
+  }
+
+  updateMeetingWeWantTags(v: string) {
+    if (this.meetingWeWantTags.some((tag) => tag === v)) {
+      this.meetingWeWantTags = this.meetingWeWantTags.filter((tag) => tag !== v)
+    } else {
+      if (this.meetingWeWantTags.length === 5) return
+      this.meetingWeWantTags = [...this.meetingWeWantTags, v]
+    }
+  }
+
   initialize() {
     this.id = ''
     this.title = ''
@@ -61,5 +81,7 @@ export class GroupCreateStore {
     this.introduce = ''
     this.memberNumber = ''
     this.memberAverageAge = ''
+    this.aboutOurGroupTags = []
+    this.meetingWeWantTags = []
   }
 }

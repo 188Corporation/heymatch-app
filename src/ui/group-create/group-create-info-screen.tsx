@@ -1,5 +1,4 @@
-import { useGeocoding, useMy, useSearchPlace } from 'api/reads'
-import { createGroup, editGroup } from 'api/writes'
+import { useGeocoding, useSearchPlace } from 'api/reads'
 import { PinSvg, RightArrowSvg, SearchSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { BOTTOM_BUTTON_HEIGTH, NAVIGATION_HEADER_HEIGHT } from 'infra/constants'
@@ -18,27 +17,22 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
-import { mutate } from 'swr'
 import { BottomButton } from 'ui/common/bottom-button'
 import { CalendarModal } from 'ui/common/CalenderModal'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
-import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, DescBody2, H3 } from 'ui/common/text'
 
 export const GroupCreateInfoScreen = observer(() => {
-  const { data } = useMy()
   const { alertStore, groupCreateStore } = useStores()
 
   const [isVisibleCalenderModal, setIsVisibleCalenderModal] = useState(false)
   const [isVisiblePlaceModal, setIsVisiblePlaceModal] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const insets = useSafeAreaInsets()
 
   const { data: geocoding, isLoading: isLoadingGeocoding } = useGeocoding(
     groupCreateStore.address.address,
   )
-  const isEditingGroupInfo = data && data.joined_groups && data.joined_groups[0]
 
   useEffect(() => {
     if (
@@ -153,9 +147,10 @@ export const GroupCreateInfoScreen = observer(() => {
             <TextInput
               multiline
               value={groupCreateStore.introduce}
-              placeholder='간단한 소개글을 적어주세요 :)
-좋아하는 음식이나 취미, 직업은 어떤지 구체적으로
-적어주면 매칭 확률이 올라가요! (최소 20자 이상)'
+              placeholder='좋아하는 음식이나 취미, 직업은 어떤지 구체적으로
+적어주면 매칭 확률이 올라가요! (최소 20자 이상)
+(프로필에 개인 sns 계정, 연락처를 입력하면 이용이
+제한될수 있습니다.)'
               onChangeText={(text) => groupCreateStore.setIntroduce(text)}
               placeholderTextColor={Colors.gray.v500}
               style={{ height: '100%', paddingTop: 0 }}
@@ -176,7 +171,7 @@ export const GroupCreateInfoScreen = observer(() => {
         <SearchPlaceModal onClose={() => setIsVisiblePlaceModal(false)} />
       </MyModal>
       <BottomButton
-        text={isEditingGroupInfo ? '수정하기' : '그룹 만들기'}
+        text={'다음으로'}
         disabled={
           !groupCreateStore.meetupDate ||
           !groupCreateStore.address.title ||
@@ -188,50 +183,14 @@ export const GroupCreateInfoScreen = observer(() => {
         onPress={async () => {
           if (groupCreateStore.introduce.length < 20) {
             alertStore.open({
-              title: '그룹을 생성할 수 없어요!',
+              title: '그룹 생성 단계가 완료되지 않았어요!',
               body: '그룹 소개를 최소 20자 이상 적어주세요',
             })
             return
           }
-          setIsLoading(true)
-
-          try {
-            if (isEditingGroupInfo) {
-              await editGroup(
-                groupCreateStore.id,
-                groupCreateStore.title,
-                groupCreateStore.introduce,
-                groupCreateStore.gpsPoint,
-                groupCreateStore.meetupDate!,
-                Number(groupCreateStore.memberNumber),
-                Number(groupCreateStore.memberAverageAge),
-                groupCreateStore.address.title,
-                groupCreateStore.address.address,
-              )
-              await mutate('/groups/')
-              navigation.navigate('GroupCreateDoneScreen')
-            } else {
-              await createGroup(
-                groupCreateStore.title,
-                groupCreateStore.introduce,
-                groupCreateStore.gpsPoint,
-                groupCreateStore.meetupDate!,
-                Number(groupCreateStore.memberNumber),
-                Number(groupCreateStore.memberAverageAge),
-                groupCreateStore.address.title,
-                groupCreateStore.address.address,
-              )
-              await mutate('/groups/')
-              navigation.navigate('GroupCreateDoneScreen')
-            }
-          } catch (e) {
-            alertStore.error(e, '그룹 생성에 실패했어요!')
-          } finally {
-            setIsLoading(false)
-          }
+          navigation.navigate('GroupCreateGroupTagScreen')
         }}
       />
-      {isLoading && <LoadingOverlay />}
     </KeyboardAvoidingView>
   )
 })
