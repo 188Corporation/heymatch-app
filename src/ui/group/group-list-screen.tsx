@@ -32,6 +32,8 @@ import { GroupDesc_v2 } from 'ui/common/group-desc'
 import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
+import { Row } from 'ui/common/layout'
+import { Tag } from 'ui/common/Tag'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 
 export const GroupListScreen = observer(() => {
@@ -617,60 +619,59 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
             />
           )}
         </ProfilePhotoContainer>
-        <ProfilePhotoContainer
-          style={{
-            marginRight: 20,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Caption style={{ color: Colors.gray.v400 }}>
-            +{group.member_number - 1}
-          </Caption>
-        </ProfilePhotoContainer>
         <View
-          style={{
-            height: '100%',
-            width: 127,
-            paddingVertical: 7,
-          }}
+          style={{ marginLeft: 8, display: 'flex', justifyContent: 'center' }}
         >
-          {group.group_members[0].user.job_title && (
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 8,
-              }}
-            >
-              <VerifiedSvg
-                style={{ marginRight: 4 }}
-                fill={
-                  isVerifiedGroup(group)
-                    ? Colors.primary.blue
-                    : Colors.gray.v400
-                }
-              />
-              <Caption style={{ color: Colors.gray.v400 }} numberOfLines={1}>
-                {group.group_members
-                  .map((groupMember) =>
-                    getOrganization(
-                      groupMember.user.verified_company_name,
-                      groupMember.user.verified_school_name,
-                      groupMember.user.job_title,
-                    ),
-                  )
-                  .join('/')}
-              </Caption>
-            </View>
-          )}
-
-          <GroupDesc_v2
-            memberNumber={group.member_number}
-            memberAvgAge={group.member_avg_age}
-          />
+          <Row>
+            <Tag
+              size={'s'}
+              label={group.about_our_group_tags[0].label}
+              color={group.about_our_group_tags[0].color}
+            />
+            <Tag
+              size={'s'}
+              label={group.meeting_we_want_tags[0].label}
+              color={group.meeting_we_want_tags[0].color}
+            />
+          </Row>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {group.group_members[0].user.job_title && (
+              <>
+                <VerifiedSvg
+                  style={{ marginRight: 4 }}
+                  fill={
+                    isVerifiedGroup(group)
+                      ? Colors.primary.blue
+                      : Colors.gray.v400
+                  }
+                />
+                <Caption
+                  style={{ color: Colors.gray.v400, marginRight: 8 }}
+                  numberOfLines={1}
+                >
+                  {group.group_members
+                    .map((groupMember) =>
+                      getOrganization(
+                        groupMember.user.verified_company_name,
+                        groupMember.user.verified_school_name,
+                        groupMember.user.job_title,
+                      ),
+                    )
+                    .join('/')}
+                </Caption>
+              </>
+            )}
+            <GroupDesc_v2
+              memberNumber={group.member_number}
+              memberAvgAge={group.member_avg_age}
+            />
+          </View>
         </View>
       </View>
     </GroupItemContainer>

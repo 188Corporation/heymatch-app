@@ -44,7 +44,8 @@ import { Image } from 'ui/common/image'
 import { Column, Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, Body2, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
+import { Tag } from 'ui/common/Tag'
+import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
@@ -287,11 +288,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <WrapBox>
               {group.about_our_group_tags.map((tag) => {
                 return (
-                  <Tag
-                    style={{ backgroundColor: `#${tag.color}`, opacity: 0.5 }}
-                  >
-                    <Body2 style={{ opacity: 1 }}>{tag.label}</Body2>
-                  </Tag>
+                  <Tag key={tag.value} color={tag.color} label={tag.label} />
                 )
               })}
             </WrapBox>
@@ -300,13 +297,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <H3 style={{ marginBottom: 8 }}>이런 미팅을 원해요</H3>
             <WrapBox>
               {group.meeting_we_want_tags.map((tag) => {
-                return (
-                  <Tag
-                    style={{ backgroundColor: `#${tag.color}`, opacity: 0.5 }}
-                  >
-                    <Body2 style={{ opacity: 1 }}>{tag.label}</Body2>
-                  </Tag>
-                )
+                return <Tag color={tag.color} label={tag.label} />
               })}
             </WrapBox>
           </View>
@@ -802,16 +793,6 @@ const UserReportContainer = styled(Column)`
   position: relative;
 `
 
-const Tag = styled(View)`
-  height: 28px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 12px;
-  padding-horizontal: 6px;
-  margin-right: 8px;
-  margin-bottom: 8px;
-`
 const WrapBox = styled(View)`
   display: flex;
   flex-direction: row;

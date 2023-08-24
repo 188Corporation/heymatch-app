@@ -4,13 +4,14 @@ import { BOTTOM_BUTTON_HEIGTH, NAVIGATION_HEADER_HEIGHT } from 'infra/constants'
 import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
 import React from 'react'
-import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body2, H3 } from 'ui/common/text'
+import { Tag } from 'ui/common/Tag'
+import { H3 } from 'ui/common/text'
 
 export const GroupCreateGroupTagScreen = observer(() => {
   const insets = useSafeAreaInsets()
@@ -44,21 +45,13 @@ export const GroupCreateGroupTagScreen = observer(() => {
               return (
                 <Tag
                   key={tag.value}
-                  style={{
-                    backgroundColor: isSelected
-                      ? Colors.primary.blue
-                      : Colors.gray.v200,
-                  }}
+                  color={isSelected ? Colors.primary.blue : Colors.gray.v200}
                   onPress={() => {
                     groupCreateStore.updateAboutOurGroupTags(tag.value)
                   }}
-                >
-                  <Body2
-                    style={{ color: isSelected ? Colors.white : undefined }}
-                  >
-                    {tag.label}
-                  </Body2>
-                </Tag>
+                  fontColor={isSelected ? Colors.white : undefined}
+                  label={tag.label}
+                />
               )
             })}
           </View>
@@ -77,15 +70,4 @@ export const GroupCreateGroupTagScreen = observer(() => {
 
 const Container = styled(ScrollView)`
   padding: 12px 28px 0px 28px;
-`
-
-const Tag = styled(TouchableOpacity)`
-  height: 28px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 12px;
-  padding-horizontal: 6px;
-  margin-right: 8px;
-  margin-bottom: 8px;
 `
