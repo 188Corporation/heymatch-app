@@ -267,6 +267,7 @@ export interface Channel {
     sent_at: string
     is_read: boolean
   }
+  unread_messages: number
 }
 
 export interface Chat {

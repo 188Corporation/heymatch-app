@@ -1,9 +1,10 @@
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { useChats, useMatchRequests } from 'api/reads'
 import { SendSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { genTabBarCommon } from 'navigation/common'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import styled from 'styled-components'
 import { BottomInsetSpace } from 'ui/common/inset-space'
@@ -22,6 +23,46 @@ export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({
   descriptors,
   navigation,
 }) => {
+  const { data: chatData } = useChats()
+  const isUnreadChat = chatData?.find(
+    (chat) => chat.channel.unread_messages > 0,
+  )
+  const { data: matchRequestData } = useMatchRequests()
+  const isReceivedRequest = matchRequestData?.received.find(
+    (req) => req.status === 'WAITING',
+  )
+
+  const getIcon = (iconText: string, isFocused: boolean) => {
+    switch (iconText) {
+      case 'send':
+        return (
+          <SvgContainer>
+            {isReceivedRequest && <Badge />}
+            <SendSvg fill={isFocused ? Colors.primary.red : Colors.gray.v200} />
+          </SvgContainer>
+        )
+      case 'question-answer':
+        return (
+          <SvgContainer>
+            {isUnreadChat && <Badge />}
+            <CustomIcon
+              name={iconText}
+              size={28}
+              color={isFocused ? Colors.primary.red : Colors.gray.v200}
+            />
+          </SvgContainer>
+        )
+      default:
+        return (
+          <CustomIcon
+            name={iconText}
+            size={28}
+            color={isFocused ? Colors.primary.red : Colors.gray.v200}
+          />
+        )
+    }
+  }
+
   return (
     <BarContainer>
       <Row>
@@ -46,19 +87,7 @@ export const MainBottomTabBar: React.FC<BottomTabBarProps> = ({
               onLongPress={onLongPress}
             >
               <ButtonContentContainer>
-                {iconText.icon === 'send' ? (
-                  <SendSvgContainer>
-                    <SendSvg
-                      fill={isFocused ? Colors.primary.red : Colors.gray.v200}
-                    />
-                  </SendSvgContainer>
-                ) : (
-                  <CustomIcon
-                    name={iconText.icon}
-                    size={28}
-                    color={isFocused ? Colors.primary.red : Colors.gray.v200}
-                  />
-                )}
+                {getIcon(iconText.icon, isFocused)}
                 <CaptionS
                   style={{
                     color: isFocused ? Colors.primary.red : Colors.gray.v400,
@@ -96,10 +125,19 @@ const CustomIcon = styled(Icon)`
   margin-bottom: 4px;
 `
 
-const SendSvgContainer = styled(Row)`
+const SvgContainer = styled(Row)`
   justify-content: center;
   height: 28px;
   width: 28px;
   padding-top: 2px;
   margin-bottom: 4px;
+  position: relative;
+`
+const Badge = styled(View)`
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  left: -4px;
+  background-color: red;
 `

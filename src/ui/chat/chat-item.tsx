@@ -3,7 +3,7 @@ import { formatRelative } from 'infra/datetime'
 import { START_CHAT_MESSAGE } from 'infra/messages'
 import { Chat } from 'infra/types'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
 import { Avatar as _Avatar } from 'ui/common/avatar'
 import { Column, Row } from 'ui/common/layout'
@@ -32,9 +32,18 @@ export const ChatItem: React.FC<{
           <TitleText>{data.group.title}</TitleText>
           {message && <TimeText>{formatRelative(message.sent_at)}</TimeText>}
         </Upper>
-        <LastMessageText isRead={!!message && message.is_read}>
-          {message?.content || START_CHAT_MESSAGE}
-        </LastMessageText>
+        <Row>
+          <LastMessageText isRead={!!message && message.is_read}>
+            {message?.content || START_CHAT_MESSAGE}
+          </LastMessageText>
+          {data.channel.unread_messages > 0 && (
+            <Badge>
+              <Text style={{ color: Colors.white, fontSize: 14 }}>
+                {data.channel.unread_messages}
+              </Text>
+            </Badge>
+          )}
+        </Row>
       </Right>
     </Container>
   )
@@ -77,4 +86,15 @@ const LastMessageText = styled(Body2).attrs({
   isRead: boolean
 }>`
   color: ${(p) => (p.isRead ? Colors.gray.v400 : Colors.primary.red)};
+`
+
+const Badge = styled(View)`
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 10px;
+  display: flex
+  align-items: center
+  justify-content: center
+  margin-left: auto
 `

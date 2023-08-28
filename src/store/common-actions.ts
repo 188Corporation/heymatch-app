@@ -19,7 +19,7 @@ export const accept = async (
         await chatStore.update([res.stream_channel_cid])
         chatStore.setChat({
           group: res.sender_group,
-          channel: { cid: res.stream_channel_cid },
+          channel: { cid: res.stream_channel_cid, unread_messages: 0 },
         })
         navigation.navigate('ChatDetailScreen')
       },
