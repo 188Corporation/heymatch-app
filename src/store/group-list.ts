@@ -8,6 +8,7 @@ export class GroupListStore {
   membersFilter: number | null = null
   distanceFilter: number | null = null
   orderFilter: OrderFilterType = 'created_at'
+  filterParams: string = ''
 
   constructor() {
     makeAutoObservable(this)
@@ -31,5 +32,9 @@ export class GroupListStore {
 
   setOrderFilter(v: OrderFilterType) {
     this.orderFilter = v
+  }
+
+  setFilterParams(v: string) {
+    this.filterParams = v
   }
 }

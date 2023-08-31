@@ -12,18 +12,25 @@ export const NavigationHeader: React.FC<{
   backButtonStyle?: 'white' | 'black'
   title?: string
   rightChildren?: ReactNode
+  backButtonCallback?: () => void
 }> = ({
   backButton = true,
   backButtonStyle = 'white',
   title,
   rightChildren,
+  backButtonCallback,
 }) => {
   return (
     <>
       <TopInsetSpace />
       <Container>
         {backButton ? (
-          <BackButton onPress={() => navigation.goBack()}>
+          <BackButton
+            onPress={() => {
+              backButtonCallback && backButtonCallback()
+              navigation.goBack()
+            }}
+          >
             {
               { white: <BackArrowSvg />, black: <BackArrowBlackSvg /> }[
                 backButtonStyle

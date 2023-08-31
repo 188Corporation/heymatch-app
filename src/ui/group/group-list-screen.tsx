@@ -39,7 +39,6 @@ import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 export const GroupListScreen = observer(() => {
   const { locationStore, groupListStore, groupCreateStore } = useStores()
   const { data: myData } = useMy()
-  const [filterParams, setFilterParams] = useState('')
   const [isVisibleDateFilterModal, setIsVisibleDateFilterModal] =
     useState(false)
   const [isVisibleMembersFilterModal, setIsVisibleMembersFilterModal] =
@@ -55,7 +54,7 @@ export const GroupListScreen = observer(() => {
     setSize,
     mutate: refetchGroupList,
     isLoading,
-  } = useGroupList(filterParams)
+  } = useGroupList(groupListStore.filterParams)
 
   useEffect(() => {
     locationStore.getLocation(true)
@@ -75,8 +74,9 @@ export const GroupListScreen = observer(() => {
     if (groupListStore.orderFilter) {
       params = `${params}&order_by=${groupListStore.orderFilter}`
     }
-    setFilterParams(params)
+    groupListStore.setFilterParams(params)
   }, [
+    groupListStore,
     groupListStore.dateFilter,
     groupListStore.distanceFilter,
     groupListStore.membersFilter,

@@ -1,6 +1,12 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import { ApiError } from 'api/error'
-import { useChats, useGroup, useMatchRequestWithGroup, useMy } from 'api/reads'
+import {
+  useChats,
+  useGroup,
+  useGroupList,
+  useMatchRequestWithGroup,
+  useMy,
+} from 'api/reads'
 import {
   deleteGroup,
   purchaseProfilePhotos,
@@ -54,12 +60,13 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { data: group } = useGroup(id)
   const { data: myData } = useMy()
   const { data: matchRequest } = useMatchRequestWithGroup(id)
-  const { alertStore } = useStores()
+  const { alertStore, groupListStore } = useStores()
   const [loading, setLoading] = useState(false)
   const [isCarouselModalVisible, setIsCarouselModalVisible] = useState(false)
   const [isUserReportModalVisible, setIsUserReportModalVisible] =
     useState(false)
   const insets = useSafeAreaInsets()
+  const { mutate: refetchGroupList } = useGroupList(groupListStore.filterParams)
 
   if (!group || !myData) return <LoadingOverlay />
   const leader = group.group_members.find((_) => _.is_user_leader)!
@@ -133,6 +140,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     <>
       <NavigationHeader
         backButtonStyle='black'
+        backButtonCallback={refetchGroupList}
         rightChildren={
           isEditing ? (
             <TouchableOpacity
@@ -297,7 +305,9 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <H3 style={{ marginBottom: 8 }}>이런 미팅을 원해요</H3>
             <WrapBox>
               {group.meeting_we_want_tags.map((tag) => {
-                return <Tag color={tag.color} label={tag.label} />
+                return (
+                  <Tag key={tag.value} color={tag.color} label={tag.label} />
+                )
               })}
             </WrapBox>
           </View>
