@@ -1,3 +1,4 @@
+import { useGroupList } from 'api/reads'
 import { deleteProfilePhoto, editUserInfo } from 'api/writes'
 import { PenSvg, VerifiedSvg } from 'image'
 import { Colors } from 'infra/colors'
@@ -33,9 +34,12 @@ import { Body, H3 } from 'ui/common/text'
 export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
   observer((props) => {
     const { data } = props.route.params
-    const { userProfileStore, alertStore } = useStores()
+    const { userProfileStore, alertStore, groupListStore } = useStores()
     const [loading, setLoading] = useState(false)
     const insets = useSafeAreaInsets()
+    const { mutate: refetchGroupList } = useGroupList(
+      groupListStore.filterParams,
+    )
 
     const getSortedProfilePhotos = () => {
       const subPhotos = data.user_profile_images
@@ -107,6 +111,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 value={userProfileStore.blockMySchoolOrCompanyUsers}
                 onValueChange={(v) => {
                   userProfileStore.setBlockMySchoolOrCompanyUsers(v)
+                  refetchGroupList()
                 }}
               />
             </Row>
