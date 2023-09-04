@@ -98,6 +98,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
           try {
             await purchaseProfilePhotos(group.id)
             await mutate(`/groups/${group.id}/`)
+            await refetchGroupList()
           } catch (e) {
             alertStore.error(e, '결제에 실패했어요!')
           }
@@ -140,7 +141,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     <>
       <NavigationHeader
         backButtonStyle='black'
-        backButtonCallback={refetchGroupList}
         rightChildren={
           isEditing ? (
             <TouchableOpacity
