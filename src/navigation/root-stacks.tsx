@@ -17,6 +17,7 @@ import { EmailInputScreen } from 'ui/auth/email-input-screen'
 import { EmailVerificationCodeInputScreen } from 'ui/auth/email-verification-code-input'
 import { GenderScreen } from 'ui/auth/gender-screen'
 import { JobInfoScreen } from 'ui/auth/job-info-screen'
+import { ProfilePhotoRegisterGuideScreen } from 'ui/auth/profile-photo-register-guide-screen'
 import { ProfilePhotoRegisterScreen } from 'ui/auth/profile-photo-register-screen'
 import { ProfilePhotoRejectedScreen } from 'ui/auth/profile-photo-rejected-screen'
 import { ProfilePhotoVerificationScreen } from 'ui/auth/profile-photo-verification-screen'
@@ -115,6 +116,10 @@ const StacksAfterLogin = () => {
               name='ProfilePhotoRegisterScreen'
               component={ProfilePhotoRegisterScreen}
             />
+            <Stack.Screen
+              name='ProfilePhotoRegisterGuideScreen'
+              component={ProfilePhotoRegisterGuideScreen}
+            />
           </>
         )
       case 'onboarding_profile_under_verification':
@@ -134,6 +139,10 @@ const StacksAfterLogin = () => {
             <Stack.Screen
               name='ProfilePhotoRegisterScreen'
               component={ProfilePhotoRegisterScreen}
+            />
+            <Stack.Screen
+              name='ProfilePhotoRegisterGuideScreen'
+              component={ProfilePhotoRegisterGuideScreen}
             />
           </>
         )

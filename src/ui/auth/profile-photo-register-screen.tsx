@@ -3,6 +3,7 @@ import { CloseSvg, PlusSvg } from 'image'
 import { Colors } from 'infra/colors'
 import { CURRENT_OS, OS } from 'infra/constants'
 import { observer } from 'mobx-react'
+import { navigation } from 'navigation/global'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { launchImageLibrary } from 'react-native-image-picker'
@@ -40,9 +41,18 @@ export const ProfilePhotoRegisterScreen = observer(() => {
       <FlexScrollView>
         <TopInsetSpace />
         <Container>
-          <View style={{ marginBottom: 60 }}>
+          <View style={{ marginBottom: 46 }}>
             <H1 style={{ marginBottom: 12 }}>프로필 사진을 등록해주세요</H1>
             <DescBody2>얼굴이 잘 보이는 사진으로 등록해주세요</DescBody2>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ProfilePhotoRegisterGuideScreen')
+              }
+            >
+              <Body2 style={{ color: Colors.primary.blue }}>
+                프로필 사진 등록 가이드
+              </Body2>
+            </TouchableOpacity>
           </View>
           <ProfilePhotoEditor
             photos={{

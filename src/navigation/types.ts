@@ -40,6 +40,7 @@ export type RootStackParamList = {
   ChatReadyDetailScreen: {
     cid?: string
   }
+  ProfilePhotoRegisterGuideScreen: {}
 }
 
 export type WebViewScreenProps = StackScreenProps<
