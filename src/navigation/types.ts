@@ -41,6 +41,7 @@ export type RootStackParamList = {
     cid?: string
   }
   ProfilePhotoRegisterGuideScreen: {}
+  GuideScreen: {}
 }
 
 export type WebViewScreenProps = StackScreenProps<

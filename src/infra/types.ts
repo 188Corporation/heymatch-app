@@ -61,6 +61,7 @@ export type User = {
   free_pass_active_until: string | null
   invitation_code: string
   block_my_school_or_company_users: boolean
+  has_finished_guide: boolean
 }
 
 export type AuthorizeUser = {

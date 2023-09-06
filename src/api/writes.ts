@@ -271,6 +271,7 @@ export const editUserInfo = async ({
   femaleBodyForm,
   jobTitle,
   blockMySchoolOrCompanyUsers,
+  hasFinishedGuide,
 }: {
   username?: string
   gender?: Gender
@@ -283,6 +284,7 @@ export const editUserInfo = async ({
   femaleBodyForm?: FemaleBodyForm | null
   jobTitle?: JobTitle | null
   blockMySchoolOrCompanyUsers?: boolean
+  hasFinishedGuide?: boolean
 }) => {
   const form = new FormData()
   username && form.append('username', username)
@@ -294,6 +296,7 @@ export const editUserInfo = async ({
   jobTitle && form.append('job_title', jobTitle)
   blockMySchoolOrCompanyUsers &&
     form.append('block_my_school_or_company_users', blockMySchoolOrCompanyUsers)
+  hasFinishedGuide && form.append('has_finished_guide', hasFinishedGuide)
   mainProfileImage &&
     form.append('main_profile_image', {
       uri: mainProfileImage,

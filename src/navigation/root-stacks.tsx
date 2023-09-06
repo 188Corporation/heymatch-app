@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { useOnboardingStatus } from 'api/reads'
+import { useMy, useOnboardingStatus } from 'api/reads'
 import { oneSignal } from 'infra/one-signal'
 import { paymentManager } from 'infra/payments'
 import { observer } from 'mobx-react'
@@ -26,6 +26,7 @@ import { UnregisteredDomainScreen } from 'ui/auth/unregistered-domain-screen'
 import { UsernameScreen } from 'ui/auth/username-screen'
 import { ChatDetailScreen } from 'ui/chat/chat-detail-screen'
 import { ChatReadyDetailScreen } from 'ui/chat/chat-ready-detail-screen'
+import { GuideScreen } from 'ui/common/guide-screen'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { GroupDetailScreen } from 'ui/group/group-detail-screen'
 import { SearchPlaceResultsScreen } from 'ui/group/search-place-results-screen'
@@ -71,11 +72,13 @@ export const RootStacks = observer(() => {
 
 const StacksAfterLogin = () => {
   const { data } = useOnboardingStatus()
+  const { data: myData } = useMy()
+
   useEffect(() => {
     oneSignal.init()
   }, [])
 
-  if (!data) {
+  if (!data || !myData) {
     return <LoadingOverlay />
   }
   const renderStack = () => {
@@ -149,6 +152,9 @@ const StacksAfterLogin = () => {
       case 'onboarding_completed':
         return (
           <>
+            {!myData?.user.has_finished_guide && (
+              <Stack.Screen name='GuideScreen' component={GuideScreen} />
+            )}
             <Stack.Screen name='MainTabs' component={MainTabs} />
             <Stack.Screen
               name='GroupCreateStacks'
