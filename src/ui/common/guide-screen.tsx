@@ -65,7 +65,7 @@ export const GuideScreen = () => {
               )}
               <Image
                 source={images[index]}
-                style={{ width: '100%', height: '100%', borderRadius: 20 }}
+                style={{ width: '100%', height: '100%' }}
               />
             </View>
           )
