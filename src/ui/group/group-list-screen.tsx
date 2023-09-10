@@ -23,6 +23,7 @@ import {
   View,
 } from 'react-native'
 import { DateData } from 'react-native-calendars'
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
 import Modal from 'react-native-modal'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
@@ -120,10 +121,23 @@ export const GroupListScreen = observer(() => {
                   .flat()}
                 renderItem={(group) => {
                   return (
-                    <GroupItem
-                      key={String(group.item.created_at)}
-                      group={group.item}
-                    />
+                    <>
+                      <GroupItem
+                        key={String(group.item.created_at)}
+                        group={group.item}
+                      />
+                      {(group.index + 1) % 5 === 0 && (
+                        <View style={{ marginBottom: 12 }}>
+                          <BannerAd
+                            unitId={'ca-app-pub-1734601135342923/8998434992'}
+                            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                            requestOptions={{
+                              requestNonPersonalizedAdsOnly: true,
+                            }}
+                          />
+                        </View>
+                      )}
+                    </>
                   )
                 }}
                 onEndReached={() => setSize(size + 1)}
