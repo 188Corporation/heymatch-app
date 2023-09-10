@@ -62,6 +62,7 @@ export type User = {
   invitation_code: string
   block_my_school_or_company_users: boolean
   has_finished_guide: boolean
+  num_of_available_ads: number
 }
 
 export type AuthorizeUser = {

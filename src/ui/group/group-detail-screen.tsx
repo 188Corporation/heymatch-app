@@ -10,6 +10,7 @@ import {
 import {
   deleteGroup,
   purchaseProfilePhotos,
+  purchaseProfilePhotosByAds,
   reportAbuse,
   sendMatchRequest,
 } from 'api/writes'
@@ -31,9 +32,10 @@ import {
 import { convertJobtitle, useSafeAreaInsets } from 'infra/util'
 import { navigation } from 'navigation/global'
 import { GroupDetailScreenProps } from 'navigation/types'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
+import { useInterstitialAd } from 'react-native-google-mobile-ads'
 import Modal from 'react-native-modal'
 import Carousel from 'react-native-reanimated-carousel'
 import Toast from 'react-native-toast-message'
@@ -55,6 +57,9 @@ import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
+const adUnitId = 'ca-app-pub-1734601135342923/8042492266'
+// const adUnitId = TestIds.REWARDED
+
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { id, hideButton } = props.route.params
   const { data: group } = useGroup(id)
@@ -67,6 +72,36 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     useState(false)
   const insets = useSafeAreaInsets()
   const { mutate: refetchGroupList } = useGroupList(groupListStore.filterParams)
+
+  const { isLoaded, isClosed, load, show } = useInterstitialAd(adUnitId, {
+    requestNonPersonalizedAdsOnly: true,
+  })
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  useEffect(() => {
+    if (!group) return
+    if (!isClosed) return
+    ;(async () => {
+      await purchaseProfilePhotosByAds(id)
+      await mutate(`/groups/${group.id}/`)
+      await refetchGroupList()
+    })()
+    alertStore.close()
+  }, [alertStore, group, id, isClosed, refetchGroupList])
+
+  const openAd = () => {
+    if (isLoaded) {
+      show()
+    } else {
+      Toast.show({
+        type: 'info',
+        text1: '광고를 준비중이에요. 잠시만 기다려주세요!',
+      })
+    }
+  }
 
   if (!group || !myData) return <LoadingOverlay />
   const leader = group.group_members.find((_) => _.is_user_leader)!
@@ -103,6 +138,21 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             alertStore.error(e, '결제에 실패했어요!')
           }
         },
+        bodyChildren: () => (
+          <View style={{ marginBottom: -16 }}>
+            <Button
+              onPress={() => {
+                openAd()
+                // alertStore.close()
+              }}
+              color={Colors.gray.v400}
+              text={`광고 시청하고 사진 보기 (${
+                5 - myData.user.num_of_available_ads
+              }/5)`}
+              disabled={myData.user.num_of_available_ads === 0}
+            />
+          </View>
+        ),
         children: () => (
           <CandyContainer>
             <TouchableOpacity

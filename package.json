@@ -65,6 +65,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-geolocation-service": "^5.3.0",
     "react-native-gesture-handler": "^2.9.0",
+    "react-native-google-mobile-ads": "^12.1.1",
     "react-native-gradle-plugin": "^0.70.3",
     "react-native-iap": "^12.3.2",
     "react-native-image-crop-picker": "^0.38.1",
