@@ -23,7 +23,7 @@ import {
   View,
 } from 'react-native'
 import { DateData } from 'react-native-calendars'
-import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads'
+import { BannerAd, BannerAdSize, TestIds } from 'react-native-google-mobile-ads'
 import Modal from 'react-native-modal'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
@@ -36,6 +36,10 @@ import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Row } from 'ui/common/layout'
 import { Tag } from 'ui/common/Tag'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
+
+const adUnitId = __DEV__
+  ? TestIds.BANNER
+  : 'ca-app-pub-1734601135342923/8998434992'
 
 export const GroupListScreen = observer(() => {
   const { locationStore, groupListStore, groupCreateStore } = useStores()
@@ -129,7 +133,7 @@ export const GroupListScreen = observer(() => {
                       {(group.index + 1) % 5 === 0 && (
                         <View style={{ marginBottom: 12 }}>
                           <BannerAd
-                            unitId={'ca-app-pub-1734601135342923/8998434992'}
+                            unitId={adUnitId}
                             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
                             requestOptions={{
                               requestNonPersonalizedAdsOnly: true,

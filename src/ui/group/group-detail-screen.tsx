@@ -35,7 +35,7 @@ import { GroupDetailScreenProps } from 'navigation/types'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
-import { useInterstitialAd } from 'react-native-google-mobile-ads'
+import { TestIds, useInterstitialAd } from 'react-native-google-mobile-ads'
 import Modal from 'react-native-modal'
 import Carousel from 'react-native-reanimated-carousel'
 import Toast from 'react-native-toast-message'
@@ -57,8 +57,9 @@ import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
 
-const adUnitId = 'ca-app-pub-1734601135342923/8042492266'
-// const adUnitId = TestIds.REWARDED
+const adUnitId = __DEV__
+  ? TestIds.REWARDED
+  : 'ca-app-pub-1734601135342923/8042492266'
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { id, hideButton } = props.route.params
