@@ -58,7 +58,7 @@
 		00E356F21AD99517003FC87E /* HeyThereAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeyThereAppTests.m; sourceTree = "<group>"; };
 		09A1E450E2614B65A62967DF /* SUIT-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-Light.otf"; path = "../fonts/SUIT-Light.otf"; sourceTree = "<group>"; };
 		0FB423A02A8A0E7FE91D989C /* Pods_HeyThereApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HeyThereApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* HeyThereAppDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeyThereAppDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* HeyThereApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeyThereApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = HeyThereApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = HeyThereApp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = HeyThereApp/Images.xcassets; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* HeyThereAppDev.app */,
+				13B07F961A680F5B00A75B9A /* HeyThereApp.app */,
 				D8698A222931221A00A98E53 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -258,7 +258,7 @@
 			);
 			name = HeyThereApp;
 			productName = HeyThereApp;
-			productReference = 13B07F961A680F5B00A75B9A /* HeyThereAppDev.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* HeyThereApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D8698A212931221A00A98E53 /* OneSignalNotificationServiceExtension */ = {
@@ -522,7 +522,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID_SUFFIX = ".MultipleConfig-Dev";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereAppDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -542,9 +541,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.co188.heythere.debug${BUNDLE_ID_SUFFIX}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere.debug;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PRODUCT_NAME = HeyThereAppDev;
+				PRODUCT_NAME = HeyThereApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -562,7 +561,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID_SUFFIX = ".MultipleConfig-Prod";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -581,7 +579,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.co188.heythere${BUNDLE_ID_SUFFIX}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.co188.heythere;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.co188.heythere;
 				PRODUCT_NAME = HeyThereApp;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -592,161 +591,6 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
-		};
-		4845621C2A29FF3300B5C5B2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					/usr/lib/swift,
-					"$(inherited)",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-DFOLLY_NO_CONFIG",
-					"-DFOLLY_MOBILE=1",
-					"-DFOLLY_USE_LIBCPP=1",
-				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
-				SDKROOT = iphoneos;
-			};
-			name = Staging;
-		};
-		4845621D2A29FF3300B5C5B2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7EB1FDD981962736E8A1E2EE /* Pods-HeyThereApp.staging.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BUNDLE_ID_SUFFIX = ".MultipleConfig-Dev";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = HeyThereApp/HeyThereAppDebug.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C8D835G8S3;
-				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
-				INFOPLIST_FILE = HeyThereApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-lc++",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.co188.heythere.debug${BUNDLE_ID_SUFFIX}";
-				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
-				PRODUCT_NAME = HeyThereAppDev;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = Staging;
-		};
-		4845621E2A29FF3300B5C5B2 /* Staging */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6FF592874764651DA0B3F9B /* Pods-OneSignalNotificationServiceExtension.staging.xcconfig */;
-			buildSettings = {
-				BUNDLE_ID_SUFFIX = ".MultipleConfig-Dev";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtensionDebug.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = C8D835G8S3;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.co188.heythere.debug$(BUNDLE_ID_SUFFIX).OneSignalNotificationServiceExtension";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Staging;
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -978,7 +822,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
-				4845621D2A29FF3300B5C5B2 /* Staging */,
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -988,7 +831,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
-				4845621C2A29FF3300B5C5B2 /* Staging */,
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -998,7 +840,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D8698A2B2931221A00A98E53 /* Debug */,
-				4845621E2A29FF3300B5C5B2 /* Staging */,
 				D8698A2C2931221A00A98E53 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
