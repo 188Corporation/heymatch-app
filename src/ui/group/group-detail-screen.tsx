@@ -21,6 +21,8 @@ import {
   CURRENT_OS,
   NAVIGATION_HEADER_HEIGHT,
   OS,
+  POINT_NEEDED_FOR_MATCH,
+  POINT_NEEDED_FOR_PHOTO,
 } from 'infra/constants'
 import {
   GroupDetail,
@@ -56,10 +58,11 @@ import { Tag } from 'ui/common/Tag'
 import { Body, Caption, CaptionS, H1, H2, H3 } from 'ui/common/text'
 
 const BUTTON_ICON_STYLE = { left: -10, marginLeft: -4 }
-
 const adUnitId = __DEV__
   ? TestIds.REWARDED
   : 'ca-app-pub-1734601135342923/8042492266'
+
+const MAX_ADS_COUNT = 3
 
 export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const { id, hideButton } = props.route.params
@@ -127,8 +130,8 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
   const handlePressProfilePhoto = () => {
     if (!group?.profile_photo_purchased) {
       alertStore.open({
-        title: '캔디 1개를 사용해서 사진을 볼까요?',
-        mainButton: '캔디 1개 사용하기',
+        title: `캔디 ${POINT_NEEDED_FOR_PHOTO}개를 사용해서 사진을 볼까요?`,
+        mainButton: `캔디 ${POINT_NEEDED_FOR_PHOTO}개 사용하기`,
         subButton: '다음에 사용하기',
         onMainPress: async () => {
           try {
@@ -148,8 +151,8 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
               }}
               color={Colors.gray.v400}
               text={`광고 시청하고 사진 보기 (${
-                5 - myData.user.num_of_available_ads
-              }/5)`}
+                MAX_ADS_COUNT - myData.user.num_of_available_ads
+              }/${MAX_ADS_COUNT})`}
               disabled={myData.user.num_of_available_ads === 0}
             />
           </View>
@@ -530,13 +533,13 @@ const ButtonContent: React.FC<{
           return
         }
         alertStore.open({
-          title: '캔디 3개를 사용해서 매칭할까요?',
+          title: `캔디 ${POINT_NEEDED_FOR_MATCH}개를 사용해서 매칭할까요?`,
           body: '상대 그룹이 매칭을 수락하면 채팅을 할 수 있어요. 매칭 시 사진의 블러는 자동으로 풀려요 :)',
-          mainButton: '캔디 3개 사용하기',
+          mainButton: `캔디 ${POINT_NEEDED_FOR_MATCH}개 사용하기`,
           subButton: '다음에 매칭하기',
           onMainPress: async () => {
             if (!myData) return
-            if (myData.user.point_balance >= 1) {
+            if (myData.user.point_balance >= POINT_NEEDED_FOR_MATCH) {
               setLoading(true)
               try {
                 await sendMatchRequest(

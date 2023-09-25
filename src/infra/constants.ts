@@ -2,7 +2,7 @@ import { GpsLocation } from 'infra/types'
 import { Dimensions, Platform } from 'react-native'
 
 export const IS_DEV = __DEV__
-export const SERVER_BASE_URL = !IS_DEV
+export const SERVER_BASE_URL = IS_DEV
   ? 'https://prod.hey-match.com/api'
   : 'https://dev.hey-match.com/api'
 export enum OS {
@@ -17,9 +17,9 @@ export const PUSH_PROVIDER = 'firebase'
 export const PUSH_PROVIDER_NAME = !IS_DEV
   ? 'heymatch-firebase-prod'
   : 'heymatch-firebase-dev'
-export const ONESIGNAL_APP_ID = IS_DEV
-  ? '0361ed79-72c2-439e-9ed6-d38d7af5d587'
-  : '6f8492e5-e047-4a59-87a9-d91e1564487f'
+export const ONESIGNAL_APP_ID = !IS_DEV
+  ? '6f8492e5-e047-4a59-87a9-d91e1564487f'
+  : '0361ed79-72c2-439e-9ed6-d38d7af5d587'
 // https://developers.naver.com/docs/serviceapi/search/local/local.md#%EC%A7%80%EC%97%AD
 export const NAVER_OPEN_API_CLIENT_ID = 'yTGgiqz_swvAiOWZN74G'
 export const NAVER_OPEN_API_CLIENT_SECRET = 'eldIpeJeBI'
@@ -99,3 +99,6 @@ export const jobTitleForm = [
 
 export const BOTTOM_BUTTON_HEIGTH = 78
 export const NAVIGATION_HEADER_HEIGHT = 60
+
+export const POINT_NEEDED_FOR_PHOTO = 2
+export const POINT_NEEDED_FOR_MATCH = 4
