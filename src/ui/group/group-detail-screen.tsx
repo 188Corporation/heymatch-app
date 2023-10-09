@@ -546,6 +546,8 @@ const ButtonContent: React.FC<{
                   myData.joined_groups![0].group.id,
                   data.id,
                 )
+                await mutate(`/groups/${data.id}/`)
+
                 alertStore.open({
                   title: `${data.title} 그룹과 매칭했어요!`,
                   body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',
