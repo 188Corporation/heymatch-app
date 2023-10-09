@@ -57,7 +57,7 @@ export class UserProfileStore {
     this.email = email
   }
 
-  setVerifiedOrganizationNames(names: string[]) {
+  setVerifiedOrganizationNames(names: string[] | null) {
     this.verifiedOrganizationNames = names
   }
 
