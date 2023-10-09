@@ -118,11 +118,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
             <H3 style={{ marginBottom: 12 }}>나이</H3>
             <ProfileInfo
               value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
-              onPress={() => {
-                navigation.navigate('EditUserInfoStacks', {
-                  screen: 'BirthdayScreen',
-                })
-              }}
+              editable={false}
             />
             <H3 style={{ marginTop: 20, marginBottom: 12 }}>닉네임</H3>
             <ProfileInfo
