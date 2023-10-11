@@ -1,7 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native'
+import * as Sentry from '@sentry/react-native'
 import { ChatProvider } from 'infra/chat'
 import { Colors } from 'infra/colors'
-import { CURRENT_OS, OS } from 'infra/constants'
+import { CURRENT_OS, OS, SENTRY_DSN_KEY } from 'infra/constants'
 import { toastConfig } from 'infra/toast-config'
 import { _navigationRef } from 'navigation/global'
 import { RootStacks } from 'navigation/root-stacks'
@@ -24,6 +25,16 @@ if (__DEV__) {
 //   scriptHostname = scriptURL.split('://')[1].split(':')[0]
 // }
 // Reactotron.configure({ host: scriptHostname }).connect()
+
+if (!__DEV__) {
+  Sentry.init({
+    dsn: SENTRY_DSN_KEY,
+    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+    // We recommend adjusting this value in production.
+    tracesSampleRate: 1.0,
+    environment: 'production',
+  })
+}
 
 export const App = () => {
   // NOTE(gogo): all init code should go under root stack
