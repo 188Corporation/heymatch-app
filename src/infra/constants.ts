@@ -28,6 +28,9 @@ export const GEOCODING_CLIENT_ID = 'i49dk0ywd7'
 export const GEOCODING_CLIENT_SECRET =
   '2UOPsjVL7TtVpNYyQrmKCfI6NJwRIrRjEE0Jssr7'
 
+export const SENTRY_DSN_KEY =
+  'https://1dd3bf717f76e0bf57e15add2f8cfb5e@o4506025155362816.ingest.sentry.io/4506025170370560'
+
 export const KOREA_CENTER = {
   latitude: 36.4,
   longitude: 127.8,
