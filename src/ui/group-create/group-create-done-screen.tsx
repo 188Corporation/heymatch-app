@@ -1,13 +1,13 @@
 import { useMy } from 'api/reads'
 import {
   BackGroundPatternSvg,
-  FemaleGroupCardSvg,
-  MaleGroupCardSvg,
+  FemaleGroupCardPng,
+  MaleGroupCardPng,
 } from 'image'
 import { Colors } from 'infra/colors'
 import { navigation } from 'navigation/global'
 import React from 'react'
-import { View } from 'react-native'
+import { Image, View } from 'react-native'
 import styled from 'styled-components'
 import { BottomButton } from 'ui/common/bottom-button'
 import { TopInsetSpace } from 'ui/common/inset-space'
@@ -26,9 +26,21 @@ export const GroupCreateDoneScreen = () => {
           {'그룹을 완성했어요!\n바로 매칭할 그룹을 찾아보세요 👀'}
         </GroupCreateH1>
         {data?.user.gender === 'f' ? (
-          <MaleGroupCardSvg />
+          <View style={{ position: 'absolute', bottom: 0, height: '100%' }}>
+            <Image
+              source={MaleGroupCardPng}
+              style={{ height: '100%', aspectRatio: 1 / 2.2 }}
+              resizeMode='contain'
+            />
+          </View>
         ) : (
-          <FemaleGroupCardSvg />
+          <View style={{ position: 'absolute', bottom: 0, height: '100%' }}>
+            <Image
+              source={FemaleGroupCardPng}
+              style={{ height: '100%', aspectRatio: 1 / 2.2 }}
+              resizeMode='contain'
+            />
+          </View>
         )}
         <View style={{ position: 'absolute', bottom: 0 }}>
           <BackGroundPatternSvg />
