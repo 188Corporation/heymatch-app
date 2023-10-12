@@ -139,7 +139,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             await mutate(`/groups/${group.id}/`)
             await refetchGroupList()
           } catch (e) {
-            alertStore.error(e, '결제에 실패했어요!')
+            navigation.navigate('PurchaseScreen')
           }
         },
         bodyChildren: () => (
