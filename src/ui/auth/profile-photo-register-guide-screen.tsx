@@ -15,7 +15,7 @@ import styled from 'styled-components'
 import { Image } from 'ui/common/image'
 import { Row } from 'ui/common/layout'
 import { NavigationHeader } from 'ui/common/navigation-header'
-import { Body, H1, H2 } from 'ui/common/text'
+import { Body, CaptionS, H1, H2 } from 'ui/common/text'
 
 export const ProfilePhotoRegisterGuideScreen = () => {
   return (
@@ -44,6 +44,9 @@ export const ProfilePhotoRegisterGuideScreen = () => {
           photo1={rejectablePhoto1}
           photo2={rejectablePhoto2}
           photo3={rejectablePhoto3}
+          photo1Text={'얼굴이 안 보이는 사진'}
+          photo2Text={'단체 사진'}
+          photo3Text={'사물 및 풍경'}
         />
       </Container>
     </>
@@ -56,21 +59,52 @@ const GuideRow = ({
   photo1,
   photo2,
   photo3,
+  photo1Text,
+  photo2Text,
+  photo3Text,
 }: {
   title: string
   subText?: string
   photo1: any
   photo2: any
   photo3: any
+  photo1Text?: string
+  photo2Text?: string
+  photo3Text?: string
 }) => {
   return (
     <>
       <H2 style={{ marginBottom: subText ? 8 : 16 }}>{title}</H2>
       {subText && <Body style={{ marginBottom: 24 }}>{subText}</Body>}
       <Row style={{ marginBottom: 30 }}>
-        <Avatar source={photo1} />
-        <Avatar source={photo2} />
-        <Avatar source={photo3} />
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginRight: 20,
+          }}
+        >
+          <Avatar source={photo1} />
+          {photo1Text && (
+            <CaptionS style={{ marginTop: 20 }}>{photo1Text}</CaptionS>
+          )}
+        </View>
+        <View
+          style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}
+        >
+          <Avatar source={photo2} />
+          {photo2Text && (
+            <CaptionS style={{ marginTop: 20 }}>{photo2Text}</CaptionS>
+          )}
+        </View>
+        <View
+          style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}
+        >
+          <Avatar source={photo3} />
+          {photo3Text && (
+            <CaptionS style={{ marginTop: 20 }}>{photo3Text}</CaptionS>
+          )}
+        </View>
       </Row>
     </>
   )
@@ -82,5 +116,4 @@ const Avatar = styled(Image)`
   border-radius: 30px
   width: 86px
   height: 86px
-  margin-right: 20px
 `

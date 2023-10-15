@@ -48,6 +48,7 @@ export const RecommandationCodeScreen = () => {
             placeholder='추천인 코드'
             value={code}
             onValueChange={setCode}
+            letterCase='upper'
           />
           <H3 style={{ marginTop: 56, marginBottom: 16 }}>내 코드 복사하기</H3>
           <ProfileInfoContainer

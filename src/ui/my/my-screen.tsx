@@ -83,6 +83,8 @@ export const MyScreen = () => {
           myData.user.verified_school_name ??
           '기타',
       ])
+    } else {
+      userProfileStore.setVerifiedOrganizationNames(null)
     }
   }
 

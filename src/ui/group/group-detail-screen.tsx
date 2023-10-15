@@ -100,9 +100,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     if (isLoaded) {
       show()
     } else {
+      alertStore.close()
       Toast.show({
         type: 'info',
-        text1: '광고를 준비중이에요. 잠시만 기다려주세요!',
+        text1: '광고를 준비중이에요. 다시 시도해주세요!',
       })
     }
   }
@@ -139,7 +140,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             await mutate(`/groups/${group.id}/`)
             await refetchGroupList()
           } catch (e) {
-            alertStore.error(e, '결제에 실패했어요!')
+            navigation.navigate('PurchaseScreen')
           }
         },
         bodyChildren: () => (
@@ -147,7 +148,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <Button
               onPress={() => {
                 openAd()
-                // alertStore.close()
               }}
               color={Colors.gray.v400}
               text={`광고 시청하고 사진 보기 (${
@@ -546,6 +546,8 @@ const ButtonContent: React.FC<{
                   myData.joined_groups![0].group.id,
                   data.id,
                 )
+                await mutate(`/groups/${data.id}/`)
+
                 alertStore.open({
                   title: `${data.title} 그룹과 매칭했어요!`,
                   body: '[매칭 탭 > 보낸 매칭] 에서\n매칭 상태를 확인할 수 있어요 :)',

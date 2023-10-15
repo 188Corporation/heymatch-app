@@ -54,13 +54,12 @@ export const ChatDetailScreen = observer(() => {
       hideButton: true,
     })
   }
+
   return (
     <KeyboardAvoidingView>
       <TopInsetSpace />
       <HeaderContainer>
-        <BackButton
-          onPress={() => navigation.setRootWithStack('MainTabs', 'ChatScreen')}
-        >
+        <BackButton onPress={() => navigation.navigate('ChatScreen')}>
           <BackArrowBlackSvg />
         </BackButton>
         <TouchableOpacity

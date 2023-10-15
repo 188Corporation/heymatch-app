@@ -152,7 +152,7 @@ const StacksAfterLogin = () => {
       case 'onboarding_completed':
         return (
           <>
-            {!myData?.user.has_finished_guide && (
+            {myData && !myData.user.has_finished_guide && (
               <Stack.Screen name='GuideScreen' component={GuideScreen} />
             )}
             <Stack.Screen name='MainTabs' component={MainTabs} />

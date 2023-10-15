@@ -10,7 +10,6 @@ export { default as ChatSendSvg } from './chat-send.svg'
 export { default as CheckSvg } from './check.svg'
 export { default as ClipboardSvg } from './clipboard.svg'
 export { default as CloseSvg } from './close.svg'
-export { default as FemaleGroupCardSvg } from './female-group-card.svg'
 export { default as FemaleSvg } from './female.svg'
 export { default as GpsFixedSvg } from './gps-fixed.svg'
 export { default as GroupAddSvg } from './group-add.svg'
@@ -19,7 +18,6 @@ export { default as GroupCreateIntroSvg } from './group-create-intro.svg'
 export { default as GroupEditSvg } from './group-edit.svg'
 export { default as GroupsPlaceHolderSvg } from './groups-placeholder.svg'
 export { default as LockedSvg } from './locked.svg'
-export { default as MaleGroupCardSvg } from './male-group-card.svg'
 export { default as MaleSvg } from './male.svg'
 export { default as MyCandyGradientSvg } from './my-candy-gradient.svg'
 export { default as PenSvg } from './pen.svg'
@@ -63,3 +61,5 @@ export const guide3 = require('./guide-3.png')
 export const guide4 = require('./guide-4.png')
 export const guide5 = require('./guide-5.png')
 export const guide6 = require('./guide-6.png')
+export const MaleGroupCardPng = require('./male-group-card.png')
+export const FemaleGroupCardPng = require('./female-group-card.png')

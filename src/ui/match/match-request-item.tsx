@@ -31,7 +31,10 @@ export const MatchRequestItem: React.FC<{
     <Container width={CARD_WIDTH}>
       <GroupImage
         source={{
-          uri: group.group_members[0].user.user_profile_images[0].image,
+          uri:
+            group.group_members[0].user.user_profile_images.find(
+              (_) => _.is_main,
+            )?.image ?? '',
         }}
       />
       {status === MatchRequestStatus.REJECTED ? (
