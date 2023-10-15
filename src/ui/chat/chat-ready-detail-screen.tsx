@@ -16,6 +16,7 @@ export const ChatReadyDetailScreen: React.FC<ChatReadyDetailScreenProps> = (
     const chat = data.find((_) => _.channel.cid === cid)
     if (!chat) return
     chatStore.setChat(chat)
+    navigation.navigate('ChatScreen')
     navigation.navigate('ChatDetailScreen')
   }, [chatStore, cid, data])
 
