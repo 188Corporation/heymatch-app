@@ -100,9 +100,10 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
     if (isLoaded) {
       show()
     } else {
+      alertStore.close()
       Toast.show({
         type: 'info',
-        text1: '광고를 준비중이에요. 잠시만 기다려주세요!',
+        text1: '광고를 준비중이에요. 다시 시도해주세요!',
       })
     }
   }
@@ -147,7 +148,6 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
             <Button
               onPress={() => {
                 openAd()
-                // alertStore.close()
               }}
               color={Colors.gray.v400}
               text={`광고 시청하고 사진 보기 (${
