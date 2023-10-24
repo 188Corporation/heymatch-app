@@ -498,6 +498,7 @@ const ButtonContent: React.FC<{
             onPress={() => {
               if (!matchRequest) return
               accept(matchRequest.id, alertStore, chatStore)
+              navigation.navigate('ChatScreen')
             }}
           />
         </Column>
@@ -507,6 +508,7 @@ const ButtonContent: React.FC<{
             onPress={() => {
               if (!matchRequest) return
               reject(matchRequest.id, alertStore)
+              navigation.navigate('GroupList')
             }}
             inverted
           />

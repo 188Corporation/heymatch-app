@@ -31,7 +31,7 @@ export const oneSignal = {
 
       if (
         // @ts-ignore
-        notification.notification.additionalData!.route_to ===
+        notification.notification.additionalData.route_to ===
         'GroupDetailScreen'
       ) {
         navigation.navigate('GroupDetailScreen', {
@@ -40,13 +40,15 @@ export const oneSignal = {
         })
       } else if (
         // @ts-ignore
-        notification.notification.additionalData!.route_to ===
-        'ChatDetailScreen'
+        notification.notification.additionalData.route_to === 'ChatDetailScreen'
       ) {
         navigation.navigate('ChatReadyDetailScreen', {
           // @ts-ignore
           cid: notification.notification.additionalData!.data.cid,
         })
+      } else {
+        // @ts-ignore
+        navigation.navigate(notification.notification.additionalData.route_to)
       }
     })
   },
