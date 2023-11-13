@@ -39,6 +39,7 @@ import { Dimensions, ScrollView, TouchableOpacity, View } from 'react-native'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import { TestIds, useInterstitialAd } from 'react-native-google-mobile-ads'
 import Modal from 'react-native-modal'
+import Pinchable from 'react-native-pinchable'
 import Carousel from 'react-native-reanimated-carousel'
 import Toast from 'react-native-toast-message'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -103,7 +104,7 @@ export const GroupDetailScreen: React.FC<GroupDetailScreenProps> = (props) => {
       alertStore.close()
       Toast.show({
         type: 'info',
-        text1: '광고를 준비중이에요. 다시 시도해주세요!',
+        text1: '광고를 로딩중이에요. 다시 시도해주세요!',
       })
     }
   }
@@ -643,12 +644,14 @@ const AndroidProfileImagesCarousel = gestureHandlerRootHOC(
                     <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
                   </Chip>
                 )}
-                <Image
-                  style={{ width: 240, height: 240, borderRadius: 20 }}
-                  source={{
-                    uri: images[index].image,
-                  }}
-                />
+                <Pinchable>
+                  <Image
+                    style={{ width: 240, height: 240, borderRadius: 20 }}
+                    source={{
+                      uri: images[index].image,
+                    }}
+                  />
+                </Pinchable>
               </>
             )
           }}
@@ -689,12 +692,14 @@ const IosProfileImagesCarousel = ({
                   <CaptionS style={{ color: '#FFFFFF' }}>대표</CaptionS>
                 </Chip>
               )}
-              <Image
-                style={{ width: 240, height: 240, borderRadius: 20 }}
-                source={{
-                  uri: images[index].image,
-                }}
-              />
+              <Pinchable>
+                <Image
+                  style={{ width: 240, height: 240, borderRadius: 20 }}
+                  source={{
+                    uri: images[index].image,
+                  }}
+                />
+              </Pinchable>
             </>
           )
         }}

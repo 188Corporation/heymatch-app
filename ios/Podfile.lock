@@ -405,6 +405,8 @@ PODS:
     - React (< 1.0.0, >= 0.13.0)
   - react-native-pager-view (6.2.0):
     - React-Core
+  - react-native-pinchable (0.2.1):
+    - React-Core
   - react-native-pure-jwt (3.0.1):
     - JWT (= 3.0.0-beta.12)
     - React
@@ -636,6 +638,7 @@ DEPENDENCIES:
   - react-native-nmap (from `../node_modules/react-native-nmap`)
   - react-native-onesignal (from `../node_modules/react-native-onesignal`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
+  - react-native-pinchable (from `../node_modules/react-native-pinchable`)
   - react-native-pure-jwt (from `../node_modules/react-native-pure-jwt`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -795,6 +798,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-onesignal"
   react-native-pager-view:
     :path: "../node_modules/react-native-pager-view"
+  react-native-pinchable:
+    :path: "../node_modules/react-native-pinchable"
   react-native-pure-jwt:
     :path: "../node_modules/react-native-pure-jwt"
   react-native-safe-area-context:
@@ -941,6 +946,7 @@ SPEC CHECKSUMS:
   react-native-nmap: cfcc5402746040494c544ea90a6062f49505acdf
   react-native-onesignal: 7bd44dbd031d8d57110c0203836ffc37ddead526
   react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
+  react-native-pinchable: b4381b0807d15c12b14bfacd927128f52d96f0f1
   react-native-pure-jwt: 94a3662655c6d677acb7b16048ed69b88b93073d
   react-native-safe-area-context: b8979f5eda6ed5903d4dbc885be3846ea3daa753
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
