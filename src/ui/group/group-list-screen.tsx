@@ -34,6 +34,7 @@ import { Image } from 'ui/common/image'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { KeyboardAvoidingView } from 'ui/common/keyboard-avoiding-view'
 import { Row } from 'ui/common/layout'
+import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { Tag } from 'ui/common/Tag'
 import { Body, Body2, Caption, DescBody2, H2, H3 } from 'ui/common/text'
 
@@ -571,6 +572,16 @@ const PeriodCalenderModal = ({
 }
 
 const GroupItem = ({ group }: { group: GroupsListItem }) => {
+  const { alertStore } = useStores()
+  const { data: myData } = useMy()
+
+  if (!myData) return <LoadingOverlay />
+
+  const hasOwnGroup =
+    myData.joined_groups &&
+    myData.joined_groups[0] &&
+    myData.joined_groups[0].group
+
   const isVerifiedGroup = (_group: GroupsListItem): boolean => {
     return _group.group_members.some(
       (member) =>
@@ -610,6 +621,19 @@ const GroupItem = ({ group }: { group: GroupsListItem }) => {
   return (
     <GroupItemContainer
       onPress={() => {
+        if (!hasOwnGroup) {
+          alertStore.open({
+            title: '아직 속한 그룹이 없어요!',
+            body: '먼저 그룹을 생성해주세요!',
+            mainButton: '그룹 생성하기',
+            subButton: '나중에 하기',
+            onMainPress: () => {
+              navigation.navigate('GroupCreateStacks')
+            },
+          })
+          return
+        }
+
         navigation.navigate('GroupDetailScreen', {
           id: group.id,
         })
