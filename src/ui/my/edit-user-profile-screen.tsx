@@ -26,7 +26,6 @@ import { mutate } from 'swr'
 import { ProfilePhotoEditor } from 'ui/auth/profile-photo-register-screen'
 import { BottomButton } from 'ui/common/bottom-button'
 import { BottomInsetSpace } from 'ui/common/inset-space'
-import { Row } from 'ui/common/layout'
 import { LoadingOverlay } from 'ui/common/loading-overlay'
 import { NavigationHeader } from 'ui/common/navigation-header'
 import { Body, H3 } from 'ui/common/text'
@@ -40,6 +39,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
     const { mutate: refetchGroupList } = useGroupList(
       groupListStore.filterParams,
     )
+    const [toggle, setToggle] = useState(true)
 
     const getSortedProfilePhotos = () => {
       const subPhotos = data.user_profile_images
@@ -104,8 +104,16 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
           >
             <H3 style={{ marginBottom: 12 }}>프로필 사진</H3>
             <ProfilePhotoEditor photos={profilePhotos} />
-            <Row style={{ alignItems: 'center', height: 40, marginTop: 12 }}>
-              <H3 style={{ marginBottom: 12 }}>같은 학교/회사 피하기</H3>
+            <View
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+                height: 40,
+                marginTop: 12,
+              }}
+            >
+              <H3>같은 학교/회사 피하기</H3>
               <Switch
                 style={{ marginLeft: 'auto' }}
                 value={userProfileStore.blockMySchoolOrCompanyUsers}
@@ -113,8 +121,26 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                   userProfileStore.setBlockMySchoolOrCompanyUsers(v)
                   refetchGroupList()
                 }}
+                trackColor={{ true: Colors.primary.blue }}
               />
-            </Row>
+            </View>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                height: 40,
+                marginBottom: 20,
+              }}
+            >
+              <H3>직장/학교명 가리기</H3>
+              <Switch
+                style={{ marginLeft: 'auto' }}
+                value={toggle}
+                onValueChange={(v) => setToggle(v)}
+                trackColor={{ true: Colors.primary.blue }}
+              />
+            </View>
             <H3 style={{ marginBottom: 12 }}>나이</H3>
             <ProfileInfo
               value={<Body>만 {getAge(userProfileStore.birthdate!)}세</Body>}
