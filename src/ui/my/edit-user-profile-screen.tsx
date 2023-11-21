@@ -39,7 +39,6 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
     const { mutate: refetchGroupList } = useGroupList(
       groupListStore.filterParams,
     )
-    const [toggle, setToggle] = useState(true)
 
     const getSortedProfilePhotos = () => {
       const subPhotos = data.user_profile_images
@@ -89,6 +88,12 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
       if (userProfileStore.username !== data.user.username) {
         return false
       }
+      if (
+        userProfileStore.hideMySchoolOrCompanyName !==
+        data.user.hide_my_school_or_company_name
+      ) {
+        return false
+      }
       return true
     }
     return (
@@ -136,8 +141,10 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
               <H3>직장/학교명 가리기</H3>
               <Switch
                 style={{ marginLeft: 'auto' }}
-                value={toggle}
-                onValueChange={(v) => setToggle(v)}
+                value={userProfileStore.hideMySchoolOrCompanyName}
+                onValueChange={(v) =>
+                  userProfileStore.setHideMySchoolOrCompanyName(v)
+                }
                 trackColor={{ true: Colors.primary.blue }}
               />
             </View>
@@ -213,6 +220,8 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                 otherProfileImage2: profilePhotos.sub2Photo,
                 blockMySchoolOrCompanyUsers:
                   userProfileStore.blockMySchoolOrCompanyUsers,
+                hideMySchoolOrCompanyName:
+                  userProfileStore.hideMySchoolOrCompanyName,
               })
               // sub1, sub2가 비어있다면 delete쏘기
               if (isProfilePhotosDeleted) {

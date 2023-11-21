@@ -1,7 +1,8 @@
 import { useOnboardingStatus } from 'api/reads'
 import { Colors } from 'infra/colors'
+import { observer } from 'mobx-react'
 import { navigation } from 'navigation/global'
-import React, { useState } from 'react'
+import React from 'react'
 import { Switch, View } from 'react-native'
 import { useStores } from 'store/globals'
 import styled from 'styled-components'
@@ -10,10 +11,9 @@ import { FlexScrollView } from 'ui/common/flex-scroll-view'
 import { TopInsetSpace } from 'ui/common/inset-space'
 import { Body, Body2, DescBody2, H1 } from 'ui/common/text'
 
-export const ConfirmCompanyScreen = () => {
+export const ConfirmCompanyScreen = observer(() => {
   const { data } = useOnboardingStatus()
   const { userProfileStore } = useStores()
-  const [toggle, setToggle] = useState(true)
 
   return (
     <>
@@ -42,12 +42,14 @@ export const ConfirmCompanyScreen = () => {
                 alignItems: 'center',
               }}
             >
-              <Body2>회사 이름 공개</Body2>
+              <Body2>회사 이름 비공개</Body2>
               <Switch
                 style={{ marginLeft: 'auto' }}
                 trackColor={{ true: Colors.primary.blue }}
-                value={toggle}
-                onValueChange={(v) => setToggle(v)}
+                value={userProfileStore.hideMySchoolOrCompanyName}
+                onValueChange={(v) => {
+                  userProfileStore.setHideMySchoolOrCompanyName(v)
+                }}
               />
             </View>
             <DescBody2>
@@ -73,7 +75,7 @@ export const ConfirmCompanyScreen = () => {
       />
     </>
   )
-}
+})
 
 const Container = styled(View)`
   padding: 72px 28px 0px 28px;
