@@ -63,6 +63,7 @@ export type User = {
   block_my_school_or_company_users: boolean
   has_finished_guide: boolean
   num_of_available_ads: number
+  hide_my_school_or_company_name: boolean
 }
 
 export type AuthorizeUser = {

@@ -272,6 +272,7 @@ export const editUserInfo = async ({
   jobTitle,
   blockMySchoolOrCompanyUsers,
   hasFinishedGuide,
+  hideMySchoolOrCompanyName,
 }: {
   username?: string
   gender?: Gender
@@ -285,6 +286,7 @@ export const editUserInfo = async ({
   jobTitle?: JobTitle | null
   blockMySchoolOrCompanyUsers?: boolean
   hasFinishedGuide?: boolean
+  hideMySchoolOrCompanyName?: boolean
 }) => {
   const form = new FormData()
   username && form.append('username', username)
@@ -315,6 +317,8 @@ export const editUserInfo = async ({
       type: 'image/jpeg',
       name: 'sub_photo2.jpg',
     })
+  hideMySchoolOrCompanyName &&
+    form.append('hide_my_school_or_company_name', hideMySchoolOrCompanyName)
   const res = await putFormRequest('/users/my/', form)
   if (res.code !== 200) throw new ApiError(res)
   return res.data
