@@ -222,6 +222,7 @@ export const EditUserProfileScreen: React.FC<EditUserProfileScreenProps> =
                   userProfileStore.blockMySchoolOrCompanyUsers,
                 hideMySchoolOrCompanyName:
                   userProfileStore.hideMySchoolOrCompanyName,
+                hasFinishedGuide: false,
               })
               // sub1, sub2가 비어있다면 delete쏘기
               if (isProfilePhotosDeleted) {
